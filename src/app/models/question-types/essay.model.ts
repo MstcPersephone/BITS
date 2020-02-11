@@ -8,8 +8,6 @@ export class Essay implements Question {
   questionText: string;
   name: string;
   questionType = QuestionType.Essay;
-  difficulty: number;
-  weight: number;
   hasAttachments: boolean;
   attachments: Attachment[];
   isAnswered: boolean;

@@ -9,8 +9,6 @@ export class MultipleChoice implements Question {
   questionText: string;
   questionType: QuestionType;
   options: Option[];
-  difficulty: number;
-  weight: number;
   hasAttachments: boolean;
   attachments: Attachment[];
   isAnswered: boolean;
