@@ -7,8 +7,6 @@ export class TrueFalse implements Question {
   id: number;  name: string;
   questionText: string;
   questionType: QuestionType;
-  difficulty: number;
-  weight: number;
   hasAttachments: boolean;
   attachments: Attachment[];
   isAnswered: boolean;

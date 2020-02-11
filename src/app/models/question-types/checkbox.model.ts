@@ -10,8 +10,6 @@ export class Checkbox implements Question {
   name: string;
   questionType = QuestionType.CheckBox;
   options: Option[];
-  difficulty: number;
-  weight: number;
   hasAttachments: boolean;
   attachments: Attachment[];
   isAnswered: boolean;
