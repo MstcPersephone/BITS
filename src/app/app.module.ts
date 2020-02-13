@@ -10,6 +10,7 @@ import { EditAssessmentComponent } from './assessments/edit-assessment/edit-asse
 import { AssessmentService } from './services/assessment.service';
 import { AttachmentService } from './services/attachment.service';
 import { QuestionService } from './services/question.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { QuestionService } from './services/question.service';
     EditAssessmentComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule
   ],
   providers: [
     AssessmentService,
