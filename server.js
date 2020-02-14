@@ -50,6 +50,8 @@ const onListening = () => {
   debug("Listening on " + bind);
 };
 
+// START OF SERVER
+
 // This is a default Node.js package.
 const http = require('http');
 
