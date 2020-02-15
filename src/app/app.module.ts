@@ -14,6 +14,7 @@ import { EditAssessmentComponent } from './assessments/edit-assessment/edit-asse
 import { AssessmentService } from './services/assessment.service';
 import { AttachmentService } from './services/attachment.service';
 import { QuestionService } from './services/question.service';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { QuestionService } from './services/question.service';
     AssessmentListComponent,
     CreateAssessmentComponent,
     ViewAssessmentComponent,
-    EditAssessmentComponent
+    EditAssessmentComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
