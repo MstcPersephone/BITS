@@ -4,7 +4,8 @@ import { Attachment } from '../attachment.model';
 
 // A true/false question.
 export class TrueFalse implements Question {
-  id: number;  name: string;
+  id: string;
+  name: string;
   questionText: string;
   questionType: QuestionType;
   hasAttachments: boolean;

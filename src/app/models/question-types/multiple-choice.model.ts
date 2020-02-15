@@ -5,7 +5,8 @@ import { Attachment } from '../attachment.model';
 
 // Muliple choice question that allows only one correct answer.
 export class MultipleChoice implements Question {
-  id: number;  name: string;
+  id: string;
+  name: string;
   questionText: string;
   questionType: QuestionType;
   options: Option[];

@@ -4,7 +4,7 @@ import { Attachment } from '../attachment.model';
 
 // Essay question that that accepts a text response.
 export class Essay implements Question {
-  id: number;
+  id: string;
   questionText: string;
   name: string;
   questionType = QuestionType.Essay;
