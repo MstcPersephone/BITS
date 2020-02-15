@@ -11,6 +11,6 @@ export class TrueFalse implements Question {
   hasAttachments: boolean;
   attachments: Attachment[];
   isAnswered: boolean;
-  duration: number;
   answer: boolean;
+  duration: number;
 }

@@ -2,16 +2,15 @@
 const mongoose = require('mongoose');
 
 // Import subdocument schemas
-const optionSchema = require('./option');
-const attachmentSchema = require('./attachment');
+const attachmentSchema = require('../attachment');
 
-// Create Checkbox Schema (blueprint)
-const checkboxSchema = mongoose.Schema({
-  questionText: {
+// Create Essay Schema (blueprint)
+const essaySchema = mongoose.Schema({
+  name: {
     type: String,
     required: true
   },
-  name: {
+  questionText: {
     type: String,
     required: true
   },
@@ -44,5 +43,5 @@ const checkboxSchema = mongoose.Schema({
   }
 });
 
-// Create and export Option Model
-module.exports = mongoose.model('Checkbox', checkboxSchema);
+// Create and export Essay Model
+module.exports = mongoose.model('Essay', essaySchema);

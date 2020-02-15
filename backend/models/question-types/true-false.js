@@ -1,26 +1,18 @@
 // Import mongoose
 const mongoose = require('mongoose');
 
-// Import subdocument schemas
-const optionSchema = require('./option');
-const attachmentSchema = require('./attachment');
-
-// Create Checkbox Schema (blueprint)
-const checkboxSchema = mongoose.Schema({
-  questionText: {
+// Create True False Schema (blueprint)
+const trueFalseSchema = mongoose.Schema({
+  name: {
     type: String,
     required: true
   },
-  name: {
+  questionText: {
     type: String,
     required: true
   },
   questionType = {
     type: String,
-    required: true
-  },
-  options: {
-    type: [optionSchema],
     required: true
   },
   hasAttachments: {
@@ -34,8 +26,8 @@ const checkboxSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
-  answers: {
-    type: [optionSchema],
+  answer: {
+    type: Boolean,
     required: true
   },
   duration: {
@@ -48,5 +40,5 @@ const checkboxSchema = mongoose.Schema({
   }
 });
 
-// Create and export Option Model
-module.exports = mongoose.model('Checkbox', checkboxSchema);
+// Create and export TrueFalse Model
+module.exports = mongoose.model('TrueFalse', trueFalseSchema);

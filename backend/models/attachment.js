@@ -1,7 +1,7 @@
 // Import mongoose
 const mongoose = require('mongoose');
 
-// Create Option Schema (blueprint)
+// Create Attachment Schema (blueprint)
 const attachmentSchema = mongoose.Schema({
   name: {
     type: String,
