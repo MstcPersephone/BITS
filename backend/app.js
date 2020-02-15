@@ -14,7 +14,7 @@ app.use("/api/questions", (request, response, next) => {
       hasAttachments: false,
       attachments: null,
       isAnswered: false,
-      duration: 2,
+      duration: 0,
       answer: ""
     },
     {
@@ -45,7 +45,7 @@ app.use("/api/questions", (request, response, next) => {
       hasAttachments: false,
       attachments: null,
       isAnswered: false,
-      duration: 2
+      duration: 0
     },
     {
       id: "456",
@@ -84,7 +84,7 @@ app.use("/api/questions", (request, response, next) => {
       hasAttachments: false,
       attachments: null,
       isAnswered: false,
-      duration: 3
+      duration: 0
     },
     {
       id: "789",
@@ -94,7 +94,7 @@ app.use("/api/questions", (request, response, next) => {
       hasAttachments: false,
       attachments: null,
       isAnswered: false,
-      duration: 1,
+      duration: 0,
       answer: false
     }
   ];
