@@ -1,7 +1,7 @@
 import { Question } from '../question.interface';
 import { QuestionType } from 'src/app/enums/questionType.enum';
-import { Option } from '../option.model';
-import { Attachment } from '../attachment.model';
+import { Option } from '../shared/option.model';
+import { Attachment } from '../shared/attachment.model';
 
 // Muliple choice question that allows only one correct answer.
 export class MultipleChoice implements Question {

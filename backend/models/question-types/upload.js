@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // Import subdocument schemas
-const attachmentSchema = require('../attachment');
+const attachmentSchema = require('../shared/attachment');
 
 // Create Upload Schema (blueprint)
 const uploadSchema = mongoose.Schema({

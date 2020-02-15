@@ -1,6 +1,6 @@
 import { Question } from '../question.interface';
 import { QuestionType } from 'src/app/enums/questionType.enum';
-import { Attachment } from '../attachment.model';
+import { Attachment } from '../shared/attachment.model';
 
 // A question that allows an upload for an answer.
 export class Upload implements Question {

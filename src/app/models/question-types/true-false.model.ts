@@ -1,6 +1,6 @@
 import { Question } from '../question.interface';
 import { QuestionType } from 'src/app/enums/questionType.enum';
-import { Attachment } from '../attachment.model';
+import { Attachment } from '../shared/attachment.model';
 
 // A true/false question.
 export class TrueFalse implements Question {

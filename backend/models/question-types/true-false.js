@@ -1,6 +1,9 @@
 // Import mongoose
 const mongoose = require('mongoose');
 
+// Import subdocument schemas
+const attachmentSchema = require('../shared/attachment');
+
 // Create True False Schema (blueprint)
 const trueFalseSchema = mongoose.Schema({
   name: {

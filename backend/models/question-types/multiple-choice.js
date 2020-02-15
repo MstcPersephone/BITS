@@ -2,8 +2,8 @@
 const mongoose = require('mongoose');
 
 // Import subdocument schemas
-const optionSchema = require('../option');
-const attachmentSchema = require('../attachment');
+const attachmentSchema = require('../shared/attachment');
+const optionSchema = require('../shared/option');
 
 // Create Multiple Choice Schema (blueprint)
 const multipleChoiceSchema = mongoose.Schema({

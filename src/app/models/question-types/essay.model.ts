@@ -1,6 +1,6 @@
 import { Question } from '../question.interface';
 import { QuestionType } from 'src/app/enums/questionType.enum';
-import { Attachment } from '../attachment.model';
+import { Attachment } from '../shared/attachment.model';
 
 // Essay question that that accepts a text response.
 export class Essay implements Question {

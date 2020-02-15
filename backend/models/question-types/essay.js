@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // Import subdocument schemas
-const attachmentSchema = require('../attachment');
+const attachmentSchema = require('../shared/attachment');
 
 // Create Essay Schema (blueprint)
 const essaySchema = mongoose.Schema({

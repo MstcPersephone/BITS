@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Option } from '../models/option.model';
+import { Option } from '../models/shared/option.model';
 import { Question } from '../models/question.interface';
 
 @Injectable({

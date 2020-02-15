@@ -1,5 +1,5 @@
 import { QuestionType } from '../enums/questionType.enum';
-import { Attachment } from './attachment.model';
+import { Attachment } from './shared/attachment.model';
 
 export interface Question {
   id: string; // unique identifier
