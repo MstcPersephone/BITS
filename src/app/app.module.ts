@@ -1,7 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
+import { MaterialModule } from './material.module';
+
 import { AssessmentListComponent } from './assessments/assessment-list/assessment-list.component';
 import { CreateAssessmentComponent } from './assessments/create-assessment/create-assessment.component';
 import { ViewAssessmentComponent } from './assessments/view-assessment/view-assessment.component';
@@ -10,7 +13,8 @@ import { EditAssessmentComponent } from './assessments/edit-assessment/edit-asse
 import { AssessmentService } from './services/assessment.service';
 import { AttachmentService } from './services/attachment.service';
 import { QuestionService } from './services/question.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HeaderComponent } from './header/header.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -18,11 +22,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AssessmentListComponent,
     CreateAssessmentComponent,
     ViewAssessmentComponent,
-    EditAssessmentComponent
+    EditAssessmentComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MaterialModule,
+    AppRoutingModule
   ],
   providers: [
     AssessmentService,

@@ -9,14 +9,57 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+//Mid-State Website Colors
+$mstcRed: #82142D;
+$mstcWhite: #fff;
+$mstcGray: #404040;
+$mstcDarkGray: #2d2d2d;
+$mstcYellow: #fcb618;
+$mstcBlue: #0b578a;
+$mstcDarkBlue: #033d60;
+
+/*
+Color Palettes
+---
+https://blog.thoughtram.io/angular/2017/05/23/custom-themes-with-angular-material.html
+---
+Colors needed to be put into a base palette to be used.
+Base palettes can be defined to include lighter/darker versions of the color; 500 is the base.
+Since we don't know if Mid-State would want their colors lightened or darkened, I only defined the base.
+
+First value appears to be background color.
+Contrast value is the text color.
+*/
+// Primary Base Palette
+$primary:(
+  500: $mstcRed,
+  contrast:(
+    500: $mstcWhite
+  )
+);
+// Accent Base Palette
+$accent:(
+  500: $mstcGray,
+  contrast:(
+    500: $mstcWhite
+  )
+);
+// Warn Base Palette
+$warn:(
+  500: $mstcYellow,
+  contrast:(
+    500: $mstcDarkGray
+  )
+);
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$BITS-primary: mat-palette($mat-indigo);
-$BITS-accent: mat-palette($mat-pink, A200, A100, A400);
+$BITS-primary: mat-palette($primary);
+$BITS-accent: mat-palette($accent);
 
 // The warn palette is optional (defaults to red).
-$BITS-warn: mat-palette($mat-red);
+$BITS-warn: mat-palette($warn);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $BITS-theme: mat-light-theme($BITS-primary, $BITS-accent, $BITS-warn);
