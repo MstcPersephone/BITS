@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 
@@ -14,6 +13,7 @@ import { EditAssessmentComponent } from './assessments/edit-assessment/edit-asse
 import { AssessmentService } from './services/assessment.service';
 import { AttachmentService } from './services/attachment.service';
 import { QuestionService } from './services/question.service';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import { QuestionService } from './services/question.service';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    AppRoutingModule
   ],
   providers: [
     AssessmentService,
