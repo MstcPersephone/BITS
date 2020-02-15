@@ -7,7 +7,7 @@ import { Attachment } from '../attachment.model';
 export class MultipleChoice implements Question {
   id: number;  name: string;
   questionText: string;
-  questionType: QuestionType;
+  questionType = QuestionType.MultipleChoice;
   options: Option[];
   hasAttachments: boolean;
   attachments: Attachment[];
