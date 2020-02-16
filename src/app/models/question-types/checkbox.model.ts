@@ -1,11 +1,11 @@
 import { Question } from '../question.interface';
 import { QuestionType } from 'src/app/enums/questionType.enum';
-import { Option } from './option.model';
-import { Attachment } from '../attachment.model';
+import { Option } from '../shared/option.model';
+import { Attachment } from '../shared/attachment.model';
 
 // Muliple choice question that allows more than one correct answer.
 export class Checkbox implements Question {
-  id: number;
+  id: string;
   questionText: string;
   name: string;
   questionType = QuestionType.CheckBox;

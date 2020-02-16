@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Attachment } from '../models/attachment.model';
+import { Attachment } from '../models/shared/attachment.model';
 
 @Injectable({
   providedIn: 'root',
