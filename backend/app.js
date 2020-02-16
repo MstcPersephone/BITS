@@ -3,6 +3,20 @@ const express = require('express');
 
 const app = express();
 
+// CORS Headers to allow cross communication between angular and backend
+app.use((request, response, next) => {
+  response.setHeader("Access-Control-Allow-Origin", "*");
+  response.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  response.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, OPTIONS"
+  );
+  next();
+});
+
 // setup for question api
 app.use("/api/questions", (request, response, next) => {
   const questions = [
