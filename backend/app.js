@@ -1,5 +1,8 @@
 // express.js package
-const express = require('express');
+const express = require("express");
+
+// body-parser package
+const bodyParser = require("body-parser");
 
 // mongoose package
 const mongoose = require('mongoose');
@@ -13,6 +16,23 @@ mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongo
   (error) => {
     console.log(error.reason)
   }
+});
+
+// middleware for parsing json data on requests
+app.use(bodyParser.json());
+
+// CORS Headers to allow cross communication between angular and backend
+app.use((request, response, next) => {
+  response.setHeader("Access-Control-Allow-Origin", "*");
+  response.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  response.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, OPTIONS"
+  );
+  next();
 });
 
 // setup for question api
