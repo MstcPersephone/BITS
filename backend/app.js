@@ -8,7 +8,6 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 
 const app = express();
-// Ohi6uDbGMZLBt56X
 
 // connect to mongodb cluster
 mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority').then(() => {
