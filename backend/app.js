@@ -4,7 +4,19 @@ const express = require("express");
 // body-parser package
 const bodyParser = require("body-parser");
 
+// mongoose package
+const mongoose = require('mongoose');
+
 const app = express();
+// Ohi6uDbGMZLBt56X
+
+// connect to mongodb cluster
+mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority').then(() => {
+  console.log('Successfully connected to the database'),
+  (error) => {
+    console.log(error.reason)
+  }
+});
 
 // middleware for parsing json data on requests
 app.use(bodyParser.json());
