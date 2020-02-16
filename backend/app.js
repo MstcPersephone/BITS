@@ -1,7 +1,13 @@
 // express.js package
-const express = require('express');
+const express = require("express");
+
+// body-parser package
+const bodyParser = require("body-parser");
 
 const app = express();
+
+// middleware for parsing json data on requests
+app.use(bodyParser.json());
 
 // CORS Headers to allow cross communication between angular and backend
 app.use((request, response, next) => {
