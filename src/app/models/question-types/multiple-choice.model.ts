@@ -8,7 +8,7 @@ export class MultipleChoice implements Question {
   id: string;
   name: string;
   questionText: string;
-  questionType: QuestionType;
+  questionType = QuestionType.MultipleChoice;
   options: Option[];
   hasAttachments: boolean;
   attachments: Attachment[];

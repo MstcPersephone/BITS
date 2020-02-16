@@ -7,7 +7,7 @@ export class Upload implements Question {
   id: string;
   name: string;
   questionText: string;
-  questionType: QuestionType;
+  questionType = QuestionType.Upload;
   hasAttachments: boolean;
   attachments: Attachment[];
   isAnswered: boolean;

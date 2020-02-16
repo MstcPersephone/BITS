@@ -7,7 +7,7 @@ export class TrueFalse implements Question {
   id: string;
   name: string;
   questionText: string;
-  questionType: QuestionType;
+  questionType = QuestionType.TrueFalse;
   hasAttachments: boolean;
   attachments: Attachment[];
   isAnswered: boolean;
