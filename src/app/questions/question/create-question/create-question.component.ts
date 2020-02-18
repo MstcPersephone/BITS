@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HelperService } from '../../../services/helper.service';
 
 @Component({
   selector: 'app-create-question',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateQuestionComponent implements OnInit {
 
-  constructor() { }
+  questionTypes = [];
+  questionTypeSelected: string;
+
+  constructor(private helperService: HelperService) { }
 
   ngOnInit(): void {
+    // gets the question types from the QuestionType enum
+    this.questionTypes = this.helperService.getQuestionTypes();
+  }
+
+  // Sets the variable for the ngSwitch statement in html file
+  // Function is triggered after user selects an option
+  onQuestionTypeSelected(event) {
+    this.questionTypeSelected = event.value;
+    console.log(this.questionTypeSelected);
   }
 
 }
