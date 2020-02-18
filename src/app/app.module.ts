@@ -17,10 +17,10 @@ import { QuestionService } from './services/question.service';
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { ListQuestionsComponent } from './questions/list-questions/list-questions.component';
-import { CreateQuestionComponent } from './questions/create-question/create-question.component';
-import { ViewQuestionComponent } from './questions/view-question/view-question.component';
-import { EditQuestionComponent } from './questions/edit-question/edit-question.component';
+import { ListQuestionsComponent } from './questions/question/list-questions/list-questions.component';
+import { CreateQuestionComponent } from './questions/question/create-question/create-question.component';
+import { ViewQuestionComponent } from './questions/question/view-question/view-question.component';
+import { EditQuestionComponent } from './questions/question/edit-question/edit-question.component';
 
 import { MultipleChoiceComponent } from './questions/questionTypes/multiple-choice/multiple-choice.component';
 import { TrueFalseComponent } from './questions/questionTypes/true-false/true-false.component';
