@@ -40,7 +40,10 @@ export class QuestionService {
   }
 
   getAllQuestions() {
-    this.http.get<{message: string, questions: Question[]}>('http://localhost:3000/api/questions')
+    this.http
+    .get<{message: string, questions: Question[]}>(
+      'http://localhost:3000/api/questions'
+    )
     .subscribe((questionData) => {
       this.questions = questionData.questions;
       this.questionsUpdated.next([...this.questions]);

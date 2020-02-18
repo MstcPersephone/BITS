@@ -10,8 +10,8 @@ import { Question } from 'src/app/models/question.interface';
 })
 export class AssessmentListComponent implements OnInit {
 
-  private questionsSubscription: Subscription;
   questions: Question[] = [];
+  private questionsSubscription: Subscription;
 
   constructor(public questionsService: QuestionService) { }
 
@@ -20,9 +20,8 @@ export class AssessmentListComponent implements OnInit {
     this.questionsSubscription = this.questionsService.getQuestionsUpdatedListener()
     .subscribe((questionsArray: Question[]) => {
       this.questions = questionsArray;
+      console.log(this.questions);
     });
-
-    console.log(this.questions);
   }
 
 }
