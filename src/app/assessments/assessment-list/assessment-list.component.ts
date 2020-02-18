@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { QuestionService } from '../../services/question.service';
 
 @Component({
   selector: 'app-assessment-list',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssessmentListComponent implements OnInit {
 
-  constructor() { }
+  constructor(public questionsService: QuestionService) { }
 
   ngOnInit() {
+    const questions = this.questionsService.getAllQuestions();
+    console.log(questions);
   }
 
 }
