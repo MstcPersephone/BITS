@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Option } from '../models/shared/option.model';
 import { Question } from '../models/question.interface';
+import { Subject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuestionService {
+  private questions: Question[] = [];
+  private questionsUpdated = new Subject<Question[]>();
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   // Starts the create question wizard
   createQuestion() {
@@ -27,6 +32,14 @@ export class QuestionService {
   // Starts the edit question wizard
   editQuestion(question: Question) {
 
+  }
+
+  getAllQuestions() {
+    this.http.get<{message: string, questions: Question[]}>('http://localhost:3000/api/questions')
+    .subscribe((questionData) => {
+      this.questions = questionData.questions;
+      this.questionsUpdated.next([...this.questions]);
+    });
   }
 
   // Saves the question to the database
