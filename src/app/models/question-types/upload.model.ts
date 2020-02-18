@@ -12,5 +12,6 @@ export class Upload implements Question {
   attachments: Attachment[];
   isAnswered: boolean;
   duration: number;
-  answer: Attachment;
+  correctAnswer: Attachment;
+  submittedAnswer: Attachment;
 }

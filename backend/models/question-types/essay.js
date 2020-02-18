@@ -44,4 +44,4 @@ const essaySchema = mongoose.Schema({
 });
 
 // Create and export Essay Model
-module.exports = mongoose.model('Essay', essaySchema);
+module.exports = mongoose.model('Essay', essaySchema, 'questions');

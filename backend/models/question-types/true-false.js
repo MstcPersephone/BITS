@@ -44,4 +44,4 @@ const trueFalseSchema = mongoose.Schema({
 });
 
 // Create and export TrueFalse Model
-module.exports = mongoose.model('TrueFalse', trueFalseSchema);
+module.exports = mongoose.model('TrueFalse', trueFalseSchema, 'questions');

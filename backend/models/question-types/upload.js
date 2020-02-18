@@ -29,7 +29,10 @@ const uploadSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
-  answer: {
+  correctAnswer: {
+    type: [attachmentSchema]
+  },
+  submittedAnswer: {
     type: [attachmentSchema]
   },
   duration: {
@@ -43,4 +46,4 @@ const uploadSchema = mongoose.Schema({
 });
 
 // Create and export Upload Model
-module.exports = mongoose.model('Upload', uploadSchema);
+module.exports = mongoose.model('Upload', uploadSchema, 'questions');

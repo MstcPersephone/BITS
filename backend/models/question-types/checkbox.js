@@ -45,4 +45,4 @@ const checkboxSchema = mongoose.Schema({
 });
 
 // Create and export Checkbox Model
-module.exports = mongoose.model('Checkbox', checkboxSchema);
+module.exports = mongoose.model('Checkbox', checkboxSchema, 'questions');
