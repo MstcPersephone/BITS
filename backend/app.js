@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // connect to mongodb cluster
-mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority').then(() => {
+mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
   console.log('Successfully connected to the database'),
   (error) => {
     console.log(error.reason)
