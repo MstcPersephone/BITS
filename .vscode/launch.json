@@ -1,24 +1,38 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Debug Express App",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/backend/app.js"
-        },
-        {
-          "type": "chrome",
-          "request": "launch",
-          "name": "Debug in Chrome",
-          "url": "http://localhost:4200",
-          "webRoot": "${workspaceFolder}"
-        }
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Express App (API)",
+      "skipFiles": [
+          "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/backend/app.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "File Engine",
+      "skipFiles": [
+          "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/backend/file-engine/test.js"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Chrome (front end)",
+      "url": "http://localhost:4200/",
+      "sourceMaps": true,
+      "webRoot": "${workspaceRoot}",
+      "trace": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./*": "${webRoot}/*"
+      }
+    }
+  ]
 }
