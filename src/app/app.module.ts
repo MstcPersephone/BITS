@@ -14,6 +14,8 @@ import { EditAssessmentComponent } from './assessments/edit-assessment/edit-asse
 import { AssessmentService } from './services/assessment.service';
 import { AttachmentService } from './services/attachment.service';
 import { QuestionService } from './services/question.service';
+import { HelperService } from './services/helper.service';
+
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -91,7 +93,8 @@ import { ViewUploadComponent } from './questions/questionTypes/upload/view-uploa
   providers: [
     AssessmentService,
     AttachmentService,
-    QuestionService
+    QuestionService,
+    HelperService
   ],
   bootstrap: [AppComponent]
 })
