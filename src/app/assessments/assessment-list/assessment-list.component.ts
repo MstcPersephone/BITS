@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionService } from '../../services/question.service';
+import { Subscription } from 'rxjs';
+import { Question } from 'src/app/models/question.interface';
 
 @Component({
   selector: 'app-assessment-list',
@@ -8,11 +10,19 @@ import { QuestionService } from '../../services/question.service';
 })
 export class AssessmentListComponent implements OnInit {
 
+  private questionsSubscription: Subscription;
+  questions: Question[] = [];
+
   constructor(public questionsService: QuestionService) { }
 
   ngOnInit() {
-    const questions = this.questionsService.getAllQuestions();
-    console.log(questions);
+    this.questionsService.getAllQuestions();
+    this.questionsSubscription = this.questionsService.getQuestionsUpdatedListener()
+    .subscribe((questionsArray: Question[]) => {
+      this.questions = questionsArray;
+    });
+
+    console.log(this.questions);
   }
 
 }

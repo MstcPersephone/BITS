@@ -34,6 +34,11 @@ export class QuestionService {
 
   }
 
+  // Gets the updateListener subject
+  getQuestionsUpdatedListener() {
+    return this.questionsUpdated.asObservable();
+  }
+
   getAllQuestions() {
     this.http.get<{message: string, questions: Question[]}>('http://localhost:3000/api/questions')
     .subscribe((questionData) => {
