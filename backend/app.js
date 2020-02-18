@@ -38,7 +38,7 @@ app.use((request, response, next) => {
 });
 
 // setup for question api
-app.use("/api/questions", (request, response, next) => {
+app.get("/api/questions", (request, response, next) => {
   const questions = [
     {
       id: "123",
@@ -132,7 +132,8 @@ app.use("/api/questions", (request, response, next) => {
       answer: false
     }
   ];
-  response.json({
+  response.status(200).json({
+    message: 'Questions fetched successfully!',
     questions: questions
   });
 });
