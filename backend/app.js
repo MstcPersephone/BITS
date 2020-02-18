@@ -10,7 +10,10 @@ const mongoose = require('mongoose');
 const app = express();
 
 // connect to mongodb cluster
-mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority').then(() => {
+// second param is options list
+// 02/18/2020: useNewUrlParser and useUnifiedTopology options are to avoid
+// soon-to-be depecrated features of mongoDb client
+mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
   console.log('Successfully connected to the database'),
   (error) => {
     console.log(error.reason)
