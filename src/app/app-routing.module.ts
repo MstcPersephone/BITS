@@ -7,12 +7,13 @@ import { EditAssessmentComponent } from './assessments/edit-assessment/edit-asse
 import { ViewAssessmentComponent } from './assessments/view-assessment/view-assessment.component';
 import { CreateQuestionComponent } from './questions/question/create-question/create-question.component';
 
+// Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
   { path: '', component: AssessmentListComponent },
-  { path: 'question/create', component: CreateQuestionComponent },
-  { path: 'create-assessment', component: CreateAssessmentComponent },
-  { path: 'edit-assessment', component: EditAssessmentComponent },
-  { path: 'view-assessment', component: ViewAssessmentComponent }
+  { path: 'assessment/create', component: CreateAssessmentComponent },
+  { path: 'assessment/edit', component: EditAssessmentComponent },
+  { path: 'assessment/view', component: ViewAssessmentComponent },
+  { path: 'question/create', component: CreateQuestionComponent }
 ];
 
 @NgModule({
