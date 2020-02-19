@@ -13,4 +13,17 @@ export class TrueFalse implements Question {
   isAnswered: boolean;
   answer: boolean;
   duration: number;
+
+  constructor(data: any) {
+    data = data || {};
+    this.id = data.id;
+    this.name = data.name;
+    this.questionText = data.questionText;
+    this.questionType = data.questionType;
+    this.hasAttachments = data.hasAttachments;
+    this.attachments = data.attachments;
+    this.isAnswered = data.isAnswered;
+    this.answer = data.answer;
+    this.duration = data.duration;
+  }
 }
