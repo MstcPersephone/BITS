@@ -4,4 +4,11 @@ export class AssessmentConfig {
   allowBack: boolean; // navigate to previously submitted answers
   allowReview: boolean; // allow changing of answers
   duration: number; // 0 will be unlimited time
+
+  constructor(data: any) {
+    data = data || {};
+    this.allowBack = data.allowBack;
+    this.allowReview = data.allowReview;
+    this.duration = data.duration;
+  }
 }
