@@ -1,5 +1,5 @@
 <mat-card>
-  <form>
+  <form [formGroup]="createEssayForm" (ngSubmit)="onSubmit(createEssayForm.value)">
 
     <mat-form-field appearance="standard">
       <mat-label for="essayName">Question Name: </mat-label>
@@ -12,8 +12,8 @@
     </mat-form-field>
 
     <mat-form-field appearance="standard">
-      <mat-label for="essayAnswerText">Answer: </mat-label>
-      <input matInput name="essayAnswerText" type="text" >
+      <mat-label for="essayAnswer">Answer: </mat-label>
+      <input matInput name="essayAnswer" type="text" >
     </mat-form-field>
 
     <button mat-raised-button type="submit" color="primary">Save</button>
