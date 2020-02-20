@@ -32,7 +32,7 @@ export class CreateOptionComponent implements OnInit {
     const option: Option = new Option({
       id: null,
       questionId: null,
-      name: optionData.optionText,
+      optionText: optionData.optionText,
       isAnswer: optionData.isAnswer,
       isSelected: false
     });
