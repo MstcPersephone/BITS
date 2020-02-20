@@ -1,20 +1,23 @@
-<form>
-  <mat-card>
-    <mat-form-field>
-    <mat-label for="essayName">Question Name: </mat-label>
-    <input matInput name="essayName" type="text">
-  </mat-form-field>
-  <br/>
-  <mat-form-field>
-    <mat-label for="essayText">Question Text: </mat-label>
-    <input matInput name="essayText" type="text">
-  </mat-form-field>
-  <br/>
-  <mat-form-field>
-    <mat-label for="essayAnswerText">Answer: </mat-label>
-    <input matInput name="essayAnswerText" type="text" >
-  </mat-form-field>
-  <br/>
-  <button mat-button type="submit" color="primary">Save</button>
-  </mat-card>
-</form>
+<mat-card>
+  <form>
+
+    <mat-form-field appearance="standard">
+      <mat-label for="essayName">Question Name: </mat-label>
+      <input matInput name="essayName" type="text">
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+      <mat-label for="essayText">Question Text: </mat-label>
+      <input matInput name="essayText" type="text">
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+      <mat-label for="essayAnswerText">Answer: </mat-label>
+      <input matInput name="essayAnswerText" type="text" >
+    </mat-form-field>
+
+    <button mat-raised-button type="submit" color="primary">Save</button>
+
+
+  </form>
+</mat-card>
