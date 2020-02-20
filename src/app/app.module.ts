@@ -50,6 +50,8 @@ import { EditUploadComponent } from './questions/questionTypes/upload/edit-uploa
 import { ListUploadComponent } from './questions/questionTypes/upload/list-upload/list-upload.component';
 import { ViewUploadComponent } from './questions/questionTypes/upload/view-upload/view-upload.component';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,14 +83,16 @@ import { ViewUploadComponent } from './questions/questionTypes/upload/view-uploa
     CreateUploadComponent,
     EditUploadComponent,
     ListUploadComponent,
-    ViewUploadComponent
+    ViewUploadComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     AssessmentService,
