@@ -14,7 +14,6 @@ export class CreateEssayComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.createEssayForm = this.formBuilder.group({
-      essayName: '',
       essayText: '',
       essayAnswer: ''
     });
@@ -27,7 +26,6 @@ export class CreateEssayComponent implements OnInit {
     onSubmit(questionData) {
       const question: Question =  new Essay({
         id: null,
-        name: questionData.essayName,
         questionText: questionData.essayText,
         hasAttachments: false,
         attachments: null,

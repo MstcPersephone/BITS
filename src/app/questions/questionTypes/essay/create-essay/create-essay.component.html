@@ -1,10 +1,5 @@
 <mat-card>
   <form [formGroup]="createEssayForm" (ngSubmit)="onSubmit(createEssayForm.value)">
-<!-- Question Name Text Input -->
-    <mat-form-field appearance="standard">
-      <mat-label>Question Name:</mat-label>
-      <input matInput name="essayName" type="text">
-    </mat-form-field>
 <!-- Question Text Input -->
     <mat-form-field appearance="standard">
       <mat-label>Question Text:</mat-label>
@@ -15,8 +10,12 @@
       <mat-label>Answer:</mat-label>
       <input matInput name="essayAnswer" type="text" >
     </mat-form-field>
-<!-- Submit Button -->
-    <button mat-raised-button type="submit" color="primary">Save</button>
+<!--Has attachment checkbox-->
+    <mat-checkbox class="mt-20" formControlName="hasAttachments" (change)="hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
 
+    <button *ngIf="hasAttachments" mat-raised-button color="accent" class="mt-20">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
+
+ <!-- Submit Button -->
+ <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
   </form>
 </mat-card>
