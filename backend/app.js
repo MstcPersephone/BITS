@@ -43,7 +43,6 @@ app.get("/api/questions", (request, response, next) => {
     {
       id: "123",
       questionText: "How are you?",
-      name: "Essay-Test",
       questionType: "ESSAY",
       hasAttachments: false,
       attachments: null,
@@ -53,7 +52,6 @@ app.get("/api/questions", (request, response, next) => {
     },
     {
       id: "987",
-      name: "Multi-Test",
       questionText: "Choose one making you better feeling:",
       options: [{
         id: 6,
@@ -84,7 +82,6 @@ app.get("/api/questions", (request, response, next) => {
     {
       id: "456",
       questionText: "Select the primary colors:",
-      name: "Checkbox-Test",
       questionType: "CHECKBOX",
       options: [{
         id: 1,
@@ -122,7 +119,6 @@ app.get("/api/questions", (request, response, next) => {
     },
     {
       id: "789",
-      name: "TF-Test",
       questionText: "Earth is bigger than the sun.",
       questionType: "True_False",
       hasAttachments: false,

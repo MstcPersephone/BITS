@@ -8,10 +8,22 @@ form {
   padding: 25px;
 }
 
-mat-card, mat-form-field, button {
+mat-card, mat-form-field, mat-checkbox, button, h3 {
   display: block;
+  margin-bottom: 25px;
 }
 
-button {
-  float: right;
+.mt-30 {
+  margin-top: 30px;
+}
+
+.saveButton {
+  background-color: rgb(11, 87, 138);
+  color: #ffffff;
+  display: block;
+  margin-top: 40px;
+}
+
+.mat-display-4 {
+  margin-bottom: 0px;
 }

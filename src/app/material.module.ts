@@ -1,25 +1,32 @@
 import { NgModule } from '@angular/core';
 import {
   MatAutocompleteModule,
+  MatButtonModule,
   MatCardModule,
-  MatSelectModule,
-  MatToolbarModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatGridListModule,
+  MatIconModule,
   MatInputModule,
-  MatFormFieldModule,
-  MatRadioModule,
-  MatButtonModule
+  MatListModule,
+  MatSelectModule,
+  MatToolbarModule
 } from '@angular/material';
+
 // Place Material Components that you want to use in here
 // This saves us from adding components to imports and exports array separately
 const MaterialComponents = [
   MatAutocompleteModule,
+  MatButtonModule,
   MatCardModule,
-  MatSelectModule,
-  MatToolbarModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatGridListModule,
+  MatIconModule,
   MatInputModule,
-  MatFormFieldModule,
-  MatRadioModule,
-  MatButtonModule
+  MatListModule,
+  MatSelectModule,
+  MatToolbarModule
 ];
 
 @NgModule({
