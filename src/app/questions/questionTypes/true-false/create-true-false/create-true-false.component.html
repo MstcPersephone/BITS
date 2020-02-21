@@ -16,7 +16,9 @@
     <mat-radio-group aria-label="Select correct answer" *ngFor="let answer of answers">
       <input
       type="radio"
-      name="options"
+      name="answer"
+      formControlName="answer"
+      matTooltip="Info about the action"
       value="{{answer}}"
       (change)="radioChangeHandler($event)">
       {{answer}}
