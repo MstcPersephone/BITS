@@ -49,6 +49,11 @@ import { CreateUploadComponent } from './questions/questionTypes/upload/create-u
 import { EditUploadComponent } from './questions/questionTypes/upload/edit-upload/edit-upload.component';
 import { ListUploadComponent } from './questions/questionTypes/upload/list-upload/list-upload.component';
 import { ViewUploadComponent } from './questions/questionTypes/upload/view-upload/view-upload.component';
+import { CreateOptionComponent } from './shared/option/create-option/create-option.component';
+import { EditOptionComponent } from './shared/option/edit-option/edit-option.component';
+import { ListOptionComponent } from './shared/option/list-option/list-option.component';
+import { ViewOptionComponent } from './shared/option/view-option/view-option.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -84,6 +89,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     EditUploadComponent,
     ListUploadComponent,
     ViewUploadComponent,
+<<<<<<< HEAD
+=======
+    CreateOptionComponent,
+    EditOptionComponent,
+    ListOptionComponent,
+    ViewOptionComponent,
+>>>>>>> origin/master
   ],
   imports: [
     BrowserModule,

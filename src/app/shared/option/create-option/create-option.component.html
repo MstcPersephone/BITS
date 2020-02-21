@@ -1,0 +1,17 @@
+<mat-card>
+  <form [formGroup]="createOptionForm" (ngSubmit)="onSubmit(createOptionForm.value)">
+
+    <!-- Option Text Input -->
+    <mat-form-field appearance="standard">
+      <mat-label>Option Text</mat-label>
+      <input matInput id="optionText" type="text" formControlName="optionText">
+    </mat-form-field>
+
+    <!-- Is Answer Checkbox -->
+    <mat-checkbox class="mt-20" formControlName="isAnswer">Is this a correct answer?</mat-checkbox>
+
+    <!-- Submit Button -->
+    <button class="mt-20" mat-raised-button color="accent" type="submit">Add<mat-icon>&nbsp;add</mat-icon></button>
+  </form>
+  <app-list-option></app-list-option>
+</mat-card>
