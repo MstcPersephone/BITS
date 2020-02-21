@@ -1,0 +1,13 @@
+mat-card{
+	display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+}
+mat-form-field, mat-radio-group, mat-card > button{
+	margin: 10px;
+}
+
+mat-radio-button ~ .mat-ratio-button {
+  margin-left: 16px;
+}
