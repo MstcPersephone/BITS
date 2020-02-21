@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Essay } from 'src/app/models/question-types/essay.model';
+import { Question } from 'src/app/models/question.interface';
 
 @Component({
   selector: 'app-create-essay',
@@ -24,7 +25,7 @@ export class CreateEssayComponent implements OnInit {
 
     // Id is null at this point because it is generated on the backend.
     onSubmit(questionData) {
-      const question =  new Essay({
+      const question: Question =  new Essay({
         id: null,
         name: questionData.essayName,
         questionText: questionData.essayText,
