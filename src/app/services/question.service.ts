@@ -4,6 +4,7 @@ import { Option } from '../models/shared/option.model';
 import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
 import { QuestionType } from '../enums/questionType.enum';
+import { Checkbox } from '../models/question-types/checkbox.model';
 
 
 @Injectable({
@@ -71,10 +72,17 @@ export class QuestionService {
 
   // Saves the question to the database
   saveQuestion(question: Question) {
+    if (question.questionType === QuestionType.CheckBox || question.questionType === QuestionType.MultipleChoice) {
+      const completeQuestion = question as Checkbox;
+      completeQuestion.options = this.getOptions();
+      console.log(completeQuestion);
+    }
     this.http.post<{message: string}>('http://localhost:3000/api/questions/save', question)
-    .subscribe(responseData => {
-      console.log(responseData.message);
-    });
+    .subscribe(
+      responseData => {
+        console.log(responseData.message);
+      },
+      error => console.log(error.error.message));
   }
 
   // Saves the option to the database

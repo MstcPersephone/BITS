@@ -152,6 +152,7 @@ app.post("/api/questions/save", (request, response, next) => {
     duration: question.duration,
     createdOn: Date.now()
   });
+  console.log('Checkbox Question Created');
   questionModel.save().then(() => {
     message: "Question Successfully Saved!"
   });

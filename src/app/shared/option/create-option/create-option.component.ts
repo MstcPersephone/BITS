@@ -20,7 +20,7 @@ export class CreateOptionComponent implements OnInit {
     // Creates an object to hold form values.
     this.createOptionForm = this.formBuilder.group({
       optionText: '',
-      isAnswer: ''
+      isAnswer: false
     });
   }
 
@@ -37,13 +37,13 @@ export class CreateOptionComponent implements OnInit {
       isSelected: false
     });
 
-    // Resets the form values.
-    this.createOptionForm.reset();
-
     // Adds option to the options array in the service.
     this.questionService.createOption(option);
 
     // For testing, we can remove later.
     console.log(option);
+
+    // Resets the form values.
+    this.createOptionForm.reset();
   }
 }
