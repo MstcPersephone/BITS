@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Essay } from 'src/app/models/question-types/essay.model';
-import { Question } from 'src/app/models/question.interface';
 import { QuestionService } from 'src/app/services/question.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
 
@@ -15,11 +14,14 @@ export class CreateEssayComponent implements OnInit {
   createEssayForm;
   hasAttachments = false;
 
-  constructor(private formBuilder: FormBuilder, private questionService: QuestionService
-   ) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private questionService: QuestionService,
+    private attachmentSerivce: AttachmentService
+              ) {
     this.createEssayForm = this.formBuilder.group({
-      essayText: '',
-      essayAnswer: '',
+      questionText: '',
+      questionAnswer: '',
       hasAttachments: ''
     });
      }
@@ -31,11 +33,11 @@ export class CreateEssayComponent implements OnInit {
     onSubmit(questionData) {
       const essayQuestion: Essay =  new Essay({
         id: null,
-        questionText: questionData.essayText,
+        questionText: questionData.questionText,
         hasAttachments: this.hasAttachments,
-       // attachments: this.hasAttachments ? this.attachmentSerivce.getAttachments() : null,
+        attachments: this.hasAttachments ? this.attachmentSerivce.getAttachments() : null,
         isAnswered: false,
-        answer: questionData.essayAnswer,
+        answer: questionData.questionAnswer,
         duration: 0
       });
 

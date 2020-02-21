@@ -3,12 +3,12 @@
 <!-- Question Text Input -->
     <mat-form-field appearance="standard">
       <mat-label>Question Text:</mat-label>
-      <input matInput name="essayText" type="text">
+      <input matInput id="questionText" type="text" formControlName="questionText" matTooltip="Info about the action">
     </mat-form-field>
 <!-- Question Answer Input -->
     <mat-form-field appearance="standard">
       <mat-label>Answer:</mat-label>
-      <input matInput name="essayAnswer" type="text" >
+      <input matInput id="questionAnswer" type="text" formControlName="questionAnswer" matTooltip="Info about the action">
     </mat-form-field>
 <!--Has attachment checkbox-->
     <mat-checkbox class="mt-20" formControlName="hasAttachments" (change)="hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
