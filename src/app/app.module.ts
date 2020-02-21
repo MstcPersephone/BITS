@@ -55,7 +55,6 @@ import { ListOptionComponent } from './shared/option/list-option/list-option.com
 import { ViewOptionComponent } from './shared/option/view-option/view-option.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -89,13 +88,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     EditUploadComponent,
     ListUploadComponent,
     ViewUploadComponent,
-<<<<<<< HEAD
-=======
     CreateOptionComponent,
     EditOptionComponent,
     ListOptionComponent,
-    ViewOptionComponent,
->>>>>>> origin/master
+    ViewOptionComponent
   ],
   imports: [
     BrowserModule,
