@@ -17,7 +17,6 @@ export class Essay implements Question {
   constructor(data: any) {
     data = data || {};
     this.id = data.id;
-    this.name = data.name;
     this.questionText = data.questionText;
     this.questionType = data.questionType;
     this.hasAttachments = data.hasAttachments;
