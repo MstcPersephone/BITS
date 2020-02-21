@@ -49,6 +49,11 @@ import { CreateUploadComponent } from './questions/questionTypes/upload/create-u
 import { EditUploadComponent } from './questions/questionTypes/upload/edit-upload/edit-upload.component';
 import { ListUploadComponent } from './questions/questionTypes/upload/list-upload/list-upload.component';
 import { ViewUploadComponent } from './questions/questionTypes/upload/view-upload/view-upload.component';
+import { CreateOptionComponent } from './shared/option/create-option/create-option.component';
+import { EditOptionComponent } from './shared/option/edit-option/edit-option.component';
+import { ListOptionComponent } from './shared/option/list-option/list-option.component';
+import { ViewOptionComponent } from './shared/option/view-option/view-option.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -81,14 +86,20 @@ import { ViewUploadComponent } from './questions/questionTypes/upload/view-uploa
     CreateUploadComponent,
     EditUploadComponent,
     ListUploadComponent,
-    ViewUploadComponent
+    ViewUploadComponent,
+    CreateOptionComponent,
+    EditOptionComponent,
+    ListOptionComponent,
+    ViewOptionComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     AssessmentService,

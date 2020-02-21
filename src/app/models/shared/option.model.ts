@@ -2,7 +2,7 @@
 export class Option {
   id: string;
   questionId: string;
-  name: string;
+  optionText: string;
   isAnswer: boolean;
   isSelected: boolean;
 
@@ -10,7 +10,7 @@ export class Option {
     data = data || {};
     this.id = data.id;
     this.questionId = data.questionId;
-    this.name = data.name;
+    this.optionText = data.optionText;
     this.isAnswer = data.isAnswer;
     this.isSelected = data.isAnswer;
   }

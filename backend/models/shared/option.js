@@ -7,7 +7,7 @@ const optionSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  name: {
+  optionText: {
     type: String,
     required: true
   },
