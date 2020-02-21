@@ -5,7 +5,6 @@ import { Attachment } from '../shared/attachment.model';
 // A true/false question.
 export class TrueFalse implements Question {
   id: string;
-  name: string;
   questionText: string;
   questionType = QuestionType.TrueFalse;
   hasAttachments: boolean;
@@ -17,9 +16,7 @@ export class TrueFalse implements Question {
   constructor(data: any) {
     data = data || {};
     this.id = data.id;
-    this.name = data.name;
     this.questionText = data.questionText;
-    this.questionType = data.questionType;
     this.hasAttachments = data.hasAttachments;
     this.attachments = data.attachments;
     this.isAnswered = data.isAnswered;
