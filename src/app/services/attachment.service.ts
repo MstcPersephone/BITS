@@ -8,6 +8,11 @@ export class AttachmentService {
 
   constructor() { }
 
+  // Gets attachments array
+  getAttachments() {
+
+  }
+
   // Adds attachments to a question
   addAttachments(attachments: Attachment[]) {
 

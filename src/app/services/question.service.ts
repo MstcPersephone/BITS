@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Option } from '../models/shared/option.model';
 import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
+import { QuestionType } from '../enums/questionType.enum';
 
 
 @Injectable({
@@ -70,11 +71,18 @@ export class QuestionService {
 
   // Saves the question to the database
   saveQuestion(question: Question) {
-
+    this.http.post<{message: string}>('http://localhost:3000/api/questions/save', question)
+    .subscribe(responseData => {
+      console.log(responseData.message);
+    });
   }
 
   // Saves the option to the database
   saveOption(option: Option) {
 
+  }
+
+  getQuestionType(question: Question) {
+    return question.questionType;
   }
 }
