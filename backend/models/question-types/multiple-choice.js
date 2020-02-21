@@ -11,10 +11,6 @@ const multipleChoiceSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  name: {
-    type: String,
-    required: true
-  },
   questionType = {
     type: String,
     required: true

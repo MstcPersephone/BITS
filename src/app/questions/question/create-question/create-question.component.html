@@ -1,11 +1,10 @@
 <!-- component container -->
 <mat-card>
-  <mat-card-title>Create a Question</mat-card-title>
-  <mat-card-content>
+  <h1 class="mat-display-1">Create a Question</h1>
     <mat-form-field>
       <mat-label>Question Type</mat-label>
       <!-- Calls onQuestionTypeSelected in ts file -->
-      <mat-select (selectionChange)="onQuestionTypeSelected($event)">
+      <mat-select #questionTypeSelect (selectionChange)="onQuestionTypeSelected($event)">
         <!-- This element loops over the question types and adds them as options -->
         <mat-option
         *ngFor="let questionType of questionTypes"
@@ -15,12 +14,11 @@
     <br />
     <!-- Create components for each question type in a switch/case statement -->
     <!-- Displays a question type component based on user selection from dropdown -->
-    <div [ngSwitch]="questionTypeSelected">
+    <div [ngSwitch]="questionTypeSelected" class="questionTypeContainer">
       <app-create-checkbox *ngSwitchCase="'Checkbox'"></app-create-checkbox>
       <app-create-essay *ngSwitchCase="'Essay'"></app-create-essay>
       <app-create-multiple-choice *ngSwitchCase="'Multiple Choice'"></app-create-multiple-choice>
       <app-create-true-false *ngSwitchCase="'True/False'"></app-create-true-false>
       <app-create-upload *ngSwitchCase="'Upload'"></app-create-upload>
     </div>
-  </mat-card-content>
 </mat-card>

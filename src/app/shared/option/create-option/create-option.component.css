@@ -1,6 +1,6 @@
 mat-card {
-  width: 90%;
-  margin: 10px auto;
+  width: 95%;
+  margin: 0px auto;
   padding: 15px;
 }
 
@@ -14,4 +14,9 @@ mat-card, mat-form-field, mat-checkbox, button {
 
 .mt-20 {
   margin-top: 20px;
+}
+
+.addIcon {
+  color: #ffffff;
+  background-color: #2cb01a;
 }

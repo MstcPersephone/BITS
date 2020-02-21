@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HelperService } from '../../../services/helper.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { HelperService } from '../../../services/helper.service';
   styleUrls: ['./create-question.component.css']
 })
 export class CreateQuestionComponent implements OnInit {
+  questionSelectionFormGroup;
 
   questionTypes = [];
   questionTypeSelected: string;

@@ -1,3 +1,5 @@
+const checkBoxModel = require("./models/question-types/checkbox");
+
 // express.js package
 const express = require("express");
 
@@ -135,6 +137,23 @@ app.get("/api/questions", (request, response, next) => {
   response.status(200).json({
     message: 'Questions fetched successfully!',
     questions: questions
+  });
+});
+
+app.post("/api/questions/save", (request, response, next) => {
+  const question = request.body;
+  const questionModel = new checkBoxModel({
+    questionText: question.questionText,
+    questionType: question.questionType,
+    options: question.options,
+    hasAttachments: question.hasAttachments,
+    attachments: question.attachments,
+    isAnswered: question.isAnswered,
+    duration: question.duration,
+    createdOn: Date.now()
+  });
+  questionModel.save().then(() => {
+    message: "Question Successfully Saved!"
   });
 });
 

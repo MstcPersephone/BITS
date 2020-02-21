@@ -6,7 +6,6 @@ import { Attachment } from '../shared/attachment.model';
 // Muliple choice question that allows more than one correct answer.
 export class Checkbox implements Question {
   id: string;
-  name: string;
   questionText: string;
   questionType = QuestionType.CheckBox;
   options: Option[];
@@ -19,9 +18,7 @@ export class Checkbox implements Question {
   constructor(data: any) {
     data = data || {};
     this.id = data.id;
-    this.name = data.name;
     this.questionText = data.questionText;
-    this.questionType = data.questionType;
     this.options = data.options;
     this.hasAttachments = data.hasAttachments;
     this.attachments = data.attachments;
