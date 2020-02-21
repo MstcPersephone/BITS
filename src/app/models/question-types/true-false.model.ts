@@ -10,7 +10,7 @@ export class TrueFalse implements Question {
   hasAttachments: boolean;
   attachments: Attachment[];
   isAnswered: boolean;
-  answer: string;
+  answer: boolean;
   duration: number;
 
   constructor(data: any) {

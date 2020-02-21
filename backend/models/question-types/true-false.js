@@ -30,7 +30,7 @@ const trueFalseSchema = mongoose.Schema({
     required: true
   },
   answer: {
-    type: String,
+    type: Boolean,
     required: true
   },
   duration: {

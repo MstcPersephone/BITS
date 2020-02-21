@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { TrueFalse } from 'src/app/models/question-types/true-false.model';
 import { QuestionService } from 'src/app/services/question.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 
 @Component({
@@ -21,12 +22,13 @@ export class CreateTrueFalseComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private questionService: QuestionService,
-    private attachmentSerivce: AttachmentService
+    private attachmentSerivce: AttachmentService,
+    private helperService: HelperService
   ) {
     this.createTrueFalseForm = this.formBuilder.group({
       questionText: '',
       hasAttachments: '',
-      answer: ''
+      answer: false
     });
   }
 
@@ -45,7 +47,7 @@ export class CreateTrueFalseComponent implements OnInit {
       hasAttachments: this.hasAttachments,
       attachments: this.hasAttachments ? this.attachmentSerivce.getAttachments() : null,
       isAnswered: false,
-      answer: trueFalseData.answer,
+      answer: this.helperService.convertToTrueFalse(trueFalseData.answer),
       duration: 0
     });
 
