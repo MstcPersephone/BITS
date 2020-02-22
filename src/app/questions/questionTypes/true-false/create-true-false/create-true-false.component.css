@@ -8,13 +8,14 @@ form {
   padding: 25px;
 }
 
-mat-card, mat-form-field, mat-checkbox, button, .mat-radio-button {
+mat-card, mat-form-field, mat-checkbox, button, .mat-radio-group {
   display: block;
+  margin-top: 25px;
   margin-bottom: 25px;
 }
 
-.mat-radio-button ~ .mat-radio-button {
-  margin-left: 16px;
+.ml-25 {
+  margin-left: 25px;
 }
 
 .mt-30 {

@@ -4,6 +4,7 @@ import { TrueFalse } from 'src/app/models/question-types/true-false.model';
 import { QuestionService } from 'src/app/services/question.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { QuestionType } from 'src/app/enums/questionType.enum';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class CreateTrueFalseComponent implements OnInit {
   }
 
   radioChangeHandler(event: any) {
-    this.selectedAnswer = event.target.value;
+    this.selectedAnswer = event.value;
   }
 
   ngOnInit(): void {

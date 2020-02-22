@@ -89,7 +89,7 @@ export class QuestionService {
     .subscribe(
       responseData => {
         console.log(responseData.message);
-        console.log(responseData.question)
+        console.log(responseData.question);
       },
       error => console.log(error.error.message));
   }

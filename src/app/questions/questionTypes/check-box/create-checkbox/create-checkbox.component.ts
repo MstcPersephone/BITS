@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Checkbox } from 'src/app/models/question-types/checkbox.model';
-import { Option } from '../../../../models/shared/option.model';
+import { QuestionType } from '../../../../enums/questionType.enum';
 import { QuestionService } from 'src/app/services/question.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
 

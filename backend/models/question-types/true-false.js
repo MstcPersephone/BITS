@@ -19,7 +19,7 @@ const trueFalseSchema = mongoose.Schema({
     required: true
   },
   attachments: {
-    type: [attachmentSchema.Schema]
+    type: [attachmentSchema.schema]
   },
   isAnswered: {
     type: Boolean,
