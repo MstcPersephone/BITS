@@ -45,6 +45,8 @@ export class CreateCheckboxComponent implements OnInit {
     // Adds option to the options array in the service.
     this.questionService.saveQuestion(checkboxQuestion);
 
+    this.questionService.clearOptions();
+
     // For testing, we can remove later.
     console.log(checkboxQuestion);
   }
