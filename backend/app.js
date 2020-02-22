@@ -9,6 +9,11 @@ const bodyParser = require("body-parser");
 // mongoose package
 const mongoose = require('mongoose');
 
+const questionTypesWithOptions = [
+  "MultipleChoice",
+  "Checkbox"
+];
+
 const app = express();
 
 // connect to mongodb cluster
@@ -137,13 +142,24 @@ app.get("/api/questions", (request, response, next) => {
 });
 
 app.post("/api/questions/save", (request, response, next) => {
-  const questionId = mongoose.Types.ObjectId();
-  const optionId = mongoose.Types.ObjectId();
+  // Requestion.body is the question that is passed through.
   const question = request.body;
-  question.options.forEach((x) => {
-    x.questionId = questionId,
-    x.id = optionId
-  });
+
+  // Generate unique id for question.
+  const questionId = mongoose.Types.ObjectId();
+
+  // If question contains options, create option id
+  // Assign option id and question id to each option object
+  if (questionTypesWithOptions.includes(question.questionType)) {
+    const optionId = mongoose.Types.ObjectId();
+
+    question.options.forEach((x) => {
+      x.questionId = questionId,
+      x.id = optionId
+    });
+  }
+
+  // Create Checkbox Model to save to the database.
   const questionModel = new checkBoxModel({
     id: questionId,
     questionText: question.questionText,
@@ -156,17 +172,24 @@ app.post("/api/questions/save", (request, response, next) => {
     createdOn: Date.now()
   });
 
-  console.log('Checkbox Question Created Successfully');
-  console.log(questionModel);
-
   questionModel.markModified('options');
   questionModel.save().then(() => {
-    message: "Question Successfully Saved!"
-  }, error => {console.log(error.message)});
+    // Log success message and saved object.
+    console.log('Checkbox Question Created Successfully');
+    console.log(questionModel);
 
-  response.status(200).json({
-    message: 'Question saved successfully!',
-    question: question
+    // Send success message back to front end.
+    // Will probably use for logging later.
+    response.status(200).json({
+      message: 'Question saved successfully!',
+      question: question
+    });
+  }, error => {
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      question: question
+    })
   });
 });
 
