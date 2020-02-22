@@ -10,6 +10,8 @@ import { EditQuestionComponent } from './questions/question/edit-question/edit-q
 import { ListQuestionsComponent } from './questions/question/list-questions/list-questions.component';
 import { ViewQuestionComponent } from './questions/question/view-question/view-question.component';
 import { CreateOptionComponent } from './shared/option/create-option/create-option.component';
+import { CreateExactMatchComponent } from './exact-match/create-exact-match/create-exact-match.component';
+
 
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
@@ -21,7 +23,8 @@ const routes: Routes = [
   { path: 'question/create', component: CreateQuestionComponent },
   { path: 'question/edit', component: EditQuestionComponent },
   { path: 'questions/list', component: ListQuestionsComponent },
-  { path: 'question/view', component: ViewQuestionComponent }
+  { path: 'question/view', component: ViewQuestionComponent },
+  { path: 'match/create', component: CreateExactMatchComponent }
 ];
 
 @NgModule({
