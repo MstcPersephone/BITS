@@ -34,7 +34,7 @@ export class CreateExactMatchComponent implements OnInit {
     this.createExactMatchForm.reset();
 
     // Adds option to the options array in the service.
-    // this.questionService.createOption(exactMatch);
+    this.questionService.createExactMatch(exactMatch);
 
     // For testing, we can remove later.
     console.log(exactMatch);

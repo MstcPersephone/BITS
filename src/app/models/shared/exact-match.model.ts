@@ -8,6 +8,6 @@ export class ExactMatch {
     data = data || {};
     this.id = data.id;
     this.questionId = data.questionId;
-    this.matchText = data.optionText;
+    this.matchText = data.matchText;
   }
 }
