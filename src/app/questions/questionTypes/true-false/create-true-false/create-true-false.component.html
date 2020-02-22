@@ -1,1 +1,30 @@
-<p>create-true-false works!</p>
+<form [formGroup]="createTrueFalseForm" (ngSubmit)="onSubmit(createTrueFalseForm.value)">
+
+  <!-- Question Text Input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Question Text</mat-label>
+    <input matInput id="questionText" type="text" formControlName="questionText" matTooltip="Info about the action">
+  </mat-form-field>
+
+  <!-- Question attachment checkbox -->
+  <mat-checkbox class="mt-20" formControlName="hasAttachments" (change)="hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
+
+  <button *ngIf="hasAttachments" mat-raised-button color="accent" class="mt-20">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
+
+  <!-- Question Name Text Input -->
+    <mat-label>Select correct answer:  </mat-label>
+    <mat-radio-group aria-label="Select correct answer" *ngFor="let answer of answers">
+      <input
+      type="radio"
+      name="answer"
+      formControlName="answer"
+      matTooltip="Info about the action"
+      value="{{answer}}"
+      (change)="radioChangeHandler($event)">
+      {{answer}}
+    </mat-radio-group>
+
+
+  <!-- Submit Button -->
+  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+</form>

@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 import { QuestionType } from '../enums/questionType.enum';
 import { Checkbox } from '../models/question-types/checkbox.model';
 
-
 @Injectable({
   providedIn: 'root',
 })

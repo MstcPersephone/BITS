@@ -1,1 +1,21 @@
-<p>create-essay works!</p>
+
+  <form [formGroup]="createEssayForm" (ngSubmit)="onSubmit(createEssayForm.value)">
+<!-- Question Text Input -->
+    <mat-form-field appearance="standard">
+      <mat-label>Question Text:</mat-label>
+      <input matInput id="questionText" type="text" formControlName="questionText" matTooltip="Info about the action">
+    </mat-form-field>
+<!-- Question Answer Input -->
+    <mat-form-field appearance="standard">
+      <mat-label>Answer:</mat-label>
+      <input matInput id="questionAnswer" type="text" formControlName="questionAnswer" matTooltip="Info about the action">
+    </mat-form-field>
+<!--Has attachment checkbox-->
+    <mat-checkbox class="mt-20" formControlName="hasAttachments" (change)="hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
+
+    <button *ngIf="hasAttachments" mat-raised-button color="accent" class="mt-20">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
+
+ <!-- Submit Button -->
+ <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+  </form>
+

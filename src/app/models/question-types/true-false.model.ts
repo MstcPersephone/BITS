@@ -17,7 +17,6 @@ export class TrueFalse implements Question {
     data = data || {};
     this.id = data.id;
     this.questionText = data.questionText;
-    this.questionType = data.questionType;
     this.hasAttachments = data.hasAttachments;
     this.attachments = data.attachments;
     this.isAnswered = data.isAnswered;
