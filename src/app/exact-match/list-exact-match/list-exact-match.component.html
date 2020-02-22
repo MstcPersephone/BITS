@@ -1,1 +1,17 @@
-<p>list-exact-match works!</p>
+<!-- List of created options for question -->
+<div class="matchList" *ngIf="exactMatches.length > 0">
+  <mat-card class="matchListContainer">
+    <mat-list>
+      <div *ngFor="let exactMatch of exactMatches; let i = index">
+
+        <!-- Top divider of list item does not show for the first list item -->
+        <mat-divider *ngIf="i != 0"></mat-divider>
+        <mat-list-item>
+
+          <!-- This will be come the link to EditOption component -->
+          <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
+          <mat-icon class="deleteIcon iconButton" matListIcon>delete</mat-icon>
+          <span class="matchListItem">{{exactMatch.matchText}}</span>
+
+        <!-- Bottom divider of list item does not show for the last list item -->
+        <mat-divider *ngIf="i != exactMatches.length -1"></mat-divider>
