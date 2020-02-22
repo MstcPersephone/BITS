@@ -11,7 +11,7 @@
 
           <!-- This will be come the link to EditOption component -->
           <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
-          <mat-icon class="deleteIcon iconButton" matListIcon>delete</mat-icon>
+          <mat-icon class="deleteIcon iconButton" matListIcon (click)="this.questionService.deleteOption(i)">delete</mat-icon>
           <span class="optionListItem">{{option.optionText}}</span>
 
 

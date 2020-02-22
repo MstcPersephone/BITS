@@ -37,8 +37,14 @@ export class QuestionService {
     return this.optionsUpdated.asObservable();
   }
 
+  // Resets the options array for a new question.
   clearOptions() {
     this.options = [];
+  }
+
+  // Removes an option from the list based on its index
+  deleteOption(i) {
+    this.options.splice(i);
   }
 
   // Gets a copy of the options.
