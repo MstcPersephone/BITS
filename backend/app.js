@@ -145,6 +145,8 @@ app.post("/api/questions/save", (request, response, next) => {
   // Generate unique id for question.
   const questionId = mongoose.Types.ObjectId();
 
+  // Swtich to internal function that creates object to save.
+  // TODO: Refactor these internal functions to their own file.
   switch (question.questionType) {
     case "Checkbox":
     case "MultipleChoice":
@@ -156,7 +158,10 @@ app.post("/api/questions/save", (request, response, next) => {
       break;
   }
 
+  // Saves the object to the database.
+  // Returns either 200 success or 400 error
   questionObjectToSave.save().then(() => {
+
     // Log success message and saved object.
     console.log(question.questionType + ' Question Created Successfully');
     console.log(questionObjectToSave);
@@ -166,25 +171,28 @@ app.post("/api/questions/save", (request, response, next) => {
     response.status(200).json({
       message: 'Question saved successfully!',
       question: question
-    });
-  }, error => {
-    console.log(error.message);
-    response.status(400).json({
-      message: error.message,
-      question: question
-    })
+      });
+    },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        question: question
+      })
   });
 });
 
 // Creates a Checkbox question object for saving to the database.
 function createCheckbox(question, questionId) {
-  const optionId = mongoose.Types.ObjectId();
+
+  // Generates an id for each option
+  // Assigns question id to each option
   question.options.forEach((x) => {
-    x.questionId = questionId,
-    x.id = optionId
+    x.id = mongoose.Types.ObjectId(),
+    x.questionId = questionId
   });
 
-  // Create Checkbox Model to save to the database.
+  // Create Checkbox Model.
   const questionModel = new checkBoxModel({
     id: questionId,
     questionText: question.questionText,
@@ -200,8 +208,10 @@ function createCheckbox(question, questionId) {
   return questionModel;
 }
 
-// Create True/False Model to save to the database.
+// Creates a True/False object for saving to the database.
 function createTrueFalse(question, questionId) {
+
+  // Create True/False Model
   const questionModel = new trueFalseModel({
     id: questionId,
     questionText: question.questionText,

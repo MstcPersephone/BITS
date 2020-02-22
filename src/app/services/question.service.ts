@@ -72,6 +72,7 @@ export class QuestionService {
     return this.questionsUpdated.asObservable();
   }
 
+  // Gets all questions from the database.
   getAllQuestions() {
     this.http
     .get<{message: string, questions: Question[]}>(
@@ -100,11 +101,7 @@ export class QuestionService {
       error => console.log(error.error.message));
   }
 
-  // Saves the option to the database
-  saveOption(option: Option) {
-
-  }
-
+  // Returns the question type of a question
   getQuestionType(question: Question) {
     return question.questionType;
   }
