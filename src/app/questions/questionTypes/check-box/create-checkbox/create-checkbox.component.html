@@ -1,1 +1,20 @@
-<p>create-checkbox works!</p>
+  <form [formGroup]="createCheckboxForm" (ngSubmit)="onSubmit(createCheckboxForm.value)">
+
+    <!-- Question Name Text Input -->
+    <mat-form-field appearance="standard">
+      <mat-label>Question Text</mat-label>
+      <input matInput id="questionText" type="text" formControlName="questionText" matTooltip="Info about the action">
+    </mat-form-field>
+
+    <!-- Question Name is Text Checkbox -->
+    <mat-checkbox class="mt-20" formControlName="hasAttachments" (change)="hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
+
+    <button *ngIf="hasAttachments" mat-raised-button color="accent" class="mt-20">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
+
+    <!-- CreateOption Component -->
+    <h3>Add options to the question</h3>
+    <app-create-option></app-create-option>
+
+    <!-- Submit Button -->
+    <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+  </form>

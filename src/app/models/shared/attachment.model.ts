@@ -5,10 +5,10 @@ export class Attachment {
   fileType: string;
   content: File;
 
-  constructor(data: any) {
-    data = data || {};
-    this.id = data.id;
-    this.name = data.name;
-    this.fileType = data.fileType;
-  }
+  // constructor(data: any) {
+  //   data = data || {};
+  //   this.id = data.id;
+  //   this.name = data.name;
+  //   this.fileType = data.fileType;
+  // }
 }
