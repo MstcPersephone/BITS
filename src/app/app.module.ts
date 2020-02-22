@@ -54,6 +54,10 @@ import { EditOptionComponent } from './shared/option/edit-option/edit-option.com
 import { ListOptionComponent } from './shared/option/list-option/list-option.component';
 import { ViewOptionComponent } from './shared/option/view-option/view-option.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CreateStudentComponent } from './student/create-student/create-student.component';
+import { EditStudentComponent } from './student/edit-student/edit-student.component';
+import { ListStudentComponent } from './student/list-student/list-student.component';
+import { ViewStudentComponent } from './student/view-student/view-student.component';
 
 
 @NgModule({
@@ -91,7 +95,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CreateOptionComponent,
     EditOptionComponent,
     ListOptionComponent,
-    ViewOptionComponent
+    ViewOptionComponent,
+    CreateStudentComponent,
+    EditStudentComponent,
+    ListStudentComponent,
+    ViewStudentComponent
   ],
   imports: [
     BrowserModule,
