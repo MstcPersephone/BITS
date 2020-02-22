@@ -29,17 +29,15 @@ export class CreateCheckboxComponent implements OnInit {
 
   // Id is null at this point because it is generated on the backend.
   onSubmit(checkboxData) {
-    const checkboxQuestion: Checkbox = new Checkbox({
-      id: null,
-      questionId: null,
-      questionText: checkboxData.questionText,
-      options: this.questionService.getOptions,
-      hasAttachments: this.hasAttachments,
-      attachments: this.hasAttachments ? this.attachmentSerivce.getAttachments() : null,
-      isAnswered: false,
-      answers: null,
-      duration: 0
-    });
+    const checkboxQuestion: Checkbox = new Checkbox();
+    checkboxQuestion.id =  null;
+    checkboxQuestion.questionText = checkboxData.questionText;
+    checkboxQuestion.options = this.questionService.getOptions();
+    checkboxQuestion.hasAttachments = this.hasAttachments;
+    checkboxQuestion.attachments = this.hasAttachments ? this.attachmentSerivce.getAttachments() : null;
+    checkboxQuestion.isAnswered = false;
+    checkboxQuestion.answers = null;
+    checkboxQuestion.duration = 0;
 
     // Resets the form values.
     this.createCheckboxForm.reset();

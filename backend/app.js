@@ -16,7 +16,7 @@ const app = express();
 // 02/18/2020: useNewUrlParser and useUnifiedTopology options are to avoid
 // soon-to-be depecrated features of mongoDb client
 mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
-  console.log('Successfully connected to the database'),
+  console.log('Connected to the database successfully'),
   (error) => {
     console.log(error.reason)
   }
@@ -141,8 +141,15 @@ app.get("/api/questions", (request, response, next) => {
 });
 
 app.post("/api/questions/save", (request, response, next) => {
+  const questionId = mongoose.Types.ObjectId();
+  const optionId = mongoose.Types.ObjectId();
   const question = request.body;
+  question.options.forEach((x) => {
+    x.questionId = questionId,
+    x.id = optionId
+  });
   const questionModel = new checkBoxModel({
+    id: questionId,
     questionText: question.questionText,
     questionType: question.questionType,
     options: question.options,
@@ -152,9 +159,18 @@ app.post("/api/questions/save", (request, response, next) => {
     duration: question.duration,
     createdOn: Date.now()
   });
-  console.log('Checkbox Question Created');
+
+  console.log('Checkbox Question Created Successfully');
+  console.log(questionModel);
+
+  questionModel.markModified('options');
   questionModel.save().then(() => {
     message: "Question Successfully Saved!"
+  }, error => {console.log(error.message)});
+
+  response.status(200).json({
+    message: 'Question saved successfully!',
+    question: question
   });
 });
 

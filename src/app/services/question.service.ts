@@ -38,12 +38,20 @@ export class QuestionService {
     return this.optionsUpdated.asObservable();
   }
 
+  clearOptions() {
+    this.options = [];
+  }
+
   // Gets a copy of the options.
   // Used for attaching the options to a question before making POST request.
   getOptions() {
     return [...this.options];
   }
 
+  // Returns whether or not the question has options.
+  hasOptions() {
+    return this.options.length > 0;
+  }
   // Starts the edit option wizard
   editOption(option: Option) {
 
@@ -75,12 +83,14 @@ export class QuestionService {
     if (question.questionType === QuestionType.CheckBox || question.questionType === QuestionType.MultipleChoice) {
       const completeQuestion = question as Checkbox;
       completeQuestion.options = this.getOptions();
+      this.clearOptions();
       console.log(completeQuestion);
     }
-    this.http.post<{message: string}>('http://localhost:3000/api/questions/save', question)
+    this.http.post<{message: string, question: Question}>('http://localhost:3000/api/questions/save', question)
     .subscribe(
       responseData => {
         console.log(responseData.message);
+        console.log(responseData.question)
       },
       error => console.log(error.error.message));
   }
