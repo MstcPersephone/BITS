@@ -23,6 +23,10 @@ mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongo
   }
 });
 
+// This allows us to use MongoDb functions instead of mongoose ones
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+
 // middleware for parsing json data on requests
 app.use(bodyParser.json());
 
@@ -40,101 +44,15 @@ app.use((request, response, next) => {
   next();
 });
 
-// setup for question api
+// Get all questions
 app.get("/api/questions", (request, response, next) => {
-  const questions = [
-    {
-      id: "123",
-      questionText: "How are you?",
-      questionType: "ESSAY",
-      hasAttachments: false,
-      attachments: null,
-      isAnswered: false,
-      duration: 0,
-      answer: ""
-    },
-    {
-      id: "987",
-      questionText: "Choose one making you better feeling:",
-      options: [{
-        id: 6,
-        questionId: "987",
-        name: "Correct",
-        isAnswer: true,
-        isSelected: false
-      },
-      {
-        id: 7,
-        questionId: "987",
-        name: "Try again",
-        isAnswer: false,
-        isSelected: false
-      },
-      {
-        id: 8,
-        questionId: "987",
-        name: "Nope",
-        isAnswer: false,
-        isSelected: false
-      }],
-      hasAttachments: false,
-      attachments: null,
-      isAnswered: false,
-      duration: 0
-    },
-    {
-      id: "456",
-      questionText: "Select the primary colors:",
-      questionType: "CHECKBOX",
-      options: [{
-        id: 1,
-        questionId: "456",
-        name: "blue",
-        isAnswer: true,
-        isSelected: false
-      },
-      {
-        id: 2,
-        questionId: "456",
-        name: "red",
-        isAnswer: true,
-        isSelected: false
-      },
-      {
-        id: 3,
-        questionId: "456",
-        name: "black",
-        isAnswer: false,
-        isSelected: false
-      },
-      {
-        id: 4,
-        questionId: "456",
-        name: "purple",
-        isAnswer: false,
-        isSelected: false
-      }
-    ],
-      hasAttachments: false,
-      attachments: null,
-      isAnswered: false,
-      duration: 0
-    },
-    {
-      id: "789",
-      questionText: "Earth is bigger than the sun.",
-      questionType: "True_False",
-      hasAttachments: false,
-      attachments: null,
-      isAnswered: false,
-      duration: 0,
-      answer: false
-    }
-  ];
-  response.status(200).json({
-    message: 'Questions fetched successfully!',
-    questions: questions
-  });
+  // db.test.questions.find().then(documents => {
+  //   response.status(200).json({
+  //     message: "Questions fetched successfully!",
+  //     questions: documents
+  //   });
+  // });
+  console.log(mongoose.connection.test.questions  );
 });
 
 app.post("/api/questions/save", (request, response, next) => {
