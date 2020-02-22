@@ -54,7 +54,10 @@ import { EditOptionComponent } from './shared/option/edit-option/edit-option.com
 import { ListOptionComponent } from './shared/option/list-option/list-option.component';
 import { ViewOptionComponent } from './shared/option/view-option/view-option.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { CreateExactMatchComponent } from './exact-match/create-exact-match/create-exact-match.component';
+import { EditExactMatchComponent } from './exact-match/edit-exact-match/edit-exact-match.component';
+import { ListExactMatchComponent } from './exact-match/list-exact-match/list-exact-match.component';
+import { ViewExactMatchComponent } from './exact-match/view-exact-match/view-exact-match.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +94,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CreateOptionComponent,
     EditOptionComponent,
     ListOptionComponent,
-    ViewOptionComponent
+    ViewOptionComponent,
+    CreateExactMatchComponent,
+    EditExactMatchComponent,
+    ListExactMatchComponent,
+    ViewExactMatchComponent
   ],
   imports: [
     BrowserModule,
