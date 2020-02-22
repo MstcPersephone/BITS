@@ -23,7 +23,7 @@ export class CreateQuestionComponent implements OnInit {
   // Function is triggered after user selects an option
   onQuestionTypeSelected(event) {
     this.questionTypeSelected = event.value;
-    console.log(this.questionTypeSelected);
+    console.log(this.questionTypeSelected + ' Question Selected');
   }
 
 }
