@@ -205,7 +205,7 @@ function createTrueFalse(question, questionId) {
   const questionModel = new trueFalseModel({
     id: questionId,
     questionText: question.questionText,
-    questionType: question.questionTYpe,
+    questionType: question.questionType,
     hasAttachments: question.hasAttachments,
     attachments: question.attachments,
     isAnswered: question.isAnswered,
