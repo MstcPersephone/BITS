@@ -1,7 +1,86 @@
 /* You can add global styles to this file, and also import other style files */
+/*
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+Mid-State Website Colors
+$mstcRed: #82142D;
+$mstcWhite: #fff;
+$mstcGray: #404040;
+$mstcDarkGray: #2d2d2d;
+$mstcYellow: #fcb618;
+$mstcBlue: #0b578a;
+$mstcDarkBlue: #033d60;
+
+*/
+
+/* Setting html and body elements to reduce white space on page. */
+html,
+body {
+  min-height: 900px;
+}
+html{
+  margin: 10px auto;
+  background-color: #2d2d2d;
+  min-width: 750px;
+  width: 70%
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+}
+
+/* Adjusting the top radius values to make page radius rounded. */
+mat-toolbar{
+  border-radius: 3px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+/* Styles applied to the page's "central component" (Create a Question, etc.) */
+mat-card {
+  width: 75%;
+  margin: auto;
+}
+mat-card, mat-form-field, mat-checkbox, mat-radio-group, button, h3, .mat-radio-button {
+  display: block;
+}
+
+/* Styles applied to Forms */
+form {
+  padding: 10px;
+  background-color: #e3e3e3;
+  border-radius: 5px;
+  overflow: hidden ; /* Prevents the Save button from falling out of the form due to it's float */
+}
+/* Adjusts spacing between each element. */
+/* 'mat-radio-group' affects all inputs as well, and 'input' cannot be targetted directly. */
+/* Spacing between Save Button and the radio buttons is performed through 'button:last-of-type'. */
+mat-checkbox, mat-label{
+  margin-bottom: 10px;
+}
+button:last-of-type{
+  margin-top: 10px;
+}
+
+/* Styles applied to the Save Button */
+.saveButton {
+  background-color: rgb(11, 87, 138);
+  color: #ffffff;
+  display: block;
+  margin-top: 40px;
+  float: right;
+}
+
+/* Sets margin-top to 30px */
+.mt-30 {
+  margin-top: 30px;
+}
+
+/* Sets margin-bottom to 0px */
+.mat-display-4 {
+  margin-bottom: 0px;
+}
 
 /* Makes the cursor turn into a hand for buttons */
 button,
