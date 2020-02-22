@@ -10,7 +10,7 @@ const trueFalseSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  questionType = {
+  questionType: {
     type: String,
     required: true
   },
@@ -19,7 +19,7 @@ const trueFalseSchema = mongoose.Schema({
     required: true
   },
   attachments: {
-    type: [attachmentSchema]
+    type: [attachmentSchema.Schema]
   },
   isAnswered: {
     type: Boolean,
@@ -30,7 +30,7 @@ const trueFalseSchema = mongoose.Schema({
     required: true
   },
   duration: {
-    type: number,
+    type: Number,
     default: 0
   },
   createdOn: {

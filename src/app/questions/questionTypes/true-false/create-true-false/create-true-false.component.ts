@@ -40,16 +40,15 @@ export class CreateTrueFalseComponent implements OnInit {
   }
 
   onSubmit(trueFalseData) {
-    const trueFalseQuestion: TrueFalse = new TrueFalse({
-      id: null,
-      questionId: null,
-      questionText: trueFalseData.questionText,
-      hasAttachments: this.hasAttachments,
-      attachments: this.hasAttachments ? this.attachmentSerivce.getAttachments() : null,
-      isAnswered: false,
-      answer: this.helperService.convertToTrueFalse(trueFalseData.answer),
-      duration: 0
-    });
+    const trueFalseQuestion: TrueFalse = new TrueFalse();
+
+    trueFalseQuestion.id = null;
+    trueFalseQuestion.questionText = trueFalseData.questionText;
+    trueFalseQuestion.hasAttachments = this.hasAttachments;
+    trueFalseQuestion.attachments = this.hasAttachments ? this.attachmentSerivce.getAttachments() : null;
+    trueFalseQuestion.isAnswered = false;
+    trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
+    trueFalseQuestion.duration = 0;
 
     // Resets the form values.
     this.createTrueFalseForm.reset();

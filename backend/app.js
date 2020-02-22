@@ -1,4 +1,5 @@
 const checkBoxModel = require("./models/question-types/checkbox");
+const trueFalseModel = require("./models/question-types/true-false");
 
 // express.js package
 const express = require("express");
@@ -8,11 +9,6 @@ const bodyParser = require("body-parser");
 
 // mongoose package
 const mongoose = require('mongoose');
-
-const questionTypesWithOptions = [
-  "MultipleChoice",
-  "Checkbox"
-];
 
 const app = express();
 
@@ -144,39 +140,26 @@ app.get("/api/questions", (request, response, next) => {
 app.post("/api/questions/save", (request, response, next) => {
   // Requestion.body is the question that is passed through.
   const question = request.body;
+  let questionObjectToSave;
 
   // Generate unique id for question.
   const questionId = mongoose.Types.ObjectId();
 
-  // If question contains options, create option id
-  // Assign option id and question id to each option object
-  if (questionTypesWithOptions.includes(question.questionType)) {
-    const optionId = mongoose.Types.ObjectId();
+  switch (question.questionType) {
+    case "Checkbox":
+    case "MultipleChoice":
+      questionObjectToSave = createCheckbox(question, questionId);
+      break;
 
-    question.options.forEach((x) => {
-      x.questionId = questionId,
-      x.id = optionId
-    });
+    case "True/False":
+      questionObjectToSave = createTrueFalse(question, questionId);
+      break;
   }
 
-  // Create Checkbox Model to save to the database.
-  const questionModel = new checkBoxModel({
-    id: questionId,
-    questionText: question.questionText,
-    questionType: question.questionType,
-    options: question.options,
-    hasAttachments: question.hasAttachments,
-    attachments: question.attachments,
-    isAnswered: question.isAnswered,
-    duration: question.duration,
-    createdOn: Date.now()
-  });
-
-  questionModel.markModified('options');
-  questionModel.save().then(() => {
+  questionObjectToSave.save().then(() => {
     // Log success message and saved object.
-    console.log('Checkbox Question Created Successfully');
-    console.log(questionModel);
+    console.log(question.questionType + ' Question Created Successfully');
+    console.log(questionObjectToSave);
 
     // Send success message back to front end.
     // Will probably use for logging later.
@@ -192,6 +175,47 @@ app.post("/api/questions/save", (request, response, next) => {
     })
   });
 });
+
+// Creates a Checkbox question object for saving to the database.
+function createCheckbox(question, questionId) {
+  const optionId = mongoose.Types.ObjectId();
+  question.options.forEach((x) => {
+    x.questionId = questionId,
+    x.id = optionId
+  });
+
+  // Create Checkbox Model to save to the database.
+  const questionModel = new checkBoxModel({
+    id: questionId,
+    questionText: question.questionText,
+    questionType: question.questionType,
+    options: question.options,
+    hasAttachments: question.hasAttachments,
+    attachments: question.attachments,
+    isAnswered: question.isAnswered,
+    duration: question.duration,
+    createdOn: Date.now()
+  });
+
+  return questionModel;
+}
+
+// Create True/False Model to save to the database.
+function createTrueFalse(question, questionId) {
+  const questionModel = new trueFalseModel({
+    id: questionId,
+    questionText: question.questionText,
+    questionType: question.questionTYpe,
+    hasAttachments: question.hasAttachments,
+    attachments: question.attachments,
+    isAnswered: question.isAnswered,
+    answer: question.answer,
+    duration: question.duration,
+    createdOn: Date.now()
+  });
+
+  return questionModel;
+}
 
 // Exports the contstants and all of the middlewares attached to it.
 module.exports = app;
