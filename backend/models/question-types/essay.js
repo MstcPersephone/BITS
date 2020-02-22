@@ -6,10 +6,6 @@ const attachmentSchema = require('../shared/attachment');
 
 // Create Essay Schema (blueprint)
 const essaySchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
   questionText: {
     type: String,
     required: true

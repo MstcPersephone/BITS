@@ -10,7 +10,7 @@ export class AttachmentService {
 
   // Gets attachments array
   getAttachments() {
-
+    return [];
   }
 
   // Adds attachments to a question

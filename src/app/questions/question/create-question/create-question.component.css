@@ -1,4 +1,8 @@
 mat-card {
   width: 85%;
-  margin: auto;
+  margin: 20px auto;
+}
+
+.questionTypeContainer {
+  margin-top: 0px;
 }

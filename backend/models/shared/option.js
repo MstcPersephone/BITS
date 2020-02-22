@@ -15,13 +15,13 @@ const optionSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
-  isSelected: {
+  optionIsSelected: {
     type: Boolean,
     required: true
   },
   createdOn: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   }
 });
 
@@ -29,4 +29,4 @@ const optionSchema = mongoose.Schema({
 module.exports = optionSchema;
 
 // Create and export Option Model
-module.exports = mongoose.model('Option', optionSchema);
+module.exports = mongoose.model('Option', optionSchema, 'options');
