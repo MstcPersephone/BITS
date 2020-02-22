@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { QuestionType } from '../enums/questionType.enum';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HelperService {
 
-  constructor() { }
+  constructor(private snackBar: MatSnackBar) { }
 
   // Converts the QuestionType enum to an array of objects
   // key is the enum name and value is its text value
@@ -25,5 +26,12 @@ export class HelperService {
   // Converts a string to a boolean
   convertToTrueFalse(booleanValue: string) {
     return booleanValue.toLowerCase() === 'true' ? true : false;
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+      panelClass: 'success-dialog'
+    });
   }
 }

@@ -5,6 +5,7 @@ import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
 import { QuestionType } from '../enums/questionType.enum';
 import { Checkbox } from '../models/question-types/checkbox.model';
+import { HelperService } from './helper.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class QuestionService {
   private options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private helperService: HelperService) { }
 
   // Starts the create question wizard
   createQuestion() {
@@ -95,6 +96,7 @@ export class QuestionService {
     this.http.post<{message: string, question: Question}>('http://localhost:3000/api/questions/save', question)
     .subscribe(
       responseData => {
+        this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close');
         console.log(responseData.message);
         console.log(responseData.question);
       },

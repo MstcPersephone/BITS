@@ -10,3 +10,8 @@ input[type="submit"],
 .iconButton {
   cursor: pointer;
 }
+
+/* Used for SnackBar Material Item success messages */
+.success-dialog, .mat-simple-snackbar-action {
+  color: #fcb618 !important;
+}

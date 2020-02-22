@@ -46,13 +46,13 @@ app.use((request, response, next) => {
 
 // Get all questions
 app.get("/api/questions", (request, response, next) => {
-  // db.test.questions.find().then(documents => {
-  //   response.status(200).json({
-  //     message: "Questions fetched successfully!",
-  //     questions: documents
-  //   });
-  // });
-  console.log(mongoose.connection.test.questions  );
+  checkBoxModel.find().then(documents => {
+    response.status(200).json({
+      message: "Questions fetched successfully!",
+      questions: documents
+    });
+  });
+  // console.log(mongoose.connection.test.questions  );
 });
 
 app.post("/api/questions/save", (request, response, next) => {
