@@ -49,56 +49,69 @@ import { CreateUploadComponent } from './questions/questionTypes/upload/create-u
 import { EditUploadComponent } from './questions/questionTypes/upload/edit-upload/edit-upload.component';
 import { ListUploadComponent } from './questions/questionTypes/upload/list-upload/list-upload.component';
 import { ViewUploadComponent } from './questions/questionTypes/upload/view-upload/view-upload.component';
+
 import { CreateOptionComponent } from './shared/option/create-option/create-option.component';
 import { EditOptionComponent } from './shared/option/edit-option/edit-option.component';
 import { ListOptionComponent } from './shared/option/list-option/list-option.component';
 import { ViewOptionComponent } from './shared/option/view-option/view-option.component';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { CreateExactMatchComponent } from './exact-match/create-exact-match/create-exact-match.component';
 import { EditExactMatchComponent } from './exact-match/edit-exact-match/edit-exact-match.component';
 import { ListExactMatchComponent } from './exact-match/list-exact-match/list-exact-match.component';
 import { ViewExactMatchComponent } from './exact-match/view-exact-match/view-exact-match.component';
+
+import { CreateStudentComponent } from './student/create-student/create-student.component';
+import { EditStudentComponent } from './student/edit-student/edit-student.component';
+import { ListStudentComponent } from './student/list-student/list-student.component';
+import { ViewStudentComponent } from './student/view-student/view-student.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     AssessmentListComponent,
     CreateAssessmentComponent,
-    ViewAssessmentComponent,
-    EditAssessmentComponent,
-    HeaderComponent,
-    ListQuestionsComponent,
-    CreateQuestionComponent,
-    ViewQuestionComponent,
-    EditQuestionComponent,
     CreateCheckboxComponent,
-    EditCheckboxComponent,
-    ListCheckboxComponent,
-    ViewCheckboxComponent,
-    CreateShortAnswerComponent,
-    EditShortAnswerComponent,
-    ListShortAnswerComponent,
-    ViewShortAnswerComponent,
-    CreateMultipleChoiceComponent,
-    EditMultipleChoiceComponent,
-    ListMultipleChoiceComponent,
-    ViewMultipleChoiceComponent,
-    CreateTrueFalseComponent,
-    EditTrueFalseComponent,
-    ListTrueFalseComponent,
-    ViewTrueFalseComponent,
-    CreateUploadComponent,
-    EditUploadComponent,
-    ListUploadComponent,
-    ViewUploadComponent,
-    CreateOptionComponent,
-    EditOptionComponent,
-    ListOptionComponent,
-    ViewOptionComponent,
     CreateExactMatchComponent,
+    CreateMultipleChoiceComponent,
+    CreateOptionComponent,
+    CreateQuestionComponent,
+    CreateShortAnswerComponent,
+    CreateStudentComponent,
+    CreateTrueFalseComponent,
+    CreateUploadComponent,
+    EditAssessmentComponent,
+    EditCheckboxComponent,
     EditExactMatchComponent,
+    EditMultipleChoiceComponent,
+    EditOptionComponent,
+    EditQuestionComponent,
+    EditShortAnswerComponent,
+    EditStudentComponent,
+    EditTrueFalseComponent,
+    EditUploadComponent,
+    HeaderComponent,
+    ListCheckboxComponent,
     ListExactMatchComponent,
-    ViewExactMatchComponent
+    ListMultipleChoiceComponent,
+    ListOptionComponent,
+    ListQuestionsComponent,
+    ListShortAnswerComponent,
+    ListStudentComponent,
+    ListTrueFalseComponent,
+    ListUploadComponent,
+    ViewAssessmentComponent,
+    ViewCheckboxComponent,
+    ViewExactMatchComponent,
+    ViewMultipleChoiceComponent,
+    ViewOptionComponent,
+    ViewQuestionComponent,
+    ViewShortAnswerComponent,
+    ViewStudentComponent,
+    ViewTrueFalseComponent,
+    ViewUploadComponent
   ],
   imports: [
     BrowserModule,

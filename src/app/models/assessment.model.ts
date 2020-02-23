@@ -7,13 +7,4 @@ export class Assessment {
   description: string;
   config: AssessmentConfig;
   questions: Question[];
-
-  constructor(data: any) {
-    data = data || {};
-    this.id = data.id;
-    this.name = data.name;
-    this.description = data.description;
-    this.config = data.config;
-    this.questions = data.questions;
-  }
 }

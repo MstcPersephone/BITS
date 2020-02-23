@@ -6,10 +6,6 @@ const attachmentSchema = require('../shared/attachment');
 
 // Create Upload Schema (blueprint)
 const uploadSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
   questionText: {
     type: String,
     required: true

@@ -6,15 +6,11 @@ const attachmentSchema = require('../shared/attachment');
 
 // Create True False Schema (blueprint)
 const trueFalseSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
   questionText: {
     type: String,
     required: true
   },
-  questionType = {
+  questionType: {
     type: String,
     required: true
   },
@@ -23,7 +19,7 @@ const trueFalseSchema = mongoose.Schema({
     required: true
   },
   attachments: {
-    type: [attachmentSchema]
+    type: [attachmentSchema.schema]
   },
   isAnswered: {
     type: Boolean,
@@ -34,7 +30,7 @@ const trueFalseSchema = mongoose.Schema({
     required: true
   },
   duration: {
-    type: number,
+    type: Number,
     default: 0
   },
   createdOn: {

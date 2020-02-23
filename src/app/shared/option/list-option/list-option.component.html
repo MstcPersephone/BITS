@@ -1,5 +1,6 @@
+<p style="float: right; margin-right: 20px;" *ngIf="this.questionService.hasOptions()">{{ options.length }} {{ options.length > 1 ? "options" : "option" }} added to the question.</p>
 <!-- List of created options for question -->
-<div class="optionList" *ngIf="options.length > 0">
+<div class="optionList" *ngIf="this.questionService.hasOptions()">
   <mat-card class="optionListContainer">
     <mat-list>
       <div *ngFor="let option of options; let i = index">
@@ -10,7 +11,7 @@
 
           <!-- This will be come the link to EditOption component -->
           <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
-          <mat-icon class="deleteIcon iconButton" matListIcon>delete</mat-icon>
+          <mat-icon class="deleteIcon iconButton" matListIcon (click)="this.questionService.deleteOption(i)">delete</mat-icon>
           <span class="optionListItem">{{option.optionText}}</span>
 
 

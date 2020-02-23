@@ -9,19 +9,19 @@
   <!-- Question attachment checkbox -->
   <mat-checkbox class="mt-20" formControlName="hasAttachments" (change)="hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
 
-  <button *ngIf="hasAttachments" mat-raised-button color="accent" class="mt-20">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
+  <button *ngIf="hasAttachments" mat-raised-button color="accent" class="uploadButton">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
 
   <!-- Question Name Text Input -->
     <mat-label>Select correct answer:  </mat-label>
-    <mat-radio-group aria-label="Select correct answer" *ngFor="let answer of answers">
-      <input
+    <mat-radio-group aria-label="Select correct answer" formControlName="answer">
+      <mat-radio-button
+      *ngFor="let answer of answers; let i = index"
+      [ngClass]="{'ml-25': i > 0}"
       type="radio"
       name="answer"
-      formControlName="answer"
       matTooltip="Info about the action"
       value="{{answer}}"
-      (change)="radioChangeHandler($event)">
-      {{answer}}
+      (change)="radioChangeHandler($event)">{{answer}}</mat-radio-button>
     </mat-radio-group>
 
 
