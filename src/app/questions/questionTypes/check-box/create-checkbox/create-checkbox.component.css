@@ -3,14 +3,17 @@ mat-card {
   margin: 10px auto;
   padding: 15px;
 }
-
 form {
   padding: 25px;
 }
-
-mat-card, mat-form-field, mat-checkbox, button, h3 {
+mat-form-field{
   display: block;
-  margin-bottom: 25px;
+}
+
+h3{
+  padding-top: 20px;
+  margin-bottom: 10px;
+  font-weight: normal;
 }
 
 .mt-30 {
