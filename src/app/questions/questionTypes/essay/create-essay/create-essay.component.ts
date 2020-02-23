@@ -33,7 +33,12 @@ export class CreateEssayComponent implements OnInit {
     onSubmit(questionData) {
       const essayQuestion: Essay =  new Essay();
       essayQuestion.id = null;
-
+      essayQuestion.questionText = questionData.questionText;
+      essayQuestion.hasAttachments = this.hasAttachments;
+     // essayQuestion.attachments = this.hasAttachments ? this.attachmentSerivce.getAttachments() : null;
+      essayQuestion.isAnswered = false;
+      essayQuestion.matches = this.questionService.getMatches();
+      essayQuestion.duration = 0;
 
       // Resets the form values.
       this.createEssayForm.reset();

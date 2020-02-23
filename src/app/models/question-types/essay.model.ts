@@ -1,6 +1,7 @@
 import { Question } from '../question.interface';
 import { QuestionType } from 'src/app/enums/questionType.enum';
 import { Attachment } from '../shared/attachment.model';
+import { ExactMatch } from '../shared/exact-match.model';
 
 // Essay question that that accepts a text response.
 export class Essay implements Question {
@@ -11,18 +12,6 @@ export class Essay implements Question {
   hasAttachments: boolean;
   attachments: Attachment[];
   isAnswered: boolean;
-  matches: string[];
+  matches: ExactMatch[];
   duration: number;
-
-  constructor(data: any) {
-    data = data || {};
-    this.id = data.id;
-    this.questionText = data.questionText;
-    this.questionType = data.questionType;
-    this.hasAttachments = data.hasAttachments;
-    this.attachments = data.attachments;
-    this.isAnswered = data.isAnswered;
-    this.matches = data.matches;
-    this.duration = data.duration;
-  }
 }
