@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Option } from '../models/shared/option.model';
+import { ExactMatch } from '../models/shared/exact-match.model';
 import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
 import { QuestionType } from '../enums/questionType.enum';
@@ -22,6 +23,10 @@ export class QuestionService {
   private options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
 
+  // Exact match array and subject.
+  private exactMatches: ExactMatch[] = [];
+  private exactMatchesUpdated = new Subject<ExactMatch[]>();
+
   constructor(private http: HttpClient, private helperService: HelperService) { }
 
   // Starts the create question wizard
@@ -35,10 +40,22 @@ export class QuestionService {
     this.optionsUpdated.next([...this.options]);
   }
 
+  // Pushes the match to the matches array and updates the subject for subscribers to consume.
+  createExactMatch(exactMatch: ExactMatch) {
+    this.exactMatches.push(exactMatch);
+    this.exactMatchesUpdated.next([...this.exactMatches]);
+  }
+
   // Returns the option subject as an observable.
-  // Used to subscirbe to changes in options array.
+  // Used to subscribe to changes in options array.
   getOptionsListener() {
     return this.optionsUpdated.asObservable();
+  }
+
+  // Returns the exact match subject as observable.
+  // Used to subscribe to changes in exact matches array.
+  getMatchesListener() {
+    return this.exactMatchesUpdated.asObservable();
   }
 
   // Resets the options array for a new question.
@@ -55,6 +72,12 @@ export class QuestionService {
   // Used for attaching the options to a question before making POST request.
   getOptions() {
     return [...this.options];
+  }
+
+  // Gets copy of the matches.
+  // Used for attaching the matches to a question before making POST request.
+  getMatches() {
+    return [...this.exactMatches];
   }
 
   // Returns whether or not the question has options.
@@ -79,27 +102,27 @@ export class QuestionService {
   // Gets all questions from the database.
   getAllQuestions() {
     this.http
-    .get<{message: string, questions: Question[]}>(
-      'http://localhost:3000/api/questions'
-    )
-    .subscribe((questionData) => {
-      this.questions = questionData.questions;
-      // Subscribers get a copy of the questions array sorted by question type.
-      this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionType > b.questionType) ? 1 : -1)]);
-    });
+      .get<{ message: string, questions: Question[] }>(
+        'http://localhost:3000/api/questions'
+      )
+      .subscribe((questionData) => {
+        this.questions = questionData.questions;
+        // Subscribers get a copy of the questions array sorted by question type.
+        this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionType > b.questionType) ? 1 : -1)]);
+      });
   }
 
   // Gets all questions of a specific type
   getQuestionsByType(questionType: QuestionType) {
     this.http
-    .get<{message: string, questions: Question[]}>(
-      'http://localhost:3000/api/questions/' + questionType
-    )
-    .subscribe((questionData) => {
-      this.questions = questionData.questions;
-      // Subscribers get a copy of the questions array sorted by question text.
-      this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionText > b.questionText) ? 1 : -1)]);
-    });
+      .get<{ message: string, questions: Question[] }>(
+        'http://localhost:3000/api/questions/' + questionType
+      )
+      .subscribe((questionData) => {
+        this.questions = questionData.questions;
+        // Subscribers get a copy of the questions array sorted by question text.
+        this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionText > b.questionText) ? 1 : -1)]);
+      });
   }
 
   // Saves the question to the database
@@ -110,14 +133,14 @@ export class QuestionService {
       this.clearOptions();
       console.log(completeQuestion);
     }
-    this.http.post<{message: string, question: Question}>('http://localhost:3000/api/questions/save', question)
-    .subscribe(
-      responseData => {
-        this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog');
-        console.log(responseData.message);
-        console.log(responseData.question);
-      },
-      error => console.log(error.error.message));
+    this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/questions/save', question)
+      .subscribe(
+        responseData => {
+          this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog');
+          console.log(responseData.message);
+          console.log(responseData.question);
+        },
+        error => console.log(error.error.message));
   }
 
   // Returns the question type of a question

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateEssayComponent } from './create-essay.component';
+import { ViewExactMatchComponent } from './view-exact-match.component';
 
-describe('CreateEssayComponent', () => {
-  let component: CreateEssayComponent;
-  let fixture: ComponentFixture<CreateEssayComponent>;
+describe('ViewExactMatchComponent', () => {
+  let component: ViewExactMatchComponent;
+  let fixture: ComponentFixture<ViewExactMatchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateEssayComponent ]
+      declarations: [ ViewExactMatchComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateEssayComponent);
+    fixture = TestBed.createComponent(ViewExactMatchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
