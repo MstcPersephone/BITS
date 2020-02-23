@@ -7,6 +7,8 @@ import { QuestionType } from '../enums/questionType.enum';
 import { Checkbox } from '../models/question-types/checkbox.model';
 import { HelperService } from './helper.service';
 import { TrueFalse } from '../models/question-types/true-false.model';
+import { MultipleChoice } from '../models/question-types/multiple-choice.model';
+import { Upload } from '../models/question-types/upload.model';
 
 @Injectable({
   providedIn: 'root',
@@ -126,4 +128,6 @@ export class QuestionService {
   // Casting question to questionType for casting in html template.
   asCheckbox(val): Checkbox { return val; }
   asTrueFalse(val): TrueFalse { return val; }
+  asMultipleChoice(val): MultipleChoice { return val; }
+  asUpload(val): Upload { return val; }
 }
