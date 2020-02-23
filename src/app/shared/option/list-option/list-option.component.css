@@ -8,6 +8,22 @@ mat-list-item {
   padding-bottom: 20px !important;
 }
 
+.deleteIcon {
+  color: rgb(254, 0, 2);
+}
+
+.deleteIcon:hover {
+  color: rgba(254, 0, 2, .7);
+}
+
+.editIcon {
+  color: rgb(11, 87, 138);
+}
+
+.editIcon:hover {
+  color: rgba(11, 87, 138, .7)
+}
+
 .isAnswerIcon {
   color: #ffffff;
   background-color: #2cb01a;
@@ -24,4 +40,9 @@ mat-list-item {
 
 .optionListItem {
   margin: 10px;
+}
+
+/* This is to override the default Angular Material hover effect */
+.mat-standard-chip:hover::after, .mat-standard-chip:focus::after {
+  opacity: 0;
 }

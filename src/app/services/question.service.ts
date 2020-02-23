@@ -113,7 +113,7 @@ export class QuestionService {
     this.http.post<{message: string, question: Question}>('http://localhost:3000/api/questions/save', question)
     .subscribe(
       responseData => {
-        this.helperService.openSaveSnackBarQuestion(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog');
+        this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog');
         console.log(responseData.message);
         console.log(responseData.question);
       },
