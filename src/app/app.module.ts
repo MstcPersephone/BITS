@@ -29,10 +29,10 @@ import { EditCheckboxComponent } from './questions/questionTypes/check-box/edit-
 import { ListCheckboxComponent } from './questions/questionTypes/check-box/list-checkbox/list-checkbox.component';
 import { ViewCheckboxComponent } from './questions/questionTypes/check-box/view-checkbox/view-checkbox.component';
 
-import { CreateEssayComponent } from './questions/questionTypes/essay/create-essay/create-essay.component';
-import { EditEssayComponent } from './questions/questionTypes/essay/edit-essay/edit-essay.component';
-import { ListEssayComponent } from './questions/questionTypes/essay/list-essay/list-essay.component';
-import { ViewEssayComponent } from './questions/questionTypes/essay/view-essay/view-essay.component';
+import { CreateShortAnswerComponent } from './questions/questionTypes/shortAnswer/create-shortAnswer/create-shortAnswer.component';
+import { EditShortAnswerComponent } from './questions/questionTypes/shortAnswer/edit-shortAnswer/edit-shortAnswer.component';
+import { ListShortAnswerComponent } from './questions/questionTypes/shortAnswer/list-shortAnswer/list-shortAnswer.component';
+import { ViewShortAnswerComponent } from './questions/questionTypes/shortAnswer/view-shortAnswer/view-shortAnswer.component';
 
 // tslint:disable-next-line:max-line-length (The following line is 120+ characters and normally throws an error.)
 import { CreateMultipleChoiceComponent } from './questions/questionTypes/multiple-choice/create-multiple-choice/create-multiple-choice.component';
@@ -57,6 +57,11 @@ import { ViewOptionComponent } from './shared/option/view-option/view-option.com
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { CreateExactMatchComponent } from './exact-match/create-exact-match/create-exact-match.component';
+import { EditExactMatchComponent } from './exact-match/edit-exact-match/edit-exact-match.component';
+import { ListExactMatchComponent } from './exact-match/list-exact-match/list-exact-match.component';
+import { ViewExactMatchComponent } from './exact-match/view-exact-match/view-exact-match.component';
+
 import { CreateStudentComponent } from './student/create-student/create-student.component';
 import { EditStudentComponent } from './student/edit-student/edit-student.component';
 import { ListStudentComponent } from './student/list-student/list-student.component';
@@ -69,41 +74,44 @@ import { ViewStudentComponent } from './student/view-student/view-student.compon
     AssessmentListComponent,
     CreateAssessmentComponent,
     CreateCheckboxComponent,
-    CreateEssayComponent,
+    CreateExactMatchComponent,
     CreateMultipleChoiceComponent,
     CreateOptionComponent,
     CreateQuestionComponent,
+    CreateShortAnswerComponent,
     CreateStudentComponent,
     CreateTrueFalseComponent,
     CreateUploadComponent,
     EditAssessmentComponent,
     EditCheckboxComponent,
-    EditEssayComponent,
+    EditExactMatchComponent,
     EditMultipleChoiceComponent,
     EditOptionComponent,
     EditQuestionComponent,
+    EditShortAnswerComponent,
     EditStudentComponent,
     EditTrueFalseComponent,
     EditUploadComponent,
     HeaderComponent,
     ListCheckboxComponent,
-    ListEssayComponent,
+    ListExactMatchComponent,
     ListMultipleChoiceComponent,
     ListOptionComponent,
     ListQuestionsComponent,
+    ListShortAnswerComponent,
     ListStudentComponent,
     ListTrueFalseComponent,
     ListUploadComponent,
     ViewAssessmentComponent,
     ViewCheckboxComponent,
-    ViewEssayComponent,
+    ViewExactMatchComponent,
     ViewMultipleChoiceComponent,
     ViewOptionComponent,
     ViewQuestionComponent,
+    ViewShortAnswerComponent,
     ViewStudentComponent,
     ViewTrueFalseComponent,
     ViewUploadComponent
-
   ],
   imports: [
     BrowserModule,
