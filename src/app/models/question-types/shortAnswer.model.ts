@@ -4,11 +4,11 @@ import { Attachment } from '../shared/attachment.model';
 import { ExactMatch } from '../shared/exact-match.model';
 
 // Essay question that that accepts a text response.
-export class Essay implements Question {
+export class ShortAnswer implements Question {
   id: string;
   name: string;
   questionText: string;
-  questionType = QuestionType.Essay;
+  questionType = QuestionType.ShortAnswer;
   hasAttachments: boolean;
   attachments?: Attachment[];
   isAnswered: boolean;

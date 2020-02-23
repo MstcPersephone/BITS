@@ -2,7 +2,7 @@
 export enum QuestionType {
   MultipleChoice = 'Multiple Choice',
   TrueFalse = 'True/False',
-  Essay = 'Essay',
+  ShortAnswer = 'ShortAnswer',
   Upload = 'Upload',
   CheckBox = 'Checkbox'
 }

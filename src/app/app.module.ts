@@ -29,10 +29,10 @@ import { EditCheckboxComponent } from './questions/questionTypes/check-box/edit-
 import { ListCheckboxComponent } from './questions/questionTypes/check-box/list-checkbox/list-checkbox.component';
 import { ViewCheckboxComponent } from './questions/questionTypes/check-box/view-checkbox/view-checkbox.component';
 
-import { CreateEssayComponent } from './questions/questionTypes/essay/create-essay/create-essay.component';
-import { EditEssayComponent } from './questions/questionTypes/essay/edit-essay/edit-essay.component';
-import { ListEssayComponent } from './questions/questionTypes/essay/list-essay/list-essay.component';
-import { ViewEssayComponent } from './questions/questionTypes/essay/view-essay/view-essay.component';
+import { CreateShortAnswerComponent } from './questions/questionTypes/shortAnswer/create-shortAnswer/create-shortAnswer.component';
+import { EditShortAnswerComponent } from './questions/questionTypes/shortAnswer/edit-shortAnswer/edit-shortAnswer.component';
+import { ListShortAnswerComponent } from './questions/questionTypes/shortAnswer/list-shortAnswer/list-shortAnswer.component';
+import { ViewShortAnswerComponent } from './questions/questionTypes/shortAnswer/view-shortAnswer/view-shortAnswer.component';
 
 // tslint:disable-next-line:max-line-length (The following line is 120+ characters and normally throws an error.)
 import { CreateMultipleChoiceComponent } from './questions/questionTypes/multiple-choice/create-multiple-choice/create-multiple-choice.component';
@@ -75,10 +75,10 @@ import { ViewExactMatchComponent } from './exact-match/view-exact-match/view-exa
     EditCheckboxComponent,
     ListCheckboxComponent,
     ViewCheckboxComponent,
-    CreateEssayComponent,
-    EditEssayComponent,
-    ListEssayComponent,
-    ViewEssayComponent,
+    CreateShortAnswerComponent,
+    EditShortAnswerComponent,
+    ListShortAnswerComponent,
+    ViewShortAnswerComponent,
     CreateMultipleChoiceComponent,
     EditMultipleChoiceComponent,
     ListMultipleChoiceComponent,
