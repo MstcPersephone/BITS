@@ -12,7 +12,9 @@ import {
   MatListModule,
   MatRadioModule,
   MatSelectModule,
-  MatToolbarModule
+  MatSnackBarModule,
+  MatToolbarModule,
+  MatTreeModule
 } from '@angular/material';
 
 // Place Material Components that you want to use in here
@@ -30,8 +32,9 @@ const MaterialComponents = [
   MatListModule,
   MatRadioModule,
   MatSelectModule,
+  MatSnackBarModule,
   MatToolbarModule,
-  MatInputModule
+  MatTreeModule
 ];
 
 @NgModule({

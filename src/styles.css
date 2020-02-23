@@ -50,7 +50,7 @@ mat-card, mat-form-field, mat-checkbox, mat-radio-group, button, h3, .mat-radio-
 /* Styles applied to Forms */
 form{
   padding: 10px;
-  background-color: #e3e3e3;
+  background-color: rgba(0, 0, 0, .04);
   border-radius: 5px;
   overflow: hidden ; /* Prevents the Save button from falling out of the form due to it's float */
 }
@@ -90,4 +90,36 @@ input[type="reset"],
 input[type="submit"],
 .iconButton {
   cursor: pointer;
+}
+
+/* Used for SnackBar Material Item success messages */
+.success-dialog, .mat-simple-snackbar-action {
+  color: #fcb618 !important;
+}
+
+/* Icon Colors */
+.isAnswerIcon {
+  color: #ffffff;
+  background-color: #2cb01a;
+}
+
+.deleteIcon {
+  color: rgb(254, 0, 2);
+}
+
+.deleteIcon:hover {
+  color: rgba(254, 0, 2, .7);
+}
+
+.editIcon {
+  color: rgb(11, 87, 138);
+}
+
+.editIcon:hover {
+  color: rgba(11, 87, 138, .7)
+}
+
+/* This is to override the default Angular Material hover effect */
+.mat-standard-chip:hover::after, .mat-standard-chip:focus::after {
+  opacity: 0;
 }

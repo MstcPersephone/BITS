@@ -19,7 +19,7 @@ const app = express();
 mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
   console.log('Connected to the database successfully'),
   (error) => {
-    console.log(error.reason)
+    console.log(error.reason);
   }
 });
 
@@ -40,101 +40,39 @@ app.use((request, response, next) => {
   next();
 });
 
-// setup for question api
+// Get all questions
 app.get("/api/questions", (request, response, next) => {
-  const questions = [
-    {
-      id: "123",
-      questionText: "How are you?",
-      questionType: "ESSAY",
-      hasAttachments: false,
-      attachments: null,
-      isAnswered: false,
-      duration: 0,
-      answer: ""
-    },
-    {
-      id: "987",
-      questionText: "Choose one making you better feeling:",
-      options: [{
-        id: 6,
-        questionId: "987",
-        name: "Correct",
-        isAnswer: true,
-        isSelected: false
-      },
-      {
-        id: 7,
-        questionId: "987",
-        name: "Try again",
-        isAnswer: false,
-        isSelected: false
-      },
-      {
-        id: 8,
-        questionId: "987",
-        name: "Nope",
-        isAnswer: false,
-        isSelected: false
-      }],
-      hasAttachments: false,
-      attachments: null,
-      isAnswered: false,
-      duration: 0
-    },
-    {
-      id: "456",
-      questionText: "Select the primary colors:",
-      questionType: "CHECKBOX",
-      options: [{
-        id: 1,
-        questionId: "456",
-        name: "blue",
-        isAnswer: true,
-        isSelected: false
-      },
-      {
-        id: 2,
-        questionId: "456",
-        name: "red",
-        isAnswer: true,
-        isSelected: false
-      },
-      {
-        id: 3,
-        questionId: "456",
-        name: "black",
-        isAnswer: false,
-        isSelected: false
-      },
-      {
-        id: 4,
-        questionId: "456",
-        name: "purple",
-        isAnswer: false,
-        isSelected: false
-      }
-    ],
-      hasAttachments: false,
-      attachments: null,
-      isAnswered: false,
-      duration: 0
-    },
-    {
-      id: "789",
-      questionText: "Earth is bigger than the sun.",
-      questionType: "True_False",
-      hasAttachments: false,
-      attachments: null,
-      isAnswered: false,
-      duration: 0,
-      answer: false
-    }
-  ];
-  response.status(200).json({
-    message: 'Questions fetched successfully!',
-    questions: questions
+
+  find('questions', {questionType: {$exists: true}}, function (error, questions) {
+    response.status(200).json({
+      message: 'Question saved successfully!',
+      questions: questions
+      });
+    console.log(questions);
+  }, error => {
+    console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        questions: questions
+      })
   });
+});
+
+// Get only questions of a certain type
+app.get("/api/questions/:questionType", (request, response, next) => {
+  checkBoxModel.find({questionType: request.params.questionType}).then((questions, error) =>{
+    response.status(200).json({
+      message: request.params.questionType + ' Questions fetched successfully!',
+      questions: questions
+      });
+  },
+  error => {
+    console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        questions: null
+      })
+  })
 });
 
 app.post("/api/questions/save", (request, response, next) => {
@@ -172,7 +110,7 @@ app.post("/api/questions/save", (request, response, next) => {
       message: 'Question saved successfully!',
       question: question
       });
-    },
+  },
     error => {
       console.log(error.message);
       response.status(400).json({
@@ -225,6 +163,14 @@ function createTrueFalse(question, questionId) {
   });
 
   return questionModel;
+}
+
+// Finds documents in a given collection.
+// Used for when we can't target a specific model.
+function find (name, query, callBack) {
+  mongoose.connection.db.collection(name, function (err, collection) {
+     collection.find(query).toArray(callBack);
+ });
 }
 
 // Exports the contstants and all of the middlewares attached to it.
