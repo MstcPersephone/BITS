@@ -11,7 +11,7 @@ export class Essay implements Question {
   hasAttachments: boolean;
   attachments: Attachment[];
   isAnswered: boolean;
-  answer: string;
+  matches: string[];
   duration: number;
 
   constructor(data: any) {
@@ -22,7 +22,7 @@ export class Essay implements Question {
     this.hasAttachments = data.hasAttachments;
     this.attachments = data.attachments;
     this.isAnswered = data.isAnswered;
-    this.answer = data.answer;
+    this.matches = data.matches;
     this.duration = data.duration;
   }
 }
