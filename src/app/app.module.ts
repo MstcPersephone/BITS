@@ -49,11 +49,14 @@ import { CreateUploadComponent } from './questions/questionTypes/upload/create-u
 import { EditUploadComponent } from './questions/questionTypes/upload/edit-upload/edit-upload.component';
 import { ListUploadComponent } from './questions/questionTypes/upload/list-upload/list-upload.component';
 import { ViewUploadComponent } from './questions/questionTypes/upload/view-upload/view-upload.component';
+
 import { CreateOptionComponent } from './shared/option/create-option/create-option.component';
 import { EditOptionComponent } from './shared/option/edit-option/edit-option.component';
 import { ListOptionComponent } from './shared/option/list-option/list-option.component';
 import { ViewOptionComponent } from './shared/option/view-option/view-option.component';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { CreateStudentComponent } from './student/create-student/create-student.component';
 import { EditStudentComponent } from './student/edit-student/edit-student.component';
 import { ListStudentComponent } from './student/list-student/list-student.component';
@@ -65,41 +68,42 @@ import { ViewStudentComponent } from './student/view-student/view-student.compon
     AppComponent,
     AssessmentListComponent,
     CreateAssessmentComponent,
-    ViewAssessmentComponent,
-    EditAssessmentComponent,
-    HeaderComponent,
-    ListQuestionsComponent,
-    CreateQuestionComponent,
-    ViewQuestionComponent,
-    EditQuestionComponent,
     CreateCheckboxComponent,
-    EditCheckboxComponent,
-    ListCheckboxComponent,
-    ViewCheckboxComponent,
     CreateEssayComponent,
-    EditEssayComponent,
-    ListEssayComponent,
-    ViewEssayComponent,
     CreateMultipleChoiceComponent,
-    EditMultipleChoiceComponent,
-    ListMultipleChoiceComponent,
-    ViewMultipleChoiceComponent,
-    CreateTrueFalseComponent,
-    EditTrueFalseComponent,
-    ListTrueFalseComponent,
-    ViewTrueFalseComponent,
-    CreateUploadComponent,
-    EditUploadComponent,
-    ListUploadComponent,
-    ViewUploadComponent,
     CreateOptionComponent,
-    EditOptionComponent,
-    ListOptionComponent,
-    ViewOptionComponent,
+    CreateQuestionComponent,
     CreateStudentComponent,
+    CreateTrueFalseComponent,
+    CreateUploadComponent,
+    EditAssessmentComponent,
+    EditCheckboxComponent,
+    EditEssayComponent,
+    EditMultipleChoiceComponent,
+    EditOptionComponent,
+    EditQuestionComponent,
     EditStudentComponent,
+    EditTrueFalseComponent,
+    EditUploadComponent,
+    HeaderComponent,
+    ListCheckboxComponent,
+    ListEssayComponent,
+    ListMultipleChoiceComponent,
+    ListOptionComponent,
+    ListQuestionsComponent,
     ListStudentComponent,
-    ViewStudentComponent
+    ListTrueFalseComponent,
+    ListUploadComponent,
+    ViewAssessmentComponent,
+    ViewCheckboxComponent,
+    ViewEssayComponent,
+    ViewMultipleChoiceComponent,
+    ViewOptionComponent,
+    ViewQuestionComponent,
+    ViewStudentComponent,
+    ViewTrueFalseComponent,
+    ViewUploadComponent
+
   ],
   imports: [
     BrowserModule,
