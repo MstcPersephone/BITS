@@ -10,6 +10,7 @@ import { EditQuestionComponent } from './questions/question/edit-question/edit-q
 import { ListQuestionsComponent } from './questions/question/list-questions/list-questions.component';
 import { ViewQuestionComponent } from './questions/question/view-question/view-question.component';
 import { CreateOptionComponent } from './shared/option/create-option/create-option.component';
+import { ListCheckboxComponent } from './questions/questionTypes/check-box/list-checkbox/list-checkbox.component';
 
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'question/create', component: CreateQuestionComponent },
   { path: 'question/edit', component: EditQuestionComponent },
   { path: 'question/list', component: ListQuestionsComponent },
+  { path: 'question/checkbox/list', component: ListCheckboxComponent },
   { path: 'question/view', component: ViewQuestionComponent }
 ];
 

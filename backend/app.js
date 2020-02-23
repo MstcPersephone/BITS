@@ -58,6 +58,23 @@ app.get("/api/questions", (request, response, next) => {
   });
 });
 
+// Get only questions of a certain type
+app.get("/api/questions/:questionType", (request, response, next) => {
+  checkBoxModel.find({questionType: request.params.questionType}).then((questions, error) =>{
+    response.status(200).json({
+      message: request.params.questionType + ' Questions fetched successfully!',
+      questions: questions
+      });
+  },
+  error => {
+    console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        questions: null
+      })
+  })
+});
+
 app.post("/api/questions/save", (request, response, next) => {
   // Requestion.body is the question that is passed through.
   const question = request.body;

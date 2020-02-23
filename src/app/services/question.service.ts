@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { QuestionType } from '../enums/questionType.enum';
 import { Checkbox } from '../models/question-types/checkbox.model';
 import { HelperService } from './helper.service';
+import { TrueFalse } from '../models/question-types/true-false.model';
 
 @Injectable({
   providedIn: 'root',
@@ -81,7 +82,21 @@ export class QuestionService {
     )
     .subscribe((questionData) => {
       this.questions = questionData.questions;
-      this.questionsUpdated.next([...this.questions]);
+      // Subscribers get a copy of the questions array sorted by question type.
+      this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionType > b.questionType) ? 1 : -1)]);
+    });
+  }
+
+  // Gets all questions of a specific type
+  getQuestionsByType(questionType: QuestionType) {
+    this.http
+    .get<{message: string, questions: Question[]}>(
+      'http://localhost:3000/api/questions/' + questionType
+    )
+    .subscribe((questionData) => {
+      this.questions = questionData.questions;
+      // Subscribers get a copy of the questions array sorted by question text.
+      this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionText > b.questionText) ? 1 : -1)]);
     });
   }
 
@@ -96,7 +111,7 @@ export class QuestionService {
     this.http.post<{message: string, question: Question}>('http://localhost:3000/api/questions/save', question)
     .subscribe(
       responseData => {
-        this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close');
+        this.helperService.openSaveSnackBarQuestion(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog');
         console.log(responseData.message);
         console.log(responseData.question);
       },
@@ -107,4 +122,8 @@ export class QuestionService {
   getQuestionType(question: Question) {
     return question.questionType;
   }
+
+  // Casting question to questionType for casting in html template.
+  asCheckbox(val): Checkbox { return val; }
+  asTrueFalse(val): TrueFalse { return val; }
 }

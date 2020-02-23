@@ -28,10 +28,11 @@ export class HelperService {
     return booleanValue.toLowerCase() === 'true' ? true : false;
   }
 
-  openSnackBar(message: string, action: string) {
+  // Opens a snack bar for successfully saving a question.
+  openSaveSnackBarQuestion(message: string, action: string, classString: string) {
     this.snackBar.open(message, action, {
       duration: 3000,
-      panelClass: 'success-dialog'
+      panelClass: classString
     });
   }
 }

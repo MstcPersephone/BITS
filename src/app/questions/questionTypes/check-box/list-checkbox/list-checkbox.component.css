@@ -1,0 +1,17 @@
+.optionListItem {
+  margin: 10px;
+}
+
+.isAnswerIcon {
+  color: #ffffff;
+  background-color: #2cb01a;
+}
+
+mat-card {
+  margin-top: 55px;
+}
+
+.iconButton {
+  margin-top: 25px;
+  float: right;
+}
