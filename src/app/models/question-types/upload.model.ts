@@ -13,17 +13,4 @@ export class Upload implements Question {
   duration: number;
   correctAnswer: Attachment;
   submittedAnswer: Attachment;
-
-  constructor(data: any) {
-    data = data || {};
-    this.id = data.id;
-    this.questionText = data.questionText;
-    this.questionType = data.questionType;
-    this.hasAttachments = data.hasAttachments;
-    this.attachments = data.attachments;
-    this.isAnswered = data.isAnswered;
-    this.duration = data.duration;
-    this.correctAnswer = data.correctAnswer;
-    this.submittedAnswer = data.submittedAnswer;
-  }
 }
