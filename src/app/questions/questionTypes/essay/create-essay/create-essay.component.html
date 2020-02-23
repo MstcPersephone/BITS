@@ -11,7 +11,7 @@
       <input matInput id="questionAnswer" type="text" formControlName="questionAnswer" matTooltip="Info about the action">
     </mat-form-field>
 <!--Has attachment checkbox-->
-    <mat-checkbox class="mt-20" formControlName="hasAttachments" (change)="hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
+    <mat-checkbox class="mt-20" formControlName="hasAttachments" (change)="this.attachmentService.hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
 
     <button *ngIf="hasAttachments" mat-raised-button color="accent" class="uploadButton">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
 

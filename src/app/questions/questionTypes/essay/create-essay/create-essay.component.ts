@@ -12,12 +12,11 @@ import { AttachmentService } from 'src/app/services/attachment.service';
 export class CreateEssayComponent implements OnInit {
 // The form object
   createEssayForm;
-  hasAttachments = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private questionService: QuestionService,
-    private attachmentSerivce: AttachmentService
+    private attachmentService: AttachmentService
               ) {
     this.createEssayForm = this.formBuilder.group({
       questionText: '',
@@ -34,8 +33,8 @@ export class CreateEssayComponent implements OnInit {
       const essayQuestion: Essay =  new Essay({
         id: null,
         questionText: questionData.questionText,
-        hasAttachments: this.hasAttachments,
-        attachments: this.hasAttachments ? this.attachmentSerivce.getAttachments() : null,
+        hasAttachments: this.attachmentService.hasAttachments,
+        attachments: this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null,
         isAnswered: false,
         answer: questionData.questionAnswer,
         duration: 0
@@ -49,9 +48,5 @@ export class CreateEssayComponent implements OnInit {
 
       // For testing, we can remove later.
       console.log(essayQuestion);
-    }
-
-    hasAttachmentsChanged() {
-      this.hasAttachments = !this.hasAttachments;
     }
 }
