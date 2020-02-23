@@ -5,10 +5,12 @@ mat-card {
 }
 
 form {
-  padding: 25px;
+  margin: 25px;
+  background-color: #fff;
+  overflow: hidden;
 }
 
-mat-card, mat-form-field, mat-checkbox, button {
+mat-card, mat-form-field, mat-checkbox, button, app-list-option {
   display: block;
 }
 
