@@ -35,7 +35,7 @@ export class CreateEssayComponent implements OnInit {
       essayQuestion.id = null;
       essayQuestion.questionText = questionData.questionText;
       essayQuestion.hasAttachments = this.hasAttachments;
-     // essayQuestion.attachments = this.hasAttachments ? this.attachmentSerivce.getAttachments() : null;
+      essayQuestion.attachments = this.hasAttachments ? this.attachmentSerivce.getAttachments() : null;
       essayQuestion.isAnswered = false;
       essayQuestion.matches = this.questionService.getMatches();
       essayQuestion.duration = 0;

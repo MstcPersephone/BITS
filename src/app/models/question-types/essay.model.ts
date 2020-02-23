@@ -10,7 +10,7 @@ export class Essay implements Question {
   questionText: string;
   questionType = QuestionType.Essay;
   hasAttachments: boolean;
-  attachments: Attachment[];
+  attachments?: Attachment[];
   isAnswered: boolean;
   matches: ExactMatch[];
   duration: number;
