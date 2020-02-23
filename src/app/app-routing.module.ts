@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'option/create', component: CreateOptionComponent },
   { path: 'question/create', component: CreateQuestionComponent },
   { path: 'question/edit', component: EditQuestionComponent },
-  { path: 'questions/list', component: ListQuestionsComponent },
+  { path: 'question/list', component: ListQuestionsComponent },
   { path: 'question/view', component: ViewQuestionComponent }
 ];
 

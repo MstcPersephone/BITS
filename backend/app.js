@@ -19,13 +19,9 @@ const app = express();
 mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
   console.log('Connected to the database successfully'),
   (error) => {
-    console.log(error.reason)
+    console.log(error.reason);
   }
 });
-
-// This allows us to use MongoDb functions instead of mongoose ones
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
 
 // middleware for parsing json data on requests
 app.use(bodyParser.json());
@@ -46,13 +42,20 @@ app.use((request, response, next) => {
 
 // Get all questions
 app.get("/api/questions", (request, response, next) => {
-  checkBoxModel.find().then(documents => {
+
+  find('questions', {questionType: {$exists: true}}, function (error, questions) {
     response.status(200).json({
-      message: "Questions fetched successfully!",
-      questions: documents
-    });
+      message: 'Question saved successfully!',
+      questions: questions
+      });
+    console.log(questions);
+  }, error => {
+    console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        questions: questions
+      })
   });
-  // console.log(mongoose.connection.test.questions  );
 });
 
 app.post("/api/questions/save", (request, response, next) => {
@@ -90,7 +93,7 @@ app.post("/api/questions/save", (request, response, next) => {
       message: 'Question saved successfully!',
       question: question
       });
-    },
+  },
     error => {
       console.log(error.message);
       response.status(400).json({
@@ -143,6 +146,14 @@ function createTrueFalse(question, questionId) {
   });
 
   return questionModel;
+}
+
+// Finds documents in a given collection.
+// Used for when we can't target a specific model.
+function find (name, query, callBack) {
+  mongoose.connection.db.collection(name, function (err, collection) {
+     collection.find(query).toArray(callBack);
+ });
 }
 
 // Exports the contstants and all of the middlewares attached to it.

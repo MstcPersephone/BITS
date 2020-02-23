@@ -13,7 +13,8 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatSnackBarModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatTreeModule
 } from '@angular/material';
 
 // Place Material Components that you want to use in here
@@ -33,7 +34,7 @@ const MaterialComponents = [
   MatSelectModule,
   MatSnackBarModule,
   MatToolbarModule,
-  MatInputModule
+  MatTreeModule
 ];
 
 @NgModule({
