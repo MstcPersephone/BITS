@@ -31,15 +31,9 @@ export class CreateEssayComponent implements OnInit {
 
     // Id is null at this point because it is generated on the backend.
     onSubmit(questionData) {
-      const essayQuestion: Essay =  new Essay({
-        id: null,
-        questionText: questionData.questionText,
-        hasAttachments: this.hasAttachments,
-        attachments: this.hasAttachments ? this.attachmentSerivce.getAttachments() : null,
-        isAnswered: false,
-        answer: questionData.questionAnswer,
-        duration: 0
-      });
+      const essayQuestion: Essay =  new Essay();
+      essayQuestion.id = null;
+
 
       // Resets the form values.
       this.createEssayForm.reset();
