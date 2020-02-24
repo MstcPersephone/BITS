@@ -10,7 +10,7 @@
 
           <!-- This will be come the link to EditOption component -->
           <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
-          <mat-icon class="deleteIcon iconButton" matListIcon>delete</mat-icon>
+          <mat-icon class="deleteIcon iconButton" (click)="this.questionService.deleteMatch(i)" matListIcon>delete</mat-icon>
           <span class="matchListItem">{{exactMatch.matchText}}</span>
 
         <!-- Bottom divider of list item does not show for the last list item -->
