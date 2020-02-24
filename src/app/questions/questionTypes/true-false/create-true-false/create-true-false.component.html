@@ -12,7 +12,7 @@
   <button *ngIf="this.attachmentService.hasAttachments" mat-raised-button color="accent" class="uploadButton">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
 
   <!-- Question Name Text Input -->
-    <mat-label>Select correct answer:  </mat-label>
+    <h3>Select correct answer:  </h3>
     <mat-radio-group aria-label="Select correct answer" formControlName="answer">
       <mat-radio-button
       *ngFor="let answer of answers; let i = index"
