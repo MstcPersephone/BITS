@@ -63,6 +63,11 @@ export class QuestionService {
     this.options = [];
   }
 
+  // Resets the options array for a new question.
+  clearMatches() {
+    this.exactMatches = [];
+  }
+
   // Removes an option from the list based on its index
   deleteOption(i) {
     this.options.splice(i);
