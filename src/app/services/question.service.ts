@@ -133,7 +133,7 @@ export class QuestionService {
   // Saves the question to the database
   saveQuestion(question: Question) {
     if (question.questionType === QuestionType.CheckBox || question.questionType === QuestionType.MultipleChoice) {
-      const completeQuestion = question as Checkbox;
+      const completeQuestion = question.questionType === QuestionType.CheckBox ? question as Checkbox : question as MultipleChoice;
       completeQuestion.options = this.getOptions();
       this.clearOptions();
       console.log(completeQuestion);

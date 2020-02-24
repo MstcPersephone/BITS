@@ -24,11 +24,10 @@ export class CreateExactMatchComponent implements OnInit {
   }
 
   onSubmit(exactMatchData) {
-    const exactMatch: ExactMatch = new ExactMatch({
-      id: null,
-      questionId: null,
-      matchText: exactMatchData.matchText,
-    });
+    const exactMatch: ExactMatch = new ExactMatch();
+    exactMatch.id = null;
+    exactMatch.questionId = null;
+    exactMatch.matchText = exactMatchData.matchText;
 
     // Resets the form values.
     this.createExactMatchForm.reset();

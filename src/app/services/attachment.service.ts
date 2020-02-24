@@ -5,7 +5,7 @@ import { Attachment } from '../models/shared/attachment.model';
   providedIn: 'root',
 })
 export class AttachmentService {
-
+  hasAttachments = false;
   constructor() { }
 
   // Gets attachments array
@@ -21,5 +21,9 @@ export class AttachmentService {
   // Remove attachment from question
   removeAttachment(attachmentId: number) {
 
+  }
+
+  hasAttachmentsChanged() {
+    this.hasAttachments = !this.hasAttachments;
   }
 }

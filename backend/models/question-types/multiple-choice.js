@@ -11,12 +11,12 @@ const multipleChoiceSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  questionType = {
+  questionType: {
     type: String,
     required: true
   },
   options: {
-    type: [optionSchema],
+    type: [optionSchema.schema],
     required: true
   },
   hasAttachments: {
@@ -24,14 +24,14 @@ const multipleChoiceSchema = mongoose.Schema({
     required: true
   },
   attachments: {
-    type: [attachmentSchema]
+    type: [attachmentSchema.schema]
   },
   isAnswered: {
     type: Boolean,
     required: true
   },
   duration: {
-    type: number,
+    type: Number,
     default: 0
   },
   createdOn: {
