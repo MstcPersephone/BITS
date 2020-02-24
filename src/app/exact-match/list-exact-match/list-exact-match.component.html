@@ -1,5 +1,5 @@
 <!-- List of created options for question -->
-<div class="matchList" *ngIf="exactMatches.length > 0">
+<div class="matchList" *ngIf="this.questionService.hasMatches()">
   <mat-card class="matchListContainer">
     <mat-list>
       <div *ngFor="let exactMatch of exactMatches; let i = index">
