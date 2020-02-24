@@ -16,7 +16,7 @@
     <!-- Displays a question type component based on user selection from dropdown -->
     <div [ngSwitch]="questionTypeSelected" class="questionTypeContainer">
       <app-create-checkbox *ngSwitchCase="'Checkbox'"></app-create-checkbox>
-      <app-create-short-answer *ngSwitchCase="'short-answer'"></app-create-short-answer>
+      <app-create-short-answer *ngSwitchCase="'Short Answer'"></app-create-short-answer>
       <app-create-multiple-choice *ngSwitchCase="'Multiple Choice'"></app-create-multiple-choice>
       <app-create-true-false *ngSwitchCase="'True/False'"></app-create-true-false>
       <app-create-upload *ngSwitchCase="'Upload'"></app-create-upload>
