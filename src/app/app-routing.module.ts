@@ -15,6 +15,7 @@ import { CreateOptionComponent } from './shared/option/create-option/create-opti
 import { CreateExactMatchComponent } from './exact-match/create-exact-match/create-exact-match.component';
 
 import { ListCheckboxComponent } from './questions/questionTypes/check-box/list-checkbox/list-checkbox.component';
+import { ListTrueFalseComponent } from './questions/questionTypes/true-false/list-true-false/list-true-false.component';
 import { ListMultipleChoiceComponent } from './questions/questionTypes/multiple-choice/list-multiple-choice/list-multiple-choice.component';
 import { ListShortAnswerComponent } from './questions/questionTypes/short-answer/list-short-answer/list-short-answer.component';
 
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'question/edit', component: EditQuestionComponent },
   { path: 'question/list', component: ListQuestionsComponent },
   { path: 'question/checkbox/list', component: ListCheckboxComponent },
+  { path: 'question/true-false/list', component: ListTrueFalseComponent },
   { path: 'question/multiple-choice/list', component: ListMultipleChoiceComponent },
   { path: 'question/short-answer/list', component: ListShortAnswerComponent },
   { path: 'question/view', component: ViewQuestionComponent }
