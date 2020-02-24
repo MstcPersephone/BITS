@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-view-short-answer',
-  templateUrl: './view-shortAnswer.component.html',
-  styleUrls: ['./view-shortAnswer.component.css']
+  templateUrl: './view-short-answer.component.html',
+  styleUrls: ['./view-short-answer.component.css']
 })
 export class ViewShortAnswerComponent implements OnInit {
 

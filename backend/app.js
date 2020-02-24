@@ -1,5 +1,7 @@
 const checkBoxModel = require("./models/question-types/checkbox");
+const multipleChoiceModel = require("./models/question-types/multiple-choice");
 const trueFalseModel = require("./models/question-types/true-false");
+const shortAnswerModel = require("./models/question-types/short-answer");
 
 // express.js package
 const express = require("express");
@@ -84,11 +86,18 @@ app.post("/api/questions/save", (request, response, next) => {
   const questionId = mongoose.Types.ObjectId();
 
   // Swtich to internal function that creates object to save.
-  // TODO: Refactor these internal functions to their own file.
+  // TODO: [PER-59] Refactor these internal functions to their own file.
   switch (question.questionType) {
     case "Checkbox":
-    case "MultipleChoice":
+      questionObjectToSave = createMultipleChoice(question, questionId);
+      break;
+
+    case "Multiple Choice":
       questionObjectToSave = createCheckbox(question, questionId);
+      break;
+
+    case "Short Answer":
+      questionObjectToSave = createShortAnswer(question, questionId);
       break;
 
     case "True/False":
@@ -139,6 +148,57 @@ function createCheckbox(question, questionId) {
     hasAttachments: question.hasAttachments,
     attachments: question.attachments,
     isAnswered: question.isAnswered,
+    duration: question.duration,
+    createdOn: Date.now()
+  });
+
+  return questionModel;
+}
+
+// Creates a Multiple Choice question object for saving to the database.
+function createMultipleChoice(question, questionId) {
+
+  // Generates an id for each option
+  // Assigns question id to each option
+  question.options.forEach((x) => {
+    x.id = mongoose.Types.ObjectId(),
+    x.questionId = questionId
+  });
+
+  // Create Multiple Choice Model.
+  const questionModel = new multipleChoiceModel({
+    id: questionId,
+    questionText: question.questionText,
+    questionType: question.questionType,
+    options: question.options,
+    hasAttachments: question.hasAttachments,
+    attachments: question.attachments,
+    isAnswered: question.isAnswered,
+    duration: question.duration,
+    createdOn: Date.now()
+  });
+
+  return questionModel;
+}
+
+function createShortAnswer(question, questionId) {
+
+  // Generates an id for each match option
+  // Assigns question id to each match option
+  question.matches.forEach((x) => {
+    x.id = mongoose.Types.ObjectId(),
+    x.questionId = questionId
+  });
+  // Create Short Answer Model
+  const questionModel = new shortAnswerModel({
+    id: questionId,
+    questionText: question.questionText,
+    questionType: question.questionType,
+    hasAttachments: question.hasAttachments,
+    attachments: question.attachments,
+    isAnswered: question.isAnswered,
+    answer: question.answer,
+    matches: question.matches,
     duration: question.duration,
     createdOn: Date.now()
   });

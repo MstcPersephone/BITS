@@ -10,6 +10,7 @@ import { HelperService } from './helper.service';
 import { TrueFalse } from '../models/question-types/true-false.model';
 import { MultipleChoice } from '../models/question-types/multiple-choice.model';
 import { Upload } from '../models/question-types/upload.model';
+import { ShortAnswer } from '../models/question-types/short-answer.model';
 
 @Injectable({
   providedIn: 'root',
@@ -137,7 +138,7 @@ export class QuestionService {
   // Saves the question to the database
   saveQuestion(question: Question) {
     if (question.questionType === QuestionType.CheckBox || question.questionType === QuestionType.MultipleChoice) {
-      const completeQuestion = question as Checkbox;
+      const completeQuestion = question.questionType === QuestionType.CheckBox ? question as Checkbox : question as MultipleChoice;
       completeQuestion.options = this.getOptions();
       this.clearOptions();
       console.log(completeQuestion);
@@ -161,5 +162,6 @@ export class QuestionService {
   asCheckbox(val): Checkbox { return val; }
   asTrueFalse(val): TrueFalse { return val; }
   asMultipleChoice(val): MultipleChoice { return val; }
+  asShortAnswer(val): ShortAnswer { return val; }
   asUpload(val): Upload { return val; }
 }
