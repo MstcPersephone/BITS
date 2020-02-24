@@ -46,6 +46,8 @@ export class CreateShortAnswerComponent implements OnInit {
       // Adds option to the options array in the service.
       this.questionService.saveQuestion(shortAnswerQuestion);
 
+      this.questionService.clearMatches();
+
       // For testing, we can remove later.
       console.log(shortAnswerQuestion);
     }
