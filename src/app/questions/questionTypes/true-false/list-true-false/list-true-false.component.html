@@ -1,1 +1,26 @@
-<p>list-true-false works!</p>
+<mat-card>
+  <mat-list role="list">
+    <div *ngFor="let question of questions; let i = index">
+      <mat-divider *ngIf="i != 0"></mat-divider>
+
+      <mat-icon matListIcon>delete</mat-icon>
+      <mat-icon matListIcon>edit</mat-icon>
+      <mat-list-item role="listitem">
+        <!-- Question Text -->
+        <h3 matLine>{{ question.questionText }}</h3>
+
+        <!-- Question Type -->
+        <p matLine>{{ question.questionType }} Question</p>
+      </mat-list-item>
+        <mat-chip-list *ngIf="question.questionType === 'True False'">
+          <mat-chip *ngIf="this.questionService.asTrueFalse(question).answer" [selectable]="false" [selected]="false">
+            true
+          </mat-chip>
+          <mat-chip *ngIf="!this.questionService.asTrueFalse(question).answer" [selectable]="false" [selected]="false">
+            false
+          </mat-chip>
+        </mat-chip-list>
+      <mat-divider *ngIf="i != questions.length - 1"></mat-divider>
+    </div>
+  </mat-list>
+</mat-card>

@@ -100,7 +100,7 @@ app.post("/api/questions/save", (request, response, next) => {
       questionObjectToSave = createShortAnswer(question, questionId);
       break;
 
-    case "True/False":
+    case "True False":
       questionObjectToSave = createTrueFalse(question, questionId);
       break;
   }
