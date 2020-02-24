@@ -71,7 +71,13 @@ export class QuestionService {
 
   // Removes an option from the list based on its index
   deleteOption(i) {
-    this.options.splice(i);
+    this.options.splice(i, 1);
+    this.optionsUpdated.next([...this.options]);
+  }
+
+  deleteMatch(i) {
+    this.exactMatches.splice(i, 1);
+    this.exactMatchesUpdated.next([...this.exactMatches]);
   }
 
   // Gets a copy of the options.
@@ -89,6 +95,10 @@ export class QuestionService {
   // Returns whether or not the question has options.
   hasOptions() {
     return this.options.length > 0;
+  }
+
+  hasMatches() {
+    return this.exactMatches.length > 0;
   }
   // Starts the edit option wizard
   editOption(option: Option) {

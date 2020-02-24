@@ -8,7 +8,7 @@
         <!-- Question Text -->
         <h3 matLine>{{ question.questionText }}</h3>
         <!-- If True/False, show answer -->
-        <mat-chip-list *ngIf="question.questionType === 'True/False'">
+        <mat-chip-list *ngIf="question.questionType === 'True False'">
           <mat-chip *ngIf="this.questionService.asTrueFalse(question).answer" [selectable]="false" [selected]="false">
             true
           </mat-chip>
