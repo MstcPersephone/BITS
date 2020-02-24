@@ -73,6 +73,10 @@ export class QuestionService {
     this.options.splice(i);
   }
 
+  deleteMatch(i) {
+    this.exactMatches.splice(i);
+  }
+
   // Gets a copy of the options.
   // Used for attaching the options to a question before making POST request.
   getOptions() {
