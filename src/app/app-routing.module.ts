@@ -13,6 +13,7 @@ import { CreateOptionComponent } from './shared/option/create-option/create-opti
 import { CreateExactMatchComponent } from './exact-match/create-exact-match/create-exact-match.component';
 
 import { ListCheckboxComponent } from './questions/questionTypes/check-box/list-checkbox/list-checkbox.component';
+import { ListShortAnswerComponent } from './questions/questionTypes/short-answer/list-short-answer/list-short-answer.component';
 
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'match/create', component: CreateExactMatchComponent },
   { path: 'question/list', component: ListQuestionsComponent },
   { path: 'question/checkbox/list', component: ListCheckboxComponent },
+  { path: 'question/short-answer/list', component: ListShortAnswerComponent },
   { path: 'question/view', component: ViewQuestionComponent }
 ];
 
