@@ -9,24 +9,3 @@ form {
 mat-form-field{
   display: block;
 }
-
-h3{
-  padding-top: 20px;
-  margin-bottom: 10px;
-  font-weight: normal;
-}
-
-.mt-30 {
-  margin-top: 30px;
-}
-
-.saveButton {
-  background-color: rgb(11, 87, 138);
-  color: #ffffff;
-  display: block;
-  margin-top: 40px;
-}
-
-.mat-display-4 {
-  margin-bottom: 0px;
-}
