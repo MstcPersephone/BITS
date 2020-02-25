@@ -20,13 +20,26 @@
         <!-- Question Type -->
         <p matLine>{{ question.questionType }} Question</p>
       </mat-list-item>
-      <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'MultipleChoice'">
+      <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'">
         <mat-list-item *ngFor="let option of this.questionService.asCheckbox(question).options">
             <span>{{option.optionText}}</span>
 
             <!-- This is the "is answer" chip. Appears if the option is an answer -->
             <mat-chip-list>
               <mat-chip *ngIf="option.isAnswer" [selectable]="false" [selected]="false">
+                Answer&nbsp;
+                <mat-icon>check_circle</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+        </mat-list-item>
+      </div>
+      <div *ngIf="question.questionType == 'Short Answer'">
+        <mat-list-item *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches">
+            <span>{{exactMatch.matchText}}</span>
+
+            <!-- This is the "is answer" chip. Appears if the option is an answer -->
+            <mat-chip-list>
+              <mat-chip *ngIf="exactMatch.matchText" [selectable]="false" [selected]="false">
                 Answer&nbsp;
                 <mat-icon>check_circle</mat-icon>
               </mat-chip>
