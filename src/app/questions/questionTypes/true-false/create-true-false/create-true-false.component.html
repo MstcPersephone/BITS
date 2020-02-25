@@ -6,10 +6,8 @@
     <input matInput id="questionText" type="text" formControlName="questionText" matTooltip="Info about the action">
   </mat-form-field>
 
-  <!-- Question attachment checkbox -->
-  <mat-checkbox class="mt-20" formControlName="hasAttachments" (change)="hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
-
-  <button *ngIf="hasAttachments" mat-raised-button color="accent" class="uploadButton">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
+  <!-- Attachment Component for uploading files -->
+  <app-attachment-component></app-attachment-component>
 
   <!-- Question Name Text Input -->
     <mat-label>Select correct answer:  </mat-label>

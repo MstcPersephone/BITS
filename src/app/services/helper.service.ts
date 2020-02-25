@@ -23,9 +23,9 @@ export class HelperService {
     return questionTypeArray;
   }
 
-  // Converts a string to a boolean
+  // Converts string to a boolean
   convertToTrueFalse(booleanValue: string) {
-    return booleanValue.toLowerCase() === 'true' ? true : false;
+    return booleanValue.toString().toLowerCase() === 'true' ? true : false;
   }
 
   // Opens a snack bar for successfully saving a question.

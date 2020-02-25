@@ -80,6 +80,13 @@ app.post("/api/questions/save", (request, response, next) => {
   const question = request.body;
   let questionObjectToSave;
 
+  // Generate Ids for attachments
+  if (question.hasAttachments) {
+    question.attachments.forEach((a) => {
+      a.id = mongoose.Types.ObjectId();
+    });
+  }
+
   // Generate unique id for question.
   const questionId = mongoose.Types.ObjectId();
 
