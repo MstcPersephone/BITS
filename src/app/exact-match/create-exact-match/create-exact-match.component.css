@@ -1,0 +1,24 @@
+mat-card {
+  width: 95%;
+  margin: 0px auto;
+  padding: 15px;
+}
+
+form {
+  margin: 25px;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+mat-card, mat-form-field, mat-checkbox, button, app-list-option {
+  display: block;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.addIcon {
+  color: #ffffff;
+  background-color: #2cb01a;
+}

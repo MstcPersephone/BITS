@@ -5,11 +5,11 @@ import { QuestionService } from 'src/app/services/question.service';
 import { QuestionType } from 'src/app/enums/questionType.enum';
 
 @Component({
-  selector: 'app-list-true-false',
-  templateUrl: './list-true-false.component.html',
-  styleUrls: ['./list-true-false.component.css']
+  selector: 'app-list-short-answer',
+  templateUrl: './list-short-answer.component.html',
+  styleUrls: ['./list-short-answer.component.css']
 })
-export class ListTrueFalseComponent implements OnInit {
+export class ListShortAnswerComponent implements OnInit {
   public questions: Question[] = [];
   private questionSubscription: Subscription;
 
@@ -18,7 +18,7 @@ export class ListTrueFalseComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.questionService.getQuestionsByType(QuestionType.TrueFalse);
+    this.questionService.getQuestionsByType(QuestionType.ShortAnswer);
     this.questionSubscription = this.questionService.getQuestionsUpdatedListener()
     .subscribe((questionsArray: Question[]) => {
       this.questions = questionsArray;

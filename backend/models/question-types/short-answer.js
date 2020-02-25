@@ -3,14 +3,15 @@ const mongoose = require('mongoose');
 
 // Import subdocument schemas
 const attachmentSchema = require('../shared/attachment');
+const exactMatchSchema = require('../shared/exact-match');
 
 // Create Essay Schema (blueprint)
-const essaySchema = mongoose.Schema({
+const shortAnswerSchema = mongoose.Schema({
   questionText: {
     type: String,
     required: true
   },
-  questionType = {
+  questionType: {
     type: String,
     required: true
   },
@@ -19,7 +20,7 @@ const essaySchema = mongoose.Schema({
     required: true
   },
   attachments: {
-    type: [attachmentSchema]
+    type: [attachmentSchema.schema]
   },
   isAnswered: {
     type: Boolean,
@@ -29,8 +30,11 @@ const essaySchema = mongoose.Schema({
     type: String,
     default: 'Not answered'
   },
+  matches: {
+    type: [exactMatchSchema.schema]
+  },
   duration: {
-    type: number,
+    type: Number,
     default: 0
   },
   createdOn: {
@@ -40,4 +44,4 @@ const essaySchema = mongoose.Schema({
 });
 
 // Create and export Essay Model
-module.exports = mongoose.model('Essay', essaySchema, 'questions');
+module.exports = mongoose.model('ShortAnswer', shortAnswerSchema, 'questions');

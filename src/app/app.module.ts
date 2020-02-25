@@ -29,10 +29,10 @@ import { EditCheckboxComponent } from './questions/questionTypes/check-box/edit-
 import { ListCheckboxComponent } from './questions/questionTypes/check-box/list-checkbox/list-checkbox.component';
 import { ViewCheckboxComponent } from './questions/questionTypes/check-box/view-checkbox/view-checkbox.component';
 
-import { CreateShortAnswerComponent } from './questions/questionTypes/shortAnswer/create-shortAnswer/create-shortAnswer.component';
-import { EditShortAnswerComponent } from './questions/questionTypes/shortAnswer/edit-shortAnswer/edit-shortAnswer.component';
-import { ListShortAnswerComponent } from './questions/questionTypes/shortAnswer/list-shortAnswer/list-shortAnswer.component';
-import { ViewShortAnswerComponent } from './questions/questionTypes/shortAnswer/view-shortAnswer/view-shortAnswer.component';
+import { CreateShortAnswerComponent } from './questions/questionTypes/short-answer/create-short-answer/create-short-answer.component';
+import { EditShortAnswerComponent } from './questions/questionTypes/short-answer/edit-short-answer/edit-short-answer.component';
+import { ListShortAnswerComponent } from './questions/questionTypes/short-answer/list-short-answer/list-short-answer.component';
+import { ViewShortAnswerComponent } from './questions/questionTypes/short-answer/view-short-answer/view-short-answer.component';
 
 // tslint:disable-next-line:max-line-length (The following line is 120+ characters and normally throws an error.)
 import { CreateMultipleChoiceComponent } from './questions/questionTypes/multiple-choice/create-multiple-choice/create-multiple-choice.component';

@@ -12,18 +12,18 @@
         <!-- Question Type -->
         <p matLine>{{ question.questionType }} Question</p>
       </mat-list-item>
-        <mat-list-item
-          *ngFor="let option of this.questionService.asMultipleChoice(question).options">
-            <span>{{option.optionText}}</span>
+      <mat-list-item
+      *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches">
+        <span>{{exactMatch.matchText}}</span>
 
-            <!-- This is the "is answer" chip. Appears if the option is an answer -->
-            <mat-chip-list>
-              <mat-chip *ngIf="option.isAnswer" [selectable]="false" [selected]="false">
-                Answer&nbsp;
-                <mat-icon>check_circle</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
-        </mat-list-item>
+        <!-- This is the "is answer" chip. Appears if the option is an answer -->
+        <mat-chip-list>
+          <mat-chip *ngIf="exactMatch.matchText" [selectable]="false" [selected]="false">
+            Answer&nbsp;
+            <mat-icon>check_circle</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+    </mat-list-item>
       <mat-divider *ngIf="i != questions.length - 1"></mat-divider>
     </div>
   </mat-list>

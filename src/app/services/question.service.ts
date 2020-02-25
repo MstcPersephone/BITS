@@ -10,6 +10,7 @@ import { HelperService } from './helper.service';
 import { TrueFalse } from '../models/question-types/true-false.model';
 import { MultipleChoice } from '../models/question-types/multiple-choice.model';
 import { Upload } from '../models/question-types/upload.model';
+import { ShortAnswer } from '../models/question-types/short-answer.model';
 
 @Injectable({
   providedIn: 'root',
@@ -70,7 +71,13 @@ export class QuestionService {
 
   // Removes an option from the list based on its index
   deleteOption(i) {
-    this.options.splice(i);
+    this.options.splice(i, 1);
+    this.optionsUpdated.next([...this.options]);
+  }
+
+  deleteMatch(i) {
+    this.exactMatches.splice(i, 1);
+    this.exactMatchesUpdated.next([...this.exactMatches]);
   }
 
   // Gets a copy of the options.
@@ -88,6 +95,10 @@ export class QuestionService {
   // Returns whether or not the question has options.
   hasOptions() {
     return this.options.length > 0;
+  }
+
+  hasMatches() {
+    return this.exactMatches.length > 0;
   }
   // Starts the edit option wizard
   editOption(option: Option) {
@@ -133,7 +144,7 @@ export class QuestionService {
   // Saves the question to the database
   saveQuestion(question: Question) {
     if (question.questionType === QuestionType.CheckBox || question.questionType === QuestionType.MultipleChoice) {
-      const completeQuestion = question as Checkbox;
+      const completeQuestion = question.questionType === QuestionType.CheckBox ? question as Checkbox : question as MultipleChoice;
       completeQuestion.options = this.getOptions();
       this.clearOptions();
       console.log(completeQuestion);
@@ -157,5 +168,6 @@ export class QuestionService {
   asCheckbox(val): Checkbox { return val; }
   asTrueFalse(val): TrueFalse { return val; }
   asMultipleChoice(val): MultipleChoice { return val; }
+  asShortAnswer(val): ShortAnswer { return val; }
   asUpload(val): Upload { return val; }
 }

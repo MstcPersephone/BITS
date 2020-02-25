@@ -13,7 +13,6 @@ import { QuestionType } from 'src/app/enums/questionType.enum';
   styleUrls: ['./create-true-false.component.css']
 })
 export class CreateTrueFalseComponent implements OnInit {
-  hasAttachments = false;
   selectedAnswer = '';
   answers: any = [
     'True',
@@ -23,7 +22,7 @@ export class CreateTrueFalseComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private questionService: QuestionService,
-    private attachmentSerivce: AttachmentService,
+    public attachmentService: AttachmentService,
     private helperService: HelperService
   ) {
     this.createTrueFalseForm = this.formBuilder.group({
@@ -44,8 +43,8 @@ export class CreateTrueFalseComponent implements OnInit {
 
     trueFalseQuestion.id = null;
     trueFalseQuestion.questionText = trueFalseData.questionText;
-    trueFalseQuestion.hasAttachments = this.hasAttachments;
-    trueFalseQuestion.attachments = this.hasAttachments ? this.attachmentSerivce.getAttachments() : null;
+    trueFalseQuestion.hasAttachments = this.attachmentService.hasAttachments;
+    trueFalseQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
     trueFalseQuestion.isAnswered = false;
     trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
     trueFalseQuestion.duration = 0;
@@ -58,9 +57,5 @@ export class CreateTrueFalseComponent implements OnInit {
 
     // For testing, we can remove later.
     console.log(trueFalseQuestion);
-  }
-
-  hasAttachmentsChanged() {
-    this.hasAttachments = !this.hasAttachments;
   }
 }

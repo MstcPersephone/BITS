@@ -64,23 +64,11 @@ button:last-of-type{
   margin-top: 10px;
 }
 
-/* Styles applied to the Save Button */
-.saveButton {
-  background-color: rgb(11, 87, 138);
-  color: #ffffff;
-  display: block;
-  margin-top: 40px;
-  float: right;
-}
-
-/* Sets margin-top to 30px */
-.mt-30 {
-  margin-top: 30px;
-}
-
-/* Sets margin-bottom to 0px */
-.mat-display-4 {
-  margin-bottom: 0px;
+/* Adjusts the appearance of h3 headers */
+h3{
+  padding-top: 20px;
+  margin-bottom: 10px;
+  font-weight: normal;
 }
 
 /* Makes the cursor turn into a hand for buttons */
@@ -90,4 +78,19 @@ input[type="reset"],
 input[type="submit"],
 .iconButton {
   cursor: pointer;
+}
+
+/* Styles applied to the Save button */
+button.saveButton {
+  background-color: rgb(11, 87, 138);
+  color: #ffffff;
+  display: block;
+  margin-top: 40px;
+  float: right;
+}
+
+/* Styles applied to the Upload button. Puts upload button on one line, rather than inline with the lower content. */
+button.uploadButton {
+  display: block;
+  margin-bottom: 10px;
 }
