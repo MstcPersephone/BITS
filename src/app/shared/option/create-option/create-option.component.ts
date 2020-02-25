@@ -40,6 +40,7 @@ export class CreateOptionComponent implements OnInit {
     this.questionService.createOption(option);
 
     // For testing, we can remove later.
+    console.log('%c Option', 'color: green');
     console.log(option);
 
     // Resets the form values.

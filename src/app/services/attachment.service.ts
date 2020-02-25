@@ -37,7 +37,8 @@ export class AttachmentService {
       attachment.fileType = f.type;
       attachment.content = f;
       this.attachments.push(attachment);
-      console.log(attachment);
+      console.log('%c Attachment', 'color: green;');
+      console.log({attachment});
     });
   }
 }

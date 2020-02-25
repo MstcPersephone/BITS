@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AttachmentService } from 'src/app/services/attachment.service';
 
 @Component({
   selector: 'app-attachment',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AttachmentComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public attachmentService: AttachmentService
+  ) { }
 
   ngOnInit() {
   }
