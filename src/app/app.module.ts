@@ -66,7 +66,7 @@ import { CreateStudentComponent } from './student/create-student/create-student.
 import { EditStudentComponent } from './student/edit-student/edit-student.component';
 import { ListStudentComponent } from './student/list-student/list-student.component';
 import { ViewStudentComponent } from './student/view-student/view-student.component';
-import { AttachmentComponentComponent } from './shared/attachment/attachment-component/attachment-component.component';
+import { AttachmentComponent } from './shared/attachment/attachment.component';
 
 
 @NgModule({
@@ -113,7 +113,7 @@ import { AttachmentComponentComponent } from './shared/attachment/attachment-com
     ViewStudentComponent,
     ViewTrueFalseComponent,
     ViewUploadComponent,
-    AttachmentComponentComponent
+    AttachmentComponent
   ],
   imports: [
     BrowserModule,
