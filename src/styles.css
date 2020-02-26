@@ -64,6 +64,14 @@ button:last-of-type{
   margin-top: 10px;
 }
 
+/* Adjusts the appearance of h1 headers */
+h1{
+  font-size: 25px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  padding: 0px;
+}
+
 /* Adjusts the appearance of h3 headers */
 h3{
   padding-top: 20px;

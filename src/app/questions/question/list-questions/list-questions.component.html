@@ -1,12 +1,23 @@
 <mat-card>
+  <h1 class="mat-display-1">Viewing all questions</h1>
+  <mat-card>
   <mat-list role="list">
     <div *ngFor="let question of questions; let i = index">
       <mat-divider *ngIf="i != 0"></mat-divider>
-      <mat-icon class="" matListIcon>delete</mat-icon>
-      <mat-icon class="" matListIcon>edit</mat-icon>
+
+      <!-- Question header section-->
+      <section class="questionHeaderContent">
+        <!-- Question Type -->
+        <!-- <p matLine>{{ question.questionType }} Question</p> -->
+        <p>{{ question.questionType }} Question</p>
+        <mat-icon class="" matListIcon>delete</mat-icon>
+        <mat-icon class="" matListIcon>edit</mat-icon>
+      </section>
+
+      <!-- Question Text -->
+      <!-- <h3 matLine>{{ question.questionText }}</h3> -->
+      <h3>{{ question.questionText }}</h3>
       <mat-list-item role="listitem">
-        <!-- Question Text -->
-        <h3 matLine>{{ question.questionText }}</h3>
         <!-- If True/False, show answer -->
         <mat-chip-list *ngIf="question.questionType === 'True False'">
           <mat-chip *ngIf="this.questionService.asTrueFalse(question).answer" [selectable]="false" [selected]="false">
@@ -17,8 +28,6 @@
           </mat-chip>
         </mat-chip-list>
 
-        <!-- Question Type -->
-        <p matLine>{{ question.questionType }} Question</p>
       </mat-list-item>
       <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'">
         <mat-list-item *ngFor="let option of this.questionService.asCheckbox(question).options">
@@ -49,4 +58,5 @@
       <mat-divider *ngIf="i != questions.length - 1"></mat-divider>
     </div>
   </mat-list>
+</mat-card>
 </mat-card>
