@@ -1,32 +1,29 @@
 <mat-card>
+  <h1 class="mat-display-1">Viewing all questions</h1>
+  <mat-card>
   <mat-list role="list">
     <div *ngFor="let question of questions; let i = index">
       <mat-divider *ngIf="i != 0"></mat-divider>
-      <mat-icon class="" matListIcon>delete</mat-icon>
-      <mat-icon class="" matListIcon>edit</mat-icon>
-      <mat-list-item role="listitem">
-        <!-- Question Text -->
-        <h3 matLine>{{ question.questionText }}</h3>
-        <!-- If True/False, show answer -->
-        <mat-chip-list *ngIf="question.questionType === 'True False'">
-          <mat-chip *ngIf="this.questionService.asTrueFalse(question).answer" [selectable]="false" [selected]="false">
-            true
-          </mat-chip>
-          <mat-chip *ngIf="!this.questionService.asTrueFalse(question).answer" [selectable]="false" [selected]="false">
-            false
-          </mat-chip>
-        </mat-chip-list>
 
+      <!-- Question header section-->
+      <section class="questionHeaderContent">
         <!-- Question Type -->
-        <p matLine>{{ question.questionType }} Question</p>
-      </mat-list-item>
+        <!-- <p matLine>{{ question.questionType }} Question</p> -->
+        <p>{{ question.questionType }} Question</p>
+        <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
+        <mat-icon class="editIcon" matListIcon>edit</mat-icon>
+      </section>
+
+      <!-- Question Text -->
+      <!-- <h3 matLine>{{ question.questionText }}</h3> -->
+      <h3>{{ question.questionText }}</h3>
       <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'">
         <mat-list-item *ngFor="let option of this.questionService.asCheckbox(question).options">
             <span>{{option.optionText}}</span>
 
             <!-- This is the "is answer" chip. Appears if the option is an answer -->
             <mat-chip-list>
-              <mat-chip *ngIf="option.isAnswer" [selectable]="false" [selected]="false">
+              <mat-chip class="isAnswerIcon" *ngIf="option.isAnswer" [selectable]="false" [selected]="false">
                 Answer&nbsp;
                 <mat-icon>check_circle</mat-icon>
               </mat-chip>
@@ -39,14 +36,29 @@
 
             <!-- This is the "is answer" chip. Appears if the option is an answer -->
             <mat-chip-list>
-              <mat-chip *ngIf="exactMatch.matchText" [selectable]="false" [selected]="false">
+              <mat-chip class="isAnswerIcon" *ngIf="exactMatch.matchText" [selectable]="false" [selected]="false">
                 Answer&nbsp;
                 <mat-icon>check_circle</mat-icon>
               </mat-chip>
             </mat-chip-list>
         </mat-list-item>
       </div>
+
+      <mat-list-item role="listitem">
+        <!-- If True/False, show answer -->
+        <mat-chip-list *ngIf="question.questionType === 'True False'">
+          <mat-chip class="isAnswerIcon" *ngIf="this.questionService.asTrueFalse(question).answer" [selectable]="false" [selected]="false">
+            True
+          </mat-chip>
+          <mat-chip class="isAnswerIcon" *ngIf="!this.questionService.asTrueFalse(question).answer" [selectable]="false" [selected]="false">
+            False
+          </mat-chip>
+        </mat-chip-list>
+      </mat-list-item>
+
       <mat-divider *ngIf="i != questions.length - 1"></mat-divider>
     </div>
   </mat-list>
 </mat-card>
+</mat-card>
+<br>
