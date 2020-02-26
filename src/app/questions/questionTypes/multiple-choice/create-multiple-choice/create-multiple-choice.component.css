@@ -9,3 +9,9 @@ form {
 mat-form-field{
   display: block;
 }
+
+h3:first-of-type{
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+}
