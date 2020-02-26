@@ -56,6 +56,6 @@ export class CreateTrueFalseComponent implements OnInit {
     this.questionService.saveQuestion(trueFalseQuestion);
 
     // For testing, we can remove later.
-    console.log({trueFalseQuestion});
+    console.log(trueFalseQuestion);
   }
 }

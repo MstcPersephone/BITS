@@ -2,6 +2,7 @@ const checkBoxModel = require("./models/question-types/checkbox");
 const multipleChoiceModel = require("./models/question-types/multiple-choice");
 const trueFalseModel = require("./models/question-types/true-false");
 const shortAnswerModel = require("./models/question-types/short-answer");
+const uploadAnswerModel = require("./models/question-types/upload");
 
 // express.js package
 const express = require("express");
@@ -110,6 +111,9 @@ app.post("/api/questions/save", (request, response, next) => {
     case "True False":
       questionObjectToSave = createTrueFalse(question, questionId);
       break;
+
+    case "Upload":
+      questionObjectToSave = createUpload(question, questionId);
   }
 
   // Saves the object to the database.
@@ -230,6 +234,25 @@ function createTrueFalse(question, questionId) {
   });
 
   return questionModel;
+}
+
+function createUpload(question, questionId) {
+
+  // Create Upload Model
+  const uploadModel = new uploadAnswerModel({
+    id: questionId,
+    questionText: question.questionText,
+    questionType: question.questionType,
+    hasAttachments: question.hasAttachments,
+    attachments: question.attachments,
+    isAnswered: question.isAnswered,
+    correctAnswer: question.correctAnswer,
+    submittedAnswer: question.submittedAnswer,
+    duration: question.duration,
+    createdOn: Date.now()
+  });
+
+  return uploadModel;
 }
 
 // Finds documents in a given collection.

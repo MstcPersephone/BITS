@@ -147,20 +147,18 @@ export class QuestionService {
       const completeQuestion = question.questionType === QuestionType.CheckBox ? question as Checkbox : question as MultipleChoice;
       completeQuestion.options = this.getOptions();
       this.clearOptions();
-      console.log({completeQuestion});
+      console.log(completeQuestion);
     }
     this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/questions/save', question)
       .subscribe(
         responseData => {
           this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog');
-          console.log('%c Response Message', 'color: green;');
-          console.log(responseData.message);
-          console.log('%c Database Object', 'color: orange;');
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.question);
         },
         error => {
-          console.log('%c Error Message', 'color: red;');
-          console.log(error.error.message);
+          console.log('%c' + error.error.message, 'color: red;');
         });
   }
 
