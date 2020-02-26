@@ -28,7 +28,7 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   border-radius: 5px;
-  background-color: #f5f5f5;
+  background-color: #f0f0f0;
   margin-bottom: 10px;
 }
 
@@ -52,7 +52,7 @@ mat-card, mat-form-field, mat-checkbox, mat-radio-group, button, h3, .mat-radio-
 /* Styles applied to Forms */
 form{
   padding: 10px;
-  background-color: #e3e3e3;
+  background-color: #f0f0f0;
   border-radius: 5px;
   overflow: hidden ; /* Prevents the Save button from falling out of the form due to it's float */
 }
