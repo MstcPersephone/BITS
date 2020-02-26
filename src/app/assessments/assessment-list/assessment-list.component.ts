@@ -20,7 +20,7 @@ export class AssessmentListComponent implements OnInit {
     this.questionsSubscription = this.questionsService.getQuestionsUpdatedListener()
     .subscribe((questionsArray: Question[]) => {
       this.questions = questionsArray;
-      console.log(this.questions);
+      console.table(this.questions);
     });
   }
 

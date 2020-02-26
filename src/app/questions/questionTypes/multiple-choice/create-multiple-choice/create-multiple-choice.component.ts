@@ -46,7 +46,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
     this.questionService.clearOptions();
 
     // For testing, we can remove later.
-    console.log(multipleChoiceQuestion);
+    console.log({multipleChoiceQuestion});
   }
 
 }

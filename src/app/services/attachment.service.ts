@@ -29,16 +29,13 @@ export class AttachmentService {
   }
 
   uploadFile($event) {
-      const files: File[] = Array.from($event.target.files);
-      files.forEach((f) => {
+      const f = $event.target.files[0];
       const attachment = new Attachment();
       attachment.id = null;
       attachment.name = f.name;
       attachment.fileType = f.type;
       attachment.content = f;
       this.attachments.push(attachment);
-      console.log('%c Attachment', 'color: green;');
       console.log({attachment});
-    });
   }
 }

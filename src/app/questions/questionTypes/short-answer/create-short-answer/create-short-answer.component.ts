@@ -48,6 +48,6 @@ export class CreateShortAnswerComponent implements OnInit {
       this.questionService.clearMatches();
 
       // For testing, we can remove later.
-      console.log(shortAnswerQuestion);
+      console.log({shortAnswerQuestion});
     }
 }

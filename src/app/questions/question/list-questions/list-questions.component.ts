@@ -21,7 +21,7 @@ export class ListQuestionsComponent implements OnInit {
     this.questionSubscription = this.questionService.getQuestionsUpdatedListener()
     .subscribe((questionsArray: Question[]) => {
       this.questions = questionsArray;
-      console.log(this.questions);
+      console.table(this.questions);
     });
   }
 

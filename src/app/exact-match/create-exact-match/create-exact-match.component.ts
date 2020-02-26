@@ -36,6 +36,6 @@ export class CreateExactMatchComponent implements OnInit {
     this.questionService.createExactMatch(exactMatch);
 
     // For testing, we can remove later.
-    console.log(exactMatch);
+    console.log({exactMatch});
   }
 }

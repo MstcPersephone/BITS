@@ -47,6 +47,6 @@ export class CreateCheckboxComponent implements OnInit {
     this.questionService.clearOptions();
 
     // For testing, we can remove later.
-    console.log(checkboxQuestion);
+    console.log({checkboxQuestion});
   }
 }
