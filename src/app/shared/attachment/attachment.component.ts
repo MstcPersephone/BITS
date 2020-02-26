@@ -15,4 +15,8 @@ export class AttachmentComponent implements OnInit {
   ngOnInit() {
   }
 
+  uploadFile($event) {
+    console.log($event.target.files[0]);
+  }
+
 }
