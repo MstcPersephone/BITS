@@ -71,12 +71,16 @@ export class QuestionService {
 
   // Removes an option from the list based on its index
   deleteOption(i) {
+    console.log('%c Deleting Option', 'color: red');
     this.options.splice(i, 1);
+    console.table(this.options);
     this.optionsUpdated.next([...this.options]);
   }
 
   deleteMatch(i) {
+    console.log('%c Deleting Exact Match', 'color: red');
     this.exactMatches.splice(i, 1);
+    console.table(this.exactMatches);
     this.exactMatchesUpdated.next([...this.exactMatches]);
   }
 
