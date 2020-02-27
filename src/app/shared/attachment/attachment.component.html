@@ -1,0 +1,6 @@
+<mat-checkbox class="mt-20" (change)="this.attachmentService.hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
+
+<input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event)"/>
+
+
+<button type="button" (click)="uploader.click()" *ngIf="this.attachmentService.hasAttachments" mat-raised-button color="accent" class="mt-20">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>

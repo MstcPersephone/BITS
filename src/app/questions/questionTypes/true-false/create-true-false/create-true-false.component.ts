@@ -27,7 +27,6 @@ export class CreateTrueFalseComponent implements OnInit {
   ) {
     this.createTrueFalseForm = this.formBuilder.group({
       questionText: '',
-      hasAttachments: '',
       answer: false
     });
   }

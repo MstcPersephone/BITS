@@ -153,10 +153,13 @@ export class QuestionService {
       .subscribe(
         responseData => {
           this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog');
-          console.log(responseData.message);
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.question);
         },
-        error => console.log(error.error.message));
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
   }
 
   // Returns the question type of a question

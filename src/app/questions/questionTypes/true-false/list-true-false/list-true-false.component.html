@@ -25,6 +25,7 @@
             False
           </mat-chip>
         </mat-chip-list>
+        <a *ngIf="question.hasAttachments" href="{{question.attachments[0].content}}" download="{{question.attachments[0].name}}">{{ question.attachments[0].name }}</a>
       <mat-divider *ngIf="i != questions.length - 1"></mat-divider>
     </div>
   </mat-list>

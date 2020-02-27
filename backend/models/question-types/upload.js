@@ -10,7 +10,7 @@ const uploadSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  questionType = {
+  questionType: {
     type: String,
     required: true
   },
@@ -19,20 +19,20 @@ const uploadSchema = mongoose.Schema({
     required: true
   },
   attachments: {
-    type: [attachmentSchema]
+    type: [attachmentSchema.schema]
   },
   isAnswered: {
     type: Boolean,
     required: true
   },
   correctAnswer: {
-    type: [attachmentSchema]
+    type: [attachmentSchema.schema]
   },
   submittedAnswer: {
-    type: [attachmentSchema]
+    type: [attachmentSchema.schema]
   },
   duration: {
-    type: number,
+    type: Number,
     default: 0
   },
   createdOn: {
