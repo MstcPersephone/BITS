@@ -48,9 +48,10 @@ app.get("/api/questions", (request, response, next) => {
 
   find('questions', {questionType: {$exists: true}}, function (error, questions) {
     response.status(200).json({
-      message: 'Question saved successfully!',
+      message: 'Question Fetched Successfully!',
       questions: questions
       });
+    console.log("Questions Fetched Successfully.")
     console.log(questions);
   }, error => {
     console.log(error.message);

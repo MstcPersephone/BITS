@@ -156,7 +156,7 @@ export class QuestionService {
     this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/questions/save', question)
       .subscribe(
         responseData => {
-          this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog');
+          this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.question);
