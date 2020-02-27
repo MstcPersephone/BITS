@@ -44,9 +44,9 @@
         </mat-list-item>
       </div>
 
-      <mat-list-item role="listitem">
+      <mat-list-item role="listitem" *ngIf="question.questionType === 'True False'">
         <!-- If True/False, show answer -->
-        <mat-chip-list *ngIf="question.questionType === 'True False'">
+        <mat-chip-list>
           <mat-chip class="isAnswerIcon" *ngIf="this.questionService.asTrueFalse(question).answer" [selectable]="false" [selected]="false">
             True
           </mat-chip>
