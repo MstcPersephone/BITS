@@ -29,7 +29,7 @@ export class HelperService {
   }
 
   // Opens a snack bar for successfully saving a question.
-  openSnackBar(message: string, action: string, classString: string, upTime: number = 3000) {
+  openSnackBar(message: string, action: string, classString: string, upTime: number = 5000) {
     this.snackBar.open(message, action, {
       duration: upTime,
       panelClass: classString
