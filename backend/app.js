@@ -19,7 +19,8 @@ const app = express();
 // second param is options list
 // 02/18/2020: useNewUrlParser and useUnifiedTopology options are to avoid
 // soon-to-be depecrated features of mongoDb client
-mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority',
+{ useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
   console.log('Connected to the database successfully'),
   (error) => {
     console.log(error.reason);
