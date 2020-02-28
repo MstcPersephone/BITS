@@ -159,7 +159,7 @@ export class QuestionService {
           this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
-          console.log(responseData.question);
+          console.log(responseData.question.attachments[0].content);
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');

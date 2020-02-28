@@ -36,20 +36,30 @@ export class AttachmentService {
     this.hasAttachments = !this.hasAttachments;
   }
 
-  uploadFiles($event, isCorrectAnswerFiles = false) {
-      const files = Array.from($event.target.files);
+  uploadFiles($event: Event, isCorrectAnswerFiles = false) {
+      const files = Array.from(($event.target as HTMLInputElement).files);
       files.forEach((f: File) => {
         const attachment = new Attachment();
         attachment.id = null;
         attachment.name = f.name;
+        attachment.fileSize = f.size;
         attachment.fileType = f.type;
-        attachment.content = f;
-        if (isCorrectAnswerFiles) {
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          console.log(reader.result);
+          attachment.content = reader.result;
+
+          if (isCorrectAnswerFiles) {
           this.correctAnswers.push(attachment);
         } else {
           this.attachments.push(attachment);
         }
-        console.log(attachment);
+          console.log(attachment.content);
+        };
+
+        reader.readAsArrayBuffer(f);
+
       });
   }
 }
