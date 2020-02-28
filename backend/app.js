@@ -86,6 +86,7 @@ app.get("/api/questions/:id", (request, response, next) => {
       message: request.params.id + ' Question fetched successfully!',
       question:question
       });
+      // TODO: [PER-98] Remove the console logs in getting a question by ID before pushing to production.
     console.log(message)
     console.log(question);
   },
