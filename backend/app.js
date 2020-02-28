@@ -79,15 +79,15 @@ app.get("/api/questions/:questionType", (request, response, next) => {
   })
 });
 
-// Get a single question by an id
+// Get a single question by an id from the questions (checkBoxModel) collection.
 app.get("/api/questions/:id", (request, response, next) => {
   checkBoxModel.find({_id: request.params.id}).then((question, error) =>{
     response.status(200).json({
       message: request.params.id + ' Question fetched successfully!',
-      question:question
+      question: question
       });
       // TODO: [PER-98] Remove the console logs in getting a question by ID before pushing to production.
-    console.log(message)
+    console.log(message);
     console.log(question);
   },
   error => {
