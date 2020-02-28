@@ -32,7 +32,7 @@ export class AssessmentService {
   getQuestionById(questionId: string) {
     this.http
       .get<{ message: string, question: Question }>(
-        'http://localhost:3000/api/questions/' + questionId
+        'http://localhost:3000/api/question/' + questionId
       )
       .subscribe((questionData) => {
         const currentQuestion = questionData.question;

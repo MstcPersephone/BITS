@@ -79,8 +79,8 @@ app.get("/api/questions/:questionType", (request, response, next) => {
   })
 });
 
-// Get a single question by an id from the questions (checkBoxModel) collection.
-app.get("/api/questions/:id", (request, response, next) => {
+// Get a single question by an id from the questions collection.
+app.get("/api/question/:id", (request, response, next) => {
   checkBoxModel.find({_id: request.params.id}).then((question, error) =>{
     response.status(200).json({
       message: request.params.id + ' Question fetched successfully!',
