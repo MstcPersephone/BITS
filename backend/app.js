@@ -85,6 +85,26 @@ app.get("/api/questions/:questionType", (request, response, next) => {
   })
 });
 
+// Get a single question by an id from the questions collection.
+app.get("/api/question/:id", (request, response, next) => {
+  checkBoxModel.find({_id: request.params.id}).then((question, error) =>{
+    response.status(200).json({
+      message: request.params.id + ' Question fetched successfully!',
+      question: question
+      });
+      // TODO: [PER-98] Remove the console logs in getting a question by ID before pushing to production.
+    console.log(message);
+    console.log(question);
+  },
+  error => {
+    console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        question: null
+      })
+  })
+});
+
 app.post("/api/questions/save", (request, response, next) => {
   // Requestion.body is the question that is passed through.
   const question = request.body;
