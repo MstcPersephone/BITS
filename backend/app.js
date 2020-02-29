@@ -1,33 +1,42 @@
+// Import Node.js File System
+const fs = require("fs");
+
+// Import questionType mongoose objects for working with questions collection.
 const checkBoxModel = require("./models/question-types/checkbox");
 const multipleChoiceModel = require("./models/question-types/multiple-choice");
 const trueFalseModel = require("./models/question-types/true-false");
 const shortAnswerModel = require("./models/question-types/short-answer");
 const uploadAnswerModel = require("./models/question-types/upload");
 
-// express.js package
+// Import Express.js package to build API endpoints
 const express = require("express");
 
-// body-parser package
+// Import body-parser package to parse request body as JSON.
 const bodyParser = require("body-parser");
 
-// mongoose package
+// Import Mongoose package to connect to MongoDb and work with Mongoose models.
 const mongoose = require('mongoose');
 
+// Create the API app
 const app = express();
 
 // connect to mongodb cluster
 // second param is options list
 // 02/18/2020: useNewUrlParser and useUnifiedTopology options are to avoid
 // soon-to-be depecrated features of mongoDb client
-mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority',
+{ useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
   console.log('Connected to the database successfully'),
   (error) => {
     console.log(error.reason);
   }
 });
 
-// middleware for parsing json data on requests
-app.use(bodyParser.json());
+// Middleware for parsing json data and urlencoded data on requests
+// The file size is the maximum size of a request that can come through
+// MongoDb supports files up to 16mb, which is where limit is coming from
+app.use(bodyParser.json({limit: '16mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '16mb', extended: true}))
 
 // CORS Headers to allow cross communication between angular and backend
 app.use((request, response, next) => {
@@ -46,14 +55,23 @@ app.use((request, response, next) => {
 // Get all questions
 app.get("/api/questions", (request, response, next) => {
 
+  // Search the questions collection where:
+  // questionType is a property on the object
   find('questions', {questionType: {$exists: true}}, function (error, questions) {
+
+    // Send a successful response message and an array of questions to work with.
     response.status(200).json({
       message: 'Question Fetched Successfully!',
       questions: questions
       });
+
+    // Logs message and questions array to the backend for debugging.
     console.log("Questions Fetched Successfully.")
     console.log(questions);
   }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a questions array (if anything)
     console.log(error.message);
       response.status(400).json({
         message: error.message,
@@ -99,19 +117,23 @@ app.get("/api/question/:id", (request, response, next) => {
   })
 });
 
-app.post("/api/questions/save", (request, response, next) => {
+// Saves a question to the questions collection
+app.post("/api/question/save", (request, response, next) => {
+
   // Requestion.body is the question that is passed through.
   const question = request.body;
+
+  // Will store the converted object to be saved.
   let questionObjectToSave;
 
-  // Generate Ids for attachments
+  // Generate unique Ids for attachments
   if (question.hasAttachments) {
     question.attachments.forEach((a) => {
       a.id = mongoose.Types.ObjectId();
     });
   }
 
-  // Generate unique id for question.
+  // Generate unique Id for question.
   const questionId = mongoose.Types.ObjectId();
 
   // Swtich to internal function that creates object to save.

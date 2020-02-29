@@ -28,8 +28,8 @@ export class HelperService {
     return booleanValue.toString().toLowerCase() === 'true' ? true : false;
   }
 
-  // Opens a snack bar for successfully saving a question.
-  openSnackBar(message: string, action: string, classString: string, upTime: number = 3000) {
+  // Opens a snack bar for displaying a quick message to the user.
+  openSnackBar(message: string, action: string, classString: string, upTime: number = 5000) {
     this.snackBar.open(message, action, {
       duration: upTime,
       panelClass: classString
