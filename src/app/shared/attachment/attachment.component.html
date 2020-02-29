@@ -4,3 +4,5 @@
 
 
 <button type="button" (click)="uploader.click()" *ngIf="this.attachmentService.hasAttachments" mat-raised-button color="accent" class="mt-20">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
+
+<p *ngIf="this.attachmentService.hasAttachmentFileNames">{{ this.attachmentService.getAttachmentFileNames("attachments") }}</p>
