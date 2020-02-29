@@ -113,7 +113,6 @@ app.post("/api/questions/save", (request, response, next) => {
   // Generate Ids for attachments
   if (question.hasAttachments) {
     question.attachments.forEach((a) => {
-      console.log(a.content);
       a.id = mongoose.Types.ObjectId();
       console.log(a.content);
     });
@@ -290,15 +289,6 @@ function find (name, query, callBack) {
   mongoose.connection.db.collection(name, function (err, collection) {
      collection.find(query).toArray(callBack);
  });
-}
-
-function toBuffer(arrayBuffer) {
-  var buf = Buffer.alloc(arrayBuffer.byteLength);
-  var view = new Uint8Array(arrayBuffer);
-  for (var i = 0; i < buf.length; ++i) {
-      buf[i] = view[i];
-  }
-  return buf;
 }
 
 // Exports the contstants and all of the middlewares attached to it.
