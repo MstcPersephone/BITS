@@ -31,8 +31,9 @@ mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongo
   }
 });
 
-// middleware for parsing json data on requests
-app.use(bodyParser.json());
+// middleware for parsing json data and urlencoded data on requests
+app.use(bodyParser.json({limit: '16mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '16mb', extended: true}))
 
 // CORS Headers to allow cross communication between angular and backend
 app.use((request, response, next) => {
@@ -94,9 +95,7 @@ app.post("/api/questions/save", (request, response, next) => {
     question.attachments.forEach((a) => {
       console.log(a.content);
       a.id = mongoose.Types.ObjectId();
-      // const attachmentAsBinary = toBuffer(a.content);
-      const attachmentContentAsUint8Array = new Uint8Array(a.content);
-      a.content = new bson.Binary(attachmentContentAsUint8Array);
+      console.log(a.content);
     });
   }
 

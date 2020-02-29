@@ -58,7 +58,7 @@ export class AttachmentService {
           console.log(attachment.content);
         };
 
-        reader.readAsArrayBuffer(f);
+        reader.readAsBinaryString(f);
 
       });
   }
