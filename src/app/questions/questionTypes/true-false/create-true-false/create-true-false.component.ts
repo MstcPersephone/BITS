@@ -52,10 +52,10 @@ export class CreateTrueFalseComponent implements OnInit {
     // Resets the form values.
     this.createTrueFalseForm.reset();
 
-    // Adds option to the options array in the service.
-    this.questionService.saveQuestion(trueFalseQuestion);
-
     // For testing, we can remove later.
     console.log(trueFalseQuestion);
+
+    // Adds option to the options array in the service.
+    this.questionService.saveQuestion(trueFalseQuestion);
   }
 }

@@ -3,5 +3,6 @@ export class Attachment {
   id: string;
   name: string;
   fileType: string;
-  content: File;
+  fileSize: number;
+  content: string | ArrayBuffer;
 }
