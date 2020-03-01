@@ -8,6 +8,9 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class AssessmentService {
+  private questionIds: string[];
+  // These will come from the Assessment object
+  private questions: Question[];
   private question: Question;
   private questionUpdated = new Subject<Question>();
 
@@ -39,5 +42,18 @@ export class AssessmentService {
         // Subscribers get a copy of the questions array sorted by question text.
         this.questionUpdated.next(this.question);
       });
+  }
+
+  // gets a list of questions from an array of ids
+  getQuestionsByIds(questionIds: string[]) {
+    this.http
+      .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/questions/', questionIds)
+        .subscribe(
+          responseData => {
+            this.questions = responseData.questions;
+          },
+          error => {
+            console.log('%c' + error.error.message, 'color: red;');
+          });
   }
 }

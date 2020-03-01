@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { QuestionType } from '../enums/questionType.enum';
 import {MatSnackBar} from '@angular/material/snack-bar';
+const fs = require('fs');
 
 @Injectable({
   providedIn: 'root'

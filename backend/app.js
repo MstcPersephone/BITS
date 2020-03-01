@@ -55,6 +55,11 @@ app.use((request, response, next) => {
 // Get all questions
 app.get("/api/questions", (request, response, next) => {
 
+  // If questionIds was passed through, move on to the next endpoint.
+  if (request.params.hasOwnProperty('questionIds')) {
+    next();
+  }
+
   // Search the questions collection where:
   // questionType is a property on the object
   find('questions', {questionType: {$exists: true}}, function (error, questions) {
