@@ -39,12 +39,11 @@ export class CreateShortAnswerComponent implements OnInit {
       shortAnswerQuestion.matches = this.questionService.getMatches();
       shortAnswerQuestion.duration = 0;
 
-      // Resets the form values.
-      this.createShortAnswerForm.reset();
-
       // Adds option to the options array in the service.
       this.questionService.saveQuestion(shortAnswerQuestion);
 
+      // Resets the form values.
+      this.createShortAnswerForm.reset();
       this.questionService.clearMatches();
 
       // For testing, we can remove later.

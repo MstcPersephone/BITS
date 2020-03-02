@@ -37,12 +37,11 @@ export class CreateMultipleChoiceComponent implements OnInit {
     multipleChoiceQuestion.isAnswered = false;
     multipleChoiceQuestion.duration = 0;
 
-    // Resets the form values.
-    this.createMultipleChoiceForm.reset();
-
     // Adds option to the options array in the service.
     this.questionService.saveQuestion(multipleChoiceQuestion);
 
+    // Resets the form values.
+    this.createMultipleChoiceForm.reset();
     this.questionService.clearOptions();
 
     // For testing, we can remove later.

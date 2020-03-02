@@ -29,11 +29,11 @@ export class CreateExactMatchComponent implements OnInit {
     exactMatch.questionId = null;
     exactMatch.matchText = exactMatchData.matchText;
 
-    // Resets the form values.
-    this.createExactMatchForm.reset();
-
     // Adds option to the options array in the service.
     this.questionService.createExactMatch(exactMatch);
+
+     // Resets the form values.
+    this.createExactMatchForm.reset();
 
     // For testing, we can remove later.
     console.log(exactMatch);

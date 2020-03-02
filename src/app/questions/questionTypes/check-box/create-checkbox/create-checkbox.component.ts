@@ -38,12 +38,11 @@ export class CreateCheckboxComponent implements OnInit {
     checkboxQuestion.answers = null;
     checkboxQuestion.duration = 0;
 
-    // Resets the form values.
-    this.createCheckboxForm.reset();
-
     // Adds option to the options array in the service.
     this.questionService.saveQuestion(checkboxQuestion);
 
+    // Resets the form values.
+    this.createCheckboxForm.reset();
     this.questionService.clearOptions();
 
     // For testing, we can remove later.
