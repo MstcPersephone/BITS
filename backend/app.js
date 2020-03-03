@@ -60,7 +60,7 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   const objectIds = [];
   questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
   console.log(objectIds);
-  checkBoxModel.find({_id: objectIds}, (error, questions) => {
+  checkBoxModel.find({ _id: objectIds }, (error, questions) => {
     if (error) {
       console.log(error.message);
     }
@@ -68,8 +68,8 @@ app.post("/api/assessment/questions/", (request, response, next) => {
       console.log(questions);
       // Send a successful response message and an array of questions to work with.
       response.status(200).json({
-      message: 'Question Fetched Successfully!',
-      questions: questions
+        message: 'Question Fetched Successfully!',
+        questions: questions
       });
     }
   });
