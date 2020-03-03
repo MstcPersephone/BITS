@@ -16,6 +16,7 @@ import { ShortAnswer } from '../models/question-types/short-answer.model';
   providedIn: 'root',
 })
 export class QuestionService {
+
   // Questions array and subect.
   private questions: Question[] = [];
   private questionsUpdated = new Subject<Question[]>();
@@ -28,12 +29,11 @@ export class QuestionService {
   private exactMatches: ExactMatch[] = [];
   private exactMatchesUpdated = new Subject<ExactMatch[]>();
 
+  // Question (for edit and delete) and subject
+  private question: Question;
+  private questionUpdated = new Subject<Question>();
+
   constructor(private http: HttpClient, private helperService: HelperService) { }
-
-  // Starts the create question wizard
-  createQuestion() {
-
-  }
 
   // Pushes the option to the options array and updates the subject for subscribers to consume.
   createOption(option: Option) {
@@ -85,13 +85,13 @@ export class QuestionService {
   }
 
   // Gets a copy of the options.
-  // Used for attaching the options to a question before making POST request.
+  // Used for attaching the options to a question before saving it.
   getOptions() {
     return [...this.options];
   }
 
   // Gets copy of the matches.
-  // Used for attaching the matches to a question before making POST request.
+  // Used for attaching the matches to a question before saving it.
   getMatches() {
     return [...this.exactMatches];
   }
@@ -101,9 +101,11 @@ export class QuestionService {
     return this.options.length > 0;
   }
 
+  // Returns whether the question has matches.
   hasMatches() {
     return this.exactMatches.length > 0;
   }
+
   // Starts the edit option wizard
   editOption(option: Option) {
 
@@ -114,7 +116,12 @@ export class QuestionService {
 
   }
 
-  // Gets the updateListener subject
+  // Gets the updateListener subject for single question fetch
+  getQuestionUpdatedListener() {
+    return this.questionUpdated.asObservable();
+  }
+
+  // Gets the updateListener subject for multiple questions fetch
   getQuestionsUpdatedListener() {
     return this.questionsUpdated.asObservable();
   }
@@ -129,6 +136,19 @@ export class QuestionService {
         this.questions = questionData.questions;
         // Subscribers get a copy of the questions array sorted by question type.
         this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionType > b.questionType) ? 1 : -1)]);
+      });
+  }
+
+  // Gets a question by an id
+  getQuestionById(questionId: string) {
+    this.http
+      .get<{ message: string, question: Question }>(
+        'http://localhost:3000/api/question/' + questionId
+      )
+      .subscribe((questionData) => {
+        const currentQuestion = questionData.question;
+        // Subscribers get a copy of the questions array sorted by question text.
+        this.questionUpdated.next(this.question);
       });
   }
 
