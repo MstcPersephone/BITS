@@ -8,11 +8,14 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class AssessmentService {
+  // MOCK DATA
+  public mockQuestionIds: string[] = ['5e50ba9499062123580d5245', '5e512dc2f614c627f0443d18'];
+
   private questionIds: string[];
-  // These will come from the Assessment object
-  private questions: Question[];
-  private question: Question;
-  private questionUpdated = new Subject<Question>();
+  public questions: Question[] = [];
+  private currentQuestion: Question;
+
+  private assessmentQuestionsUpdated = new Subject<Question[]>();
 
   constructor(private http: HttpClient) { }
 
@@ -26,31 +29,25 @@ export class AssessmentService {
 
   }
 
-  //
-  getQuestionUpdatedListener() {
-    return this.questionUpdated.asObservable();
+  // TODO Handle submit question button
+  submitAnswer(question: Question) {
+    console.log(question);
   }
 
-  // Gets a question by an id
-  getQuestionById(questionId: string) {
-    this.http
-      .get<{ message: string, question: Question }>(
-        'http://localhost:3000/api/question/' + questionId
-      )
-      .subscribe((questionData) => {
-        const currentQuestion = questionData.question;
-        // Subscribers get a copy of the questions array sorted by question text.
-        this.questionUpdated.next(this.question);
-      });
+  getAssessmentQuestionsUpdatedListener() {
+    return this.assessmentQuestionsUpdated.asObservable();
   }
 
   // gets a list of questions from an array of ids
   getQuestionsByIds(questionIds: string[]) {
     this.http
-      .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/questions/', questionIds)
+      .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/assessment/questions/', {questionIds})
         .subscribe(
           responseData => {
             this.questions = responseData.questions;
+            this.assessmentQuestionsUpdated.next(this.questions);
+            console.log(responseData.message);
+            console.log(responseData.questions);
           },
           error => {
             console.log('%c' + error.error.message, 'color: red;');

@@ -25,18 +25,18 @@ const app = express();
 // 02/18/2020: useNewUrlParser and useUnifiedTopology options are to avoid
 // soon-to-be depecrated features of mongoDb client
 mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority',
-{ useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
-  console.log('Connected to the database successfully'),
-  (error) => {
-    console.log(error.reason);
-  }
-});
+  { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+    console.log('Connected to the database successfully'),
+      (error) => {
+        console.log(error.reason);
+      }
+  });
 
 // Middleware for parsing json data and urlencoded data on requests
 // The file size is the maximum size of a request that can come through
 // MongoDb supports files up to 16mb, which is where limit is coming from
-app.use(bodyParser.json({limit: '16mb', extended: true}))
-app.use(bodyParser.urlencoded({limit: '16mb', extended: true}))
+app.use(bodyParser.json({ limit: '16mb', extended: true }))
+app.use(bodyParser.urlencoded({ limit: '16mb', extended: true }))
 
 // CORS Headers to allow cross communication between angular and backend
 app.use((request, response, next) => {
@@ -52,23 +52,42 @@ app.use((request, response, next) => {
   next();
 });
 
+app.post("/api/assessment/questions/", (request, response, next) => {
+  const questionIds = request.body.questionIds;
+  console.log(questionIds);
+  // Get mock questions for now
+  const mockQuestions = JSON.parse(fs.readFileSync('backend/mock-questions.json', 'utf8'));
+  const objectIds = [];
+  questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
+  console.log(objectIds);
+  checkBoxModel.find({_id: objectIds}, (error, questions) => {
+    if (error) {
+      console.log(error.message);
+    }
+    else {
+      console.log(questions);
+      // Send a successful response message and an array of questions to work with.
+      response.status(200).json({
+      message: 'Question Fetched Successfully!',
+      questions: questions
+      });
+    }
+  });
+
+});
+
 // Get all questions
 app.get("/api/questions", (request, response, next) => {
 
-  // If questionIds was passed through, move on to the next endpoint.
-  if (request.params.hasOwnProperty('questionIds')) {
-    next();
-  }
-
   // Search the questions collection where:
   // questionType is a property on the object
-  find('questions', {questionType: {$exists: true}}, function (error, questions) {
+  find('questions', { questionType: { $exists: true } }, function (error, questions) {
 
     // Send a successful response message and an array of questions to work with.
     response.status(200).json({
       message: 'Question Fetched Successfully!',
       questions: questions
-      });
+    });
 
     // Logs message and questions array to the backend for debugging.
     console.log("Questions Fetched Successfully.")
@@ -78,48 +97,48 @@ app.get("/api/questions", (request, response, next) => {
     // Sends an error status back to requestor.
     // Includes what was pulled for a questions array (if anything)
     console.log(error.message);
-      response.status(400).json({
-        message: error.message,
-        questions: questions
-      })
+    response.status(400).json({
+      message: error.message,
+      questions: questions
+    })
   });
 });
 
 // Get only questions of a certain type
 app.get("/api/questions/:questionType", (request, response, next) => {
-  checkBoxModel.find({questionType: request.params.questionType}).then((questions, error) =>{
+  checkBoxModel.find({ questionType: request.params.questionType }).then((questions, error) => {
     response.status(200).json({
       message: request.params.questionType + ' Questions fetched successfully!',
       questions: questions
-      });
+    });
   },
-  error => {
-    console.log(error.message);
+    error => {
+      console.log(error.message);
       response.status(400).json({
         message: error.message,
         questions: null
       })
-  })
+    })
 });
 
 // Get a single question by an id from the questions collection.
 app.get("/api/question/:id", (request, response, next) => {
-  checkBoxModel.find({_id: request.params.id}).then((question, error) =>{
+  checkBoxModel.find({ _id: request.params.id }).then((question, error) => {
     response.status(200).json({
       message: request.params.id + ' Question fetched successfully!',
       question: question
-      });
-      // TODO: [PER-98] Remove the console logs in getting a question by ID before pushing to production.
+    });
+    // TODO: [PER-98] Remove the console logs in getting a question by ID before pushing to production.
     console.log(message);
     console.log(question);
   },
-  error => {
-    console.log(error.message);
+    error => {
+      console.log(error.message);
       response.status(400).json({
         message: error.message,
         question: null
       })
-  })
+    })
 });
 
 // Saves a question to the questions collection
@@ -177,7 +196,7 @@ app.post("/api/question/save", (request, response, next) => {
     response.status(200).json({
       message: 'Question saved successfully!',
       question: question
-      });
+    });
   },
     error => {
       console.log(error.message);
@@ -185,7 +204,7 @@ app.post("/api/question/save", (request, response, next) => {
         message: error.message,
         question: question
       })
-  });
+    });
 });
 
 // Creates a Checkbox question object for saving to the database.
@@ -195,7 +214,7 @@ function createCheckbox(question, questionId) {
   // Assigns question id to each option
   question.options.forEach((x) => {
     x.id = mongoose.Types.ObjectId(),
-    x.questionId = questionId
+      x.questionId = questionId
   });
 
   // Create Checkbox Model.
@@ -221,7 +240,7 @@ function createMultipleChoice(question, questionId) {
   // Assigns question id to each option
   question.options.forEach((x) => {
     x.id = mongoose.Types.ObjectId(),
-    x.questionId = questionId
+      x.questionId = questionId
   });
 
   // Create Multiple Choice Model.
@@ -246,7 +265,7 @@ function createShortAnswer(question, questionId) {
   // Assigns question id to each match option
   question.matches.forEach((x) => {
     x.id = mongoose.Types.ObjectId(),
-    x.questionId = questionId
+      x.questionId = questionId
   });
   // Create Short Answer Model
   const questionModel = new shortAnswerModel({
@@ -305,10 +324,10 @@ function createUpload(question, questionId) {
 
 // Finds documents in a given collection.
 // Used for when we can't target a specific model.
-function find (name, query, callBack) {
-  mongoose.connection.db.collection(name, function (err, collection) {
-     collection.find(query).toArray(callBack);
- });
+function find(name, query, callBack) {
+  mongoose.connection.db.collection(name, function (error, collection) {
+    collection.find(query).toArray(callBack);
+  });
 }
 
 // Exports the contstants and all of the middlewares attached to it.

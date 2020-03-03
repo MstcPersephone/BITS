@@ -1,1 +1,6 @@
-<p>view-question works!</p>
+<mat-card>
+  <h3>Question</h3>
+  <div *ngIf="currentQuestion != null" [ngSwitch]="currentQuestion.questionType">
+    <app-view-checkbox *ngSwitchCase="'Checkbox'" [question]="currentQuestion"></app-view-checkbox>
+  </div>
+</mat-card>
