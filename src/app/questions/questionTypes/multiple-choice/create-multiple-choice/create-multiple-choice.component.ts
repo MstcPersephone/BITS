@@ -29,7 +29,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
   // Id is null at this point because it is generated on the backend.
   onSubmit(multipleChoiceData) {
     const multipleChoiceQuestion: MultipleChoice = new MultipleChoice();
-    multipleChoiceQuestion.id =  null;
+    multipleChoiceQuestion._id =  null;
     multipleChoiceQuestion.questionText = multipleChoiceData.questionText;
     multipleChoiceQuestion.options = this.questionService.getOptions();
     multipleChoiceQuestion.hasAttachments = this.attachmentService.hasAttachments;

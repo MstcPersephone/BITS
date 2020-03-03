@@ -129,7 +129,6 @@ app.get("/api/question/:id", (request, response, next) => {
       question: question
     });
     // TODO: [PER-98] Remove the console logs in getting a question by ID before pushing to production.
-    console.log(message);
     console.log(question);
   },
     error => {

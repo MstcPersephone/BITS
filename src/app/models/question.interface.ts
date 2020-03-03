@@ -2,7 +2,7 @@ import { QuestionType } from '../enums/questionType.enum';
 import { Attachment } from './shared/attachment.model';
 
 export interface Question {
-  id: string; // unique identifier
+  _id: string; // unique identifier
   questionText: string; // the question text
   questionType: QuestionType; // enum value
   hasAttachments: boolean; // whether or not files are attached to the question

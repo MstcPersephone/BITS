@@ -41,7 +41,7 @@ export class CreateTrueFalseComponent implements OnInit {
   onSubmit(trueFalseData) {
     const trueFalseQuestion: TrueFalse = new TrueFalse();
 
-    trueFalseQuestion.id = null;
+    trueFalseQuestion._id = null;
     trueFalseQuestion.questionText = trueFalseData.questionText;
     trueFalseQuestion.hasAttachments = this.attachmentService.hasAttachments;
     trueFalseQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;

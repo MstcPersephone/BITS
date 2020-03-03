@@ -30,7 +30,7 @@ export class CreateOptionComponent implements OnInit {
   // Id is null at this point because it is generated on the backend.
   onSubmit(optionData) {
     const option: Option = new Option();
-    option.id = null;
+    option._id = null;
     option.questionId = null;
     option.optionText =  optionData.optionText;
     option.isAnswer = optionData.isAnswer;

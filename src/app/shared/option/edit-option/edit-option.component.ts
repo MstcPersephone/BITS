@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Option } from 'src/app/models/shared/option.model';
 
 @Component({
   selector: 'app-edit-option',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edit-option.component.css']
 })
 export class EditOptionComponent implements OnInit {
-
+  @Input() option: Option;
   constructor() { }
 
   ngOnInit() {
   }
 
+  onSubmit(formData) {
+    console.log(formData);
+  }
 }

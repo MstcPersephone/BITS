@@ -25,7 +25,7 @@ export class CreateExactMatchComponent implements OnInit {
 
   onSubmit(exactMatchData) {
     const exactMatch: ExactMatch = new ExactMatch();
-    exactMatch.id = null;
+    exactMatch._id = null;
     exactMatch.questionId = null;
     exactMatch.matchText = exactMatchData.matchText;
 

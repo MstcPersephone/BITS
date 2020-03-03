@@ -4,7 +4,7 @@ import { Attachment } from '../shared/attachment.model';
 
 // A question that allows an upload for an answer.
 export class Upload implements Question {
-  id: string;
+  _id: string;
   questionText: string;
   questionType = QuestionType.Upload;
   hasAttachments: boolean;

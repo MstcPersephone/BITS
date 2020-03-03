@@ -5,7 +5,7 @@ import { Attachment } from '../shared/attachment.model';
 
 // Muliple choice question that allows more than one correct answer.
 export class Checkbox implements Question {
-  id: string;
+  _id: string;
   questionText: string;
   questionType = QuestionType.CheckBox;
   options: Option[];

@@ -5,7 +5,7 @@ import { Attachment } from '../shared/attachment.model';
 
 // Muliple choice question that allows only one correct answer.
 export class MultipleChoice implements Question {
-  id: string;
+  _id: string;
   questionText: string;
   questionType = QuestionType.MultipleChoice;
   options: Option[];

@@ -146,7 +146,9 @@ export class QuestionService {
         'http://localhost:3000/api/question/' + questionId
       )
       .subscribe((questionData) => {
-        const currentQuestion = questionData.question;
+        // mongoose always returns an array with find()
+        // grabbing the first (and only) question in array
+        this.question = questionData.question[0];
         // Subscribers get a copy of the questions array sorted by question text.
         this.questionUpdated.next(this.question);
       });

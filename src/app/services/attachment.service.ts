@@ -82,7 +82,7 @@ export class AttachmentService {
 
         // Create and set values of attachment.
         const attachment = new Attachment();
-        attachment.id = null;
+        attachment._id = null;
         attachment.name = f.name;
         attachment.fileSize = f.size;
         attachment.fileType = f.type;
