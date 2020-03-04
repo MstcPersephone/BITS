@@ -26,7 +26,10 @@ export class ViewMultipleChoiceComponent implements OnInit {
   }
 
   onChangeOption($event, i) {
-    this.question.options[i].optionIsSelected = $event.checked;
+    this.question.options.forEach(element => {
+      element.optionIsSelected = false;
+    });
+    this.question.options[i].optionIsSelected = true;
     console.log(this.question.options);
   }
 
