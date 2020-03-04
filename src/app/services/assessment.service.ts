@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 })
 export class AssessmentService {
   // MOCK DATA
-  public mockQuestionIds: string[] = ['5e50ba9499062123580d5245', '5e512dc2f614c627f0443d18'];
+  public mockQuestionIds: string[] = ['5e50ba9499062123580d5245', '5e512dc2f614c627f0443d18', '5e53dfa22849a450c49e1fd7'];
 
   private questionIds: string[];
   public questions: Question[] = [];
