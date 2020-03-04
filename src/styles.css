@@ -93,7 +93,7 @@ mat-icon {
 
 /* Styles applied to the Save button */
 button.saveButton {
-  background-color: rgb(11, 87, 138);
+  background-color: #82142D;
   color: #ffffff;
   display: block;
   margin-top: 40px;
@@ -103,21 +103,25 @@ button.saveButton {
 /* Styles applied to the Upload button. Puts upload button on one line, rather than inline with the lower content. */
 button.uploadButton {
   display: block;
+  background-color: #404040;
   margin-bottom: 10px;
 }
 
-/* Styles applied to the Delete icon */
-mat-icon.deleteIcon {
-  color: rgb(254, 0, 2);
+/* Styles applied to the Edit and Delete icons */
+mat-icon.deleteIcon, mat-icon.editIcon {
+  color: #82142D;
 }
-mat-icon.deleteIcon:hover {
-  color: rgba(254, 0, 2, .7);
+mat-icon.deleteIcon:hover, mat-icon.editIcon:hover {
+  opacity: 0.7;
 }
 
-/* Styles applied to the Edit icon */
-mat-icon.editIcon {
-  color: rgb(11, 87, 138);
+/* Styles applied to the Add buttons (Add Option, Add Exact Match) */
+button.addOption{
+  background-color: #0b578a;
+  color: #ffffff;
 }
-mat-icon.editIcon:hover {
-  color: rgba(11, 87, 138, .7)
+
+/* Styles applied to correct options */
+mat-list-item.correct {
+  background-color: #6fff85;
 }
