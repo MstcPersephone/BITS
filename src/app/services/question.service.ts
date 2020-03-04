@@ -149,8 +149,13 @@ export class QuestionService {
         // mongoose always returns an array with find()
         // grabbing the first (and only) question in array
         this.question = questionData.question[0];
+        if (this.question.questionType === QuestionType.CheckBox) {
+          this.options = (this.question as Checkbox).options;
+        }
         // Subscribers get a copy of the questions array sorted by question text.
         this.questionUpdated.next(this.question);
+
+        this.optionsUpdated.next(this.options);
       });
   }
 

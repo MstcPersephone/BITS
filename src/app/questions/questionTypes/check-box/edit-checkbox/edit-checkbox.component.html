@@ -6,7 +6,7 @@
   </mat-form-field>
 
   <!-- Add attachment component -->
-  <app-attachment [editAttachments]="question.hasAttachments"></app-attachment>
+  <app-attachment [attachmentsLoaded]="question.hasAttachments"></app-attachment>
 
   <h3>Current options</h3>
   <app-edit-option *ngFor="let option of this.questionService.asCheckbox(question).options; Index as i" [option]="option"></app-edit-option>

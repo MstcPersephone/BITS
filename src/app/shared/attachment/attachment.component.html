@@ -1,4 +1,4 @@
-<mat-checkbox class="mt-20" (change)="this.attachmentService.hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
+<mat-checkbox [checked]="attachmentsLoaded == null ? this.attachmentService.hasAttachments : attachmentsLoaded" class="mt-20" (change)="this.attachmentService.hasAttachmentsChanged()">Does this question have attachments?</mat-checkbox>
 
 <input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event)"/>
 
