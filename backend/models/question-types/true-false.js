@@ -29,9 +29,17 @@ const trueFalseSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
+  studentAnswer: {
+    type: String,
+    default: 'Not answered'
+  },
   duration: {
     type: Number,
     default: 0
+  },
+  isAnsweredCorrectly: {
+    type: Boolean,
+    required: false
   },
   createdOn: {
     type: Date,
