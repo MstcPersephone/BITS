@@ -127,5 +127,5 @@ button.addOption{
 
 /* Styles applied to correct options */
 mat-list-item.correct {
-  background-color: #6fff85;
+  background-color: rgba(111,255,133, 0.3);
 }
