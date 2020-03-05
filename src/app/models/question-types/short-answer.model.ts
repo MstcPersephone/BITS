@@ -11,7 +11,8 @@ export class ShortAnswer implements Question {
   hasAttachments: boolean;
   attachments?: Attachment[];
   isAnswered: boolean;
-  answer: string;
+  studentAnswer: string;
   matches: ExactMatch[];
   duration: number;
+  isAnsweredCorrectly: boolean; // whether the user has provided the correct answer
 }
