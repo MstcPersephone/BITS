@@ -10,22 +10,23 @@ import { AssessmentService } from 'src/app/services/assessment.service';
 })
 export class ViewShortAnswerComponent implements OnInit {
 answerShortAnswerForm;
+
 @Input() question: ShortAnswer;
 
   constructor(
     private assessmentService: AssessmentService,
     private formBuilder: FormBuilder
   ) {
-    // Although there are no fields,
-    // We still want to create the form and use angular forms
-    // to handle the submit function
-    this.answerShortAnswerForm = this.formBuilder.group({});
+    this.answerShortAnswerForm = this.formBuilder.group({
+      studentAnswer: ''
+    });
    }
 
   ngOnInit(): void {
   }
 
-  onSubmit() {
+  onSubmit(formData) {
+    this.question.studentAnswer = formData.studentAnswer;
     this.assessmentService.submitAnswer(this.question);
   }
 }
