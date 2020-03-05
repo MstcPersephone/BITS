@@ -111,11 +111,6 @@ export class QuestionService {
 
   }
 
-  // Starts the edit question wizard
-  editQuestion(question: Question) {
-
-  }
-
   // Gets the updateListener subject for single question fetch
   getQuestionUpdatedListener() {
     return this.questionUpdated.asObservable();
@@ -151,11 +146,12 @@ export class QuestionService {
         this.question = questionData.question[0];
         if (this.question.questionType === QuestionType.CheckBox) {
           this.options = (this.question as Checkbox).options;
+          console.log(this.options);
+          // subscribers get a copy of the options associated with the question
+          this.optionsUpdated.next(this.options);
         }
         // Subscribers get a copy of the questions array sorted by question text.
         this.questionUpdated.next(this.question);
-
-        this.optionsUpdated.next(this.options);
       });
   }
 
