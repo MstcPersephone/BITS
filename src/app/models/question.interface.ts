@@ -9,5 +9,6 @@ export interface Question {
   attachments?: Attachment[]; // list of files for the question
   isAnswered: boolean; // whether the user has answered the question
   duration: number; // how long it takes to answer the question
+  points: number; // the point value for the question
   isAnsweredCorrectly: boolean; // whether the user has provided the correct answer
 }

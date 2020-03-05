@@ -13,5 +13,6 @@ export class Upload implements Question {
   duration: number;
   correctAnswer: Attachment[];
   submittedAnswer: Attachment[];
+  points: number;
   isAnsweredCorrectly: boolean; // whether the user has provided the correct answer
 }
