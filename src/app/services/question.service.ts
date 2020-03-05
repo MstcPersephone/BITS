@@ -20,6 +20,7 @@ export class QuestionService {
 
   // Category array and subject.
   private categories: Category[] = [];
+  private selectedCategories: Category[] = [];
   private categoriesUpdated = new Subject<Category[]>();
   private categoriesLoaded = false;
 
@@ -53,13 +54,6 @@ export class QuestionService {
   // ****************************************************** //
   // ******************Category Functions****************** //
   // ****************************************************** //
-  // Removes a category from the list based on its index
-  deleteCategory(i) {
-    console.log('%c Deleting Exact Match', 'color: red');
-    this.categories.splice(i, 1);
-    console.table(this.categories);
-    this.categoriesUpdated.next([...this.categories]);
-  }
 
   // Gets all categories from the database.
   getAllCategories() {
@@ -87,8 +81,10 @@ export class QuestionService {
       return this.categoriesLoaded;
   }
 
-  onHandleCategory(){
-
+  // Updates the selectedCategories array with the values selected by the user.
+  onHandleCategory(event: any) {
+    this.selectedCategories = event.value;
+    console.log(this.selectedCategories);
   }
 
   // Saves the category to the database
@@ -255,6 +251,7 @@ export class QuestionService {
       this.clearOptions();
       console.log(completeQuestion);
     }
+    question.categories = this.selectedCategories;
     this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/question/save', question)
       .subscribe(
         responseData => {

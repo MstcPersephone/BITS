@@ -4,9 +4,14 @@ const mongoose = require('mongoose');
 // Import subdocument schemas
 const attachmentSchema = require('../shared/attachment');
 const exactMatchSchema = require('../shared/exact-match');
+const categorySchema = require('../shared/category');
 
 // Create Essay Schema (blueprint)
 const shortAnswerSchema = mongoose.Schema({
+  categories: {
+    type: [categorySchema.schema],
+    required: true
+  },
   questionText: {
     type: String,
     required: true

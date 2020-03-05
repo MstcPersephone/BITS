@@ -10,6 +10,7 @@
         <!-- Question Type -->
         <!-- <p matLine>{{ question.questionType }} Question</p> -->
         <p>{{ question.questionType }} Question</p>
+        <p *ngFor="let category of question.categories">{{ category.name }}</p>
         <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
         <mat-icon class="editIcon" matListIcon>edit</mat-icon>
       </section>

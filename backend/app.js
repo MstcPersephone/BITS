@@ -261,6 +261,9 @@ app.post("/api/question/save", (request, response, next) => {
       questionObjectToSave = createUpload(question, questionId);
   }
 
+  // Attach categories to question before saving.
+  questionObjectToSave.categories = question.categories;
+
   // Saves the object to the database.
   // Returns either 200 success or 400 error
   questionObjectToSave.save().then(() => {
