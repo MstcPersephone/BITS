@@ -107,8 +107,12 @@ button.uploadButton {
   margin-bottom: 10px;
 }
 
-/* Styles applied to the Edit and Delete icons */
-mat-icon.deleteIcon, mat-icon.editIcon {
+/* Styles applied to the Edit icon */
+mat-icon.editIcon {
+  color: #2d2d2d;
+}
+/* Styles applied to the Delete icon */
+mat-icon.deleteIcon {
   color: #82142D;
 }
 mat-icon.deleteIcon:hover, mat-icon.editIcon:hover {

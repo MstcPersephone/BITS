@@ -29,6 +29,7 @@ mat-list-item {
 
 .optionButtonContainer, .matchButtonContainer{
   margin-left: auto;
+  min-width: 65px;
   margin-right: 0;
 }
 
