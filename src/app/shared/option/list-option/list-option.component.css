@@ -1,45 +1,36 @@
+@import "../../../../styles.css";
+
 mat-card{
   overflow: hidden;
   background-color: rgba(0, 0, 0, .04);
+  padding-left: 0;
+  padding-right: 0;
 }
-
 mat-list-item {
   padding-top: 15px !important;
   padding-bottom: 20px !important;
 }
-
-.deleteIcon {
-  color: rgb(254, 0, 2);
+.optionCount, .matchCount{
+  float: right;
+  margin-right: 20px;
 }
-
-.deleteIcon:hover {
-  color: rgba(254, 0, 2, .7);
-}
-
-.editIcon {
-  color: rgb(11, 87, 138);
-}
-
-.editIcon:hover {
-  color: rgba(11, 87, 138, .7)
-}
-
-.isAnswerIcon {
-  color: #ffffff;
-  background-color: #2cb01a;
-}
-
-.optionListContainer {
+.optionListContainer, .matchListContainer{
   padding-top: 0px;
   padding-bottom: 0px;
 }
 
-.optionList {
+.optionList, .matchList{
   margin-top: 40px;
 }
 
-.optionListItem {
+.optionListItem, .matchListItem {
   margin: 10px;
+}
+
+.optionButtonContainer, .matchButtonContainer{
+  margin-left: auto;
+  min-width: 65px;
+  margin-right: 0;
 }
 
 /* This is to override the default Angular Material hover effect */

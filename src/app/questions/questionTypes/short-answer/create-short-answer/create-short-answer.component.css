@@ -1,17 +1,2 @@
-mat-card {
-  width: 90%;
-  margin: 10px auto;
-  padding: 15px;
-}
-form {
-  padding: 25px;
-}
-mat-form-field{
-  display: block;
-}
-
-h3:first-of-type{
-  font-size: 20px;
-  padding: 0;
-  margin: 0;
-}
+/* Importing the task-specific styling. */
+@import "../../_taskStyles/createStyles.css";
