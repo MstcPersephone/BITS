@@ -1,8 +1,10 @@
 import { QuestionType } from '../enums/questionType.enum';
 import { Attachment } from './shared/attachment.model';
+import { Category } from './shared/category.model';
 
 export interface Question {
   id: string; // unique identifier
+  categories: Category []; // the categories assined to the question
   questionText: string; // the question text
   questionType: QuestionType; // enum value
   hasAttachments: boolean; // whether or not files are attached to the question

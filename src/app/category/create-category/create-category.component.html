@@ -1,5 +1,6 @@
 <mat-card>
-  <form [formGroup]="createCategoryForm" (ngSubmit)="onSubmit(createCategoryForm.value)">
+  <app-list-category></app-list-category>
+  <form *ngIf="this.questionService.getShowHideCreateCategory()" [formGroup]="createCategoryForm" (ngSubmit)="onSubmit(createCategoryForm.value)">
 
     <!-- Category Name Input -->
     <mat-form-field appearance="standard">
@@ -9,5 +10,4 @@
     <!-- Submit Button -->
     <button class="addIcon" mat-raised-button color="accent" type="submit">Add<mat-icon>&nbsp;add</mat-icon></button>
   </form>
-  <app-list-category></app-list-category>
 </mat-card>

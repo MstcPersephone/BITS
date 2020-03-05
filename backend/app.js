@@ -77,7 +77,38 @@ app.post("/api/assessment/questions/", (request, response, next) => {
 
 });
 
-// Get all questions
+// ******************************************************** //
+// ***************Get all categories by ID***************** //
+// ******************************************************** //
+app.get("/api/categories", (request, response, next) => {
+
+  // Finds all categories by ID
+  find('categories', { _id: { $exists: true } }, function (error, categories) {
+
+    // Send a successful response message and an array of categories to work with.
+    response.status(200).json({
+      message: 'Categories Fetched Successfully!',
+      categories: categories
+    });
+
+    // Logs message and questions array to the backend for debugging.
+    console.log("Categories Fetched Successfully.")
+    console.log(categories);
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a categories array (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      categories: categories
+    })
+  });
+});
+
+// ******************************************************** //
+// *****Get all questions if they have a question type***** //
+// ******************************************************** //
 app.get("/api/questions", (request, response, next) => {
 
   // Search the questions collection where:
@@ -145,7 +176,7 @@ app.get("/api/question/:id", (request, response, next) => {
 // ******************************************************* //
 // ******CATEGORY saved to the categories collection******* //
 // ******************************************************* //
-app.post("/api/category/save", (request, response, next) => {
+app.post("/api/categories/save", (request, response, next) => {
 
   // Request.body is the category that is passed through.
   const category = request.body;
@@ -230,6 +261,8 @@ app.post("/api/question/save", (request, response, next) => {
       questionObjectToSave = createUpload(question, questionId);
   }
 
+  // Attach categories to question before saving.
+  questionObjectToSave.categories = question.categories;
   // Saves the point total
   questionObjectToSave.points = question.points;
 

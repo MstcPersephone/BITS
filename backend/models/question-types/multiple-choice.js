@@ -4,9 +4,14 @@ const mongoose = require('mongoose');
 // Import subdocument schemas
 const attachmentSchema = require('../shared/attachment');
 const optionSchema = require('../shared/option');
+const categorySchema = require('../shared/category');
 
 // Create Multiple Choice Schema (blueprint)
 const multipleChoiceSchema = mongoose.Schema({
+  categories: {
+    type: [categorySchema.schema],
+    required: true
+  },
   questionText: {
     type: String,
     required: true
