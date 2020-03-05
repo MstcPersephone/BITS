@@ -14,4 +14,5 @@ export class ShortAnswer implements Question {
   answer: string;
   matches: ExactMatch[];
   duration: number;
+  points: number;
 }

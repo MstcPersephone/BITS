@@ -14,4 +14,5 @@ export class Checkbox implements Question {
   isAnswered: boolean;
   answers: Option[];
   duration: number;
+  points: number;
 }

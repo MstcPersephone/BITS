@@ -13,4 +13,5 @@ export class MultipleChoice implements Question {
   attachments: Attachment[];
   isAnswered: boolean;
   duration: number;
+  points: number;
 }

@@ -35,6 +35,10 @@ const uploadSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
+  points: {
+    type: Number,
+    default: 0
+  },
   createdOn: {
     type: Date,
     default: Date.now

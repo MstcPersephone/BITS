@@ -12,4 +12,5 @@ export class TrueFalse implements Question {
   isAnswered: boolean;
   answer: boolean;
   duration: number;
+  points: number;
 }
