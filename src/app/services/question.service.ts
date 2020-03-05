@@ -24,6 +24,7 @@ export class QuestionService {
   // Options array and subject.
   private options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
+  private hasOptions = false;
 
   // Exact match array and subject.
   private exactMatches: ExactMatch[] = [];
@@ -97,8 +98,8 @@ export class QuestionService {
   }
 
   // Returns whether or not the question has options.
-  hasOptions() {
-    return this.options.length > 0;
+  getHasOptions() {
+    return this.hasOptions;
   }
 
   // Returns whether the question has matches.
@@ -146,6 +147,9 @@ export class QuestionService {
         this.question = questionData.question[0];
         if (this.question.questionType === QuestionType.CheckBox) {
           this.options = (this.question as Checkbox).options;
+          if (this.options.length > 0) {
+            this.hasOptions = true;
+          }
           console.log(this.options);
           // subscribers get a copy of the options associated with the question
           this.optionsUpdated.next(this.options);
@@ -201,4 +205,31 @@ export class QuestionService {
   asMultipleChoice(val): MultipleChoice { return val; }
   asShortAnswer(val): ShortAnswer { return val; }
   asUpload(val): Upload { return val; }
+
+  // Finds the option in the array and updates its value.
+  updateOption(originalOption: Option, newOption: Option) {
+    // Finding the index of the original option
+    const index = this.options.indexOf(originalOption);
+
+    // Replacing old option with new option
+    this.options[index] = newOption;
+
+    console.log(this.options);
+  }
+
+  updateQuestionById(question) {
+    this.http.post<{ message: string, question: Question}>('http://localhost:3000/api/question/update', question)
+    .subscribe(
+      responseData => {
+        this.helperService.openSnackBar(question._id + ' Question Updated Successfully!', 'Close', 'success-dialog', 5000);
+        console.log('%c' + responseData.message, 'color: green;');
+        console.log('%c Database Object:', 'color: orange;');
+        console.log(responseData.question);
+        console.table(responseData.question.attachments);
+      },
+      error => {
+        console.log('%c' + error.error.message, 'color: red;');
+      }
+    );
+  }
 }

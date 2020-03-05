@@ -1,6 +1,6 @@
-<p style="float: right; margin-right: 20px;" *ngIf="this.questionService.hasOptions()">{{ options.length }} {{ options.length > 1 ? "options" : "option" }} added to the question.</p>
+<p style="float: right; margin-right: 20px;">{{ options.length }} {{ options.length > 1 ? "options" : "option" }} added to the question.</p>
 <!-- List of created options for question -->
-<div class="optionList" *ngIf="this.questionService.hasOptions()">
+<div class="optionList" >
   <mat-card class="optionListContainer">
     <mat-list>
       <div *ngFor="let option of options; let i = index">
