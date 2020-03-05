@@ -23,6 +23,7 @@ export class QuestionService {
   private selectedCategories: Category[] = [];
   private categoriesUpdated = new Subject<Category[]>();
   private categoriesLoaded = false;
+  private showHideCreateCategory = false;
 
   // Exact match array and subject.
   private exactMatches: ExactMatch[] = [];
@@ -81,14 +82,40 @@ export class QuestionService {
       return this.categoriesLoaded;
   }
 
+  getShowHideCreateCategory() {
+    return this.showHideCreateCategory;
+  }
+
   // Updates the selectedCategories array with the values selected by the user.
-  onHandleCategory(event: any) {
-    this.selectedCategories = event.value;
+  onHandleCategory(event: any, selectObject: any, selectCategoriesForm: any) {
+    if (event.value[0] === 'create') {
+      // Show create category
+      this.showHideCreateCategory = true;
+
+      console.log(event.source);
+      // Finds the first item in the select array (create new) and unchecks it.
+      // event.source.selected[0]._selected = false;
+
+      // Closes select drop down list
+      selectObject._panelOpen = false;
+
+      // Resets the checkboxes
+      selectCategoriesForm.reset();
+
+      // Resets selected categories
+      this.selectedCategories = [];
+
+    } else {
+      this.selectedCategories = event.value;
+    }
+
     console.log(this.selectedCategories);
   }
 
   // Saves the category to the database
-  saveCategory(category: Category) {
+  saveCategory(category: Category, createCategoryForm) {
+    // Hide the form to create a new category
+    this.showHideCreateCategory = false;
     this.http.post<{ message: string, category: Category }>('http://localhost:3000/api/categories/save', category)
       .subscribe(
         responseData => {
@@ -96,6 +123,8 @@ export class QuestionService {
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.category);
+          this.getAllCategories();
+          createCategoryForm.reset();
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');
