@@ -1,4 +1,4 @@
-List of Categories
+<mat-label>Select One or More Categories</mat-label>
 <div *ngIf="this.questionService.getCategoriesLoaded()">
   <form [formGroup]="selectCategoriesForm" (ngSubmit)=onSubmit(selectCategoriesForm.value)>
     <mat-form-field>
