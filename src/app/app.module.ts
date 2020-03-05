@@ -67,6 +67,10 @@ import { EditStudentComponent } from './student/edit-student/edit-student.compon
 import { ListStudentComponent } from './student/list-student/list-student.component';
 import { ViewStudentComponent } from './student/view-student/view-student.component';
 import { AttachmentComponent } from './shared/attachment/attachment.component';
+import { CreateCategoryComponent } from './category/create-category/create-category.component';
+import { EditCategoryComponent } from './category/edit-category/edit-category.component';
+import { ListCategoryComponent } from './category/list-category/list-category.component';
+import { ViewCategoryComponent } from './category/view-category/view-category.component';
 
 
 @NgModule({
@@ -113,7 +117,11 @@ import { AttachmentComponent } from './shared/attachment/attachment.component';
     ViewStudentComponent,
     ViewTrueFalseComponent,
     ViewUploadComponent,
-    AttachmentComponent
+    AttachmentComponent,
+    CreateCategoryComponent,
+    EditCategoryComponent,
+    ListCategoryComponent,
+    ViewCategoryComponent
   ],
   imports: [
     BrowserModule,

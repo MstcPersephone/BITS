@@ -2,5 +2,8 @@
   <h3>Question</h3>
   <div *ngIf="currentQuestion != null" [ngSwitch]="currentQuestion.questionType">
     <app-view-checkbox *ngSwitchCase="'Checkbox'" [question]="currentQuestion"></app-view-checkbox>
+    <app-view-multiple-choice *ngSwitchCase="'Multiple Choice'" [question]="currentQuestion"></app-view-multiple-choice>
+    <app-view-short-answer *ngSwitchCase="'Short Answer'" [question]="currentQuestion"></app-view-short-answer>
+    <app-view-true-false *ngSwitchCase="'True False'" [question]="currentQuestion"></app-view-true-false>
   </div>
 </mat-card>
