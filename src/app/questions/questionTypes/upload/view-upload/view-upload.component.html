@@ -1,1 +1,7 @@
-<p>view-upload works!</p>
+<p>{{ question.questionText }}</p>
+<form [formGroup]="answerUploadForm" (ngSubmit)="onSubmit(answerUploadForm.value)">
+  <mat-form-field>
+
+</mat-form-field>
+<button mat-raised-button type="submit">Next Question&nbsp;<mat-icon>forward</mat-icon></button>
+</form>
