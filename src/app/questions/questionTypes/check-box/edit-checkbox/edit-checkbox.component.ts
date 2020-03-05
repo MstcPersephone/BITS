@@ -16,7 +16,7 @@ export class EditCheckboxComponent implements OnInit {
   constructor(
     public questionService: QuestionService,
     private formBuilder: FormBuilder,
-    private attachmentService: AttachmentService
+    public attachmentService: AttachmentService
   ) {
     this.editCheckboxForm = this.formBuilder.group({
       questionText: '',
@@ -32,7 +32,7 @@ export class EditCheckboxComponent implements OnInit {
     const updatedCheckboxQuestion: Checkbox = new Checkbox();
 
     updatedCheckboxQuestion._id = this.question._id;
-    updatedCheckboxQuestion.questionText = formData.questionText;
+    updatedCheckboxQuestion.questionText = formData.questionText.dirty ? formData.questionText : this.question.questionText;
     updatedCheckboxQuestion.options = this.questionService.getOptions();
     updatedCheckboxQuestion.hasAttachments = this.attachmentService.hasAttachments;
     updatedCheckboxQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;

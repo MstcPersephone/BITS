@@ -11,6 +11,7 @@ import { TrueFalse } from '../models/question-types/true-false.model';
 import { MultipleChoice } from '../models/question-types/multiple-choice.model';
 import { Upload } from '../models/question-types/upload.model';
 import { ShortAnswer } from '../models/question-types/short-answer.model';
+import { AttachmentService } from './attachment.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +35,7 @@ export class QuestionService {
   private question: Question;
   private questionUpdated = new Subject<Question>();
 
-  constructor(private http: HttpClient, private helperService: HelperService) { }
+  constructor(private http: HttpClient, private helperService: HelperService, public attachmentService: AttachmentService) { }
 
   // Pushes the option to the options array and updates the subject for subscribers to consume.
   createOption(option: Option) {
@@ -145,8 +146,11 @@ export class QuestionService {
         // mongoose always returns an array with find()
         // grabbing the first (and only) question in array
         this.question = questionData.question[0];
+
+        // Add options to options array if question type supports it
         if (this.question.questionType === QuestionType.CheckBox) {
           this.options = (this.question as Checkbox).options;
+          console.log(this.question);
           if (this.options.length > 0) {
             this.hasOptions = true;
           }
@@ -154,6 +158,9 @@ export class QuestionService {
           // subscribers get a copy of the options associated with the question
           this.optionsUpdated.next(this.options);
         }
+
+        this.attachmentService.attachments = this.question.attachments.length > 0 ? this.question.attachments : [];
+
         // Subscribers get a copy of the questions array sorted by question text.
         this.questionUpdated.next(this.question);
       });

@@ -52,11 +52,36 @@ app.use((request, response, next) => {
   next();
 });
 
+app.post("/api/question/update/", (request, response, next) => {
+  const question = request.body;
+
+  console.log(question);
+  checkBoxModel.findByIdAndUpdate(question._id, {$set: question}, {new: true}, (error, question) => {
+    // Send a successful response message and an array of questions to work with.
+    response.status(200).json({
+      message: 'Question Updated Successfully!',
+      question: question
+    });
+
+    // Logs message and questions array to the backend for debugging.
+    console.log("Questions Updated Successfully.")
+    console.log(question);
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a questions array (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      question: question
+    })
+  });
+
+});
+
 app.post("/api/assessment/questions/", (request, response, next) => {
   const questionIds = request.body.questionIds;
   console.log(questionIds);
-  // Get mock questions for now
-  const mockQuestions = JSON.parse(fs.readFileSync('backend/mock-questions.json', 'utf8'));
   const objectIds = [];
   questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
   console.log(objectIds);
