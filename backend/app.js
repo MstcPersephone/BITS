@@ -207,7 +207,12 @@ app.post("/api/question/save", (request, response, next) => {
   // Generate unique Id for question.
   const questionId = mongoose.Types.ObjectId();
 
-  // Swtich to internal function that creates object to save.
+
+  // create function that passes the question and question id as parameter,
+  // calls the question factory file/method and stores in property of object to save
+  //  which is then returned within this function.
+  // MOVE Swtich & question type functions move to a new file in providers
+  // that is returned to this new function in app.js
   // TODO: [PER-59] Refactor these internal functions to their own file.
   switch (question.questionType) {
     case "Checkbox":
