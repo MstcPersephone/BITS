@@ -1,1 +1,13 @@
-<p>list-category works!</p>
+List of Categories
+<div *ngIf="this.questionService.getCategoriesLoaded()">
+  <form [formGroup]="selectCategoriesForm" (ngSubmit)=onSubmit(selectCategoriesForm.value)>
+    <mat-form-field>
+      <mat-label>Categories</mat-label>
+      <mat-select formControlName="categoryList" multiple>
+        <mat-option *ngFor="let category of categoryList" [value]="category"
+        (change)="this.questionService.onHandleCategory($event, i)">
+        {{category.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>

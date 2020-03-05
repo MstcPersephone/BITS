@@ -18,21 +18,26 @@ import { Category } from '../models/shared/category.model';
 })
 export class QuestionService {
 
-  // Questions array and subect.
-  private questions: Question[] = [];
-  private questionsUpdated = new Subject<Question[]>();
-
-  // Options array and subject.
-  private options: Option[] = [];
-  private optionsUpdated = new Subject<Option[]>();
+  // Category array and subject.
+  private categories: Category[] = [];
+  private categoriesUpdated = new Subject<Category[]>();
+  private categoriesLoaded = false;
 
   // Exact match array and subject.
   private exactMatches: ExactMatch[] = [];
   private exactMatchesUpdated = new Subject<ExactMatch[]>();
 
+  // Options array and subject.
+  private options: Option[] = [];
+  private optionsUpdated = new Subject<Option[]>();
+
   // Question (for edit and delete) and subject
   private question: Question;
   private questionUpdated = new Subject<Question>();
+
+  // Questions array and subect.
+  private questions: Question[] = [];
+  private questionsUpdated = new Subject<Question[]>();
 
   constructor(private http: HttpClient, private helperService: HelperService) { }
 
@@ -48,9 +53,47 @@ export class QuestionService {
   // ****************************************************** //
   // ******************Category Functions****************** //
   // ****************************************************** //
+  // Removes a category from the list based on its index
+  deleteCategory(i) {
+    console.log('%c Deleting Exact Match', 'color: red');
+    this.categories.splice(i, 1);
+    console.table(this.categories);
+    this.categoriesUpdated.next([...this.categories]);
+  }
+
+  // Gets all categories from the database.
+  getAllCategories() {
+    this.http
+      .get<{ message: string, categories: Category[] }>(
+        'http://localhost:3000/api/categories'
+      )
+      .subscribe((categoryData) => {
+        this.categories = categoryData.categories;
+        console.log(this.categories);
+        this.categoriesLoaded = true;
+        // Subscribers get a copy of the questions array sorted by question type.
+        this.categoriesUpdated.next([...this.categories.sort((a, b) => (a.name > b.name) ? 1 : -1)]);
+      });
+  }
+
+  // Returns the category subject as observable.
+  // Used to subscribe to changes in categories array.
+  getCategoriesListener() {
+    return this.categoriesUpdated.asObservable();
+  }
+
+  // Returns whether the categories loaded to a list.
+  getCategoriesLoaded() {
+      return this.categoriesLoaded;
+  }
+
+  onHandleCategory(){
+
+  }
+
   // Saves the category to the database
   saveCategory(category: Category) {
-    this.http.post<{ message: string, category: Category }>('http://localhost:3000/api/category/save', category)
+    this.http.post<{ message: string, category: Category }>('http://localhost:3000/api/categories/save', category)
       .subscribe(
         responseData => {
           this.helperService.openSnackBar(category.name + ' Category Saved Successfully!', 'Close', 'success-dialog', 5000);
