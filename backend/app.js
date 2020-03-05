@@ -238,7 +238,7 @@ app.post("/api/question/save", (request, response, next) => {
   // Generate unique Id for question.
   const questionId = mongoose.Types.ObjectId();
 
-  // Swtich to internal function that creates object to save.
+  // Switch to internal function that creates object to save.
   // TODO: [PER-59] Refactor these internal functions to their own file.
   switch (question.questionType) {
     case "Checkbox":
@@ -263,6 +263,8 @@ app.post("/api/question/save", (request, response, next) => {
 
   // Attach categories to question before saving.
   questionObjectToSave.categories = question.categories;
+  // Saves the point total
+  questionObjectToSave.points = question.points;
 
   // Saves the object to the database.
   // Returns either 200 success or 400 error
