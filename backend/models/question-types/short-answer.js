@@ -26,7 +26,7 @@ const shortAnswerSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
-  answer: {
+  studentAnswer: {
     type: String,
     default: 'Not answered'
   },
@@ -40,6 +40,10 @@ const shortAnswerSchema = mongoose.Schema({
   points: {
     type: Number,
     default: 0
+  },
+  isAnsweredCorrectly: {
+    type: Boolean,
+    required: false
   },
   createdOn: {
     type: Date,

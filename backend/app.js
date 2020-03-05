@@ -7,6 +7,7 @@ const multipleChoiceModel = require("./models/question-types/multiple-choice");
 const trueFalseModel = require("./models/question-types/true-false");
 const shortAnswerModel = require("./models/question-types/short-answer");
 const uploadAnswerModel = require("./models/question-types/upload");
+const categoryModel = require("./models/shared/category");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -141,10 +142,56 @@ app.get("/api/question/:id", (request, response, next) => {
     })
 });
 
-// Saves a question to the questions collection
+// ******************************************************* //
+// ******CATEGORY saved to the categories collection******* //
+// ******************************************************* //
+app.post("/api/category/save", (request, response, next) => {
+
+  // Request.body is the category that is passed through.
+  const category = request.body;
+
+  // Generate unique Id for category.
+  const categoryId = mongoose.Types.ObjectId();
+
+  category._id = categoryId;
+
+  // category mapped object from front to back end.
+  const categoryToSaveModel = new categoryModel({
+    id: categoryId,
+    name: category.name,
+    createdOn: Date.now()
+  });
+
+  // Saves the category object to the database.
+  // Returns either 200 success or 400 error
+  categoryToSaveModel.save().then(() => {
+
+    // Log success message and saved object.
+    console.log(category.name + ' Category Created Successfully');
+    console.log(categoryToSaveModel);
+
+    // Send success message back to front end.
+    // Will probably use for logging later.
+    response.status(200).json({
+      message: 'Category saved successfully!',
+      category: category
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        category: category
+      })
+    });
+});
+
+// ******************************************************* //
+// ******QUESTION saved to the questions collection******* //
+// ******************************************************* //
 app.post("/api/question/save", (request, response, next) => {
 
-  // Requestion.body is the question that is passed through.
+  // Request.body is the question that is passed through.
   const question = request.body;
 
   // Will store the converted object to be saved.

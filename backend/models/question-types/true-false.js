@@ -29,6 +29,10 @@ const trueFalseSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
+  studentAnswer: {
+    type: String,
+    default: 'Not answered'
+  },
   duration: {
     type: Number,
     default: 0
@@ -36,6 +40,10 @@ const trueFalseSchema = mongoose.Schema({
   points: {
     type: Number,
     default: 0
+  },
+  isAnsweredCorrectly: {
+    type: Boolean,
+    required: false
   },
   createdOn: {
     type: Date,

@@ -38,6 +38,10 @@ const checkboxSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
+  isAnsweredCorrectly: {
+    type: Boolean,
+    required: false
+  },
   createdOn: {
     type: Date,
     default: Date.now
