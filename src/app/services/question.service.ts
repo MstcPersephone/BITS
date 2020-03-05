@@ -12,6 +12,7 @@ import { MultipleChoice } from '../models/question-types/multiple-choice.model';
 import { Upload } from '../models/question-types/upload.model';
 import { ShortAnswer } from '../models/question-types/short-answer.model';
 import { AttachmentService } from './attachment.service';
+import { Category } from '../models/shared/category.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,10 +38,40 @@ export class QuestionService {
 
   constructor(private http: HttpClient, private helperService: HelperService, public attachmentService: AttachmentService) { }
 
-  // Pushes the option to the options array and updates the subject for subscribers to consume.
-  createOption(option: Option) {
-    this.options.push(option);
-    this.optionsUpdated.next([...this.options]);
+  // ************************************************************** //
+  // Casting question to questionType for casting in html template. //
+  // ************************************************************** //
+  asCheckbox(val): Checkbox { return val; }
+  asTrueFalse(val): TrueFalse { return val; }
+  asMultipleChoice(val): MultipleChoice { return val; }
+  asShortAnswer(val): ShortAnswer { return val; }
+  asUpload(val): Upload { return val; }
+
+  // ****************************************************** //
+  // ******************Category Functions****************** //
+  // ****************************************************** //
+  // Saves the category to the database
+  saveCategory(category: Category) {
+    this.http.post<{ message: string, category: Category }>('http://localhost:3000/api/category/save', category)
+      .subscribe(
+        responseData => {
+          this.helperService.openSnackBar(category.name + ' Category Saved Successfully!', 'Close', 'success-dialog', 5000);
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.category);
+        },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
+
+  // ****************************************************** //
+  // *****************Exact Match Functions**************** //
+  // ****************************************************** //
+  // Resets the options array for a new question.
+  clearMatches() {
+    this.exactMatches = [];
   }
 
   // Pushes the match to the matches array and updates the subject for subscribers to consume.
@@ -49,10 +80,18 @@ export class QuestionService {
     this.exactMatchesUpdated.next([...this.exactMatches]);
   }
 
-  // Returns the option subject as an observable.
-  // Used to subscribe to changes in options array.
-  getOptionsListener() {
-    return this.optionsUpdated.asObservable();
+  // Removes an exact match from the list based on its index
+  deleteMatch(i) {
+    console.log('%c Deleting Exact Match', 'color: red');
+    this.exactMatches.splice(i, 1);
+    console.table(this.exactMatches);
+    this.exactMatchesUpdated.next([...this.exactMatches]);
+  }
+
+  // Gets copy of the matches.
+  // Used for attaching the matches to a question before saving it.
+  getMatches() {
+    return [...this.exactMatches];
   }
 
   // Returns the exact match subject as observable.
@@ -61,14 +100,23 @@ export class QuestionService {
     return this.exactMatchesUpdated.asObservable();
   }
 
+  // Returns whether the question has matches.
+  hasMatches() {
+    return this.exactMatches.length > 0;
+  }
+
+  // ******************************************** //
+  // ************Option Functions**************** //
+  // ******************************************** //
   // Resets the options array for a new question.
   clearOptions() {
     this.options = [];
   }
 
-  // Resets the options array for a new question.
-  clearMatches() {
-    this.exactMatches = [];
+  // Pushes the option to the options array and updates the subject for subscribers to consume.
+  createOption(option: Option) {
+    this.options.push(option);
+    this.optionsUpdated.next([...this.options]);
   }
 
   // Removes an option from the list based on its index
@@ -79,23 +127,16 @@ export class QuestionService {
     this.optionsUpdated.next([...this.options]);
   }
 
-  deleteMatch(i) {
-    console.log('%c Deleting Exact Match', 'color: red');
-    this.exactMatches.splice(i, 1);
-    console.table(this.exactMatches);
-    this.exactMatchesUpdated.next([...this.exactMatches]);
-  }
-
   // Gets a copy of the options.
   // Used for attaching the options to a question before saving it.
   getOptions() {
     return [...this.options];
   }
 
-  // Gets copy of the matches.
-  // Used for attaching the matches to a question before saving it.
-  getMatches() {
-    return [...this.exactMatches];
+  // Returns the option subject as an observable.
+  // Used to subscribe to changes in options array.
+  getOptionsListener() {
+    return this.optionsUpdated.asObservable();
   }
 
   // Returns whether or not the question has options.
@@ -103,13 +144,22 @@ export class QuestionService {
     return this.hasOptions;
   }
 
-  // Returns whether the question has matches.
-  hasMatches() {
-    return this.exactMatches.length > 0;
+  // Finds the option in the array and updates its value.
+  updateOption(originalOption: Option, newOption: Option) {
+    // Finding the index of the original option
+    const index = this.options.indexOf(originalOption);
+
+    // Replacing old option with new option
+    this.options[index] = newOption;
+
+    console.log(this.options);
   }
 
-  // Starts the edit option wizard
-  editOption(option: Option) {
+
+  // ********************************************** //
+  // ************Question Functions**************** //
+  // ********************************************** //
+  editQuestion(question: Question) {
 
   }
 
@@ -179,6 +229,11 @@ export class QuestionService {
       });
   }
 
+  // Returns the question type of a question
+  getQuestionType(question: Question) {
+    return question.questionType;
+  }
+
   // Saves the question to the database
   saveQuestion(question: Question) {
     if (question.questionType === QuestionType.CheckBox || question.questionType === QuestionType.MultipleChoice) {
@@ -199,29 +254,6 @@ export class QuestionService {
         error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
-  }
-
-  // Returns the question type of a question
-  getQuestionType(question: Question) {
-    return question.questionType;
-  }
-
-  // Casting question to questionType for casting in html template.
-  asCheckbox(val): Checkbox { return val; }
-  asTrueFalse(val): TrueFalse { return val; }
-  asMultipleChoice(val): MultipleChoice { return val; }
-  asShortAnswer(val): ShortAnswer { return val; }
-  asUpload(val): Upload { return val; }
-
-  // Finds the option in the array and updates its value.
-  updateOption(originalOption: Option, newOption: Option) {
-    // Finding the index of the original option
-    const index = this.options.indexOf(originalOption);
-
-    // Replacing old option with new option
-    this.options[index] = newOption;
-
-    console.log(this.options);
   }
 
   updateQuestionById(question) {

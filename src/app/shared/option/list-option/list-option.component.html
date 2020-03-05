@@ -1,4 +1,10 @@
-<p style="float: right; margin-right: 20px;">{{ options.length }} {{ options.length > 1 ? "options" : "option" }} added to the question.</p>
+<!-- Displays the amount of options added to the question -->
+<p class="optionCount" *ngIf="this.questionService.getHasOptions()">
+  {{ options.length }} {{ options.length > 1 ? "options" : "option" }} added to the question.
+</p>
+
+<br>
+
 <!-- List of created options for question -->
 <div class="optionList" >
   <mat-card class="optionListContainer">
@@ -7,21 +13,20 @@
 
         <!-- Top divider of list item does not show for the first list item -->
         <mat-divider *ngIf="i != 0"></mat-divider>
-        <mat-list-item>
 
-          <!-- This will be come the link to EditOption component -->
-          <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
-          <mat-icon class="deleteIcon iconButton" matListIcon (click)="this.questionService.deleteOption(i)">delete</mat-icon>
+        <!-- The list item itself. Contains the option text and the container which holds related commands. -->
+        <!-- The [ngClass] definition is used to set the background color to green for correct answers. -->
+        <mat-list-item [ngClass]="option.isAnswer ? 'correct' : '' ">
+
+          <!-- The text displayed within the option. -->
           <span class="optionListItem">{{option.optionText}}</span>
 
-
-            <!-- This is the "is answer" chip. Appears if the option is an answer -->
-            <mat-chip-list>
-              <mat-chip class="isAnswerIcon" *ngIf="option.isAnswer" [selectable]="false" [selected]="false">
-                Answer&nbsp;
-                <mat-icon class="isAnswerIcon">check_circle</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
+          <!-- Section which houses the commands used on the list item (edit and delete buttons, for example). -->
+          <section class="optionButtonContainer">
+            <!-- This will become the link to EditOption component -->
+            <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
+            <mat-icon class="deleteIcon iconButton" matListIcon (click)="this.questionService.deleteOption(i)">delete</mat-icon>
+          </section>
         </mat-list-item>
 
         <!-- Bottom divider of list item does not show for the last list item -->
