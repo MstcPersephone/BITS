@@ -56,6 +56,14 @@ export class QuestionService {
   // ******************Category Functions****************** //
   // ****************************************************** //
 
+  // Removes an option from the list based on its index
+  deleteCategory(i) {
+    console.log('%c Deleting Category', 'color: red');
+    this.categories.splice(i, 1);
+    console.table(this.categories);
+    this.categoriesUpdated.next([...this.categories]);
+  }
+
   // Gets all categories from the database.
   getAllCategories() {
     this.http

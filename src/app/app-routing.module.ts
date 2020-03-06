@@ -13,6 +13,7 @@ import { ViewQuestionComponent } from './questions/question/view-question/view-q
 
 import { CreateOptionComponent } from './shared/option/create-option/create-option.component';
 import { CreateExactMatchComponent } from './exact-match/create-exact-match/create-exact-match.component';
+import { EditCategoryComponent } from './category/edit-category/edit-category.component';
 
 import { ListCheckboxComponent } from './questions/questionTypes/check-box/list-checkbox/list-checkbox.component';
 import { ListTrueFalseComponent } from './questions/questionTypes/true-false/list-true-false/list-true-false.component';
@@ -34,7 +35,8 @@ const routes: Routes = [
   { path: 'question/true-false/list', component: ListTrueFalseComponent },
   { path: 'question/multiple-choice/list', component: ListMultipleChoiceComponent },
   { path: 'question/short-answer/list', component: ListShortAnswerComponent },
-  { path: 'question/view', component: ViewQuestionComponent }
+  { path: 'question/view', component: ViewQuestionComponent },
+  { path: 'category', component: EditCategoryComponent }
 ];
 
 @NgModule({
