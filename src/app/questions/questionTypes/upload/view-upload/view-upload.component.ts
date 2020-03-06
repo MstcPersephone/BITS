@@ -19,14 +19,14 @@ export class ViewUploadComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this.answerUploadForm = this.formBuilder.group({
-      submittedAnswer: ''
-    });
+      });
    }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
+    this.question.submittedAnswer = this.attachmentService.getStudentAnswers();
     this.assessmentService.submitAnswer(this.question);
   }
 }

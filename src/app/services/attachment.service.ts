@@ -13,6 +13,8 @@ export class AttachmentService {
 
   correctAnswers: Attachment[] = [];
 
+  studentAnswers: Attachment[] = [];
+
   constructor() { }
 
   getAttachmentFileNames(attachmentArrayName: string) {
@@ -52,6 +54,10 @@ export class AttachmentService {
     return [...this.correctAnswers];
   }
 
+  getStudentAnswers() {
+    return [...this.studentAnswers];
+  }
+
   getAttachmentsFileNames() {
     return this.attachmentsFileNames;
   }
@@ -72,7 +78,7 @@ export class AttachmentService {
 
   // Convert JS file into Attachment.
   // Convert file content to binary string.
-  uploadFiles($event: Event, isCorrectAnswerFiles = false) {
+  uploadFiles($event: Event, uploadType: string) {
 
       // Convert the uploaded files into an array of files to loop through.
       const files = Array.from(($event.target as HTMLInputElement).files);
@@ -98,15 +104,21 @@ export class AttachmentService {
           // Assigning binary string to attachment content property
           attachment.content = reader.result;
 
-          // Pushing the newly created Attachment object to the right array
-          if (isCorrectAnswerFiles) {
-          // Instructor uploaded correct answer files
-          this.correctAnswers.push(attachment);
-        } else {
-          // Instructor uploaded attachment to accompany a quesiton OR
-          // Uploaded files from the student as an answer to Upload questionType.
-          this.attachments.push(attachment);
-        }
+          switch (uploadType) {
+            case 'studentAnswer':
+                // Student uploaded answer files.
+                this.studentAnswers.push(attachment);
+                break;
+            case 'correctAnswer':
+                // Instructor uploaded correct answer files
+                this.correctAnswers.push(attachment);
+                break;
+            default:
+              // Instructor uploaded attachment to accompany a quesiton
+              this.attachments.push(attachment);
+              break;
+          }
+
           console.log(attachment.content);
         };
 
