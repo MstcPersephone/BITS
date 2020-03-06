@@ -8,7 +8,7 @@
 <!-- List of created options for question -->
 <div class="optionList" >
   <mat-card class="optionListContainer">
-    <mat-list>
+    <mat-list *ngIf="options.length > 0">
       <div *ngFor="let option of options; let i = index">
 
         <!-- Top divider of list item does not show for the first list item -->

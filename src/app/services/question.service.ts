@@ -217,13 +217,15 @@ export class QuestionService {
 
   // Finds the option in the array and updates its value.
   updateOption(originalOption: Option, newOption: Option) {
+    if (newOption.optionText === '') {
+      newOption.optionText = originalOption.optionText;
+    }
+
     // Finding the index of the original option
     const index = this.options.indexOf(originalOption);
 
     // Replacing old option with new option
     this.options[index] = newOption;
-
-    console.log(this.options);
   }
 
 
@@ -279,7 +281,7 @@ export class QuestionService {
           // subscribers get a copy of the options associated with the question
           this.optionsUpdated.next(this.options);
         }
-
+        console.log(this.question.attachments);
         this.attachmentService.attachments = this.question.attachments.length > 0 ? this.question.attachments : [];
 
         // Subscribers get a copy of the questions array sorted by question text.
@@ -336,7 +338,7 @@ export class QuestionService {
         console.log('%c' + responseData.message, 'color: green;');
         console.log('%c Database Object:', 'color: orange;');
         console.log(responseData.question);
-        console.table(responseData.question.attachments);
+        console.table(responseData.question);
       },
       error => {
         console.log('%c' + error.error.message, 'color: red;');
