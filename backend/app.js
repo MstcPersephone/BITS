@@ -2,6 +2,7 @@
 const fs = require("fs");
 
 // Import questionType mongoose objects for working with questions collection.
+const questionCollection = require("./models/question");
 const checkBoxModel = require("./models/question-types/checkbox");
 const multipleChoiceModel = require("./models/question-types/multiple-choice");
 const trueFalseModel = require("./models/question-types/true-false");
@@ -57,7 +58,7 @@ app.post("/api/question/update/", (request, response, next) => {
   const question = request.body;
 
   console.log(question);
-  checkBoxModel.findByIdAndUpdate(question._id, {$set: question}, {new: true}, (error, question) => {
+  questionCollection.findByIdAndUpdate(question._id, {$set: question}, {new: true}, (error, question) => {
     // Send a successful response message and an array of questions to work with.
     response.status(200).json({
       message: 'Question Updated Successfully!',
@@ -80,13 +81,17 @@ app.post("/api/question/update/", (request, response, next) => {
 
 });
 
+// Gets a list of questions that make up an assessment
 app.post("/api/assessment/questions/", (request, response, next) => {
   const questionIds = request.body.questionIds;
   console.log(questionIds);
   const objectIds = [];
+  // Turns the string ids into ObjectIds
   questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
   console.log(objectIds);
-  checkBoxModel.find({ _id: objectIds }, (error, questions) => {
+
+  // Performs the search
+  questionCollection.find({ _id: objectIds }, (error, questions) => {
     if (error) {
       console.log(error.message);
     }
@@ -163,7 +168,7 @@ app.get("/api/questions", (request, response, next) => {
 
 // Get only questions of a certain type
 app.get("/api/questions/:questionType", (request, response, next) => {
-  checkBoxModel.find({ questionType: request.params.questionType }).then((questions, error) => {
+  questionCollection.find({ questionType: request.params.questionType }).then((questions, error) => {
     response.status(200).json({
       message: request.params.questionType + ' Questions fetched successfully!',
       questions: questions
@@ -180,7 +185,7 @@ app.get("/api/questions/:questionType", (request, response, next) => {
 
 // Get a single question by an id from the questions collection.
 app.get("/api/question/:id", (request, response, next) => {
-  checkBoxModel.find({ _id: request.params.id }).then((question, error) => {
+  questionCollection.find({ _id: request.params.id }).then((question, error) => {
     response.status(200).json({
       message: request.params.id + ' Question fetched successfully!',
       question: question
