@@ -11,7 +11,6 @@ import { TrueFalse } from '../models/question-types/true-false.model';
 import { MultipleChoice } from '../models/question-types/multiple-choice.model';
 import { Upload } from '../models/question-types/upload.model';
 import { ShortAnswer } from '../models/question-types/short-answer.model';
-import { AttachmentService } from './attachment.service';
 import { Category } from '../models/shared/category.model';
 
 @Injectable({
@@ -45,8 +44,7 @@ export class QuestionService {
 
   constructor(
     private http: HttpClient,
-    private helperService: HelperService,
-    public attachmentService: AttachmentService) { }
+    private helperService: HelperService) { }
 
   // ************************************************************** //
   // Casting question to questionType for casting in html template. //
@@ -282,7 +280,7 @@ export class QuestionService {
           this.optionsUpdated.next(this.options);
         }
         console.log(this.question.attachments);
-        this.attachmentService.attachments = this.question.attachments.length > 0 ? this.question.attachments : [];
+        // this.attachmentService.attachments = this.question.attachments.length > 0 ? this.question.attachments : [];
 
         // Subscribers get a copy of the questions array sorted by question text.
         this.questionUpdated.next(this.question);

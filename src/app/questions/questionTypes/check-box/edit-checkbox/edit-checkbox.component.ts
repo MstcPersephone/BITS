@@ -26,6 +26,14 @@ export class EditCheckboxComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.question);
+    // Pass the attachments off to the attachment service to be managed.
+    if (this.question.hasAttachments) {
+      this.attachmentService.attachments = this.question.attachments;
+      this.attachmentService.hasAttachments = true;
+      this.attachmentService.hasAttachmentFileNames = true;
+    } else {
+      this.attachmentService.attachments = [];
+    }
   }
 
   onSubmit(formData) {
@@ -35,7 +43,7 @@ export class EditCheckboxComponent implements OnInit {
     updatedCheckboxQuestion.questionText = formData.questionText.dirty ? formData.questionText : this.question.questionText;
     updatedCheckboxQuestion.options = this.questionService.getOptions();
     updatedCheckboxQuestion.hasAttachments = this.attachmentService.hasAttachments;
-    updatedCheckboxQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
+    updatedCheckboxQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : [];
     updatedCheckboxQuestion.isAnswered = false;
     updatedCheckboxQuestion.answers = null;
     updatedCheckboxQuestion.duration = 0;
