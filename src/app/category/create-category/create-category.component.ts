@@ -14,7 +14,7 @@ export class CreateCategoryComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private questionService: QuestionService) {
+    public questionService: QuestionService) {
     // Creates an object to hold form values.
     this.createCategoryForm = this.formBuilder.group({
       categoryName: ''
@@ -30,7 +30,7 @@ export class CreateCategoryComponent implements OnInit {
     category.name = categoryData.categoryName;
 
     // Adds option to the options array in the service.
-    this.questionService.saveCategory(category);
+    this.questionService.saveCategory(category, this.createCategoryForm);
 
     // For testing, we can remove later.
     console.log(category);

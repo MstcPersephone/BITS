@@ -3,9 +3,14 @@ const mongoose = require('mongoose');
 
 // Import subdocument schemas
 const attachmentSchema = require('../shared/attachment');
+const categorySchema = require('../shared/category');
 
 // Create Upload Schema (blueprint)
 const uploadSchema = mongoose.Schema({
+  categories: {
+    type: [categorySchema.schema],
+    required: true
+  },
   questionText: {
     type: String,
     required: true
@@ -32,6 +37,10 @@ const uploadSchema = mongoose.Schema({
     type: [attachmentSchema.schema]
   },
   duration: {
+    type: Number,
+    default: 0
+  },
+  points: {
     type: Number,
     default: 0
   },

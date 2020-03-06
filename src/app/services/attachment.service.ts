@@ -72,10 +72,10 @@ export class AttachmentService {
 
   // Convert JS file into Attachment.
   // Convert file content to binary string.
-  uploadFiles($event: Event, isCorrectAnswerFiles = false) {
+  uploadFiles(event: Event, isCorrectAnswerFiles = false) {
 
       // Convert the uploaded files into an array of files to loop through.
-      const files = Array.from(($event.target as HTMLInputElement).files);
+      const files = Array.from((event.target as HTMLInputElement).files);
 
       // Convert each file into an attachment.
       files.forEach((f: File) => {

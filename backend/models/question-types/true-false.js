@@ -3,9 +3,14 @@ const mongoose = require('mongoose');
 
 // Import subdocument schemas
 const attachmentSchema = require('../shared/attachment');
+const categorySchema = require('../shared/category');
 
 // Create True False Schema (blueprint)
 const trueFalseSchema = mongoose.Schema({
+  categories: {
+    type: [categorySchema.schema],
+    required: true
+  },
   questionText: {
     type: String,
     required: true
@@ -34,6 +39,10 @@ const trueFalseSchema = mongoose.Schema({
     default: 'Not answered'
   },
   duration: {
+    type: Number,
+    default: 0
+  },
+  points: {
     type: Number,
     default: 0
   },
