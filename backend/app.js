@@ -8,7 +8,7 @@ const trueFalseModel = require("./models/question-types/true-false");
 const shortAnswerModel = require("./models/question-types/short-answer");
 const uploadAnswerModel = require("./models/question-types/upload");
 const categoryModel = require("./models/shared/category");
-const providers = require("./providers");
+const providers = require("./providers/createFactory");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
