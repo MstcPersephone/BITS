@@ -18,21 +18,28 @@ import { Category } from '../models/shared/category.model';
 })
 export class QuestionService {
 
-  // Questions array and subect.
-  private questions: Question[] = [];
-  private questionsUpdated = new Subject<Question[]>();
-
-  // Options array and subject.
-  private options: Option[] = [];
-  private optionsUpdated = new Subject<Option[]>();
+  // Category array and subject.
+  private categories: Category[] = [];
+  private selectedCategories: Category[] = [];
+  private categoriesUpdated = new Subject<Category[]>();
+  private categoriesLoaded = false;
+  private showHideCreateCategory = false;
 
   // Exact match array and subject.
   private exactMatches: ExactMatch[] = [];
   private exactMatchesUpdated = new Subject<ExactMatch[]>();
 
+  // Options array and subject.
+  private options: Option[] = [];
+  private optionsUpdated = new Subject<Option[]>();
+
   // Question (for edit and delete) and subject
   private question: Question;
   private questionUpdated = new Subject<Question>();
+
+  // Questions array and subect.
+  private questions: Question[] = [];
+  private questionsUpdated = new Subject<Question[]>();
 
   constructor(private http: HttpClient, private helperService: HelperService) { }
 
@@ -48,15 +55,76 @@ export class QuestionService {
   // ****************************************************** //
   // ******************Category Functions****************** //
   // ****************************************************** //
+
+  // Gets all categories from the database.
+  getAllCategories() {
+    this.http
+      .get<{ message: string, categories: Category[] }>(
+        'http://localhost:3000/api/categories'
+      )
+      .subscribe((categoryData) => {
+        this.categories = categoryData.categories;
+        console.log(this.categories);
+        this.categoriesLoaded = true;
+        // Subscribers get a copy of the questions array sorted by question type.
+        this.categoriesUpdated.next([...this.categories.sort((a, b) => (a.name > b.name) ? 1 : -1)]);
+      });
+  }
+
+  // Returns the category subject as observable.
+  // Used to subscribe to changes in categories array.
+  getCategoriesListener() {
+    return this.categoriesUpdated.asObservable();
+  }
+
+  // Returns whether the categories loaded to a list.
+  getCategoriesLoaded() {
+      return this.categoriesLoaded;
+  }
+
+  getShowHideCreateCategory() {
+    return this.showHideCreateCategory;
+  }
+
+  // Updates the selectedCategories array with the values selected by the user.
+  onHandleCategory(event: any, selectObject: any, selectCategoriesForm: any) {
+    if (event.value[0] === 'create') {
+      // Show create category
+      this.showHideCreateCategory = true;
+
+      console.log(event.source);
+      // Finds the first item in the select array (create new) and unchecks it.
+      // event.source.selected[0]._selected = false;
+
+      // Closes select drop down list
+      selectObject._panelOpen = false;
+
+      // Resets the checkboxes
+      selectCategoriesForm.reset();
+
+      // Resets selected categories
+      this.selectedCategories = [];
+
+    } else {
+      this.selectedCategories = event.value;
+    }
+
+    console.log(this.selectedCategories);
+  }
+
   // Saves the category to the database
-  saveCategory(category: Category) {
-    this.http.post<{ message: string, category: Category }>('http://localhost:3000/api/category/save', category)
+  saveCategory(category: Category, createCategoryForm) {
+    // Hide the form to create a new category
+    this.showHideCreateCategory = false;
+    this.http.post<{ message: string, category: Category }>('http://localhost:3000/api/categories/save', category)
       .subscribe(
         responseData => {
           this.helperService.openSnackBar(category.name + ' Category Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.category);
+          this.getAllCategories();
+          createCategoryForm.reset();
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');
@@ -212,6 +280,7 @@ export class QuestionService {
       this.clearOptions();
       console.log(completeQuestion);
     }
+    question.categories = this.selectedCategories;
     this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/question/save', question)
       .subscribe(
         responseData => {

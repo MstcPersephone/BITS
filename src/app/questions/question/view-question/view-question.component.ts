@@ -20,7 +20,7 @@ export class ViewQuestionComponent implements OnInit {
     this.questionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
     .subscribe((questionsArray: Question[]) => {
       this.questions = questionsArray;
-      this.currentQuestion = this.questions[3];
+      this.currentQuestion = this.questions[5];
     });
 
     this.assessmentService.getQuestionsByIds(this.assessmentService.mockQuestionIds);
