@@ -1,10 +1,10 @@
 <p>{{ question.questionText }}</p>
 <form [formGroup]="answerUploadForm" (ngSubmit)="onSubmit()">
-  <mat-form-field>
+
       <label>Upload the answer to this question</label>
       <input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event, 'studentAnswer')" />
       <button type="button" (click)="uploader.click()" mat-raised-button color="accent" class="mt-20">Upload File &nbsp;
       <mat-icon>cloud_upload</mat-icon></button>
-</mat-form-field>
+
 <button mat-raised-button type="submit">Next Question&nbsp;<mat-icon>forward</mat-icon></button>
 </form>
