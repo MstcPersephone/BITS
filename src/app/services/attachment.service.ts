@@ -54,10 +54,12 @@ export class AttachmentService {
     return [...this.correctAnswers];
   }
 
+  // Gets the student answers array
   getStudentAnswers() {
     return [...this.studentAnswers];
   }
 
+  // Gets the attachment file names
   getAttachmentsFileNames() {
     return this.attachmentsFileNames;
   }
