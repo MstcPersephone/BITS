@@ -10,12 +10,12 @@
         <!-- Question Type -->
         <!-- <p matLine>{{ question.questionType }} Question</p> -->
         <p>{{ question.questionType }} Question</p>
+        <p *ngFor="let category of question.categories">{{ category.name }}</p>
         <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
         <mat-icon class="editIcon" matListIcon>edit</mat-icon>
       </section>
 
       <!-- Question Text -->
-      <!-- <h3 matLine>{{ question.questionText }}</h3> -->
       <h3>{{ question.questionText }}</h3>
       <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'">
         <mat-list-item *ngFor="let option of this.questionService.asCheckbox(question).options">

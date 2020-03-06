@@ -8,6 +8,7 @@ const trueFalseModel = require("./models/question-types/true-false");
 const shortAnswerModel = require("./models/question-types/short-answer");
 const uploadAnswerModel = require("./models/question-types/upload");
 const categoryModel = require("./models/shared/category");
+const providers = require("./providers");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -77,7 +78,38 @@ app.post("/api/assessment/questions/", (request, response, next) => {
 
 });
 
-// Get all questions
+// ******************************************************** //
+// ***************Get all categories by ID***************** //
+// ******************************************************** //
+app.get("/api/categories", (request, response, next) => {
+
+  // Finds all categories by ID
+  find('categories', { _id: { $exists: true } }, function (error, categories) {
+
+    // Send a successful response message and an array of categories to work with.
+    response.status(200).json({
+      message: 'Categories Fetched Successfully!',
+      categories: categories
+    });
+
+    // Logs message and questions array to the backend for debugging.
+    console.log("Categories Fetched Successfully.")
+    console.log(categories);
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a categories array (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      categories: categories
+    })
+  });
+});
+
+// ******************************************************** //
+// *****Get all questions if they have a question type***** //
+// ******************************************************** //
 app.get("/api/questions", (request, response, next) => {
 
   // Search the questions collection where:
@@ -145,7 +177,7 @@ app.get("/api/question/:id", (request, response, next) => {
 // ******************************************************* //
 // ******CATEGORY saved to the categories collection******* //
 // ******************************************************* //
-app.post("/api/category/save", (request, response, next) => {
+app.post("/api/categories/save", (request, response, next) => {
 
   // Request.body is the category that is passed through.
   const category = request.body;
@@ -207,33 +239,13 @@ app.post("/api/question/save", (request, response, next) => {
   // Generate unique Id for question.
   const questionId = mongoose.Types.ObjectId();
 
+  // Call to question type factory which creates the object to save.
+  questionObjectToSave = providers.createQuestionTypeFactory(question, questionId);
 
-  // create function that passes the question and question id as parameter,
-  // calls the question factory file/method and stores in property of object to save
-  //  which is then returned within this function.
-  // MOVE Swtich & question type functions move to a new file in providers
-  // that is returned to this new function in app.js
-  // TODO: [PER-59] Refactor these internal functions to their own file.
-  switch (question.questionType) {
-    case "Checkbox":
-      questionObjectToSave = createMultipleChoice(question, questionId);
-      break;
-
-    case "Multiple Choice":
-      questionObjectToSave = createCheckbox(question, questionId);
-      break;
-
-    case "Short Answer":
-      questionObjectToSave = createShortAnswer(question, questionId);
-      break;
-
-    case "True False":
-      questionObjectToSave = createTrueFalse(question, questionId);
-      break;
-
-    case "Upload":
-      questionObjectToSave = createUpload(question, questionId);
-  }
+  // Attach categories to question before saving.
+  questionObjectToSave.categories = question.categories;
+  // Saves the point total
+  questionObjectToSave.points = question.points;
 
   // Saves the object to the database.
   // Returns either 200 success or 400 error
@@ -258,121 +270,6 @@ app.post("/api/question/save", (request, response, next) => {
       })
     });
 });
-
-// Creates a Checkbox question object for saving to the database.
-function createCheckbox(question, questionId) {
-
-  // Generates an id for each option
-  // Assigns question id to each option
-  question.options.forEach((x) => {
-    x.id = mongoose.Types.ObjectId(),
-      x.questionId = questionId
-  });
-
-  // Create Checkbox Model.
-  const questionModel = new checkBoxModel({
-    id: questionId,
-    questionText: question.questionText,
-    questionType: question.questionType,
-    options: question.options,
-    hasAttachments: question.hasAttachments,
-    attachments: question.attachments,
-    isAnswered: question.isAnswered,
-    duration: question.duration,
-    createdOn: Date.now()
-  });
-
-  return questionModel;
-}
-
-// Creates a Multiple Choice question object for saving to the database.
-function createMultipleChoice(question, questionId) {
-
-  // Generates an id for each option
-  // Assigns question id to each option
-  question.options.forEach((x) => {
-    x.id = mongoose.Types.ObjectId(),
-      x.questionId = questionId
-  });
-
-  // Create Multiple Choice Model.
-  const questionModel = new multipleChoiceModel({
-    id: questionId,
-    questionText: question.questionText,
-    questionType: question.questionType,
-    options: question.options,
-    hasAttachments: question.hasAttachments,
-    attachments: question.attachments,
-    isAnswered: question.isAnswered,
-    duration: question.duration,
-    createdOn: Date.now()
-  });
-
-  return questionModel;
-}
-
-function createShortAnswer(question, questionId) {
-
-  // Generates an id for each match option
-  // Assigns question id to each match option
-  question.matches.forEach((x) => {
-    x.id = mongoose.Types.ObjectId(),
-      x.questionId = questionId
-  });
-  // Create Short Answer Model
-  const questionModel = new shortAnswerModel({
-    id: questionId,
-    questionText: question.questionText,
-    questionType: question.questionType,
-    hasAttachments: question.hasAttachments,
-    attachments: question.attachments,
-    isAnswered: question.isAnswered,
-    answer: question.answer,
-    matches: question.matches,
-    duration: question.duration,
-    createdOn: Date.now()
-  });
-
-  return questionModel;
-}
-
-// Creates a True/False object for saving to the database.
-function createTrueFalse(question, questionId) {
-
-  // Create True/False Model
-  const questionModel = new trueFalseModel({
-    id: questionId,
-    questionText: question.questionText,
-    questionType: question.questionType,
-    hasAttachments: question.hasAttachments,
-    attachments: question.attachments,
-    isAnswered: question.isAnswered,
-    answer: question.answer,
-    duration: question.duration,
-    createdOn: Date.now()
-  });
-
-  return questionModel;
-}
-
-function createUpload(question, questionId) {
-
-  // Create Upload Model
-  const uploadModel = new uploadAnswerModel({
-    id: questionId,
-    questionText: question.questionText,
-    questionType: question.questionType,
-    hasAttachments: question.hasAttachments,
-    attachments: question.attachments,
-    isAnswered: question.isAnswered,
-    correctAnswer: question.correctAnswer,
-    submittedAnswer: question.submittedAnswer,
-    duration: question.duration,
-    createdOn: Date.now()
-  });
-
-  return uploadModel;
-}
 
 // Finds documents in a given collection.
 // Used for when we can't target a specific model.
