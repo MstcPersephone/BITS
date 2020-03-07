@@ -8,7 +8,7 @@ const trueFalseModel = require("./models/question-types/true-false");
 const shortAnswerModel = require("./models/question-types/short-answer");
 const uploadAnswerModel = require("./models/question-types/upload");
 const categoryModel = require("./models/shared/category");
-const providers = require("./providers/createFactory");
+const questionFactory = require("./questionFactory/createFactory");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -240,10 +240,11 @@ app.post("/api/question/save", (request, response, next) => {
   const questionId = mongoose.Types.ObjectId();
 
   // Call to question type factory which creates the object to save.
-  questionObjectToSave = providers.createQuestionTypeFactory(question, questionId);
+  questionObjectToSave =  questionFactory(question, questionId);
 
   // Attach categories to question before saving.
   questionObjectToSave.categories = question.categories;
+
   // Saves the point total
   questionObjectToSave.points = question.points;
 
