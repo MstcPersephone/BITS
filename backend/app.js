@@ -55,10 +55,10 @@ app.use((request, response, next) => {
 });
 
 app.post("/api/question/update/", (request, response, next) => {
-  const question = request.body;
+  const questionUpdate = request.body;
+  const updatedQuestion = createCheckbox(questionUpdate, questionUpdate._id);
+  checkBoxModel.findByIdAndUpdate(mongoose.Types.ObjectId(updatedQuestion._id), updatedQuestion, {new: true}, (error, question) => {
 
-  console.log(question);
-  questionCollection.findByIdAndUpdate(question._id, {$set: question}, {new: true}, (error, question) => {
     // Send a successful response message and an array of questions to work with.
     response.status(200).json({
       message: 'Question Updated Successfully!',
@@ -67,7 +67,6 @@ app.post("/api/question/update/", (request, response, next) => {
 
     // Logs message and questions array to the backend for debugging.
     console.log("Questions Updated Successfully.")
-    console.log(question);
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.

@@ -38,9 +38,9 @@ export class EditCheckboxComponent implements OnInit {
 
   onSubmit(formData) {
     const updatedCheckboxQuestion: Checkbox = new Checkbox();
-
+    console.log(formData);
     updatedCheckboxQuestion._id = this.question._id;
-    updatedCheckboxQuestion.questionText = formData.questionText.dirty ? formData.questionText : this.question.questionText;
+    updatedCheckboxQuestion.questionText = formData.questionText = '' ? this.question.questionText : formData.questionText;
     updatedCheckboxQuestion.options = this.questionService.getOptions();
     updatedCheckboxQuestion.hasAttachments = this.attachmentService.hasAttachments;
     updatedCheckboxQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : [];

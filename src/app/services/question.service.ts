@@ -329,7 +329,7 @@ export class QuestionService {
   }
 
   updateQuestionById(question) {
-    this.http.post<{ message: string, question: Question}>('http://localhost:3000/api/question/update', question)
+    this.http.post<{ message: string, question: Question}>('http://localhost:3000/api/question/save', question)
     .subscribe(
       responseData => {
         this.helperService.openSnackBar(question._id + ' Question Updated Successfully!', 'Close', 'success-dialog', 5000);
