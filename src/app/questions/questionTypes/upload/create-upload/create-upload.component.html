@@ -10,7 +10,7 @@
   <app-attachment></app-attachment>
   <div>
     <label>Upload the answer to this question</label>
-    <input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event, true)" />
+    <input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event, 'correctAnswer')" />
     <button type="button" (click)="uploader.click()" mat-raised-button color="accent" class="mt-20">Upload File &nbsp;
       <mat-icon>cloud_upload</mat-icon></button>
   </div>
