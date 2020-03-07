@@ -1,14 +1,17 @@
 <form [formGroup]="editCheckboxForm" (ngSubmit)="onSubmit(editCheckboxForm.value)">
+  <!-- The categories list -->
+  <app-list-category></app-list-category>
   <!-- Question Name Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Question Text</mat-label>
     <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}">
   </mat-form-field>
-
   <!-- Add attachment component -->
   <app-attachment [attachmentsLoaded]="question.hasAttachments"></app-attachment>
 
   <h3>Current options</h3>
+  <button mat-raised-button type="button" (click)="this.questionService.toggleCreateOption()">Create New Option</button>
+  <app-create-option *ngIf="this.questionService.showCreateOption" [isEditMode]="true"></app-create-option>
   <app-edit-option *ngFor="let option of this.questionService.asCheckbox(question).options; Index as i" [option]="option"></app-edit-option>
 
   <!-- Submit Button -->

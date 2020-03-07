@@ -9,7 +9,7 @@ const trueFalseModel = require("./models/question-types/true-false");
 const shortAnswerModel = require("./models/question-types/short-answer");
 const uploadAnswerModel = require("./models/question-types/upload");
 const categoryModel = require("./models/shared/category");
-const questionFactory = require("./questionFactory/createFactory");
+const questionFactory = require("./providers/questionFactory");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -56,29 +56,32 @@ app.use((request, response, next) => {
 });
 
 app.post("/api/question/update/", (request, response, next) => {
-  const questionUpdate = request.body;
-  const updatedQuestion = createCheckbox(questionUpdate, questionUpdate._id);
-  checkBoxModel.findByIdAndUpdate(mongoose.Types.ObjectId(updatedQuestion._id), updatedQuestion, {new: true}, (error, question) => {
+  const requestedUpdate = request.body;
+  console.log(requestedUpdate._id);
+  const questionToUpdate = questionFactory.createQuestionTypeFactory(requestedUpdate);
+  questionToUpdate.categories = requestedUpdate.categories;
+  const update = questionFactory.editQuestionFactory(requestedUpdate);
+  mongoose.connection.db.collection('questions').updateOne({_id: mongoose.Types.ObjectId(requestedUpdate._id.toString())}, {$set: update}, {upsert: true}, function (error, updatedQuestion) {
 
-    // Send a successful response message and an array of questions to work with.
+    // Send a successful response message and an array of categories to work with.
     response.status(200).json({
-      message: 'Question Updated Successfully!',
-      question: question
+      message: 'updatedQuestion Fetched Successfully!',
+      updatedQuestion: updatedQuestion
     });
 
     // Logs message and questions array to the backend for debugging.
-    console.log("Questions Updated Successfully.")
+    console.log("updatedQuestion Fetched Successfully.")
+    console.log(questionToUpdate);
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.
-    // Includes what was pulled for a questions array (if anything)
+    // Includes what was pulled for a categories array (if anything)
     console.log(error.message);
     response.status(400).json({
       message: error.message,
-      question: question
+      updatedQuestion: updatedQuestion
     })
   });
-
 });
 
 // Gets a list of questions that make up an assessment
@@ -264,25 +267,29 @@ app.post("/api/question/save", (request, response, next) => {
     });
   }
 
-  // Generate unique Id for question.
-  const questionId = mongoose.Types.ObjectId();
+  if (question._id == null) {
+    // Generate unique Id for question.
+    question._id = mongoose.Types.ObjectId();
+  }
 
-  // Call to question type factory which creates the object to save.
-  questionObjectToSave =  questionFactory(question, questionId);
+  // Call to question type factory which creates the object to save
+  questionObjectToSave =  questionFactory.createQuestionTypeFactory(question);
 
-  // Attach categories to question before saving.
+  // // Attach categories to question before saving.
   questionObjectToSave.categories = question.categories;
 
   // Saves the point total
   questionObjectToSave.points = question.points;
+
+  console.log(questionObjectToSave);
 
   // Saves the object to the database.
   // Returns either 200 success or 400 error
   questionObjectToSave.save().then(() => {
 
     // Log success message and saved object.
-    console.log(question.questionType + ' Question Created Successfully');
-    console.log(questionObjectToSave);
+    // console.log(question.questionType + ' Question Created Successfully');
+    // console.log(questionObjectToSave);
 
     // Send success message back to front end.
     // Will probably use for logging later.

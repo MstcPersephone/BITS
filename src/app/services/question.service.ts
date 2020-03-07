@@ -24,7 +24,7 @@ export class QuestionService {
 
   // Category array and subject.
   private categories: Category[] = [];
-  private selectedCategories: Category[] = [];
+  public selectedCategories: Category[] = [];
   private categoriesUpdated = new Subject<Category[]>();
   private categoriesLoaded = false;
   private showHideCreateCategory = false;
@@ -37,6 +37,11 @@ export class QuestionService {
   private options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
   private hasOptions = false;
+  public showCreateOption = false;
+
+  toggleCreateOption() {
+    this.showCreateOption = !this.showCreateOption;
+  }
 
   // Question (for edit and delete) and subject
   private question: Question;
@@ -267,7 +272,10 @@ export class QuestionService {
         // mongoose always returns an array with find()
         // grabbing the first (and only) question in array
         this.question = questionData.question[0];
+        // Add the selected categories to the array
+        this.selectedCategories = this.question.categories;
 
+        console.log(this.selectedCategories);
         // Add options to options array if question type supports it
         if (this.question.questionType === QuestionType.CheckBox) {
           this.options = (this.question as Checkbox).options;
@@ -310,13 +318,15 @@ export class QuestionService {
     if (question.questionType === QuestionType.CheckBox || question.questionType === QuestionType.MultipleChoice) {
       const completeQuestion = question.questionType === QuestionType.CheckBox ? question as Checkbox : question as MultipleChoice;
       completeQuestion.options = this.getOptions();
-      this.clearOptions();
       console.log(completeQuestion);
     }
+
+    console.log(this.selectedCategories);
     question.categories = this.selectedCategories;
     this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/question/save', question)
       .subscribe(
         responseData => {
+          this.clearOptions();
           this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
@@ -329,14 +339,15 @@ export class QuestionService {
   }
 
   updateQuestionById(question) {
-    this.http.post<{ message: string, question: Question}>('http://localhost:3000/api/question/save', question)
+    question.categories = this.categories;
+    this.http.post<{ message: string, updatedQuestion: Question}>('http://localhost:3000/api/question/update', question)
     .subscribe(
       responseData => {
         this.helperService.openSnackBar(question._id + ' Question Updated Successfully!', 'Close', 'success-dialog', 5000);
         console.log('%c' + responseData.message, 'color: green;');
         console.log('%c Database Object:', 'color: orange;');
-        console.log(responseData.question);
-        console.table(responseData.question);
+        console.log(responseData.updatedQuestion);
+        console.table(responseData.updatedQuestion);
       },
       error => {
         console.log('%c' + error.error.message, 'color: red;');
