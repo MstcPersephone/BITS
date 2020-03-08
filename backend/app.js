@@ -263,7 +263,7 @@ app.post("/api/question/save", (request, response, next) => {
   // Attach categories to question before saving.
   questionObjectToSave.categories = question.categories;
 
-  // Saves the point total
+  // Attach points to the question before saving.
   questionObjectToSave.points = question.points;
 
   // Saves the object to the database.
