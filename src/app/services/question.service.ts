@@ -39,10 +39,6 @@ export class QuestionService {
   private hasOptions = false;
   public showCreateOption = false;
 
-  toggleCreateOption() {
-    this.showCreateOption = !this.showCreateOption;
-  }
-
   // Points.
   private enteredPoints = 0;
 
@@ -219,6 +215,11 @@ export class QuestionService {
   // Returns whether or not the question has options.
   getHasOptions() {
     return this.hasOptions;
+  }
+
+  // Toggles whether to show create option.
+  toggleCreateOption() {
+    this.showCreateOption = !this.showCreateOption;
   }
 
   // Finds the option in the array and updates its value.
