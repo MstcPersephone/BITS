@@ -5,7 +5,7 @@ import { Category } from '../shared/category.model';
 
 // A question that allows an upload for an answer.
 export class Upload implements Question {
-  id: string;
+  _id: string;
   categories: Category [];
   questionText: string;
   questionType = QuestionType.Upload;

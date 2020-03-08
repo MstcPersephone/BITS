@@ -18,10 +18,14 @@ import { Category } from '../models/shared/category.model';
 })
 export class QuestionService {
 
+  // Questions array and subect.
+  private questions: Question[] = [];
+  private questionsUpdated = new Subject<Question[]>();
+
   // Category array and subject.
   private category: Category;
   private categories: Category[] = [];
-  private selectedCategories: Category[] = [];
+  public selectedCategories: Category[] = [];
   private categoriesUpdated = new Subject<Category[]>();
   private categoriesLoaded = false;
   private showHideCreateCategory = false;
@@ -33,6 +37,8 @@ export class QuestionService {
   // Options array and subject.
   private options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
+  private hasOptions = false;
+  public showCreateOption = false;
 
   // Points.
   private enteredPoints = 0;
@@ -41,11 +47,9 @@ export class QuestionService {
   private question: Question;
   private questionUpdated = new Subject<Question>();
 
-  // Questions array and subect.
-  private questions: Question[] = [];
-  private questionsUpdated = new Subject<Question[]>();
-
-  constructor(private http: HttpClient, private helperService: HelperService) { }
+  constructor(
+    private http: HttpClient,
+    private helperService: HelperService) { }
 
   // ************************************************************** //
   // Casting question to questionType for casting in html template. //
@@ -210,11 +214,6 @@ export class QuestionService {
     this.optionsUpdated.next([...this.options]);
   }
 
-  // Starts the edit option wizard
-  editOption(option: Option) {
-
-  }
-
   // Gets a copy of the options.
   // Used for attaching the options to a question before saving it.
   getOptions() {
@@ -228,9 +227,28 @@ export class QuestionService {
   }
 
   // Returns whether or not the question has options.
-  hasOptions() {
-    return this.options.length > 0;
+  getHasOptions() {
+    return this.hasOptions;
   }
+
+  // Toggles whether to show create option.
+  toggleCreateOption() {
+    this.showCreateOption = !this.showCreateOption;
+  }
+
+  // Finds the option in the array and updates its value.
+  updateOption(originalOption: Option, newOption: Option) {
+    if (newOption.optionText === '') {
+      newOption.optionText = originalOption.optionText;
+    }
+
+    // Finding the index of the original option
+    const index = this.options.indexOf(originalOption);
+
+    // Replacing old option with new option
+    this.options[index] = newOption;
+  }
+
 
   // ********************************************** //
   // **************Points Functions**************** //
@@ -244,7 +262,6 @@ export class QuestionService {
   // ********************************************** //
   // ************Question Functions**************** //
   // ********************************************** //
-  // Starts the edit question wizard
   editQuestion(question: Question) {
 
   }
@@ -279,7 +296,27 @@ export class QuestionService {
         'http://localhost:3000/api/question/' + questionId
       )
       .subscribe((questionData) => {
-        const currentQuestion = questionData.question;
+        // mongoose always returns an array with find()
+        // grabbing the first (and only) question in array
+        this.question = questionData.question[0];
+        // Add the selected categories to the array
+        this.selectedCategories = this.question.categories;
+
+        console.log(this.selectedCategories);
+        // Add options to options array if question type supports it
+        if (this.question.questionType === QuestionType.CheckBox) {
+          this.options = (this.question as Checkbox).options;
+          console.log(this.question);
+          if (this.options.length > 0) {
+            this.hasOptions = true;
+          }
+          console.log(this.options);
+          // subscribers get a copy of the options associated with the question
+          this.optionsUpdated.next(this.options);
+        }
+        console.log(this.question.attachments);
+        // this.attachmentService.attachments = this.question.attachments.length > 0 ? this.question.attachments : [];
+
         // Subscribers get a copy of the questions array sorted by question text.
         this.questionUpdated.next(this.question);
       });
@@ -298,19 +335,26 @@ export class QuestionService {
         });
     }
 
+  // Returns the question type of a question
+  getQuestionType(question: Question) {
+    return question.questionType;
+  }
+
   // Saves the question to the database
   saveQuestion(question: Question) {
     if (question.questionType === QuestionType.CheckBox || question.questionType === QuestionType.MultipleChoice) {
       const completeQuestion = question.questionType === QuestionType.CheckBox ? question as Checkbox : question as MultipleChoice;
       completeQuestion.options = this.getOptions();
-      this.clearOptions();
       console.log(completeQuestion);
     }
+
+    console.log(this.selectedCategories);
     question.categories = this.selectedCategories;
     question.points = this.enteredPoints;
     this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/question/save', question)
       .subscribe(
         responseData => {
+          this.clearOptions();
           this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
@@ -322,8 +366,20 @@ export class QuestionService {
         });
   }
 
-  // Returns the question type of a question
-  getQuestionType(question: Question) {
-    return question.questionType;
+  updateQuestionById(question) {
+    question.categories = this.categories;
+    this.http.post<{ message: string, updatedQuestion: Question}>('http://localhost:3000/api/question/update', question)
+    .subscribe(
+      responseData => {
+        this.helperService.openSnackBar(question._id + ' Question Updated Successfully!', 'Close', 'success-dialog', 5000);
+        console.log('%c' + responseData.message, 'color: green;');
+        console.log('%c Database Object:', 'color: orange;');
+        console.log(responseData.updatedQuestion);
+        console.table(responseData.updatedQuestion);
+      },
+      error => {
+        console.log('%c' + error.error.message, 'color: red;');
+      }
+    );
   }
 }

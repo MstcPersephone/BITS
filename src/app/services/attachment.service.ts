@@ -90,7 +90,7 @@ export class AttachmentService {
 
         // Create and set values of attachment.
         const attachment = new Attachment();
-        attachment.id = null;
+        attachment._id = null;
         attachment.name = f.name;
         attachment.fileSize = f.size;
         attachment.fileType = f.type;
@@ -102,6 +102,10 @@ export class AttachmentService {
         reader.onload = () => {
           // The binary string of the file
           console.log(reader.result);
+
+          // This triggers an HTML element that shows file names
+          // see attachment.component.html
+          this.hasAttachmentFileNames = true;
 
           // Assigning binary string to attachment content property
           attachment.content = reader.result;
@@ -126,7 +130,6 @@ export class AttachmentService {
 
         // Start up the reader and tell it to convert the file to binary string.
         reader.readAsBinaryString(f);
-
       });
   }
 }
