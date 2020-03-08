@@ -8,6 +8,7 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./attachment.component.css']
 })
 export class AttachmentComponent implements OnInit {
+  @Input() attachmentsLoaded;
   constructor(
     public attachmentService: AttachmentService,
     private helperService: HelperService

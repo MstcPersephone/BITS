@@ -6,7 +6,7 @@ import { Category } from '../shared/category.model';
 
 // Essay question that that accepts a text response.
 export class ShortAnswer implements Question {
-  id: string;
+  _id: string;
   categories: Category [];
   questionText: string;
   questionType = QuestionType.ShortAnswer;

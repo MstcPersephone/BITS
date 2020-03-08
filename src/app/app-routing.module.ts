@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'match/create', component: CreateExactMatchComponent },
   { path: 'option/create', component: CreateOptionComponent },
   { path: 'question/create', component: CreateQuestionComponent },
-  { path: 'question/edit', component: EditQuestionComponent },
+  { path: 'question/edit/:questionId', component: EditQuestionComponent },
   { path: 'question/list', component: ListQuestionsComponent },
   { path: 'question/checkbox/list', component: ListCheckboxComponent },
   { path: 'question/true-false/list', component: ListTrueFalseComponent },

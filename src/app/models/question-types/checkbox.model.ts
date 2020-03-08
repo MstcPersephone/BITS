@@ -6,7 +6,7 @@ import { Category } from '../shared/category.model';
 
 // Checkbox question that allows more than one correct answer.
 export class Checkbox implements Question {
-  id: string;
+  _id: string;
   categories: Category [];
   questionText: string;
   questionType = QuestionType.CheckBox;

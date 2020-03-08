@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 export class ViewQuestionComponent implements OnInit {
   questions: Question[];
   currentQuestion: Question;
+  questionTypes = [];
   private questionsSubscription: Subscription;
   constructor(
     private assessmentService: AssessmentService

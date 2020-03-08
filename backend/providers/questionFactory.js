@@ -9,47 +9,48 @@ const uploadAnswerModel = require("../models/question-types/upload");
 //*************************************************************//
 //****SWITCH STATEMENT TO FIND THE CORRECT QUESTION BY TYPE****//
 //*************************************************************//
-const questionObject = function createQuestionTypeFactory(question, questionId) {
-
+const createQuestionTypeFactory = function (question) {
   // Switch to internal function that creates object to save.
   switch (question.questionType) {
     case "Checkbox":
-      questionObjectToSave = createMultipleChoice(question, questionId);
-      return questionObjectToSave;
+      return createMultipleChoice(question);
 
     case "Multiple Choice":
-      questionObjectToSave = createCheckbox(question, questionId);
-      return questionObjectToSave;
+      return createCheckbox(question);
 
     case "Short Answer":
-      questionObjectToSave = createShortAnswer(question, questionId);
-      return questionObjectToSave;
+      return createShortAnswer(question);
 
     case "True False":
-      questionObjectToSave = createTrueFalse(question, questionId);
-      return questionObjectToSave;
+      return createTrueFalse(question);
 
     case "Upload":
-      questionObjectToSave = createUpload(question, questionId);
-      return questionObjectToSave;
+      return createUpload(question);
+  }
+}
+
+const editQuestionFactory = function (question) {
+  switch (question.questionType) {
+    case "Checkbox":
+      return updateCheckbox(question);
   }
 }
 
 //*************************************//
 //*********CHECKBOX OBJECT*************//
 //*************************************//
-function createCheckbox(question, questionId) {
+function createCheckbox(question) {
 
   // Generates an id for each option
   // Assigns question id to each option
   question.options.forEach((x) => {
     x.id = mongoose.Types.ObjectId(),
-      x.questionId = questionId
+      x.questionId = question._id;
   });
 
   // Create Checkbox Model
   const questionModel = new checkBoxModel({
-    id: questionId,
+    id: question._id,
     questionText: question.questionText,
     questionType: question.questionType,
     options: question.options,
@@ -63,21 +64,38 @@ function createCheckbox(question, questionId) {
   return questionModel;
 }
 
+function updateCheckbox(question) {
+  // creates an object for updating
+  return {
+    categories: question.categories,
+    questionText: question.questionText,
+    questionType: question.questionType,
+    options: question.options,
+    hasAttachments: question.hasAttachments,
+    attachments: question.attachments,
+    isAnswered: question.isAnswered,
+    duration: question.duration,
+    points: question.points,
+    isAnsweredCorrectly: question.isAnsweredCorrectly,
+    createdOn: question.createdOn
+  }
+}
+
 //**********************************************//
 //***********MULTIPLE CHOICE OBJECT*************//
 //**********************************************//
-function createMultipleChoice(question, questionId) {
+function createMultipleChoice(question) {
 
   // Generates an id for each option
   // Assigns question id to each option
   question.options.forEach((x) => {
     x.id = mongoose.Types.ObjectId(),
-      x.questionId = questionId
+      x.questionId = question._id
   });
 
   // Create Multiple Choice Model.
   const questionModel = new multipleChoiceModel({
-    id: questionId,
+    id: question._id,
     questionText: question.questionText,
     questionType: question.questionType,
     options: question.options,
@@ -94,18 +112,18 @@ function createMultipleChoice(question, questionId) {
 //**********************************************//
 //*************SHORT ANSWER OBJECT**************//
 //**********************************************//
-function createShortAnswer(question, questionId) {
+function createShortAnswer(question) {
 
   // Generates an id for each match option
   // Assigns question id to each match option
   question.matches.forEach((x) => {
     x.id = mongoose.Types.ObjectId(),
-      x.questionId = questionId
+      x.questionId = question._id;
   });
 
   // Create Short Answer Model
   const questionModel = new shortAnswerModel({
-    id: questionId,
+    id: question._id,
     questionText: question.questionText,
     questionType: question.questionType,
     hasAttachments: question.hasAttachments,
@@ -123,11 +141,11 @@ function createShortAnswer(question, questionId) {
 //*****************************************//
 //***********TRUE/FALSE OBJECT*************//
 //*****************************************//
-function createTrueFalse(question, questionId) {
+function createTrueFalse(question) {
 
   // Create True/False Model
   const questionModel = new trueFalseModel({
-    id: questionId,
+    id: question._id,
     questionText: question.questionText,
     questionType: question.questionType,
     hasAttachments: question.hasAttachments,
@@ -144,11 +162,11 @@ function createTrueFalse(question, questionId) {
 //*************************************//
 //***********UPLOAD OBJECT*************//
 //*************************************//
-function createUpload(question, questionId) {
+function createUpload(question) {
 
   // Create Upload Model
   const uploadModel = new uploadAnswerModel({
-    id: questionId,
+    id: question._id,
     questionText: question.questionText,
     questionType: question.questionType,
     hasAttachments: question.hasAttachments,
@@ -164,4 +182,4 @@ function createUpload(question, questionId) {
 }
 
 // Exports the question object with all properties attached to it.
-module.exports = questionObject;
+module.exports = {createQuestionTypeFactory, editQuestionFactory};

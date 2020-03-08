@@ -13,5 +13,5 @@
     <!-- Submit Button -->
     <button class="addOption" mat-raised-button type="submit">Add Option<mat-icon>&nbsp;add</mat-icon></button>
   </form>
-  <app-list-option></app-list-option>
+  <app-list-option *ngIf="!isEditMode"></app-list-option>
 </mat-card>
