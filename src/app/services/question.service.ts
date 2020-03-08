@@ -178,6 +178,19 @@ export class QuestionService {
     return this.exactMatches.length > 0;
   }
 
+    // Finds the match in the array and updates its value.
+    updateMatch(originalMatch: ExactMatch, newMatch: ExactMatch) {
+      if (newMatch.matchText === '') {
+        newMatch.matchText = originalMatch.matchText;
+      }
+
+      // Finding the index of the original match
+      const index = this.exactMatches.indexOf(originalMatch);
+
+      // Replacing old match with new match
+      this.exactMatches[index] = newMatch;
+    }
+
   // ******************************************** //
   // ************Option Functions**************** //
   // ******************************************** //
