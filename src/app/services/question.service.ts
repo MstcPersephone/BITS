@@ -78,8 +78,21 @@ export class QuestionService {
   }
 
   // Returns whether the categories loaded to a list.
+  getQuestionCategories(question) {
+
+    return this.question.categories;
+}
+
+  // Returns whether the categories loaded to a list.
   getCategoriesLoaded() {
       return this.categoriesLoaded;
+  }
+
+  // Gets a category from the questions list of categories based on its index
+  getCategory(i) {
+    console.log('%c Find Category', 'color: red');
+    this.question.categories.splice(i, 1);
+    console.table(this.question.categories);
   }
 
   getShowHideCreateCategory() {
