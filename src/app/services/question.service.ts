@@ -19,6 +19,7 @@ import { Category } from '../models/shared/category.model';
 export class QuestionService {
 
   // Category array and subject.
+  private category: Category;
   private categories: Category[] = [];
   private selectedCategories: Category[] = [];
   private categoriesUpdated = new Subject<Category[]>();
@@ -272,11 +273,12 @@ export class QuestionService {
       });
   }
 
-  // Gets all questions of a specific type
-  getQuestionsByType(questionType: QuestionType) {
+  //  changes HERE
+  // Gets all questions of a specific category
+  getQuestionsByCategory(questionCategory: Category) {
     this.http
       .get<{ message: string, questions: Question[] }>(
-        'http://localhost:3000/api/questions/' + questionType
+        'http://localhost:3000/api/questions/' + questionCategory
       )
       .subscribe((questionData) => {
         this.questions = questionData.questions;
@@ -284,6 +286,19 @@ export class QuestionService {
         this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionText > b.questionText) ? 1 : -1)]);
       });
   }
+
+    // Gets all questions of a specific type
+    getQuestionsByType(questionType: QuestionType) {
+      this.http
+        .get<{ message: string, questions: Question[] }>(
+          'http://localhost:3000/api/questions/' + questionType
+        )
+        .subscribe((questionData) => {
+          this.questions = questionData.questions;
+          // Subscribers get a copy of the questions array sorted by question text.
+          this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionText > b.questionText) ? 1 : -1)]);
+        });
+    }
 
   // Saves the question to the database
   saveQuestion(question: Question) {

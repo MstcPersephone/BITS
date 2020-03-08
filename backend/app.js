@@ -137,6 +137,24 @@ app.get("/api/questions", (request, response, next) => {
   });
 });
 
+//  changes HERE
+// Get only questions of a certain category
+app.get("/api/questions/:category", (request, response, next) => {
+  checkBoxModel.find({ questionCategory: request.params.questionCategory }).then((questions, error) => {
+    response.status(200).json({
+      message: request.params.questionCategory + ' Questions fetched successfully!',
+      questions: questions
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        questions: null
+      })
+    })
+});
+
 // Get only questions of a certain type
 app.get("/api/questions/:questionType", (request, response, next) => {
   checkBoxModel.find({ questionType: request.params.questionType }).then((questions, error) => {
