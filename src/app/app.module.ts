@@ -67,9 +67,9 @@ import { EditStudentComponent } from './student/edit-student/edit-student.compon
 import { ListStudentComponent } from './student/list-student/list-student.component';
 import { ViewStudentComponent } from './student/view-student/view-student.component';
 import { AttachmentComponent } from './shared/attachment/attachment.component';
-import { CreateCategoryComponent } from './category/create-category/create-category.component';
-import { EditCategoryComponent } from './category/edit-category/edit-category.component';
-import { ListCategoryComponent } from './category/list-category/list-category.component';
+import { CreateCategoryComponent } from './shared/category/create-category/create-category.component';
+import { EditCategoryComponent } from './shared/category/edit-category/edit-category.component';
+import { ListCategoryComponent } from './shared/category/list-category/list-category.component';
 
 
 @NgModule({
