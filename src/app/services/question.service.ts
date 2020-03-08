@@ -33,6 +33,9 @@ export class QuestionService {
   private options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
 
+  // Points.
+  private enteredPoints = 0;
+
   // Question (for edit and delete) and subject
   private question: Question;
   private questionUpdated = new Subject<Question>();
@@ -216,6 +219,15 @@ export class QuestionService {
   }
 
   // ********************************************** //
+  // **************Points Functions**************** //
+  // ********************************************** //
+
+  onHandlePoints(event: any) {
+    this.enteredPoints = event.target.value;
+    console.log(this.enteredPoints);
+  }
+
+  // ********************************************** //
   // ************Question Functions**************** //
   // ********************************************** //
   // Starts the edit question wizard
@@ -281,6 +293,7 @@ export class QuestionService {
       console.log(completeQuestion);
     }
     question.categories = this.selectedCategories;
+    question.points = this.enteredPoints;
     this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/question/save', question)
       .subscribe(
         responseData => {
