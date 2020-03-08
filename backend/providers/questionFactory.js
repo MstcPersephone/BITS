@@ -129,7 +129,7 @@ function createShortAnswer(question) {
     hasAttachments: question.hasAttachments,
     attachments: question.attachments,
     isAnswered: question.isAnswered,
-    answer: question.answer,
+    studentAnswer: question.studentAnswer,
     matches: question.matches,
     duration: question.duration,
     createdOn: Date.now()
@@ -151,6 +151,7 @@ function createTrueFalse(question) {
     hasAttachments: question.hasAttachments,
     attachments: question.attachments,
     isAnswered: question.isAnswered,
+    studentAnswer: question.studentAnswer,
     answer: question.answer,
     duration: question.duration,
     createdOn: Date.now()
