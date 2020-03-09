@@ -176,7 +176,7 @@ export class QuestionService {
   }
 
     // Returns whether or not the question has matches.
-    getHasMatchess() {
+    getHasMatches() {
       return this.hasMatches;
     }
 
@@ -354,6 +354,12 @@ export class QuestionService {
       console.log(completeQuestion);
     }
 
+    if (question.questionType === QuestionType.ShortAnswer) {
+      const completeQuestion = question as ShortAnswer;
+      completeQuestion.matches = this.getMatches();
+      console.log(completeQuestion);
+    }
+
     console.log(this.selectedCategories);
     question.categories = this.selectedCategories;
     question.points = this.enteredPoints;
@@ -361,6 +367,7 @@ export class QuestionService {
       .subscribe(
         responseData => {
           this.clearOptions();
+          this.clearMatches();
           this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
@@ -373,7 +380,7 @@ export class QuestionService {
   }
 
   updateQuestionById(question) {
-    question.categories = this.categories;
+    question.categories = this.selectedCategories;
     this.http.post<{ message: string, updatedQuestion: Question}>('http://localhost:3000/api/question/update', question)
     .subscribe(
       responseData => {
