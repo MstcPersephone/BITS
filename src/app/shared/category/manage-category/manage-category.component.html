@@ -9,14 +9,14 @@
           Enter a Category Name
         </mat-panel-description>
       </mat-expansion-panel-header>
-  <form [formGroup]="createCategoryForm" (ngSubmit)="onSubmit(createCategoryForm.value)">
+  <form [formGroup]="createCategoryForm" (ngSubmit)="onSubmit(createCategoryForm.value, mep)">
   <mat-form-field appearance="standard">
     <mat-label>Category Name</mat-label>
     <input matInput id="categoryName" type="text" formControlName="categoryName">
   </mat-form-field>
 
   <!-- Submit Button -->
-  <button class="addCategory" mat-raised-button type="submit" (click)="mep.expanded = false;">Add Category<mat-icon>&nbsp;add</mat-icon></button>
+  <button class="addCategory" mat-raised-button type="submit">Add Category<mat-icon>&nbsp;add</mat-icon></button>
 </form>
 </mat-expansion-panel>
 <h4>Category List</h4>

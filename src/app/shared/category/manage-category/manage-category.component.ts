@@ -5,11 +5,11 @@ import { Subscription } from 'rxjs';
 import { FormBuilder, FormArray } from '@angular/forms';
 
 @Component({
-  selector: 'app-view-category',
-  templateUrl: './view-category.component.html',
-  styleUrls: ['./view-category.component.css']
+  selector: 'app-manage-category',
+  templateUrl: './manage-category.component.html',
+  styleUrls: ['./manage-category.component.css']
 })
-export class ViewCategoryComponent implements OnInit {
+export class ManageCategoryComponent implements OnInit {
   // The form object
   editCategoryForm;
   createCategoryForm;
@@ -40,7 +40,7 @@ export class ViewCategoryComponent implements OnInit {
   }
 
   // Id is null at this point because it is generated on the backend.
-  onSubmit(categoryData) {
+  onSubmit(categoryData, mep) {
     const category: Category = new Category();
     category._id = null;
     category.name = categoryData.categoryName;
@@ -50,6 +50,8 @@ export class ViewCategoryComponent implements OnInit {
 
     // Adds option to the options array in the service.
     this.questionService.saveCategory(category, this.createCategoryForm);
+
+    mep.expanded = false;
 
     // For testing, we can remove later.
     console.log(category);
