@@ -12,28 +12,29 @@ import { Category } from 'src/app/models/shared/category.model';
 export class ListQuestionsComponent implements OnInit {
   public questions: Question[] = [];
   private questionSubscription: Subscription;
+  public organizedQuestions = [];
   public categories: Category[] = [];
   private categorySubscription: Subscription;
 
+
   constructor(
     public questionService: QuestionService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.questionService.getAllCategories();
     this.categorySubscription = this.questionService.getCategoriesListener()
-    .subscribe((categoriesArray: Category[]) => {
-      this.categories = categoriesArray;
-      console.table(this.categories);
-    });
+      .subscribe((categoriesArray: Category[]) => {
+        this.categories = categoriesArray;
+        console.table(this.categories);
+      });
+
     this.questionService.getAllQuestions();
     this.questionSubscription = this.questionService.getQuestionsUpdatedListener()
-    .subscribe((questionsArray: Question[]) => {
-      this.questions = questionsArray;
-      console.table(this.questions);
-    });
+      .subscribe((questionsArray: Question[]) => {
+        this.questions = questionsArray;
+        this.organizedQuestions = this.questionService.sortByCategory(this.categories, this.questions);
+        console.table(this.questions);
+      });
   }
-
-
-
 }

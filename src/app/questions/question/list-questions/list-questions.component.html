@@ -1,54 +1,63 @@
 <mat-card>
   <h1 class="mat-display-1">Viewing all questions</h1>
 
-  <!-- Create New Question Card -->
-  <mat-card>
-    <h4>Create a new question</h4>
-    <mat-expansion-panel #mep="matExpansionPanel">
-      <mat-expansion-panel-header>
-        <mat-panel-title>New Question</mat-panel-title>
-        <mat-panel-description>Create a New Question</mat-panel-description>
-      </mat-expansion-panel-header>
-      <!-- Pulls the create-question component -->
-      <app-create-question></app-create-question>
-    </mat-expansion-panel>
-  </mat-card>
-
-  <!-- Expansion Panels by Category Card -->
-  <mat-card>
-    <h4>Questions sorted by category</h4>
-
-    <!-- Beginning of the Expansion panel Headers -->
-    <div *ngFor="let sortedCategory of categories">
+  <!-- Beginning of the Category Expansion panel Headers -->
+    <div *ngFor="let category of organizedQuestions | keyvalue">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>{{sortedCategory.name}}</mat-panel-title>
-          <mat-panel-description>List of {{sortedCategory.name}} questions</mat-panel-description>
+          <mat-panel-title>{{category.key}} Questions</mat-panel-title>
         </mat-expansion-panel-header>
+        <div *ngFor="let question of category.value">
+          <mat-card>
+            <p><strong>Question Type:</strong> {{ question.questionType }}<br></p>
+            <p><strong>Question Text:</strong> {{ question.questionText }}</p>
 
-        <!-- Beginning of the questions sorted by category -->
-        <div *ngFor="let question of questions; let i = index">
-          <div *ngFor="let category of question.categories; let i = index">
 
-          <div *ngIf="category[i] === sortedCategory">
+            <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'">
+              <mat-list-item *ngFor="let option of this.questionService.asCheckbox(question).options">
+                  <span>{{option.optionText}}</span>
 
-            <!-- Question header section-->
-            <section class="questionHeaderContent">
-              <!-- Question Type -->
-              <!-- <p matLine>{{ question.questionType }} Question</p> -->
-              <p>{{ question.questionType }} Question</p>
-              <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
-              <mat-icon class="editIcon" matListIcon>edit</mat-icon>
-            </section>
+                  <!-- This is the "is answer" chip. Appears if the option is an answer -->
+                  <mat-chip-list>
+                    <mat-chip class="isAnswerIcon" *ngIf="option.isAnswer" [selectable]="false" [selected]="false">
+                      Answer&nbsp;
+                      <mat-icon>check_circle</mat-icon>
+                    </mat-chip>
+                  </mat-chip-list>
+              </mat-list-item>
+            </div>
+            <div *ngIf="question.questionType == 'Short Answer'">
+              <mat-list-item *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches">
+                  <span>{{exactMatch.matchText}}</span>
 
-          </div>
+                  <!-- This is the "is answer" chip. Appears if the option is an answer -->
+                  <mat-chip-list>
+                    <mat-chip class="isAnswerIcon" *ngIf="exactMatch.matchText" [selectable]="false" [selected]="false">
+                      Answer&nbsp;
+                      <mat-icon>check_circle</mat-icon>
+                    </mat-chip>
+                  </mat-chip-list>
+              </mat-list-item>
+            </div>
 
-          </div>
+            <mat-list-item role="listitem" *ngIf="question.questionType === 'True False'">
+              <!-- If True/False, show answer -->
+              <mat-chip-list>
+                <mat-chip class="isAnswerIcon" *ngIf="this.questionService.asTrueFalse(question).answer" [selectable]="false" [selected]="false">
+                  True
+                </mat-chip>
+                <mat-chip class="isAnswerIcon" *ngIf="!this.questionService.asTrueFalse(question).answer" [selectable]="false" [selected]="false">
+                  False
+                </mat-chip>
+              </mat-chip-list>
+            </mat-list-item>
 
+
+
+          </mat-card>
         </div>
-
       </mat-expansion-panel>
     </div>
-  </mat-card>
+
 </mat-card>
 <br>
