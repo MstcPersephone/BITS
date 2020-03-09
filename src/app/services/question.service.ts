@@ -32,6 +32,8 @@ export class QuestionService {
   // Exact match array and subject.
   private exactMatches: ExactMatch[] = [];
   private exactMatchesUpdated = new Subject<ExactMatch[]>();
+  private hasMatches = false;
+  public showCreateMatch = false;
 
   // Options array and subject.
   private options: Option[] = [];
@@ -173,10 +175,15 @@ export class QuestionService {
     return this.exactMatchesUpdated.asObservable();
   }
 
-  // Returns whether the question has matches.
-  hasMatches() {
-    return this.exactMatches.length > 0;
-  }
+    // Returns whether or not the question has matches.
+    getHasMatchess() {
+      return this.hasMatches;
+    }
+
+    // Toggles whether to show create exact match.
+    toggleCreateMatch() {
+      this.showCreateMatch = !this.showCreateMatch;
+    }
 
     // Finds the match in the array and updates its value.
     updateMatch(originalMatch: ExactMatch, newMatch: ExactMatch) {
