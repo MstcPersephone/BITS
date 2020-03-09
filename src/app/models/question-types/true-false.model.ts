@@ -5,7 +5,7 @@ import { Category } from '../shared/category.model';
 
 // A true/false question.
 export class TrueFalse implements Question {
-  id: string;
+  _id: string;
   categories: Category [];
   questionText: string;
   questionType = QuestionType.TrueFalse;

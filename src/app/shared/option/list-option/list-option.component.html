@@ -1,14 +1,14 @@
 <!-- Displays the amount of options added to the question -->
-<p class="optionCount" *ngIf="this.questionService.hasOptions()">
+<p class="optionCount" *ngIf="this.questionService.getHasOptions()">
   {{ options.length }} {{ options.length > 1 ? "options" : "option" }} added to the question.
 </p>
 
 <br>
 
 <!-- List of created options for question -->
-<div class="optionList" *ngIf="this.questionService.hasOptions()">
+<div class="optionList" >
   <mat-card class="optionListContainer">
-    <mat-list>
+    <mat-list *ngIf="options.length > 0">
       <div *ngFor="let option of options; let i = index">
 
         <!-- Top divider of list item does not show for the first list item -->

@@ -6,7 +6,7 @@ import { Category } from '../shared/category.model';
 
 // Muliple choice question that allows only one correct answer.
 export class MultipleChoice implements Question {
-  id: string;
+  _id: string;
   categories: Category [];
   questionText: string;
   questionType = QuestionType.MultipleChoice;

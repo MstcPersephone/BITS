@@ -13,7 +13,7 @@ import { ViewQuestionComponent } from './questions/question/view-question/view-q
 
 import { CreateOptionComponent } from './shared/option/create-option/create-option.component';
 import { CreateExactMatchComponent } from './exact-match/create-exact-match/create-exact-match.component';
-import { ViewCategoryComponent } from './category/view-category/view-category.component';
+import { ViewCategoryComponent } from './shared/category/view-category/view-category.component';
 
 import { ListCheckboxComponent } from './questions/questionTypes/check-box/list-checkbox/list-checkbox.component';
 import { ListTrueFalseComponent } from './questions/questionTypes/true-false/list-true-false/list-true-false.component';
@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'match/create', component: CreateExactMatchComponent },
   { path: 'option/create', component: CreateOptionComponent },
   { path: 'question/create', component: CreateQuestionComponent },
-  { path: 'question/edit', component: EditQuestionComponent },
+  { path: 'question/edit/:questionId', component: EditQuestionComponent },
   { path: 'question/list', component: ListQuestionsComponent },
   { path: 'question/checkbox/list', component: ListCheckboxComponent },
   { path: 'question/true-false/list', component: ListTrueFalseComponent },

@@ -1,6 +1,6 @@
 // A possible answer to a question.
 export class Option {
-  id: string;
+  _id: string;
   questionId: string;
   optionText: string;
   isAnswer: boolean;

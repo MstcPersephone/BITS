@@ -26,7 +26,7 @@ export class CreateUploadComponent implements OnInit {
 
   onSubmit(uploadData) {
     const uploadQuestion: Upload = new Upload();
-    uploadQuestion.id = null;
+    uploadQuestion._id = null;
     uploadQuestion.questionText = uploadData.questionText;
     uploadQuestion.hasAttachments = true;
     uploadQuestion.attachments = this.attachmentService.getAttachments();
