@@ -30,12 +30,13 @@ export class ViewCategoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.questionService.getAllCategories();
     this.categorySubscription = this.questionService.getCategoriesListener()
       .subscribe((categoriesArray: Category[]) => {
         this.categoryList = categoriesArray;
         console.table(this.categoryList);
       });
+
+    this.questionService.getAllCategories();
   }
 
   // Id is null at this point because it is generated on the backend.
@@ -43,6 +44,9 @@ export class ViewCategoryComponent implements OnInit {
     const category: Category = new Category();
     category._id = null;
     category.name = categoryData.categoryName;
+
+    // Adds option to the options array in the service.
+    this.questionService.createCategory(category);
 
     // Adds option to the options array in the service.
     this.questionService.saveCategory(category, this.createCategoryForm);

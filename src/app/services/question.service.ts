@@ -63,6 +63,12 @@ export class QuestionService {
   // ******************Category Functions****************** //
   // ****************************************************** //
 
+  // Pushes the option to the options array and updates the subject for subscribers to consume.
+  createCategory(category: Category) {
+    this.categories.push(category);
+    this.categoriesUpdated.next([...this.categories]);
+  }
+
   // Removes an option from the list based on its index
   deleteCategory(i) {
     console.log('%c Deleting Category', 'color: red');
