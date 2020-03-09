@@ -46,7 +46,6 @@ export class QuestionService {
   // Question (for edit and delete) and subject
   private question: Question;
   private questionUpdated = new Subject<Question>();
-  public organizedQuestions = [];
 
   constructor(
     private http: HttpClient,
@@ -132,33 +131,6 @@ export class QuestionService {
     }
 
     console.log(this.selectedCategories);
-  }
-
-  sortByCategory(categories: Category[] = [], questions: Question[] = []) {
-    // Loop through categories to create separate arrays
-    categories.forEach((c) => {
-      // get category name without spaces
-      const catName = c.name.replace(/\s/g, '');
-      // push new object
-      // property is category name
-      // value is array to hold questions
-      this.organizedQuestions[catName] = [];
-    });
-    // for each question
-    this.questions.forEach((q) => {
-      if (q.categories !== undefined && q.categories.length > 0) {
-        // for each category attached to the question
-        q.categories.forEach((c) => {
-          // get the category name
-          const catName = c.name.replace(/\s/g, '');
-          // Find the proper array and push the question
-          this.organizedQuestions[catName].push(q);
-        });
-      }
-    });
-    console.log(this.organizedQuestions);
-
-    return this.organizedQuestions;
   }
 
   // Saves the category to the database
@@ -302,12 +274,6 @@ export class QuestionService {
   // Gets the updateListener subject for multiple questions fetch
   getQuestionsUpdatedListener() {
     return this.questionsUpdated.asObservable();
-  }
-
-  // Gets a copy of the questions filtered by Category.
-  // Used for question types to attaching the filtered questions.
-  getOrganizedQuestions() {
-    return [...this.organizedQuestions];
   }
 
   // Gets all questions from the database.

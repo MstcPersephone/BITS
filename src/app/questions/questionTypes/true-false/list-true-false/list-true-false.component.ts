@@ -21,7 +21,7 @@ export class ListTrueFalseComponent implements OnInit {
     this.questionService.getQuestionsByType(QuestionType.TrueFalse);
     this.questionSubscription = this.questionService.getQuestionsUpdatedListener()
     .subscribe((questionsArray: Question[]) => {
-      this.questions = this.questionService.getOrganizedQuestions();
+      this.questions = questionsArray;
       console.table(this.questions);
     });
   }
