@@ -12,6 +12,7 @@ import { MultipleChoice } from '../models/question-types/multiple-choice.model';
 import { Upload } from '../models/question-types/upload.model';
 import { ShortAnswer } from '../models/question-types/short-answer.model';
 import { Category } from '../models/shared/category.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +51,8 @@ export class QuestionService {
 
   constructor(
     private http: HttpClient,
-    private helperService: HelperService) { }
+    private helperService: HelperService,
+    private router: Router) { }
 
   // ************************************************************** //
   // Casting question to questionType for casting in html template. //
@@ -415,6 +417,7 @@ export class QuestionService {
         });
   }
 
+  // Makes a call to the server to update a question based on its id
   updateQuestionById(question: Question) {
     // Add points and categories from the service
     question.categories = this.selectedCategories;
@@ -422,13 +425,22 @@ export class QuestionService {
     this.http.post<{ message: string, updatedQuestion: Question}>('http://localhost:3000/api/question/update', question)
     .subscribe(
       responseData => {
-        this.helperService.openSnackBar(question.questionType + ' Question Updated Successfully!', 'Close', 'success-dialog', 5000);
+        // how long before the success message disappears and the router navigates back to the question list
+        const successTime = 4000;
+        // Success message at the bottom of the screen
+        // console log information about the response for debugging
+        this.helperService.openSnackBar(question.questionType + ' Question Updated Successfully!', 'Close', 'success-dialog', successTime);
+
+        setTimeout(() => {
+          this.router.navigate(['/question/list']);
+        }, successTime);
         console.log('%c' + responseData.message, 'color: green;');
         console.log('%c Database Object:', 'color: orange;');
         console.log(responseData.updatedQuestion);
         console.table(responseData.updatedQuestion);
       },
       error => {
+        // log error message from server
         console.log('%c' + error.error.message, 'color: red;');
       }
     );
