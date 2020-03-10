@@ -263,12 +263,12 @@ export class QuestionService {
     console.log(this.enteredPoints);
   }
 
+  getPoints() {
+    return this.enteredPoints;
+  }
   // ********************************************** //
   // ************Question Functions**************** //
   // ********************************************** //
-  editQuestion(question: Question) {
-
-  }
 
   // Gets the updateListener subject for single question fetch
   getQuestionUpdatedListener() {
@@ -305,6 +305,9 @@ export class QuestionService {
         this.question = questionData.question[0];
         // Add the selected categories to the array
         this.selectedCategories = this.question.categories;
+
+        // Add the points to the variable that manages it
+        this.enteredPoints = this.question.points;
 
         console.log(this.selectedCategories);
         // Add options to options array if question type supports it
@@ -371,7 +374,9 @@ export class QuestionService {
   }
 
   updateQuestionById(question: Question) {
+    // Add points and categories from the service
     question.categories = this.categories;
+    question.points = this.enteredPoints;
     this.http.post<{ message: string, updatedQuestion: Question}>('http://localhost:3000/api/question/update', question)
     .subscribe(
       responseData => {
