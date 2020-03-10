@@ -9,7 +9,9 @@ import { ExactMatch } from 'src/app/models/shared/exact-match.model';
   styleUrls: ['./edit-exact-match.component.css']
 })
 export class EditExactMatchComponent implements OnInit {
+  // The match to be edited
   @Input() exactMatch: ExactMatch;
+  // The form used to pass the exact match data to update the match
   editExactMatchForm;
   constructor(
     private formBuilder: FormBuilder,
@@ -24,6 +26,7 @@ export class EditExactMatchComponent implements OnInit {
   ngOnInit() {
   }
 
+  // On submit passes the form data to the question service to update the match text
   onSubmit(formData) {
     const updatedMatch = new ExactMatch();
     updatedMatch._id = this.exactMatch._id;

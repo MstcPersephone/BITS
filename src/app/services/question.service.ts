@@ -323,6 +323,18 @@ export class QuestionService {
           // subscribers get a copy of the options associated with the question
           this.optionsUpdated.next(this.options);
         }
+
+        if (this.question.questionType === QuestionType.ShortAnswer) {
+          this.exactMatches = (this.question as ShortAnswer).matches;
+          console.log(this.question);
+          if (this.exactMatches.length > 0) {
+            this.hasMatches = true;
+          }
+          console.log(this.exactMatches);
+          // subscribers get a copy of the matches associated with the question
+          this.exactMatchesUpdated.next(this.exactMatches);
+        }
+
         console.log(this.question.attachments);
         // this.attachmentService.attachments = this.question.attachments.length > 0 ? this.question.attachments : [];
 

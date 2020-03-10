@@ -12,7 +12,9 @@ import { ExactMatch } from 'src/app/models/shared/exact-match.model';
   styleUrls: ['./edit-short-answer.component.css']
 })
 export class EditShortAnswerComponent implements OnInit {
+  // The question being edited
   @Input() question: Question;
+  // The short answer edit form which will be used to updated the question
   editShortAnswerForm;
 
   constructor(
@@ -38,6 +40,7 @@ export class EditShortAnswerComponent implements OnInit {
     }
   }
 
+  // Form data passed through to update the question using the edited information
   onSubmit(formData) {
     const updatedShortAnswerQuestion: ShortAnswer = new ShortAnswer();
     console.log(formData);
