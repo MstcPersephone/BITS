@@ -1,7 +1,7 @@
 <mat-card>
   <form [formGroup]="createExactMatchForm" (ngSubmit)="onSubmit(createExactMatchForm.value)">
 
-    <!-- Option Text Input -->
+    <!-- Exact match Text Input -->
     <mat-form-field appearance="standard">
       <mat-label>Answer Text</mat-label>
       <input matInput id="matchText" type="text" formControlName="matchText">
