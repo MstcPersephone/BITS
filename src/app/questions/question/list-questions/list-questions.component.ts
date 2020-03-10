@@ -49,7 +49,6 @@ export class ListQuestionsComponent implements OnInit {
       this.organizedQuestions[catName] = [];
     });
 
-
     // for each question
     this.questions.forEach((q) => {
       if (q.categories !== undefined && q.categories.length > 0) {
