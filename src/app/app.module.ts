@@ -70,7 +70,7 @@ import { AttachmentComponent } from './shared/attachment/attachment.component';
 import { CreateCategoryComponent } from './shared/category/create-category/create-category.component';
 import { EditCategoryComponent } from './shared/category/edit-category/edit-category.component';
 import { ListCategoryComponent } from './shared/category/list-category/list-category.component';
-
+import { ManageCategoryComponent } from './shared/category/manage-category/manage-category.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +119,8 @@ import { ListCategoryComponent } from './shared/category/list-category/list-cate
     AttachmentComponent,
     CreateCategoryComponent,
     EditCategoryComponent,
-    ListCategoryComponent
+    ListCategoryComponent,
+    ManageCategoryComponent
   ],
   imports: [
     BrowserModule,

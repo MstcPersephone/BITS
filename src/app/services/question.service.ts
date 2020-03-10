@@ -39,10 +39,6 @@ export class QuestionService {
   private hasOptions = false;
   public showCreateOption = false;
 
-  toggleCreateOption() {
-    this.showCreateOption = !this.showCreateOption;
-  }
-
   // Points.
   private enteredPoints = 0;
 
@@ -66,6 +62,20 @@ export class QuestionService {
   // ****************************************************** //
   // ******************Category Functions****************** //
   // ****************************************************** //
+
+  // Pushes the option to the options array and updates the subject for subscribers to consume.
+  createCategory(category: Category) {
+    this.categories.push(category);
+    this.categoriesUpdated.next([...this.categories]);
+  }
+
+  // Removes an option from the list based on its index
+  deleteCategory(i) {
+    console.log('%c Deleting Category', 'color: red');
+    this.categories.splice(i, 1);
+    console.table(this.categories);
+    this.categoriesUpdated.next([...this.categories]);
+  }
 
   // Gets all categories from the database.
   getAllCategories() {
@@ -219,6 +229,11 @@ export class QuestionService {
   // Returns whether or not the question has options.
   getHasOptions() {
     return this.hasOptions;
+  }
+
+  // Toggles whether to show create option.
+  toggleCreateOption() {
+    this.showCreateOption = !this.showCreateOption;
   }
 
   // Finds the option in the array and updates its value.

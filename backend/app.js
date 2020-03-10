@@ -281,6 +281,9 @@ app.post("/api/question/save", (request, response, next) => {
   // Attach points to the question before saving.
   questionObjectToSave.points = question.points;
 
+  //
+  questionObjectToSave.isAnsweredCorrectly = question.isAnsweredCorrectly;
+
   console.log(questionObjectToSave);
 
   // Saves the object to the database.

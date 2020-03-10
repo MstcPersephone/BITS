@@ -3,50 +3,39 @@
   <!-- Page Header -->
   <h1 class="mat-display-1">Create a Question</h1>
 
-  <!-- Category Card : Got to create-category.component.html -->
-  <app-create-category></app-create-category>
+  <!-- Question Type Dropdown -->
+  <mat-form-field class="questionTypeInput">
+    <mat-label>Select Question Type</mat-label>
+    <!-- Calls onQuestionTypeSelected in ts file -->
+    <mat-select #questionTypeSelect (selectionChange)="onQuestionTypeSelected($event)">
+      <!-- This element loops over the question types and adds them as options -->
+      <mat-option *ngFor="let questionType of questionTypes" [value]="questionType.key">{{ questionType.value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <br />
 
-  <!-- Point Card -->
-  <mat-card>
-    <mat-label>Enter Point Value</mat-label>
-    <br />
-    <form [formGroup]="addPointForm">
-      <!-- Category Name Input -->
-      <mat-form-field appearance="standard">
-        <mat-label>Numeric Points</mat-label>
-        <input matInput #pointValue id="points" type="text" formControlName="points" (keyup)="this.questionService.onHandlePoints($event)">
-      </mat-form-field>
-    </form>
-  </mat-card>
-
-  <!-- Question Type Card -->
-  <mat-card>
-    <mat-label>Enter Question Details</mat-label>
-    <br />
-    <mat-form-field>
-      <mat-label>Question Type</mat-label>
-      <!-- Calls onQuestionTypeSelected in ts file -->
-      <mat-select #questionTypeSelect (selectionChange)="onQuestionTypeSelected($event)">
-        <!-- This element loops over the question types and adds them as options -->
-        <mat-option *ngFor="let questionType of questionTypes" [value]="questionType.key">{{ questionType.value }}
-        </mat-option>
-      </mat-select>
+  <!-- Point Value Input -->
+  <form class="pointValueForm" [formGroup]="addPointForm">
+    <mat-form-field class="pointValueInput">
+      <mat-label>Enter Point Value (Numeric)</mat-label>
+      <input matInput #pointValue id="points" type="text"
+       formControlName="points" (keyup)="this.questionService.onHandlePoints($event)">
     </mat-form-field>
-    <br />
-    <!-- Create Category Component with a nested list of categories -->
-    <app-create-category></app-create-category>
-    <br />
+  </form>
 
-    <!-- Create components for each question type in a switch/case statement -->
-    <!-- Displays a question type component based on user selection from dropdown -->
-    <div [ngSwitch]="questionTypeSelected" class="questionTypeContainer">
-      <app-create-checkbox *ngSwitchCase="'Checkbox'"></app-create-checkbox>
-      <app-create-short-answer *ngSwitchCase="'Short Answer'"></app-create-short-answer>
-      <app-create-multiple-choice *ngSwitchCase="'Multiple Choice'"></app-create-multiple-choice>
-      <app-create-true-false *ngSwitchCase="'True False'"></app-create-true-false>
-      <app-create-upload *ngSwitchCase="'Upload'"></app-create-upload>
-    </div>
-  </mat-card>
+  <!-- Category Dropdown : Go to create-category.component.html -->
+  <app-create-category></app-create-category>
+
+  <!-- Question Type Component Display (NOT dropdown)-->
+  <!-- Create components for each question type in a switch/case statement -->
+  <!-- Displays a question type component based on user selection from dropdown -->
+  <div [ngSwitch]="questionTypeSelected" class="questionTypeContainer">
+    <app-create-checkbox *ngSwitchCase="'Checkbox'"></app-create-checkbox>
+    <app-create-short-answer *ngSwitchCase="'Short Answer'"></app-create-short-answer>
+    <app-create-multiple-choice *ngSwitchCase="'Multiple Choice'"></app-create-multiple-choice>
+    <app-create-true-false *ngSwitchCase="'True False'"></app-create-true-false>
+    <app-create-upload *ngSwitchCase="'Upload'"></app-create-upload>
+  </div>
 </mat-card>
 <br>

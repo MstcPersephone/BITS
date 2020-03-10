@@ -1,14 +1,39 @@
+/* Adjusts the styling of the Create a Question header (Create a Question). */
 h1{
   font-size: 25px;
   margin-bottom: 10px;
   margin-left: 0px;
   padding: 0px;
 }
+
+/* Adjusts the styling of the main Create a Question form (background box) */
 mat-card {
   width: 85%;
   margin: 20px auto;
 }
 
+/* Adjusts the position of the Question Type dropdown box */
 .questionTypeContainer {
   margin-top: 0px;
+}
+
+/* Adjusts the position of the Point Value form, and removes it's background color */
+.pointValueForm, .categorySelectForm{
+  padding: 0;
+  background-color: rgba(0,0,0,0.0);
+}
+
+/* Sets minimum width values for each input (Question Type, Point Value, and Select Category */
+.questionTypeInput, .pointValueInput, .categorySelectInput{
+  min-width: 200px;
+}
+
+/* Adjusts the width of the Question Type and Point Value input */
+.questionTypeInput, .pointValueInput{
+  width: 30%;
+}
+
+/* Adjusts the width of the Category Select input */
+.categorySelectInput{
+  width: 50%;
 }
