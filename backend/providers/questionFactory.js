@@ -30,9 +30,12 @@ const createQuestionTypeFactory = function (question) {
 }
 
 const editQuestionFactory = function (question) {
+  // Switch to internal fuction that updates an object.
   switch (question.questionType) {
     case "Checkbox":
       return updateCheckbox(question);
+    case "Short Answer":
+      return updateShortAnswer(question);
   }
 }
 
@@ -136,6 +139,24 @@ function createShortAnswer(question) {
   });
 
   return questionModel;
+}
+
+function updateShortAnswer(question) {
+  // creates an object for updating
+  return {
+    categories: question.categories,
+    questionText: question.questionText,
+    questionType: question.questionType,
+    hasAttachments: question.hasAttachments,
+    attachments: question.attachments,
+    isAnswered: question.isAnswered,
+    studentAnswer: question.studentAnswer,
+    matches: question.matches,
+    duration: question.duration,
+    points: question.points,
+    isAnsweredCorrectly: question.isAnsweredCorrectly,
+    createdOn: question.createdOn
+  }
 }
 
 //*****************************************//

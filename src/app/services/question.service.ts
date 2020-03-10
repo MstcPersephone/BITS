@@ -32,6 +32,8 @@ export class QuestionService {
   // Exact match array and subject.
   private exactMatches: ExactMatch[] = [];
   private exactMatchesUpdated = new Subject<ExactMatch[]>();
+  private hasMatches = false;
+  public showCreateMatch = false;
 
   // Options array and subject.
   private options: Option[] = [];
@@ -187,10 +189,31 @@ export class QuestionService {
     return this.exactMatchesUpdated.asObservable();
   }
 
-  // Returns whether the question has matches.
-  hasMatches() {
-    return this.exactMatches.length > 0;
-  }
+    // Returns whether or not the question has matches.
+    getHasMatches() {
+      return this.hasMatches;
+    }
+
+    // Toggles whether to show create exact match.
+    toggleCreateMatch() {
+      this.showCreateMatch = !this.showCreateMatch;
+    }
+
+    // Finds the match in the array and updates its value.
+    updateMatch(originalMatch: ExactMatch, newMatch: ExactMatch) {
+      if (newMatch.matchText === '') {
+        newMatch.matchText = originalMatch.matchText;
+      }
+
+      // Finding the index of the original match
+      const index = this.exactMatches.indexOf(originalMatch);
+
+      // Replacing old match with new match
+      this.exactMatches[index] = newMatch;
+
+     // Open snackbar to display success message
+      this.helperService.openSnackBar('Exact Match Updated Successfully!', 'Close', 'success-dialog', 5000);
+    }
 
   // ******************************************** //
   // ************Option Functions**************** //
@@ -314,6 +337,18 @@ export class QuestionService {
           // subscribers get a copy of the options associated with the question
           this.optionsUpdated.next(this.options);
         }
+
+        if (this.question.questionType === QuestionType.ShortAnswer) {
+          this.exactMatches = (this.question as ShortAnswer).matches;
+          console.log(this.question);
+          if (this.exactMatches.length > 0) {
+            this.hasMatches = true;
+          }
+          console.log(this.exactMatches);
+          // subscribers get a copy of the matches associated with the question
+          this.exactMatchesUpdated.next(this.exactMatches);
+        }
+
         console.log(this.question.attachments);
         // this.attachmentService.attachments = this.question.attachments.length > 0 ? this.question.attachments : [];
 
@@ -348,6 +383,12 @@ export class QuestionService {
       console.log(completeQuestion);
     }
 
+    if (question.questionType === QuestionType.ShortAnswer) {
+      const completeQuestion = question as ShortAnswer;
+      completeQuestion.matches = this.getMatches();
+      console.log(completeQuestion);
+    }
+
     console.log(this.selectedCategories);
     question.categories = this.selectedCategories;
     question.points = this.enteredPoints;
@@ -355,6 +396,7 @@ export class QuestionService {
       .subscribe(
         responseData => {
           this.clearOptions();
+          this.clearMatches();
           this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
@@ -367,7 +409,7 @@ export class QuestionService {
   }
 
   updateQuestionById(question) {
-    question.categories = this.categories;
+    question.categories = this.selectedCategories;
     this.http.post<{ message: string, updatedQuestion: Question}>('http://localhost:3000/api/question/update', question)
     .subscribe(
       responseData => {
