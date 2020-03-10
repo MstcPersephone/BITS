@@ -13,7 +13,12 @@
               <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
               <mat-icon class="deleteIcon iconButton" matListIcon>delete</mat-icon></p>
             <p><strong>Points:</strong> {{ question.points }}</p>
+            <!-- <p><strong>Attachments: </strong>
+              <a *ngIf="question.hasAttachments" href="{{question.attachments[0].content}}"
+      download="{{question.attachments[0].name}}">{{ question.attachments[0].name }}</a>
+            </p> -->
             <p><strong>Question Text:</strong> {{ question.questionText }}</p>
+
 
 
 

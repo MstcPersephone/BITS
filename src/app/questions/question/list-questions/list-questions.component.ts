@@ -3,6 +3,7 @@ import { QuestionService } from 'src/app/services/question.service';
 import { Question } from 'src/app/models/question.interface';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/models/shared/category.model';
+import { AttachmentService } from 'src/app/services/attachment.service';
 
 @Component({
   selector: 'app-list-questions',
@@ -10,15 +11,17 @@ import { Category } from 'src/app/models/shared/category.model';
   styleUrls: ['./list-questions.component.css']
 })
 export class ListQuestionsComponent implements OnInit {
-  public questions: Question[] = [];
-  private questionSubscription: Subscription;
   public organizedQuestions = [];
   public categories: Category[] = [];
   private categorySubscription: Subscription;
+  public questions: Question[] = [];
+  private questionSubscription: Subscription;
+  public  organizedAttachments = [];
 
 
   constructor(
-    public questionService: QuestionService
+    public questionService: QuestionService,
+    public attachmentService: AttachmentService
   ) { }
 
   ngOnInit() {
@@ -42,11 +45,11 @@ export class ListQuestionsComponent implements OnInit {
     // Loop through categories to create separate arrays
     this.categories.forEach((c) => {
       // get category name without spaces
-      const catName = c.name.replace(/\s/g, '');
+      // const catName = c.name.replace(/\s/g, '');
       // push new object
       // property is category name
       // value is array to hold questions
-      this.organizedQuestions[catName] = [];
+      this.organizedQuestions[c.name] = [];
     });
 
     // for each question
@@ -55,14 +58,12 @@ export class ListQuestionsComponent implements OnInit {
         // for each category attached to the question
         q.categories.forEach((c) => {
           // get the category name
-          const catName = c.name.replace(/\s/g, '');
+          // const catName = c.name.replace(/\s/g, '');
           // Find the proper array and push the question
-          this.organizedQuestions[catName].push(q);
+          this.organizedQuestions[c.name].push(q);
         });
       }
     });
     console.log(this.organizedQuestions);
-
-    return this.organizedQuestions;
   }
 }
