@@ -9,8 +9,12 @@
         </mat-expansion-panel-header>
         <div *ngFor="let question of category.value">
           <mat-card>
-            <p><strong>Question Type:</strong> {{ question.questionType }}<br></p>
+            <p><strong>Question Type:</strong> {{ question.questionType }}
+              <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
+              <mat-icon class="deleteIcon iconButton" matListIcon>delete</mat-icon></p>
+            <p><strong>Points:</strong> {{ question.points }}</p>
             <p><strong>Question Text:</strong> {{ question.questionText }}</p>
+
 
 
             <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'">
