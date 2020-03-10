@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
 import { ShortAnswer } from 'src/app/models/question-types/short-answer.model';
 import { AttachmentService } from 'src/app/services/attachment.service';
+import { ExactMatch } from 'src/app/models/shared/exact-match.model';
 
 @Component({
   selector: 'app-edit-short-answer',

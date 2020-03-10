@@ -196,6 +196,9 @@ export class QuestionService {
 
       // Replacing old match with new match
       this.exactMatches[index] = newMatch;
+
+     // Open snackbar to display success message
+      this.helperService.openSnackBar('Exact Match Updated Successfully!', 'Close', 'success-dialog', 5000);
     }
 
   // ******************************************** //
