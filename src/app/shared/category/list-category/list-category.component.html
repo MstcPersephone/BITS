@@ -1,9 +1,9 @@
-<mat-label>Select One or More Categories</mat-label>
 <div *ngIf="this.questionService.getCategoriesLoaded()">
-  <form [formGroup]="selectCategoriesForm" (ngSubmit)=onSubmit(selectCategoriesForm.value)>
-    <mat-form-field>
-      <mat-label>Categories</mat-label>
-      <mat-select #categorySelect formControlName="categoryList" (selectionChange)="this.questionService.onHandleCategory($event, categorySelect, selectCategoriesForm)" multiple>
+  <form class="categorySelectForm"  [formGroup]="selectCategoriesForm" (ngSubmit)=onSubmit(selectCategoriesForm.value)>
+    <mat-form-field class="categorySelectInput">
+      <mat-label>Select one or more Categories</mat-label>
+      <mat-select #categorySelect formControlName="categoryList"
+       (selectionChange)="this.questionService.onHandleCategory($event, categorySelect, selectCategoriesForm)" multiple>
         <mat-option value="create">Create New...</mat-option>
         <mat-option #categoryOption *ngFor="let category of categoryList; index as i" [value]="category">
         {{category.name}}</mat-option>

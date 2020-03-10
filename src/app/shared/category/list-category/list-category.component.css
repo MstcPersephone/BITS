@@ -1,0 +1,8 @@
+/* Importing the create-question stylesheet for shared styles */
+@import "../../../questions/question/create-question/create-question.component.css";
+
+/* Removing padding so category input lies at the same level as the other Create a Question inputs. */
+div{
+  padding: 0;
+  margin-bottom: 0;
+}
