@@ -36,6 +36,7 @@ export class CreateTrueFalseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.questionService.resetFunction(this.resetForm.bind(this));
   }
 
   onSubmit(trueFalseData) {
@@ -49,13 +50,18 @@ export class CreateTrueFalseComponent implements OnInit {
     trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
     trueFalseQuestion.duration = 0;
 
-    // Resets the form values.
-    this.createTrueFalseForm.reset();
-
     // For testing, we can remove later.
     console.log(trueFalseQuestion);
 
     // Adds option to the options array in the service.
     this.questionService.saveQuestion(trueFalseQuestion);
+
+     // Resets the form values.
+    this.createTrueFalseForm.reset();
   }
+
+    // Resets the form
+    resetForm() {
+      this.createTrueFalseForm.reset();
+    }
 }

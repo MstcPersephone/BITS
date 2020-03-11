@@ -24,6 +24,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.questionService.resetFunction(this.resetForm.bind(this));
   }
 
   // Id is null at this point because it is generated on the backend.
@@ -48,4 +49,8 @@ export class CreateMultipleChoiceComponent implements OnInit {
     console.log(multipleChoiceQuestion);
   }
 
+  // Resets the form
+  resetForm() {
+    this.createMultipleChoiceForm.reset();
+  }
 }

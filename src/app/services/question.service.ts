@@ -35,6 +35,9 @@ export class QuestionService {
   private hasMatches = false;
   public showCreateMatch = false;
 
+  // Form reset
+  private resetCreateForm: () => void;
+
   // Options array and subject.
   private options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
@@ -43,6 +46,7 @@ export class QuestionService {
 
   // Points.
   private enteredPoints = 0;
+  private pointsUpdated = new Subject<number>();
 
   // Question (for edit and delete) and subject
   private question: Question;
@@ -64,6 +68,10 @@ export class QuestionService {
   // ****************************************************** //
   // ******************Category Functions****************** //
   // ****************************************************** //
+
+  clearCategories() {
+    this.categories = [];
+  }
 
   // Pushes the option to the options array and updates the subject for subscribers to consume.
   createCategory(category: Category) {
@@ -213,6 +221,24 @@ export class QuestionService {
 
      // Open snackbar to display success message
       this.helperService.openSnackBar('Exact Match Updated Successfully!', 'Close', 'success-dialog', 5000);
+    }
+
+  // ******************************************** //
+  // ************Form Functions**************** //
+  // ******************************************** //
+  resetFunction(fn: () => void) {
+    this.resetCreateForm = fn;
+  }
+
+  resetQuestionForm() {
+    this.enteredPoints = 0;
+    this.options = [];
+    this.exactMatches = [];
+    this.selectedCategories = [];
+    this.pointsUpdated.next(this.enteredPoints);
+    this.exactMatchesUpdated.next(this.exactMatches);
+    this.categoriesUpdated.next(this.selectedCategories);
+    this.optionsUpdated.next(this.options);
     }
 
   // ******************************************** //
@@ -395,8 +421,8 @@ export class QuestionService {
     this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/question/save', question)
       .subscribe(
         responseData => {
-          this.clearOptions();
-          this.clearMatches();
+          this.resetQuestionForm();
+          this.resetCreateForm();
           this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');

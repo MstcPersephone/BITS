@@ -24,6 +24,7 @@ export class CreateCheckboxComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.questionService.resetFunction(this.resetForm.bind(this));
   }
 
   // Id is null at this point because it is generated on the backend.
@@ -41,11 +42,11 @@ export class CreateCheckboxComponent implements OnInit {
     // Adds option to the options array in the service.
     this.questionService.saveQuestion(checkboxQuestion);
 
-    // Resets the form values.
-    this.createCheckboxForm.reset();
-    this.questionService.clearOptions();
-
     // For testing, we can remove later.
     console.log(checkboxQuestion);
+  }
+
+  resetForm() {
+    this.createCheckboxForm.reset();
   }
 }

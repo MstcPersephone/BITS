@@ -22,6 +22,7 @@ export class CreateUploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.questionService.resetFunction(this.resetForm.bind(this));
   }
 
   onSubmit(uploadData) {
@@ -35,9 +36,13 @@ export class CreateUploadComponent implements OnInit {
     uploadQuestion.correctAnswer = this.attachmentService.getCorrectAnswers();
     uploadQuestion.submittedAnswer = null;
 
-    this.createUploadForm.reset();
-
     this.questionService.saveQuestion(uploadQuestion);
+
+    this.createUploadForm.reset();
   }
 
+ // Resets the form
+ resetForm() {
+  this.createUploadForm.reset();
+}
 }

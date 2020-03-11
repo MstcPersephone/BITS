@@ -26,6 +26,7 @@ export class CreateShortAnswerComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    this.questionService.resetFunction(this.resetForm.bind(this));
   }
 
     // Id is null at this point because it is generated on the backend.
@@ -49,4 +50,9 @@ export class CreateShortAnswerComponent implements OnInit {
       // For testing, we can remove later.
       console.log(shortAnswerQuestion);
     }
+
+  // Resets the form
+  resetForm() {
+    this.createShortAnswerForm.reset();
+  }
 }
