@@ -427,15 +427,15 @@ export class QuestionService {
     this.http.post<{ message: string, updatedQuestion: Question}>('http://localhost:3000/api/question/update', question)
     .subscribe(
       responseData => {
-        // how long before the success message disappears and the router navigates back to the question list
-        const successTime = 4000;
         // Success message at the bottom of the screen
         // console log information about the response for debugging
-        this.helperService.openSnackBar(question.questionType + ' Question Updated Successfully!', 'Close', 'success-dialog', successTime);
+        this.helperService.openSnackBar(question.questionType + ' Question Updated Successfully!', 'Close', 'success-dialog', 5000);
 
         setTimeout(() => {
           this.router.navigate(['/question/list']);
-        }, successTime);
+          // reset the isLoading spinner
+          this.helperService.isLoading = false;
+        }, 2000);
         console.log('%c' + responseData.message, 'color: green;');
         console.log('%c Database Object:', 'color: orange;');
         console.log(responseData.updatedQuestion);
