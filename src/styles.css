@@ -151,3 +151,7 @@ mat-list-item.error, .error-dialog {
 .success-dialog button, .alert-dialog button, .error-dialog button{
   margin: auto;
 }
+
+mat-spinner {
+  margin: 150px auto;
+}
