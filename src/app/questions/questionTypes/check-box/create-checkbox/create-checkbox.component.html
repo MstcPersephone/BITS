@@ -1,9 +1,9 @@
   <form [formGroup]="createCheckboxForm" (ngSubmit)="onSubmit(createCheckboxForm.value)">
-    <h3>New Checkbox question</h3>
+    <h3>Checkbox question details</h3>
     <!-- Question Name Text Input -->
     <mat-form-field appearance="standard">
-      <mat-label>Question Text</mat-label>
-      <input matInput id="questionText" type="text" formControlName="questionText" matTooltip="Info about the action">
+      <mat-label>Enter Question Text</mat-label>
+      <input matInput id="questionText" type="text" formControlName="questionText">
     </mat-form-field>
 
     <!-- Add attachment component -->

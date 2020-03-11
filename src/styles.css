@@ -52,7 +52,7 @@ mat-card, mat-form-field, mat-checkbox, mat-radio-group, button, h3, .mat-radio-
 /* Styles applied to Forms */
 form{
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
   border-radius: 5px;
   overflow: hidden ; /* Prevents the Save button from falling out of the form due to it's float */
 }
@@ -93,7 +93,7 @@ mat-icon {
 
 /* Styles applied to the Save button */
 button.saveButton {
-  background-color: rgb(11, 87, 138);
+  background-color: #82142D;
   color: #ffffff;
   display: block;
   margin-top: 40px;
@@ -103,21 +103,51 @@ button.saveButton {
 /* Styles applied to the Upload button. Puts upload button on one line, rather than inline with the lower content. */
 button.uploadButton {
   display: block;
+  background-color: #404040;
   margin-bottom: 10px;
-}
-
-/* Styles applied to the Delete icon */
-mat-icon.deleteIcon {
-  color: rgb(254, 0, 2);
-}
-mat-icon.deleteIcon:hover {
-  color: rgba(254, 0, 2, .7);
 }
 
 /* Styles applied to the Edit icon */
 mat-icon.editIcon {
-  color: rgb(11, 87, 138);
+  color: #2d2d2d;
 }
-mat-icon.editIcon:hover {
-  color: rgba(11, 87, 138, .7)
+/* Styles applied to the Delete icon */
+mat-icon.deleteIcon {
+  color: #82142D;
+}
+mat-icon.deleteIcon:hover, mat-icon.editIcon:hover {
+  opacity: 0.7;
+}
+
+/* Styles applied to the Add buttons (Add Option, Add Exact Match) and the Upload Correct Answer button */
+button.addOption, button.uploadAnswer{
+  background-color: #0b578a !important;
+  color: #ffffff;
+}
+
+/* Styles applied to any "correct" options or dialogs */
+mat-list-item.correct, .success-dialog {
+  background-color: #ccf8d3;
+  color: black;
+}
+
+/* Styles applied to any "alert" options or dialogs */
+mat-list-item.alert, .alert-dialog {
+  background-color: #fcb618;
+  color: black;
+}
+
+/* Styles applied to any "error" options or dialogs */
+mat-list-item.error, .error-dialog {
+  background-color: #82142D;
+  color: white;
+}
+
+/* Styles applied to the snackbox dialog popups (appearing when you save or update questions) */
+.success-dialog, .alert-dialog, .error-dialog{
+  display: flex;
+  border: 2px #2d2d2d solid;
+}
+.success-dialog button, .alert-dialog button, .error-dialog button{
+  margin: auto;
 }

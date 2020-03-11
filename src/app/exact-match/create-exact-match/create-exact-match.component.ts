@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
 import { ExactMatch } from 'src/app/models/shared/exact-match.model';
@@ -9,6 +9,8 @@ import { ExactMatch } from 'src/app/models/shared/exact-match.model';
   styleUrls: ['./create-exact-match.component.css']
 })
 export class CreateExactMatchComponent implements OnInit {
+   // whether or not the user is editing a question
+   @Input() isEditMode: boolean;
 // The form object
   createExactMatchForm;
 
@@ -25,7 +27,7 @@ export class CreateExactMatchComponent implements OnInit {
 
   onSubmit(exactMatchData) {
     const exactMatch: ExactMatch = new ExactMatch();
-    exactMatch.id = null;
+    exactMatch._id = null;
     exactMatch.questionId = null;
     exactMatch.matchText = exactMatchData.matchText;
 

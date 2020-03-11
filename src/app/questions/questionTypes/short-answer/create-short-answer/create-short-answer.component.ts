@@ -31,7 +31,7 @@ export class CreateShortAnswerComponent implements OnInit {
     // Id is null at this point because it is generated on the backend.
     onSubmit(questionData) {
       const shortAnswerQuestion: ShortAnswer =  new ShortAnswer();
-      shortAnswerQuestion.id = null;
+      shortAnswerQuestion._id = null;
       shortAnswerQuestion.questionText = questionData.questionText;
       shortAnswerQuestion.hasAttachments = this.attachmentService.hasAttachments;
       shortAnswerQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;

@@ -1,9 +1,9 @@
 <form [formGroup]="createTrueFalseForm" (ngSubmit)="onSubmit(createTrueFalseForm.value)">
-  <h3>New True False question</h3>
+  <h3>True False question details</h3>
   <!-- Question Text Input -->
   <mat-form-field appearance="standard">
-    <mat-label>Question Text</mat-label>
-    <input matInput id="questionText" type="text" formControlName="questionText" matTooltip="Info about the action">
+    <mat-label>Enter Question Text</mat-label>
+    <input matInput id="questionText" type="text" formControlName="questionText">
   </mat-form-field>
 
   <!-- Attachment Component for uploading files -->

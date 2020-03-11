@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Option } from '../../../models/shared/option.model';
 import { QuestionService } from 'src/app/services/question.service';
@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./create-option.component.css']
 })
 export class CreateOptionComponent implements OnInit {
+  // whether or not the user is editing a question
+  @Input() isEditMode: boolean;
   // Form object.
   createOptionForm;
 
@@ -30,7 +32,7 @@ export class CreateOptionComponent implements OnInit {
   // Id is null at this point because it is generated on the backend.
   onSubmit(optionData) {
     const option: Option = new Option();
-    option.id = null;
+    option._id = null;
     option.questionId = null;
     option.optionText =  optionData.optionText;
     option.isAnswer = optionData.isAnswer;

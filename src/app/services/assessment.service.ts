@@ -8,8 +8,16 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class AssessmentService {
-  private question: Question;
-  private questionUpdated = new Subject<Question>();
+  // MOCK DATA
+  public mockQuestionIds: string[] = ['5e50ba9499062123580d5245', '5e512dc2f614c627f0443d18',
+  '5e53dfa22849a450c49e1fd7', '5e603f2f2a61154b480ffafd', '5e6166f40a31644b543fc210', '5e6167ef0a31644b543fc218',
+  '5e62b546cdf5ff1b5c73d457'];
+
+  private questionIds: string[];
+  public questions: Question[] = [];
+  private currentQuestion: Question;
+
+  private assessmentQuestionsUpdated = new Subject<Question[]>();
 
   constructor(private http: HttpClient) { }
 
@@ -23,21 +31,28 @@ export class AssessmentService {
 
   }
 
-  //
-  getQuestionUpdatedListener() {
-    return this.questionUpdated.asObservable();
+  // TODO Handle submit question button
+  submitAnswer(question: Question) {
+    console.log(question);
   }
 
-  // Gets a question by an id
-  getQuestionById(questionId: string) {
+  getAssessmentQuestionsUpdatedListener() {
+    return this.assessmentQuestionsUpdated.asObservable();
+  }
+
+  // gets a list of questions from an array of ids
+  getQuestionsByIds(questionIds: string[]) {
     this.http
-      .get<{ message: string, question: Question }>(
-        'http://localhost:3000/api/question/' + questionId
-      )
-      .subscribe((questionData) => {
-        const currentQuestion = questionData.question;
-        // Subscribers get a copy of the questions array sorted by question text.
-        this.questionUpdated.next(this.question);
-      });
+      .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/assessment/questions/', {questionIds})
+        .subscribe(
+          responseData => {
+            this.questions = responseData.questions;
+            this.assessmentQuestionsUpdated.next(this.questions);
+            console.log(responseData.message);
+            console.log(responseData.questions);
+          },
+          error => {
+            console.log('%c' + error.error.message, 'color: red;');
+          });
   }
 }

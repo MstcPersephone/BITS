@@ -1,0 +1,474 @@
+{
+  "message": "Question Fetched Successfully!",
+  "questions": [
+    {
+      "_id": "5e50ba9499062123580d5245",
+      "duration": 0,
+      "questionText": "Which football team is the best?",
+      "questionType": "Checkbox",
+      "options": [
+        {
+          "createdOn": "2020-02-22T05:18:39.924Z",
+          "_id": "5e50ba9499062123580d5246",
+          "questionId": "5e50ba9499062123580d5243",
+          "optionText": "Lions",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T05:18:39.924Z",
+          "_id": "5e50ba9499062123580d5247",
+          "questionId": "5e50ba9499062123580d5243",
+          "optionText": "Bears",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T05:18:39.924Z",
+          "_id": "5e50ba9499062123580d5248",
+          "questionId": "5e50ba9499062123580d5243",
+          "optionText": "Packers",
+          "isAnswer": true,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T05:18:39.924Z",
+          "_id": "5e50ba9499062123580d5249",
+          "questionId": "5e50ba9499062123580d5243",
+          "optionText": "49ers",
+          "isAnswer": false,
+          "optionIsSelected": false
+        }
+      ],
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "createdOn": "2020-02-22T05:22:28.475Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e512c9dbacf292528a0edfe",
+      "duration": 0,
+      "questionText": "Which XFL Team is the best?",
+      "questionType": "Checkbox",
+      "options": [
+        {
+          "createdOn": "2020-02-22T13:28:05.731Z",
+          "_id": "5e512c9dbacf292528a0edff",
+          "questionId": "5e512c9dbacf292528a0edfc",
+          "optionText": "Dragons",
+          "isAnswer": true,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T13:28:05.731Z",
+          "_id": "5e512c9dbacf292528a0ee00",
+          "questionId": "5e512c9dbacf292528a0edfc",
+          "optionText": "Battlehawks",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T13:28:05.731Z",
+          "_id": "5e512c9dbacf292528a0ee01",
+          "questionId": "5e512c9dbacf292528a0edfc",
+          "optionText": "Roughneck",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T13:28:05.731Z",
+          "_id": "5e512c9dbacf292528a0ee02",
+          "questionId": "5e512c9dbacf292528a0edfc",
+          "optionText": "Wildcats",
+          "isAnswer": false,
+          "optionIsSelected": false
+        }
+      ],
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "createdOn": "2020-02-22T13:29:01.070Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e512dc2f614c627f0443d18",
+      "duration": 0,
+      "questionText": "Which basketball team is the best?",
+      "questionType": "Checkbox",
+      "options": [
+        {
+          "createdOn": "2020-02-22T13:31:36.803Z",
+          "_id": "5e512dc2f614c627f0443d19",
+          "questionId": "5e512dc2f614c627f0443d16",
+          "optionText": "Lakers",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T13:31:36.803Z",
+          "_id": "5e512dc2f614c627f0443d1a",
+          "questionId": "5e512dc2f614c627f0443d16",
+          "optionText": "Bulls",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T13:31:36.803Z",
+          "_id": "5e512dc2f614c627f0443d1b",
+          "questionId": "5e512dc2f614c627f0443d16",
+          "optionText": "Bucks",
+          "isAnswer": true,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T13:31:36.803Z",
+          "_id": "5e512dc2f614c627f0443d1c",
+          "questionId": "5e512dc2f614c627f0443d16",
+          "optionText": "Mavericks",
+          "isAnswer": false,
+          "optionIsSelected": false
+        }
+      ],
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "createdOn": "2020-02-22T13:33:54.270Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e5166432f13890f18976d27",
+      "duration": 0,
+      "questionText": "This question will save to the database.",
+      "questionType": "True False",
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "answer": true,
+      "createdOn": "2020-02-22T17:34:59.681Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e519019fbb0d95a04e76eeb",
+      "duration": 0,
+      "questionText": "My mother's favorite things are",
+      "questionType": "Checkbox",
+      "options": [
+        {
+          "createdOn": "2020-02-22T20:31:14.353Z",
+          "_id": "5e519019fbb0d95a04e76eec",
+          "questionId": "5e519019fbb0d95a04e76ee4",
+          "optionText": "flowers.",
+          "isAnswer": true,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T20:31:14.353Z",
+          "_id": "5e519019fbb0d95a04e76eed",
+          "questionId": "5e519019fbb0d95a04e76ee4",
+          "optionText": "old cars.",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T20:31:14.353Z",
+          "_id": "5e519019fbb0d95a04e76eee",
+          "questionId": "5e519019fbb0d95a04e76ee4",
+          "optionText": "baseball.",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T20:31:14.353Z",
+          "_id": "5e519019fbb0d95a04e76eef",
+          "questionId": "5e519019fbb0d95a04e76ee4",
+          "optionText": "spending time with her kids.",
+          "isAnswer": true,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T20:31:14.353Z",
+          "_id": "5e519019fbb0d95a04e76ef0",
+          "questionId": "5e519019fbb0d95a04e76ee4",
+          "optionText": "walking.",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-22T20:31:14.353Z",
+          "_id": "5e519019fbb0d95a04e76ef1",
+          "questionId": "5e519019fbb0d95a04e76ee4",
+          "optionText": "talking.",
+          "isAnswer": true,
+          "optionIsSelected": false
+        }
+      ],
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "createdOn": "2020-02-22T20:33:29.264Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e5190d4fbb0d95a04e76ef3",
+      "duration": 0,
+      "questionText": "A woodchuck can chuck as much wood as their ambition level allows.",
+      "questionType": "True False",
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "answer": true,
+      "createdOn": "2020-02-22T20:36:36.306Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e51fd6028869d1a14864f87",
+      "duration": 0,
+      "questionText": "Charlie is a McPoyle",
+      "questionType": "True False",
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "answer": false,
+      "createdOn": "2020-02-23T04:19:44.559Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e529c2796bcb270409e4a62",
+      "duration": 0,
+      "questionText": "Learning angular is fun.",
+      "questionType": "True False",
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "answer": true,
+      "createdOn": "2020-02-23T15:37:11.699Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e532c5f9fcc164bc4d4fe4a",
+      "answer": "Not answered",
+      "duration": 0,
+      "questionText": "Testing short answer question",
+      "questionType": "Short Answer",
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "matches": [
+        {
+          "createdOn": "2020-02-24T01:51:41.044Z",
+          "_id": "5e532c5f9fcc164bc4d4fe4b",
+          "questionId": "5e532c5f9fcc164bc4d4fe46",
+          "matchText": "First option"
+        },
+        {
+          "createdOn": "2020-02-24T01:51:41.044Z",
+          "_id": "5e532c5f9fcc164bc4d4fe4c",
+          "questionId": "5e532c5f9fcc164bc4d4fe46",
+          "matchText": "Second option"
+        },
+        {
+          "createdOn": "2020-02-24T01:51:41.044Z",
+          "_id": "5e532c5f9fcc164bc4d4fe4d",
+          "questionId": "5e532c5f9fcc164bc4d4fe46",
+          "matchText": "Third option"
+        }
+      ],
+      "createdOn": "2020-02-24T01:52:31.560Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e53dfa22849a450c49e1fd7",
+      "duration": 0,
+      "questionText": "How many pollacks does it take to screw in a light bulb?",
+      "questionType": "Multiple Choice",
+      "options": [
+        {
+          "createdOn": "2020-02-24T14:27:52.047Z",
+          "_id": "5e53dfa22849a450c49e1fd8",
+          "questionId": "5e53dfa22849a450c49e1fd3",
+          "optionText": "It only takes one to hold the bulb and screw it in.",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-24T14:27:52.047Z",
+          "_id": "5e53dfa22849a450c49e1fd9",
+          "questionId": "5e53dfa22849a450c49e1fd3",
+          "optionText": "It takes two.  One to hold the light bulb while the other turns the chair.",
+          "isAnswer": true,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-24T14:27:52.047Z",
+          "_id": "5e53dfa22849a450c49e1fda",
+          "questionId": "5e53dfa22849a450c49e1fd3",
+          "optionText": "A pollack does not know how to screw in a light bulb.",
+          "isAnswer": false,
+          "optionIsSelected": false
+        }
+      ],
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "createdOn": "2020-02-24T14:37:22.362Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e53e0172849a450c49e1fe0",
+      "duration": 0,
+      "questionText": "How many licks does it take to get to the center of a tootsie roll tootsie pop?",
+      "questionType": "Multiple Choice",
+      "options": [
+        {
+          "createdOn": "2020-02-24T14:27:52.047Z",
+          "_id": "5e53e0172849a450c49e1fe1",
+          "questionId": "5e53e0172849a450c49e1fdb",
+          "optionText": "1",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-24T14:27:52.047Z",
+          "_id": "5e53e0172849a450c49e1fe2",
+          "questionId": "5e53e0172849a450c49e1fdb",
+          "optionText": "3",
+          "isAnswer": false,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-24T14:27:52.047Z",
+          "_id": "5e53e0172849a450c49e1fe3",
+          "questionId": "5e53e0172849a450c49e1fdb",
+          "optionText": "The world will never know.",
+          "isAnswer": true,
+          "optionIsSelected": false
+        },
+        {
+          "createdOn": "2020-02-24T14:27:52.047Z",
+          "_id": "5e53e0172849a450c49e1fe4",
+          "questionId": "5e53e0172849a450c49e1fdb",
+          "optionText": "2",
+          "isAnswer": false,
+          "optionIsSelected": false
+        }
+      ],
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "createdOn": "2020-02-24T14:39:19.102Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e5412d10ea6d457a0cba712",
+      "answer": "Not answered",
+      "duration": 0,
+      "questionText": "What are Green Bay Packer Colors?",
+      "questionType": "Short Answer",
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "matches": [
+        {
+          "createdOn": "2020-02-24T16:43:29.860Z",
+          "_id": "5e5412d10ea6d457a0cba713",
+          "questionId": "5e5412d10ea6d457a0cba710",
+          "matchText": "Green and Gold"
+        }
+      ],
+      "createdOn": "2020-02-24T18:15:45.782Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e547e09eaf7f00ab82218ce",
+      "duration": 0,
+      "questionText": "This question has an attachment with links about Danny DeVito",
+      "questionType": "True False",
+      "hasAttachments": true,
+      "attachments": [
+        {
+          "_id": "5e547e09eaf7f00ab82218cf",
+          "name": "DannyDeVitoLinks.txt",
+          "fileType": "text/plain",
+          "createdOn": "2020-02-25T01:53:13.671Z"
+        }
+      ],
+      "isAnswered": false,
+      "answer": true,
+      "createdOn": "2020-02-25T01:53:13.668Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e56dde01248963af85b0c1e",
+      "duration": 0,
+      "questionText": "The earth is larger than the sun",
+      "questionType": "True False",
+      "hasAttachments": false,
+      "attachments": null,
+      "isAnswered": false,
+      "answer": false,
+      "createdOn": "2020-02-26T21:06:40.985Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e59ab03b09ad03f7c9df654",
+      "duration": 0,
+      "questionText": "The attached file has links about Danny DeVito",
+      "questionType": "True False",
+      "hasAttachments": true,
+      "attachments": [
+        {
+          "_id": "5e59ab03b09ad03f7c9df655",
+          "name": "DannyDeVitoLinks.txt",
+          "fileType": "text/plain",
+          "content": "aHR0cHM6Ly93d3cuYXBwLmNvbS9zdG9yeS9lbnRlcnRhaW5tZW50LzIwMTgvMDQvMjgvZGFubnktZGV2aXRvLWdldHMtaGVyb3Mtd2VsY29tZS1hc2J1cnktcGFyay81NTkwNzQwMDIvDQoNCmh0dHBzOi8vdXByb3h4LmNvbS90di9mcm9tLW1ha2luZy1tYXRpbGRhLXRvLXNhdmluZy10aGUtcGxhbmV0LTYtdGltZXMtZGFubnktZGV2aXRvLXdhcy10aGUtYW50aS1mcmFuay1yZXlub2xkcy8NCg0KaHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj11TjI4aGpxOVlmTSA9PT0gT24gYmVpbmcgc2hvcnQNCg0KaHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1ZRTJzTlVnN1VhcyA9PT0gRGV2aXRvIGRheSwgVGltIEJ1cnRvbg0KDQpodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PXduaURNOG1HeURFDQoNCmh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9NXQxNmhKVjFGUG8NCg0KaHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1mS09NU29mSk9aYw0KDQpodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PUc5X19pTGI5SkFBDQoNCmh0dHBzOi8vd3d3LmluZGVwZW5kZW50LmNvLnVrL2FydHMtZW50ZXJ0YWlubWVudC9maWxtcy9mZWF0dXJlcy9kYW5ueS1kZXZpdG8tdGhlLWxpdHRsZS1iaWctbWFuLTYyMjk4NTAuaHRtbA0KDQoNCktFRVBFUlMNCmh0dHBzOi8vd3d3LmxpdHRsZXRoaW5ncy5jb20vbWFyYS13aWxzb24tZGFubnktZGV2aXRvDQpodHRwOi8vd3d3LnRyYXZlbGZ1bnR1LmNvbS9lbnRlcnRhaW5tZW50L3NlY3JldC1kYW5ueS1kZXZpdG8tcmV2ZWFsZWQtbWFyYS13aWxzb24tZmIvDQoNCmlvbml6ZXIgb2RvciANCg0K",
+          "createdOn": "2020-02-29T00:06:27.379Z"
+        }
+      ],
+      "isAnswered": false,
+      "answer": true,
+      "createdOn": "2020-02-29T00:06:27.378Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e59b13f9decbb2b84fb15b9",
+      "duration": 0,
+      "questionText": "TEST",
+      "questionType": "True False",
+      "hasAttachments": true,
+      "attachments": [
+        {
+          "_id": "5e59b13f9decbb2b84fb15ba",
+          "name": "currentNav.txt",
+          "fileType": "text/plain",
+          "content": "PCEtLSBNYWluIE5hdmlnYXRpb24gLS0+DQogICAgPG5hdiBpZD0ibWFpbk5hdmlnYXRpb24iIGNsYXNzPSJuYXZiYXIgbmF2YmFyLWV4cGFuZC1sZyBzdGlja3ktdG9wIj4NCiAgICAgICAgPGEgaWQ9ImJyYW5kSW1hZ2UiIGNsYXNzPSJuYXZiYXItYnJhbmQiIGhyZWY9ImluZGV4Lmh0bWwiPg0KICAgICAgICAgICAgPGltZyBzcmM9ImltZy9sb2dvLXBsYWNlaG9sZGVyLnBuZyIgLz4NCiAgICAgICAgPC9hPg0KICAgICAgICA8YnV0dG9uIGNsYXNzPSJuYXZiYXItdG9nZ2xlciIgdHlwZT0iYnV0dG9uIiBkYXRhLXRvZ2dsZT0iY29sbGFwc2UiIGRhdGEtdGFyZ2V0PSIjbmF2YmFyTmF2RHJvcGRvd24iDQogICAgICAgICAgICBhcmlhLWNvbnRyb2xzPSJuYXZiYXJOYXZEcm9wZG93biIgYXJpYS1leHBhbmRlZD0iZmFsc2UiIGFyaWEtbGFiZWw9IlRvZ2dsZSBuYXZpZ2F0aW9uIj4NCiAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJuYXZiYXItdG9nZ2xlci1pY29uIj48L3NwYW4+DQogICAgICAgIDwvYnV0dG9uPg0KICAgICAgICA8ZGl2IGNsYXNzPSJjb2xsYXBzZSBuYXZiYXItY29sbGFwc2UiIGlkPSJuYXZiYXJOYXZEcm9wZG93biI+DQogICAgICAgICAgICA8dWwgaWQ9Im5hdi1saXN0IiBjbGFzcz0ibmF2YmFyLW5hdiI+DQogICAgICAgICAgICAgICAgPGxpIGNsYXNzPSJuYXYtaXRlbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJuYXYtbGluayBhY3RpdmUiIGlkPSJob21lIiBocmVmPSJpbmRleC5odG1sIj5Ib21lPC9hPg0KICAgICAgICAgICAgICAgIDwvbGk+DQogICAgICAgICAgICAgICAgPGxpIGNsYXNzPSJuYXYtaXRlbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJuYXYtbGluayIgaWQ9ImFib3V0IiBocmVmPSJhYm91dC5odG1sIj5BYm91dDwvYT4NCiAgICAgICAgICAgICAgICA8L2xpPg0KICAgICAgICAgICAgICAgIDxsaSBjbGFzcz0ibmF2LWl0ZW0iPg0KICAgICAgICAgICAgICAgICAgICA8YSBjbGFzcz0ibmF2LWxpbmsiIGlkPSJjb250YWN0IiBocmVmPSJjb250YWN0Lmh0bWwiPkNvbnRhY3Q8L2E+DQogICAgICAgICAgICAgICAgPC9saT4NCiAgICAgICAgICAgICAgICA8bGkgY2xhc3M9Im5hdi1pdGVtIj4NCiAgICAgICAgICAgICAgICAgICAgPGEgY2xhc3M9Im5hdi1saW5rIiBpZD0icHJvZHVjdHMiIGhyZWY9InByb2R1Y3RzLmh0bWwiPlByb2R1Y3RzPC9hPg0KICAgICAgICAgICAgICAgIDwvbGk+DQogICAgICAgICAgICAgICAgPGxpIGNsYXNzPSJuYXYtaXRlbSI+DQogICAgICAgICAgICAgICAgICAgIDxhIGNsYXNzPSJuYXYtbGluayIgaWQ9IndlYkZvcm0iIGhyZWY9IndlYi1mb3JtLmh0bWwiPldlYiBGb3JtPC9hPg0KICAgICAgICAgICAgICAgIDwvbGk+DQogICAgICAgICAgICA8L3VsPg0KICAgICAgICA8L2Rpdj4NCiAgICA8L25hdj4=",
+          "createdOn": "2020-02-29T00:33:03.748Z"
+        }
+      ],
+      "isAnswered": false,
+      "answer": false,
+      "createdOn": "2020-02-29T00:33:03.729Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e5a9c0c27adfb14fcb3ded3",
+      "duration": 0,
+      "questionText": "In the attachement, the div element can be styled using the #header selector.",
+      "questionType": "True False",
+      "hasAttachments": true,
+      "attachments": [
+        {
+          "_id": "5e5a9c0c27adfb14fcb3ded4",
+          "name": "selector.html",
+          "fileType": "text/html",
+          "content": "PCEtLSBodG1sIGRvY3VtZW50IC0tPg0KPGh0bWw+DQoJPGJvZHk+DQoJDQoJCTxkaXYgY2xhc3M9ImhlYWRlciI+DQoJCQk8aDE+TXkgRmlyc3QgSGVhZGluZzwvaDE+DQoJCQk8ZGl2Pg0KCQkJCTxwPk15IGZpcnN0IHBhcmFncmFwaC48L3A+DQoJCQk8L2Rpdj4NCgkJPC9kaXY+CQkNCgkNCgk8L2JvZHk+DQo8L2h0bWw+DQoNCg==",
+          "createdOn": "2020-02-29T17:14:52.445Z"
+        }
+      ],
+      "isAnswered": false,
+      "answer": false,
+      "createdOn": "2020-02-29T17:14:52.440Z",
+      "__v": 0
+    }
+  ]
+}

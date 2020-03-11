@@ -1,20 +1,22 @@
 <form [formGroup]="createUploadForm" (ngSubmit)="onSubmit(createUploadForm.value)">
-
+  <h3>Upload question details</h3>
   <!-- Question Text Input -->
   <mat-form-field appearance="standard">
-    <mat-label>Question Text</mat-label>
+    <mat-label>Enter Question Text</mat-label>
     <input matInput id="questionText" type="text" formControlName="questionText">
   </mat-form-field>
 
   <!-- Attachment Component for uploading files -->
   <app-attachment></app-attachment>
-  <div>
-    <label>Upload the answer to this question</label>
-    <input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event, true)" />
-    <button type="button" (click)="uploader.click()" mat-raised-button color="accent" class="mt-20">Upload File &nbsp;
-      <mat-icon>cloud_upload</mat-icon></button>
-  </div>
+
+  <!-- Upload Answer section, including the header and the correct answer upload button -->
+  <h3>Upload the answer to this question:</h3>
+  <input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event, 'correctAnswer')" />
+  <button type="button" (click)="uploader.click()"
+   mat-raised-button color="accent" class="uploadAnswer">
+      Upload Correct Answer &nbsp;<mat-icon>cloud_upload</mat-icon>
+  </button>
 
   <!-- Submit Button -->
-  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+  <button class="saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
 </form>

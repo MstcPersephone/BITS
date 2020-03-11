@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { TrueFalse } from 'src/app/models/question-types/true-false.model';
+import { FormBuilder } from '@angular/forms';
+import { AssessmentService } from 'src/app/services/assessment.service';
 
 @Component({
   selector: 'app-view-true-false',
@@ -6,10 +9,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./view-true-false.component.css']
 })
 export class ViewTrueFalseComponent implements OnInit {
+answerTrueFalseForm;
+@Input() question: TrueFalse;
 
-  constructor() { }
+  constructor(
+    private assessmentService: AssessmentService,
+    private formBuilder: FormBuilder
+  ) {
+    this.answerTrueFalseForm = this.formBuilder.group({});
+  }
 
   ngOnInit(): void {
+  }
+
+  onChangeOption($event) {
+    this.question.studentAnswer = $event.value;
+  }
+
+  onSubmit() {
+    this.assessmentService.submitAnswer(this.question);
   }
 
 }

@@ -4,9 +4,14 @@ const mongoose = require('mongoose');
 // Import subdocument schemas
 const attachmentSchema = require('../shared/attachment');
 const optionSchema = require('../shared/option');
+const categorySchema = require('../shared/category');
 
 // Create Checkbox Schema (blueprint)
 const checkboxSchema = mongoose.Schema({
+  categories: {
+    type: [categorySchema.schema],
+    required: true
+  },
   questionText: {
     type: String,
     required: true
@@ -33,6 +38,14 @@ const checkboxSchema = mongoose.Schema({
   duration: {
     type: Number,
     default: 0
+  },
+  points: {
+    type: Number,
+    default: 0
+  },
+  isAnsweredCorrectly: {
+    type: Boolean,
+    required: false
   },
   createdOn: {
     type: Date,
