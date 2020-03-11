@@ -419,6 +419,8 @@ export class QuestionService {
 
   // Makes a call to the server to update a question based on its id
   updateQuestionById(question: Question) {
+    // isLoading is used to add a spinner
+    this.helperService.isLoading = true;
     // Add points and categories from the service
     question.categories = this.selectedCategories;
     question.points = this.enteredPoints;

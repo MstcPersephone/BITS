@@ -4,6 +4,7 @@ import { QuestionService } from 'src/app/services/question.service';
 import { Question } from 'src/app/models/question.interface';
 import { Subscription } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-edit-question',
@@ -18,7 +19,8 @@ export class EditQuestionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public questionService: QuestionService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public helperService: HelperService
     ) {
       // Creates an object to hold form values.
     this.editPointForm = this.formBuilder.group({

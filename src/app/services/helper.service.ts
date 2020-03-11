@@ -6,6 +6,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   providedIn: 'root'
 })
 export class HelperService {
+  public isLoading = false;
 
   constructor(private snackBar: MatSnackBar) { }
 
