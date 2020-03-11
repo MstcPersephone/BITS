@@ -52,7 +52,7 @@ mat-card, mat-form-field, mat-checkbox, mat-radio-group, button, h3, .mat-radio-
 /* Styles applied to Forms */
 form{
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
   border-radius: 5px;
   overflow: hidden ; /* Prevents the Save button from falling out of the form due to it's float */
 }
@@ -119,13 +119,35 @@ mat-icon.deleteIcon:hover, mat-icon.editIcon:hover {
   opacity: 0.7;
 }
 
-/* Styles applied to the Add buttons (Add Option, Add Exact Match) */
-button.addOption{
-  background-color: #0b578a;
+/* Styles applied to the Add buttons (Add Option, Add Exact Match) and the Upload Correct Answer button */
+button.addOption, button.uploadAnswer{
+  background-color: #0b578a !important;
   color: #ffffff;
 }
 
-/* Styles applied to correct options */
-mat-list-item.correct {
-  background-color: rgba(111,255,133, 0.3);
+/* Styles applied to any "correct" options or dialogs */
+mat-list-item.correct, .success-dialog {
+  background-color: #ccf8d3;
+  color: black;
+}
+
+/* Styles applied to any "alert" options or dialogs */
+mat-list-item.alert, .alert-dialog {
+  background-color: #fcb618;
+  color: black;
+}
+
+/* Styles applied to any "error" options or dialogs */
+mat-list-item.error, .error-dialog {
+  background-color: #82142D;
+  color: white;
+}
+
+/* Styles applied to the snackbox dialog popups (appearing when you save or update questions) */
+.success-dialog, .alert-dialog, .error-dialog{
+  display: flex;
+  border: 2px #2d2d2d solid;
+}
+.success-dialog button, .alert-dialog button, .error-dialog button{
+  margin: auto;
 }

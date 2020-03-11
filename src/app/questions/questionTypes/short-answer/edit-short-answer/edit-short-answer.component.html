@@ -1,1 +1,19 @@
-<p>edit-essay works!</p>
+<form [formGroup]="editShortAnswerForm" (ngSubmit)="onSubmit(editShortAnswerForm.value)">
+  <!-- The categories list -->
+  <app-create-category></app-create-category>
+  <!-- Question Text Input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Question Text</mat-label>
+    <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}">
+  </mat-form-field>
+  <!-- Add attachment component -->
+  <app-attachment [attachmentsLoaded]="question.hasAttachments"></app-attachment>
+
+  <h3>Current matches</h3>
+  <button mat-raised-button type="button" (click)="this.questionService.toggleCreateMatch()">Create New Exact Match</button>
+  <app-create-exact-match *ngIf="this.questionService.showCreateMatch" [isEditMode]="true"></app-create-exact-match>
+  <app-edit-exact-match *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; Index as i" [exactMatch]="exactMatch"></app-edit-exact-match>
+
+  <!-- Submit Button -->
+  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+</form>

@@ -1,8 +1,8 @@
   <form [formGroup]="createShortAnswerForm" (ngSubmit)="onSubmit(createShortAnswerForm.value)">
-    <h3>New Short Answer question</h3>
+    <h3>Short Answer question details</h3>
 <!-- Question Text Input -->
     <mat-form-field appearance="standard">
-      <mat-label>Question Text:</mat-label>
+      <mat-label>Enter Question Text:</mat-label>
       <input matInput id="questionText" type="text" formControlName="questionText" matTooltip="Info about the action">
     </mat-form-field>
 
