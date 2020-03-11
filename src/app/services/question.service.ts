@@ -317,6 +317,11 @@ export class QuestionService {
   getPoints() {
     return this.enteredPoints;
   }
+
+  getPointsUpdatedListener() {
+    return this.pointsUpdated.asObservable();
+  }
+
   // ********************************************** //
   // ************Question Functions**************** //
   // ********************************************** //
