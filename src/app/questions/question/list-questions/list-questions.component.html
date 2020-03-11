@@ -12,7 +12,7 @@
         <p>{{ question.questionType }} Question</p>
         <p *ngFor="let category of question.categories">{{ category.name }}</p>
         <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
-        <mat-icon class="editIcon" matListIcon>edit</mat-icon>
+        <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
       </section>
 
       <!-- Question Text -->

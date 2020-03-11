@@ -13,6 +13,7 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatSnackBarModule,
+  MatProgressSpinnerModule,
   MatToolbarModule,
   MatTreeModule,
   MatExpansionModule
@@ -36,7 +37,8 @@ const MaterialComponents = [
   MatSnackBarModule,
   MatToolbarModule,
   MatTreeModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({

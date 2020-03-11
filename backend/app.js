@@ -56,10 +56,12 @@ app.use((request, response, next) => {
 });
 
 app.post("/api/question/update/", (request, response, next) => {
+  console.log(request.body.points);
   const requestedUpdate = request.body;
   console.log(requestedUpdate._id);
   const questionToUpdate = questionFactory.createQuestionTypeFactory(requestedUpdate);
   questionToUpdate.categories = requestedUpdate.categories;
+  questionToUpdate.points = requestedUpdate.points;
   const update = questionFactory.editQuestionFactory(requestedUpdate);
   mongoose.connection.db.collection('questions').updateOne({_id: mongoose.Types.ObjectId(requestedUpdate._id.toString())}, {$set: update}, {upsert: true}, function (error, updatedQuestion) {
 
@@ -71,7 +73,7 @@ app.post("/api/question/update/", (request, response, next) => {
 
     // Logs message and questions array to the backend for debugging.
     console.log("updatedQuestion Fetched Successfully.")
-    console.log(questionToUpdate);
+    console.log(updatedQuestion);
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.

@@ -12,6 +12,7 @@ import { MultipleChoice } from '../models/question-types/multiple-choice.model';
 import { Upload } from '../models/question-types/upload.model';
 import { ShortAnswer } from '../models/question-types/short-answer.model';
 import { Category } from '../models/shared/category.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +51,8 @@ export class QuestionService {
 
   constructor(
     private http: HttpClient,
-    private helperService: HelperService) { }
+    private helperService: HelperService,
+    private router: Router) { }
 
   // ************************************************************** //
   // Casting question to questionType for casting in html template. //
@@ -270,6 +272,10 @@ export class QuestionService {
 
     // Replacing old option with new option
     this.options[index] = newOption;
+
+    // Success Message
+    this.helperService.openSnackBar('Option Updated Successfully!', 'Close', 'success-dialog', 5000);
+
   }
 
 
@@ -282,12 +288,12 @@ export class QuestionService {
     console.log(this.enteredPoints);
   }
 
+  getPoints() {
+    return this.enteredPoints;
+  }
   // ********************************************** //
   // ************Question Functions**************** //
   // ********************************************** //
-  editQuestion(question: Question) {
-
-  }
 
   // Gets the updateListener subject for single question fetch
   getQuestionUpdatedListener() {
@@ -324,6 +330,9 @@ export class QuestionService {
         this.question = questionData.question[0];
         // Add the selected categories to the array
         this.selectedCategories = this.question.categories;
+
+        // Add the points to the variable that manages it
+        this.enteredPoints = this.question.points;
 
         console.log(this.selectedCategories);
         // Add options to options array if question type supports it
@@ -408,18 +417,32 @@ export class QuestionService {
         });
   }
 
-  updateQuestionById(question) {
+  // Makes a call to the server to update a question based on its id
+  updateQuestionById(question: Question) {
+    // isLoading is used to add a spinner
+    this.helperService.isLoading = true;
+    // Add points and categories from the service
     question.categories = this.selectedCategories;
+    question.points = this.enteredPoints;
     this.http.post<{ message: string, updatedQuestion: Question}>('http://localhost:3000/api/question/update', question)
     .subscribe(
       responseData => {
-        this.helperService.openSnackBar(question._id + ' Question Updated Successfully!', 'Close', 'success-dialog', 5000);
+        // Success message at the bottom of the screen
+        // console log information about the response for debugging
+        this.helperService.openSnackBar(question.questionType + ' Question Updated Successfully!', 'Close', 'success-dialog', 5000);
+
+        setTimeout(() => {
+          this.router.navigate(['/question/list']);
+          // reset the isLoading spinner
+          this.helperService.isLoading = false;
+        }, 2000);
         console.log('%c' + responseData.message, 'color: green;');
         console.log('%c Database Object:', 'color: orange;');
         console.log(responseData.updatedQuestion);
         console.table(responseData.updatedQuestion);
       },
       error => {
+        // log error message from server
         console.log('%c' + error.error.message, 'color: red;');
       }
     );

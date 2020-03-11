@@ -1,6 +1,4 @@
 <form [formGroup]="editCheckboxForm" (ngSubmit)="onSubmit(editCheckboxForm.value)">
-  <!-- The categories list -->
-  <app-create-category></app-create-category>
   <!-- Question Name Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Question Text</mat-label>
@@ -15,5 +13,5 @@
   <app-edit-option *ngFor="let option of this.questionService.asCheckbox(question).options; Index as i" [option]="option"></app-edit-option>
 
   <!-- Submit Button -->
-  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+  <button class="mt-20 saveButton" mat-raised-button type="submit">Update Question&nbsp;<mat-icon>save</mat-icon></button>
 </form>
