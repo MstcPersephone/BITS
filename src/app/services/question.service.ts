@@ -24,6 +24,7 @@ export class QuestionService {
   private questionsUpdated = new Subject<Question[]>();
 
   // Category array and subject.
+  private category: Category;
   private categories: Category[] = [];
   public selectedCategories: Category[] = [];
   private categoriesUpdated = new Subject<Category[]>();
@@ -103,8 +104,21 @@ export class QuestionService {
   }
 
   // Returns whether the categories loaded to a list.
+  getQuestionCategories(question) {
+
+    return this.question.categories;
+}
+
+  // Returns whether the categories loaded to a list.
   getCategoriesLoaded() {
       return this.categoriesLoaded;
+  }
+
+  // Gets a category from the questions list of categories based on its index
+  getCategory(i) {
+    console.log('%c Find Category', 'color: red');
+    this.question.categories.splice(i, 1);
+    console.table(this.question.categories);
   }
 
   getShowHideCreateCategory() {
@@ -311,6 +325,7 @@ export class QuestionService {
 
   // Gets all questions from the database.
   getAllQuestions() {
+    this.helperService.isLoading = true;
     this.http
       .get<{ message: string, questions: Question[] }>(
         'http://localhost:3000/api/questions'
@@ -319,6 +334,7 @@ export class QuestionService {
         this.questions = questionData.questions;
         // Subscribers get a copy of the questions array sorted by question type.
         this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionType > b.questionType) ? 1 : -1)]);
+        this.helperService.isLoading = false;
       });
   }
 
@@ -370,18 +386,18 @@ export class QuestionService {
       });
   }
 
-  // Gets all questions of a specific type
-  getQuestionsByType(questionType: QuestionType) {
-    this.http
-      .get<{ message: string, questions: Question[] }>(
-        'http://localhost:3000/api/questions/' + questionType
-      )
-      .subscribe((questionData) => {
-        this.questions = questionData.questions;
-        // Subscribers get a copy of the questions array sorted by question text.
-        this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionText > b.questionText) ? 1 : -1)]);
-      });
-  }
+    // Gets all questions of a specific type
+    getQuestionsByType(questionType: QuestionType) {
+      this.http
+        .get<{ message: string, questions: Question[] }>(
+          'http://localhost:3000/api/questions/' + questionType
+        )
+        .subscribe((questionData) => {
+          this.questions = questionData.questions;
+          // Subscribers get a copy of the questions array sorted by question text.
+          this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionText > b.questionText) ? 1 : -1)]);
+        });
+    }
 
   // Returns the question type of a question
   getQuestionType(question: Question) {
