@@ -1,7 +1,7 @@
 import { Score } from './score.model';
 
 export class Student {
-  id: string;
+  _id: string;
   studentId: string;
   firstName: string;
   lastName: string;

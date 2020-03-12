@@ -1,14 +1,8 @@
 // Settings that we can use as switches when the user is building an assessment
 // Properties that are in here now are just ideas. Not sure if we'll need them yet
 export class AssessmentConfig {
-  allowBack: boolean; // navigate to previously submitted answers
-  allowReview: boolean; // allow changing of answers
+  isRandom: boolean; // whether questions will be random
   duration: number; // 0 will be unlimited time
-
-  constructor(data: any) {
-    data = data || {};
-    this.allowBack = data.allowBack;
-    this.allowReview = data.allowReview;
-    this.duration = data.duration;
-  }
+  wrongStreak: number; // how many wrong in a row
+  minimumScore: number; // minimum percentage of passing assessment
 }

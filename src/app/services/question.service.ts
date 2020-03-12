@@ -111,6 +111,10 @@ export class QuestionService {
     return this.showHideCreateCategory;
   }
 
+  setShowHideCreateCategory(value: boolean) {
+    this.showHideCreateCategory = value;
+  }
+
   // Updates the selectedCategories array with the values selected by the user.
   onHandleCategory(event: any, selectObject: any, selectCategoriesForm: any) {
     if (event.value[0] === 'create') {
