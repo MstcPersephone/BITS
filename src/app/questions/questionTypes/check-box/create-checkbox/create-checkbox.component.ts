@@ -24,7 +24,7 @@ export class CreateCheckboxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.questionService.resetFunction(this.resetForm.bind(this));
+    this.attachmentService.resetAttachments();
   }
 
   // Id is null at this point because it is generated on the backend.
@@ -44,9 +44,5 @@ export class CreateCheckboxComponent implements OnInit {
 
     // For testing, we can remove later.
     console.log(checkboxQuestion);
-  }
-
-  resetForm() {
-    this.createCheckboxForm.reset();
   }
 }

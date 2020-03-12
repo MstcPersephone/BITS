@@ -19,7 +19,7 @@ export class CreateQuestionComponent implements OnInit {
 
   constructor(public questionService: QuestionService,
               private formBuilder: FormBuilder,
-              private helperService: HelperService) {
+              public helperService: HelperService) {
     // Creates an object to hold form values.
     this.addPointForm = this.formBuilder.group({
       points: ''
@@ -33,7 +33,8 @@ export class CreateQuestionComponent implements OnInit {
     // Sets up a points listener
     this.pointSubscription = this.questionService.getPointsUpdatedListener()
     .subscribe((points: number) => {
-       this.points = points;
+      console.log(points);
+      this.points = points;
     });
   }
 

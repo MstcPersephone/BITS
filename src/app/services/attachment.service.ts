@@ -78,6 +78,11 @@ export class AttachmentService {
     this.hasAttachments = !this.hasAttachments;
   }
 
+  resetAttachments() {
+    this.attachments = [];
+    this.hasAttachments = false;
+  }
+
   // Convert JS file into Attachment.
   // Convert file content to binary string.
   uploadFiles($event: Event, uploadType: string) {

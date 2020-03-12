@@ -36,9 +36,6 @@ export class QuestionService {
   private hasMatches = false;
   public showCreateMatch = false;
 
-  // Form reset
-  private resetCreateForm: () => void;
-
   // Options array and subject.
   private options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
@@ -228,18 +225,17 @@ export class QuestionService {
   // ******************************************** //
   // ************Form Functions**************** //
   // ******************************************** //
-  resetFunction(fn: () => void) {
-    this.resetCreateForm = fn;
-  }
 
   resetQuestionForm() {
-    this.enteredPoints = 0;
+    // Clear values that are stored in the service.
+    this.enteredPoints = null;
     this.options = [];
     this.exactMatches = [];
     this.selectedCategories = [];
+
+    // Push updates to subscribers
     this.pointsUpdated.next(this.enteredPoints);
     this.exactMatchesUpdated.next(this.exactMatches);
-    this.categoriesUpdated.next(this.selectedCategories);
     this.optionsUpdated.next(this.options);
     }
 
@@ -417,6 +413,7 @@ export class QuestionService {
 
   // Saves the question to the database
   saveQuestion(question: Question) {
+    this.helperService.isLoading = true;
     if (question.questionType === QuestionType.CheckBox || question.questionType === QuestionType.MultipleChoice) {
       const completeQuestion = question.questionType === QuestionType.CheckBox ? question as Checkbox : question as MultipleChoice;
       completeQuestion.options = this.getOptions();
@@ -435,8 +432,15 @@ export class QuestionService {
     this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/question/save', question)
       .subscribe(
         responseData => {
-          this.resetQuestionForm();
-          this.resetCreateForm();
+          // this.resetCreateForm();
+          setTimeout(() => {
+            this.router.navigate(['/question/create']);
+            this.resetQuestionForm();
+            // reset the isLoading spinner
+            this.helperService.isLoading = false;
+          }, 2000);
+          this.categoriesUpdated.next(this.categories);
+          console.log(this.categories);
           this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');

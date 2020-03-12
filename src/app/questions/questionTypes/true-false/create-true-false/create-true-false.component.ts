@@ -36,7 +36,7 @@ export class CreateTrueFalseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.questionService.resetFunction(this.resetForm.bind(this));
+    this.attachmentService.resetAttachments();
   }
 
   onSubmit(trueFalseData) {

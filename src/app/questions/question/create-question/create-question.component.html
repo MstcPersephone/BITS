@@ -1,5 +1,6 @@
+<mat-spinner *ngIf="this.helperService.isLoading"></mat-spinner>
 <!-- component container -->
-<mat-card>
+<mat-card *ngIf="!this.helperService.isLoading">
   <!-- Page Header -->
   <h1 class="mat-display-1">Create a Question</h1>
 
@@ -20,7 +21,7 @@
     <mat-form-field class="pointValueInput">
       <mat-label>Enter Point Value (Numeric)</mat-label>
       <input matInput #pointValue id="points" type="text"
-       formControlName="points" (keyup)="this.questionService.onHandlePoints($event)">
+       formControlName="points" (keyup)="this.questionService.onHandlePoints($event)" value="{{points}}">
     </mat-form-field>
   </form>
 

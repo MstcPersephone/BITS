@@ -26,7 +26,7 @@ export class CreateShortAnswerComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    this.questionService.resetFunction(this.resetForm.bind(this));
+    this.attachmentService.resetAttachments();
   }
 
     // Id is null at this point because it is generated on the backend.

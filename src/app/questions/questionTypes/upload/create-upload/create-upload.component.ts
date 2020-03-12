@@ -22,7 +22,7 @@ export class CreateUploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.questionService.resetFunction(this.resetForm.bind(this));
+    this.attachmentService.resetAttachments();
   }
 
   onSubmit(uploadData) {
