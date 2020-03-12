@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AssessmentListComponent } from './assessments/assessment-list/assessment-list.component';
 import { CreateAssessmentComponent } from './assessments/create-assessment/create-assessment.component';
@@ -129,7 +130,8 @@ import { ManageCategoryComponent } from './shared/category/manage-category/manag
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DragDropModule
   ],
   providers: [
     AssessmentService,
