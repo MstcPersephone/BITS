@@ -2,35 +2,40 @@
 <mat-card *ngIf="!this.helperService.isLoading">
   <h1 class="mat-display-1">Viewing all questions</h1>
 
-  <!-- Beginning of the Category Expansion panel Headers -->
   <div *ngFor="let category of organizedQuestions | keyvalue">
     <mat-expansion-panel>
+      <!-- Beginning of the Category Expansion panel Headers -->
       <mat-expansion-panel-header>
         <mat-panel-title>{{category.key}} Questions</mat-panel-title>
       </mat-expansion-panel-header>
+
+      <!-- Beginning of the Questions sorted into Catefory Headers -->
       <div *ngFor="let question of category.value">
+
+        <!-- Mat card separator for each question within the expansion panel -->
         <mat-card>
+          <!-- Displays the question type -->
           <p>
             <strong>Question Type:</strong> {{ question.questionType }}
             <mat-icon class="deleteIcon iconButton" matListIcon>delete</mat-icon>
             <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
           </p>
 
+          <!-- Displays the question points -->
           <p><strong>Points:</strong> {{ question.points }}</p>
 
+          <!-- If there is an attachmnt displays the question type -->
+          <div *ngFor="let attachment of question.attachments">
+            <p *ngIf="question.hasAttachments"><strong>Attachments: </strong>
+              <a *ngIf="question.hasAttachments" href="{{attachment.content}}"
+                download="{{attachment.name}}">{{ attachment.name }}</a>
+            </p>
+          </div>
 
-            <div *ngFor="let attachment of question.attachments">
-              <p><strong>Attachments: </strong>
-                <a *ngIf="question.hasAttachments" href="{{attachment.content}}"
-      download="{{attachment.name}}">{{ attachment.name }}</a>
-              </p>
-            </div>
-
+          <!-- Displays the question text -->
           <p><strong>Question Text:</strong> {{ question.questionText }}</p>
 
-
-
-
+          <!-- If Checkbox or Multiple Choice displays the options -->
           <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'">
             <mat-list-item *ngFor="let option of this.questionService.asCheckbox(question).options">
               <span>{{option.optionText}}</span>
@@ -44,6 +49,8 @@
               </mat-chip-list>
             </mat-list-item>
           </div>
+
+          <!-- If Short Answer displays the exact matches -->
           <div *ngIf="question.questionType == 'Short Answer'">
             <mat-list-item *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches">
               <span>{{exactMatch.matchText}}</span>
@@ -58,6 +65,7 @@
             </mat-list-item>
           </div>
 
+          <!-- If True False displays the answer -->
           <mat-list-item role="listitem" *ngIf="question.questionType === 'True False'">
             <!-- If True/False, show answer -->
             <mat-chip-list>
@@ -71,9 +79,6 @@
               </mat-chip>
             </mat-chip-list>
           </mat-list-item>
-
-
-
         </mat-card>
       </div>
     </mat-expansion-panel>
