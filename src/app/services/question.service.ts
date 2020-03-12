@@ -432,7 +432,7 @@ export class QuestionService {
     this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/question/save', question)
       .subscribe(
         responseData => {
-          // this.resetCreateForm();
+          // Refreshes the component so a new question can be created right away
           setTimeout(() => {
             this.router.navigate(['/question/create']);
             this.resetQuestionForm();
