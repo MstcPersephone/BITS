@@ -18,7 +18,6 @@ export class ListQuestionsComponent implements OnInit {
   private questionSubscription: Subscription;
   public  organizedAttachments = [];
 
-
   constructor(
     public questionService: QuestionService,
     public attachmentService: AttachmentService
@@ -39,6 +38,21 @@ export class ListQuestionsComponent implements OnInit {
         this.sortByCategory();
         console.table(this.questions);
       });
+
+    // for each question
+    this.organizedQuestions.forEach((q) => {
+      if (q.hasAttachments) {
+        this.attachmentService.getAttachmentFileNames(q.attachments);
+       }
+    });
+
+    // if (this.organizedQuestions.hasAttachments) {
+    //     this.attachmentService.attachments = this.question.attachments;
+    //     this.attachmentService.hasAttachments = true;
+    //     this.attachmentService.hasAttachmentFileNames = true;
+    //   } else {
+    //     this.attachmentService.attachments = [];
+    //   }
   }
 
   sortByCategory() {
@@ -57,12 +71,10 @@ export class ListQuestionsComponent implements OnInit {
       if (q.categories !== undefined && q.categories.length > 0) {
         // for each category attached to the question
         q.categories.forEach((c) => {
-          // get the category name
-          // const catName = c.name.replace(/\s/g, '');
           // Find the proper array and push the question
           this.organizedQuestions[c.name].push(q);
         });
-      }
+       }
     });
     console.log(this.organizedQuestions);
   }
