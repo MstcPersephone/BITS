@@ -24,6 +24,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    // Clear the attachments on init for when the form reloads
     this.attachmentService.resetAttachments();
   }
 
@@ -41,16 +42,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
     // Adds option to the options array in the service.
     this.questionService.saveQuestion(multipleChoiceQuestion);
 
-    // Resets the form values.
-    this.createMultipleChoiceForm.reset();
-    this.questionService.clearOptions();
-
     // For testing, we can remove later.
     console.log(multipleChoiceQuestion);
-  }
-
-  // Resets the form
-  resetForm() {
-    this.createMultipleChoiceForm.reset();
   }
 }

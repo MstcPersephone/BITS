@@ -36,6 +36,7 @@ export class CreateTrueFalseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+     // Clear the attachments on init for when the form reloads
     this.attachmentService.resetAttachments();
   }
 
@@ -55,13 +56,5 @@ export class CreateTrueFalseComponent implements OnInit {
 
     // Adds option to the options array in the service.
     this.questionService.saveQuestion(trueFalseQuestion);
-
-     // Resets the form values.
-    this.createTrueFalseForm.reset();
   }
-
-    // Resets the form
-    resetForm() {
-      this.createTrueFalseForm.reset();
-    }
 }

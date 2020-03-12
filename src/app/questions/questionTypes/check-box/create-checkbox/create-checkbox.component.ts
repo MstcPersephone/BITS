@@ -24,6 +24,7 @@ export class CreateCheckboxComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Clear the attachments on init for when the form reloads
     this.attachmentService.resetAttachments();
   }
 
