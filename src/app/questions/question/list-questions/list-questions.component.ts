@@ -4,6 +4,7 @@ import { Question } from 'src/app/models/question.interface';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/models/shared/category.model';
 import { AttachmentService } from 'src/app/services/attachment.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-list-questions',
@@ -20,7 +21,8 @@ export class ListQuestionsComponent implements OnInit {
 
   constructor(
     public questionService: QuestionService,
-    public attachmentService: AttachmentService
+    public attachmentService: AttachmentService,
+    public helperService: HelperService
   ) { }
 
   ngOnInit() {

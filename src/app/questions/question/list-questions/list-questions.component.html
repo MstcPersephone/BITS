@@ -1,4 +1,5 @@
-<mat-card>
+<mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
+<mat-card *ngIf="!this.helperService.isLoading">
   <h1 class="mat-display-1">Viewing all questions</h1>
 
   <!-- Beginning of the Category Expansion panel Headers -->

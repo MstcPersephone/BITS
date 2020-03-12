@@ -321,6 +321,7 @@ export class QuestionService {
 
   // Gets all questions from the database.
   getAllQuestions() {
+    this.helperService.isLoading = true;
     this.http
       .get<{ message: string, questions: Question[] }>(
         'http://localhost:3000/api/questions'
@@ -329,6 +330,7 @@ export class QuestionService {
         this.questions = questionData.questions;
         // Subscribers get a copy of the questions array sorted by question type.
         this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionType > b.questionType) ? 1 : -1)]);
+        this.helperService.isLoading = false;
       });
   }
 
