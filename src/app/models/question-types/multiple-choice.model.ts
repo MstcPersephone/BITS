@@ -17,4 +17,5 @@ export class MultipleChoice implements Question {
   duration: number;
   points: number;
   isAnsweredCorrectly: boolean; // whether the user has provided the correct answer
+  assessmentIds: string[];
 }
