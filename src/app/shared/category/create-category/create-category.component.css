@@ -18,5 +18,9 @@ form{
 .categoryOptionContainer button{
   margin: auto;
   margin-left: 0;
+  margin-right: 0;
+}
+.categoryOptionContainer button:first-of-type{
+  margin-left: auto;
   margin-right: 15px;
 }

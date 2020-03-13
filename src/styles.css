@@ -123,6 +123,8 @@ mat-icon.deleteIcon:hover, mat-icon.editIcon:hover {
 button.addOption, button.uploadAnswer{
   background-color: #0b578a !important;
   color: #ffffff;
+  margin-left: auto;
+  margin-right: 0;
 }
 
 /* Styles applied to any "correct" options or dialogs */
