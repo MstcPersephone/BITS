@@ -152,6 +152,7 @@ mat-list-item.error, .error-dialog {
   margin: auto;
 }
 
+/* Styles applied to the "Loading" spinner */
 mat-spinner {
   margin: 150px auto;
 }

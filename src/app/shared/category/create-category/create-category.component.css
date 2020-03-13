@@ -8,3 +8,15 @@ form{
   padding: 25px;
   padding-top: 0;
 }
+
+/* Creating a flex display of the Add and Cancel buttons */
+.categoryOptionContainer{
+  display: flex;
+  flex-wrap: nowrap;
+}
+/* Setting proper margins on Add and Cancel buttons to have them display on the left */
+.categoryOptionContainer button{
+  margin: auto;
+  margin-left: 0;
+  margin-right: 15px;
+}
