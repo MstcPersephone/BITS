@@ -19,4 +19,5 @@ export class ShortAnswer implements Question {
   points: number;
   isAnsweredCorrectly: boolean; // whether the user has provided the correct answer
   isCaseSensitive: boolean;
+  assessmentIds: string[];
 }

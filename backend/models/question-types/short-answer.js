@@ -54,6 +54,10 @@ const shortAnswerSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
+  assessmentIds: {
+    type: [String],
+    required: true
+  },
   createdOn: {
     type: Date,
     default: Date.now

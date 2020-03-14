@@ -47,6 +47,7 @@ export class QuestionService {
 
   // Points.
   private enteredPoints = 0;
+  private pointsUpdated = new Subject<number>();
 
   // Question (for edit and delete) and subject
   private question: Question;
@@ -69,6 +70,10 @@ export class QuestionService {
   // ****************************************************** //
   // ******************Category Functions****************** //
   // ****************************************************** //
+
+  clearCategories() {
+    this.categories = [];
+  }
 
   // Pushes the option to the options array and updates the subject for subscribers to consume.
   createCategory(category: Category) {
@@ -243,6 +248,23 @@ export class QuestionService {
     }
 
   // ******************************************** //
+  // ************Form Functions**************** //
+  // ******************************************** //
+
+  resetQuestionForm() {
+    // Clear values that are stored in the service.
+    this.enteredPoints = null;
+    this.options = [];
+    this.exactMatches = [];
+    this.selectedCategories = [];
+
+    // Push updates to subscribers
+    this.pointsUpdated.next(this.enteredPoints);
+    this.exactMatchesUpdated.next(this.exactMatches);
+    this.optionsUpdated.next(this.options);
+    }
+
+  // ******************************************** //
   // ************Option Functions**************** //
   // ******************************************** //
   // Resets the options array for a new question.
@@ -316,6 +338,11 @@ export class QuestionService {
   getPoints() {
     return this.enteredPoints;
   }
+
+  getPointsUpdatedListener() {
+    return this.pointsUpdated.asObservable();
+  }
+
   // ********************************************** //
   // ************Question Functions**************** //
   // ********************************************** //
@@ -413,6 +440,7 @@ export class QuestionService {
 
   // Saves the question to the database
   saveQuestion(question: Question) {
+    this.helperService.isLoading = true;
     if (question.questionType === QuestionType.CheckBox || question.questionType === QuestionType.MultipleChoice) {
       const completeQuestion = question.questionType === QuestionType.CheckBox ? question as Checkbox : question as MultipleChoice;
       completeQuestion.options = this.getOptions();
@@ -431,8 +459,15 @@ export class QuestionService {
     this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/question/save', question)
       .subscribe(
         responseData => {
-          this.clearOptions();
-          this.clearMatches();
+          // Refreshes the component so a new question can be created right away
+          setTimeout(() => {
+            this.router.navigate(['/question/create']);
+            this.resetQuestionForm();
+            // reset the isLoading spinner
+            this.helperService.isLoading = false;
+          }, 2000);
+          this.categoriesUpdated.next(this.categories);
+          console.log(this.categories);
           this.helperService.openSnackBar(question.questionType + ' Question Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');

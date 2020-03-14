@@ -24,6 +24,8 @@ export class CreateMultipleChoiceComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    // Clear the attachments on init for when the form reloads
+    this.attachmentService.resetAttachments();
   }
 
   // Id is null at this point because it is generated on the backend.
@@ -36,17 +38,12 @@ export class CreateMultipleChoiceComponent implements OnInit {
     multipleChoiceQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
     multipleChoiceQuestion.isAnswered = false;
     multipleChoiceQuestion.duration = 0;
-
-    // Resets the form values.
-    this.createMultipleChoiceForm.reset();
+    multipleChoiceQuestion.assessmentIds = null;
 
     // Adds option to the options array in the service.
     this.questionService.saveQuestion(multipleChoiceQuestion);
 
-    this.questionService.clearOptions();
-
     // For testing, we can remove later.
     console.log(multipleChoiceQuestion);
   }
-
 }
