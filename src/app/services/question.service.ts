@@ -18,6 +18,8 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class QuestionService {
+  // Boolean for case sensitivity of short answer questions
+  isCaseSensitive = false;
 
   // Questions array and subect.
   private questions: Question[] = [];
@@ -233,6 +235,11 @@ export class QuestionService {
 
      // Open snackbar to display success message
       this.helperService.openSnackBar('Exact Match Updated Successfully!', 'Close', 'success-dialog', 5000);
+    }
+
+    // Changes the status of case sensitivity
+    hasCaseSensitivityChanged() {
+      this.isCaseSensitive = !this.isCaseSensitive;
     }
 
   // ******************************************** //

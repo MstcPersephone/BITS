@@ -9,7 +9,9 @@
 <!-- Add attachment component -->
 <app-attachment></app-attachment>
 
-<h3>Add accepted responses (responses are case sensitive)</h3>
+<mat-checkbox [checked]="questionService.isCaseSensitive"
+  class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">Is answer case sensitive?
+</mat-checkbox>
 <app-create-exact-match></app-create-exact-match>
 
  <!-- Submit Button -->
