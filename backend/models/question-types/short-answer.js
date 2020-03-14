@@ -50,6 +50,10 @@ const shortAnswerSchema = mongoose.Schema({
     type: Boolean,
     required: false
   },
+  isCaseSensitive: {
+    type: Boolean,
+    default: false
+  },
   createdOn: {
     type: Date,
     default: Date.now
