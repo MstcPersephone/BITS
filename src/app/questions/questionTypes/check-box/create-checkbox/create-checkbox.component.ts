@@ -37,6 +37,7 @@ export class CreateCheckboxComponent implements OnInit {
     checkboxQuestion.isAnswered = false;
     checkboxQuestion.answers = null;
     checkboxQuestion.duration = 0;
+    checkboxQuestion.assessmentIds = null;
 
     // Resets the form values.
     this.createCheckboxForm.reset();

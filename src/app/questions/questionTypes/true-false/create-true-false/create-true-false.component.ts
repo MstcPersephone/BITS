@@ -48,6 +48,7 @@ export class CreateTrueFalseComponent implements OnInit {
     trueFalseQuestion.isAnswered = false;
     trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
     trueFalseQuestion.duration = 0;
+    trueFalseQuestion.assessmentIds = null;
 
     // Resets the form values.
     this.createTrueFalseForm.reset();

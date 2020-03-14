@@ -36,6 +36,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
     multipleChoiceQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
     multipleChoiceQuestion.isAnswered = false;
     multipleChoiceQuestion.duration = 0;
+    multipleChoiceQuestion.assessmentIds = null;
 
     // Resets the form values.
     this.createMultipleChoiceForm.reset();
