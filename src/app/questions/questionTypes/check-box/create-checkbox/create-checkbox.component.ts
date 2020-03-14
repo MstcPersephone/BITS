@@ -39,6 +39,7 @@ export class CreateCheckboxComponent implements OnInit {
     checkboxQuestion.isAnswered = false;
     checkboxQuestion.answers = null;
     checkboxQuestion.duration = 0;
+    checkboxQuestion.assessmentIds = null;
 
     // Adds option to the options array in the service.
     this.questionService.saveQuestion(checkboxQuestion);

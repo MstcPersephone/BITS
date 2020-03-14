@@ -50,6 +50,7 @@ export class CreateTrueFalseComponent implements OnInit {
     trueFalseQuestion.isAnswered = false;
     trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
     trueFalseQuestion.duration = 0;
+    trueFalseQuestion.assessmentIds = null;
 
     // For testing, we can remove later.
     console.log(trueFalseQuestion);

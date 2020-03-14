@@ -38,6 +38,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
     multipleChoiceQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
     multipleChoiceQuestion.isAnswered = false;
     multipleChoiceQuestion.duration = 0;
+    multipleChoiceQuestion.assessmentIds = null;
 
     // Adds option to the options array in the service.
     this.questionService.saveQuestion(multipleChoiceQuestion);

@@ -39,6 +39,7 @@ export class CreateShortAnswerComponent implements OnInit {
       shortAnswerQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
       shortAnswerQuestion.isAnswered = false;
       shortAnswerQuestion.matches = this.questionService.getMatches();
+      shortAnswerQuestion.assessmentIds = null;
       shortAnswerQuestion.duration = 0;
 
       // Adds option to the options array in the service.

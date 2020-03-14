@@ -36,6 +36,7 @@ export class CreateUploadComponent implements OnInit {
     uploadQuestion.duration = 0;
     uploadQuestion.correctAnswer = this.attachmentService.getCorrectAnswers();
     uploadQuestion.submittedAnswer = null;
+    uploadQuestion.assessmentIds = null;
 
     this.questionService.saveQuestion(uploadQuestion);
   }
