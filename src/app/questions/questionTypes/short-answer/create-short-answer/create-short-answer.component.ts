@@ -26,6 +26,8 @@ export class CreateShortAnswerComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    // Clear the attachments on init for when the form reloads
+    this.attachmentService.resetAttachments();
   }
 
     // Id is null at this point because it is generated on the backend.
@@ -39,13 +41,8 @@ export class CreateShortAnswerComponent implements OnInit {
       shortAnswerQuestion.matches = this.questionService.getMatches();
       shortAnswerQuestion.duration = 0;
 
-      // Resets the form values.
-      this.createShortAnswerForm.reset();
-
       // Adds option to the options array in the service.
       this.questionService.saveQuestion(shortAnswerQuestion);
-
-      this.questionService.clearMatches();
 
       // For testing, we can remove later.
       console.log(shortAnswerQuestion);

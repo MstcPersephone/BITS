@@ -36,6 +36,8 @@ export class CreateTrueFalseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+     // Clear the attachments on init for when the form reloads
+    this.attachmentService.resetAttachments();
   }
 
   onSubmit(trueFalseData) {
@@ -48,9 +50,6 @@ export class CreateTrueFalseComponent implements OnInit {
     trueFalseQuestion.isAnswered = false;
     trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
     trueFalseQuestion.duration = 0;
-
-    // Resets the form values.
-    this.createTrueFalseForm.reset();
 
     // For testing, we can remove later.
     console.log(trueFalseQuestion);
