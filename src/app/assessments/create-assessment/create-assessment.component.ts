@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionService } from 'src/app/services/question.service';
-import { Question } from 'src/app/models/question.interface';
-import { Subscription } from 'rxjs';
-import { Category } from 'src/app/models/shared/category.model';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { Subscription } from 'rxjs';
+import { Category } from 'src/app/models/shared/category.model';
+import { Question } from 'src/app/models/question.interface';
+import { Assessment } from 'src/app/models/assessment.model';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 @Component({
@@ -13,11 +14,9 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
   styleUrls: ['./create-assessment.component.css']
 })
 export class CreateAssessmentComponent implements OnInit {
-  public organizedQuestions = [];
-  public categories: Category[] = [];
-  private categorySubscription: Subscription;
   public questions: Question[] = [];
   private questionSubscription: Subscription;
+  public assessmentQuestions = [] = [];
 
   constructor(
     public questionService: QuestionService,
@@ -33,8 +32,13 @@ export class CreateAssessmentComponent implements OnInit {
       .subscribe((questionsArray: Question[]) => {
         this.questions = questionsArray;
         // call to function to short questions by category
-        console.table(this.questions);
+        console.log('All Questions: ');
+        console.log(this.questions);
       });
+  }
+
+  buildAssessmentQuestions() {
+
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -46,6 +50,26 @@ export class CreateAssessmentComponent implements OnInit {
                         event.previousIndex,
                         event.currentIndex);
     }
+    console.log('Available Questions: ');
+    console.log(event.previousContainer.data);
+    console.log('Assessment Questions: ');
+    console.log(event.container.data);
+  }
+
+  onSubmit(assessmentData) {
+    const assessment: Assessment = new Assessment();
+    assessment._id = null;
+    assessment.config = null;
+    assessment.description = null;
+    assessment.name = null;
+    assessment.questionIds = null;
+    assessment.status = null;
+
+    // For testing, we can remove later.
+    console.log(assessment);
+
+    // Adds option to the options array in the service.
+    // this.questionService.saveQuestion(trueFalseQuestion);
   }
 }
 

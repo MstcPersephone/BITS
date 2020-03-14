@@ -6,20 +6,34 @@
 
   <!-- All questions on the left -->
   <div class="questions-container">
-    <h2>All Questions</h2>
-
-      <div cdkDropList [cdkDropListData]="questions" class="questions-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let question of questions" cdkDrag>{{question.questionText}}</div>
+    <h2>Available questions</h2>
+    <div cdkDropList
+    [cdkDropListData]="questions"
+    class="questions-list"
+    (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let question of questions" cdkDrag>
+        <strong style="margin: 5px;width: 50%;">TEXT: {{question.questionText}}</strong>
+        <strong style="margin: 5px;width: 25%;color:forestgreen;">{{question.questionType}}</strong>
+        <strong style="margin: 1px;width: 25%;color:darkred;">{{question.points}} points</strong>
       </div>
-
+    </div>
   </div>
 
   <!-- Assessment Questions on the right -->
   <div class="questions-container">
     <h2>Assessment Questions</h2>
 
-    <div cdkDropList [cdkDropListData]="done" class="example-list" (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+    <div
+      cdkDropList
+      [cdkDropListData]="assessmentQuestions"
+      class="questions-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let question of assessmentQuestions; let i = index" cdkDrag>
+        <strong style="width: 50%;">TEXT: {{question.questionText}}</strong>
+        <strong style="color:forestgreen;">TYPE: {{question.questionType}}</strong>
+        <strong style="color:darkred;">POINTS: {{question.points}}</strong>
+      </div>
     </div>
   </div>
+
 </div>
