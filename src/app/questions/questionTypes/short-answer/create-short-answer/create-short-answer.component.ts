@@ -15,7 +15,7 @@ export class CreateShortAnswerComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private questionService: QuestionService,
+    public questionService: QuestionService,
     public attachmentService: AttachmentService
               ) {
     this.createShortAnswerForm = this.formBuilder.group({
