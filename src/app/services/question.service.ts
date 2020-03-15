@@ -20,8 +20,11 @@ import { Router } from '@angular/router';
 export class QuestionService {
 
   // Questions array and subect.
-  private questions: Question[] = [];
-  private questionsUpdated = new Subject<Question[]>();
+  // Type is any so it can be both a Question[] and
+  // the sorted questions object that comes as a response
+  // for getAllQuestions()
+  private questions: any;
+  private questionsUpdated = new Subject<any>();
 
   // Category array and subject.
   private category: Category;
@@ -332,9 +335,13 @@ export class QuestionService {
       )
       .subscribe((questionData) => {
         console.log(questionData);
-        // this.questions = questionData.questions;
-        // // Subscribers get a copy of the questions array sorted by question type.
-        // this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionType > b.questionType) ? 1 : -1)]);
+        // Assign object with sorted questions to qustions variable
+        // to be consumed by subscribers
+        this.questions = questionData.questions;
+        // Subscribers get a copy of the questions array sorted by question type.
+        this.questionsUpdated.next(this.questions);
+
+        // Done loading. Remove the loading spinner
         this.helperService.isLoading = false;
       });
   }

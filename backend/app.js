@@ -146,22 +146,39 @@ app.get("/api/categories", (request, response, next) => {
 // ******************************************************** //
 app.get("/api/questions", (request, response, next) => {
   // Create the shell of the array that will be returned
-  const organizedQuestions = [];
+  const organizedQuestions = {};
+  let allQuestions = null;
+  let allCategories = null;
+
   // Search the questions collection where:
   // questionType is a property on the object
   find('questions', { questionType: { $exists: true } }, function (error, questions) {
-    // Get all categories
+    if (error) {
+      throw error;
+    }
+    // Assign questions to function-level variable
+    allQuestions = questions;
+
+    // Fetch all categories
     find('categories', { _id: { $exists: true } }, function (error, categories) {
+      if (error) {
+        throw error;
+      }
+
+      // Assign categories to function-level variable
+      allCategories = categories;
+
       // Loop through categories to create separate arrays
-      categories.forEach((c) => {
+      allCategories.forEach((c) => {
         // push new object
         // property is category name
         // value is array to hold questions
         organizedQuestions[c.name] = [];
       });
 
-      // for each question
-      questions.forEach((q) => {
+      // for each question, loop through its categories
+      // push to each category array that it belongs to
+      allQuestions.forEach((q) => {
         if (q.categories !== undefined && q.categories.length > 0) {
           // for each category attached to the question
           q.categories.forEach((c) => {
@@ -171,26 +188,12 @@ app.get("/api/questions", (request, response, next) => {
         }
       });
 
-      // Send a successful response message and an array of questions to work with.
-      setTimeout(() => {
-        console.log(organizedQuestions);
-        response.status(200).json({
-          message: 'Question Fetched Successfully!',
-          questions: organizedQuestions
-        });
-      }, 5000);
-
-
+      // Send back success message.
+      response.status(200).json({
+        message: 'Question Fetched Successfully!',
+        questions: organizedQuestions
+      });
     });
-  }, error => {
-    // Logs error message.
-    // Sends an error status back to requestor.
-    // Includes what was pulled for a questions array (if anything)
-    console.log(error.message);
-    response.status(400).json({
-      message: error.message,
-      questions: questions
-    })
   });
 });
 
