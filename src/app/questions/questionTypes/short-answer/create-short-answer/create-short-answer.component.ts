@@ -21,7 +21,8 @@ export class CreateShortAnswerComponent implements OnInit {
     this.createShortAnswerForm = this.formBuilder.group({
       questionText: '',
       questionAnswer: '',
-      hasAttachments: ''
+      hasAttachments: '',
+      isCaseSensitive: ''
     });
      }
 
@@ -40,6 +41,7 @@ export class CreateShortAnswerComponent implements OnInit {
       shortAnswerQuestion.isAnswered = false;
       shortAnswerQuestion.matches = this.questionService.getMatches();
       shortAnswerQuestion.assessmentIds = null;
+      shortAnswerQuestion.isCaseSensitive = this.questionService.isCaseSensitive;
       shortAnswerQuestion.duration = 0;
 
       // Adds option to the options array in the service.
