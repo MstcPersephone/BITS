@@ -22,6 +22,8 @@ export class CreateUploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
+     // Clear the attachments on init for when the form reloads
+    this.attachmentService.resetAttachments();
   }
 
   onSubmit(uploadData) {
@@ -34,10 +36,8 @@ export class CreateUploadComponent implements OnInit {
     uploadQuestion.duration = 0;
     uploadQuestion.correctAnswer = this.attachmentService.getCorrectAnswers();
     uploadQuestion.submittedAnswer = null;
-
-    this.createUploadForm.reset();
+    uploadQuestion.assessmentIds = null;
 
     this.questionService.saveQuestion(uploadQuestion);
   }
-
 }

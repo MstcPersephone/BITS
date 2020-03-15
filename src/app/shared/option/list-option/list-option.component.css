@@ -10,24 +10,24 @@ mat-list-item {
   padding-top: 15px !important;
   padding-bottom: 20px !important;
 }
-.optionCount, .matchCount{
+.optionCount, .matchCount, .categoryCount{
   float: right;
   margin-right: 20px;
 }
-.optionListContainer, .matchListContainer{
+.optionListContainer, .matchListContainer, .categoryContainer{
   padding-top: 0px;
   padding-bottom: 0px;
 }
 
-.optionList, .matchList{
+.optionList, .matchList, .categoryList{
   margin-top: 40px;
 }
 
-.optionListItem, .matchListItem {
+.optionListItem, .matchListItem, .categoryListItem {
   margin: 10px;
 }
 
-.optionButtonContainer, .matchButtonContainer{
+.optionButtonContainer, .matchButtonContainer, .categoryButtonContainer{
   margin-left: auto;
   min-width: 65px;
   margin-right: 0;

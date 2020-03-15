@@ -50,6 +50,13 @@ const shortAnswerSchema = mongoose.Schema({
     type: Boolean,
     required: false
   },
+  isCaseSensitive: {
+    type: Boolean,
+    default: false
+  },
+  assessmentIds: {
+    type: [String]
+  },
   createdOn: {
     type: Date,
     default: Date.now

@@ -24,6 +24,8 @@ export class CreateCheckboxComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Clear the attachments on init for when the form reloads
+    this.attachmentService.resetAttachments();
   }
 
   // Id is null at this point because it is generated on the backend.
@@ -37,14 +39,10 @@ export class CreateCheckboxComponent implements OnInit {
     checkboxQuestion.isAnswered = false;
     checkboxQuestion.answers = null;
     checkboxQuestion.duration = 0;
-
-    // Resets the form values.
-    this.createCheckboxForm.reset();
+    checkboxQuestion.assessmentIds = null;
 
     // Adds option to the options array in the service.
     this.questionService.saveQuestion(checkboxQuestion);
-
-    this.questionService.clearOptions();
 
     // For testing, we can remove later.
     console.log(checkboxQuestion);

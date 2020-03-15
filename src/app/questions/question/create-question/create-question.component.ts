@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { HelperService } from '../../../services/helper.service';
 import { FormBuilder } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-question',
@@ -11,13 +12,14 @@ import { QuestionService } from 'src/app/services/question.service';
 export class CreateQuestionComponent implements OnInit {
   questionSelectionFormGroup;
   addPointForm;
-
+  pointSubscription: Subscription;
   questionTypes = [];
   questionTypeSelected: string;
+  points: number;
 
   constructor(public questionService: QuestionService,
               private formBuilder: FormBuilder,
-              private helperService: HelperService) {
+              public helperService: HelperService) {
     // Creates an object to hold form values.
     this.addPointForm = this.formBuilder.group({
       points: ''
@@ -27,6 +29,13 @@ export class CreateQuestionComponent implements OnInit {
   ngOnInit(): void {
     // gets the question types from the QuestionType enum
     this.questionTypes = this.helperService.getQuestionTypes();
+
+    // Sets up a points listener
+    this.pointSubscription = this.questionService.getPointsUpdatedListener()
+    .subscribe((points: number) => {
+      console.log(points);
+      this.points = points;
+    });
   }
 
   // Sets the variable for the ngSwitch statement in html file

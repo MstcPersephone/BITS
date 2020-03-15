@@ -1,0 +1,31 @@
+/* Importing shared styles from Create Question, Create Styles, and OptionComponent. */
+@import '../../../questions/question/create-question/create-question.component.css';
+@import '../../../shared/option/list-option/list-option.component.css';
+@import '../../../questions/questionTypes/_taskStyles/createStyles.css';
+
+
+/* Adjusts the styling of the main form (background box) */
+mat-card {
+  width: 85%;
+  margin: 20px auto;
+}
+
+/* Adjusting the Add new Category form */
+form{
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* Adjusting the width and margin of the Category List header */
+.categoryHeader{
+  width: 70%;
+  margin: auto;
+}
+
+/* Adjusting the width and padding of the list of category options */
+.categoryListContainer{
+  width: 70%;
+  padding: 0;
+}

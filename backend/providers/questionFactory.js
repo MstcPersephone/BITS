@@ -60,6 +60,7 @@ function createCheckbox(question) {
     hasAttachments: question.hasAttachments,
     attachments: question.attachments,
     isAnswered: question.isAnswered,
+    assessmentIds: question.assessmentIds,
     duration: question.duration,
     createdOn: Date.now()
   });
@@ -77,6 +78,7 @@ function updateCheckbox(question) {
     hasAttachments: question.hasAttachments,
     attachments: question.attachments,
     isAnswered: question.isAnswered,
+    assessmentIds: question.assessmentIds,
     duration: question.duration,
     points: question.points,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
@@ -105,6 +107,7 @@ function createMultipleChoice(question) {
     hasAttachments: question.hasAttachments,
     attachments: question.attachments,
     isAnswered: question.isAnswered,
+    assessmentIds: question.assessmentIds,
     duration: question.duration,
     createdOn: Date.now()
   });
@@ -134,6 +137,8 @@ function createShortAnswer(question) {
     isAnswered: question.isAnswered,
     studentAnswer: question.studentAnswer,
     matches: question.matches,
+    assessmentIds: question.assessmentIds,
+    isCaseSensitive: question.isCaseSensitive,
     duration: question.duration,
     createdOn: Date.now()
   });
@@ -154,6 +159,8 @@ function updateShortAnswer(question) {
     matches: question.matches,
     duration: question.duration,
     points: question.points,
+    assessmentIds: question.assessmentIds,
+    isCaseSensitive: question.isCaseSensitive,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
     createdOn: question.createdOn
   }
@@ -174,6 +181,7 @@ function createTrueFalse(question) {
     isAnswered: question.isAnswered,
     studentAnswer: question.studentAnswer,
     answer: question.answer,
+    assessmentIds: question.assessmentIds,
     duration: question.duration,
     createdOn: Date.now()
   });
@@ -196,6 +204,7 @@ function createUpload(question) {
     isAnswered: question.isAnswered,
     correctAnswer: question.correctAnswer,
     submittedAnswer: question.submittedAnswer,
+    assessmentIds: question.assessmentIds,
     duration: question.duration,
     createdOn: Date.now()
   });
