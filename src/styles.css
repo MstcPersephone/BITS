@@ -11,6 +11,8 @@ $mstcYellow: #fcb618;
 $mstcBlue: #0b578a;
 $mstcDarkBlue: #033d60;
 
+$correctAnswerGreen: #ccf8d3;
+
 */
 
 /* Setting html and body elements to reduce white space on page. */
@@ -128,9 +130,17 @@ button.addOption, button.uploadAnswer{
 }
 
 /* Styles applied to any "correct" options or dialogs */
-mat-list-item.correct, .success-dialog {
+mat-list-item.correct, .success-dialog{
   background-color: #ccf8d3;
   color: black;
+}
+
+/* Styles applied to the correct answer checkmark */
+.isAnswerIcon{
+  color: black;
+}
+.isNotAnswerIcon{
+  color: rgba(0,0,0,0);
 }
 
 /* Styles applied to any "alert" options or dialogs */

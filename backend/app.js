@@ -283,7 +283,10 @@ app.post("/api/question/save", (request, response, next) => {
   // Attach points to the question before saving.
   questionObjectToSave.points = question.points;
 
-  //
+  // Attach assessment Ids before saving.
+  questionObjectToSave.assessmentIds = question.assessmentIds;
+
+  // Attach indication if question was answered correctly before saving.
   questionObjectToSave.isAnsweredCorrectly = question.isAnsweredCorrectly;
 
   console.log(questionObjectToSave);

@@ -16,6 +16,10 @@
         <!-- The [ngClass] definition is used to set the background color to green for correct answers. -->
         <mat-list-item [ngClass]="option.isAnswer ? 'correct' : '' ">
 
+          <!-- The checkmark icon displaying if the option is correct. -->
+          <!-- Uses the [ngClass] definition to show/hide the isAnswer icon -->
+          <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
+
           <!-- The text displayed within the option. -->
           <span class="optionListItem">{{option.optionText}}</span>
 
