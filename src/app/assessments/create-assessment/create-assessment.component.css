@@ -6,7 +6,7 @@
   vertical-align: top;
 }
 
-.questions-list {
+.questions-available-list, .questions-assessment-list {
   border: solid 1px #ccc;
   min-height: 60px;
   background: white;
@@ -15,7 +15,7 @@
   display: block;
 }
 
-.example-box {
+.question-box {
   padding: 20px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
