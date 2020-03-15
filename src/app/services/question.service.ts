@@ -244,7 +244,7 @@ export class QuestionService {
 
     // Changes the status of case sensitivity
     hasCaseSensitivityChanged() {
-      if (this.isCaseSensitive === false) {
+      if (this.isCaseSensitive === false || this.isCaseSensitive === null) {
         this.isCaseSensitive = true;
         console.log(this.isCaseSensitive);
       } else {
