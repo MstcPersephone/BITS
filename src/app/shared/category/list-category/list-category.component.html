@@ -1,13 +1,15 @@
+<!-- This template is inherited into the Create Question component -->
 <!-- Loads the list of categories -->
 <div *ngIf="this.questionService.getCategoriesLoaded()">
   <form class="categorySelectForm"  [formGroup]="selectCategoriesForm" (ngSubmit)=onSubmit(selectCategoriesForm.value)>
     <!-- Preparing the dropdown menu to include every category, as well as a "Create New..." option -->
     <mat-form-field class="categorySelectInput">
       <mat-label>Select one or more Categories</mat-label>
+      <!-- This is where the category is selected or a new category may be added -->
       <mat-select #categorySelect formControlName="categoryList"
        (selectionChange)="this.questionService.onHandleCategory($event, categorySelect, selectCategoriesForm)" multiple>
         <mat-option value="create">Create New...</mat-option>
-        <!-- Looping through the list of categories and adding an option for each -->
+        <!-- Looping through the list of categories and adding each selected category to the categories -->
         <mat-option #categoryOption *ngFor="let category of categoryList; index as i" [value]="category">
         {{category.name}}</mat-option>
       </mat-select>

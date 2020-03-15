@@ -1,7 +1,9 @@
+<!-- This is the component for managing all parts of Category (View List/Allow Edit and Delete of Categories) -->
 <mat-card>
   <h1 class="mat-display-1">Manage Categories</h1>
   <mat-card>
   <h3>Add new category</h3>
+  <!-- This is the form for adding a new category -->
   <form [formGroup]="createCategoryForm" (ngSubmit)="onSubmit(createCategoryForm.value)">
     <mat-form-field appearance="standard">
       <mat-label>Category Name</mat-label>

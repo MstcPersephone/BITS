@@ -29,6 +29,7 @@ export class ManageCategoryComponent implements OnInit {
     });
   }
 
+  // On load this displays the form, as well as list of categories with edit/delete capabilities.
   ngOnInit() {
     this.categorySubscription = this.questionService.getCategoriesListener()
       .subscribe((categoriesArray: Category[]) => {
@@ -40,18 +41,16 @@ export class ManageCategoryComponent implements OnInit {
   }
 
   // Id is null at this point because it is generated on the backend.
-  onSubmit(categoryData, mep) {
+  onSubmit(categoryData) {
     const category: Category = new Category();
     category._id = null;
     category.name = categoryData.categoryName;
 
-    // Adds option to the options array in the service.
+    // Adds category to the category array in the service.
     this.questionService.createCategory(category);
 
-    // Adds option to the options array in the service.
+    // The call to question service which will send categories to backend to be saved in database..
     this.questionService.saveCategory(category, this.createCategoryForm);
-
-    mep.expanded = false;
 
     // For testing, we can remove later.
     console.log(category);

@@ -29,10 +29,10 @@ export class CreateCategoryComponent implements OnInit {
     category._id = null;
     category.name = categoryData.categoryName;
 
-    // Adds option to the options array in the service.
+    // Adds category to the categories array in the service.
     this.questionService.saveCategory(category, this.createCategoryForm);
 
-    // For testing, we can remove later.
+    // TODO: [PER-118] For testing, we can remove later.
     console.log(category);
   }
 }

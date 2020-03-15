@@ -47,6 +47,7 @@ export class EditCheckboxComponent implements OnInit {
     updatedCheckboxQuestion.isAnswered = false;
     updatedCheckboxQuestion.answers = null;
     updatedCheckboxQuestion.duration = 0;
+    updatedCheckboxQuestion.assessmentIds = null;
 
     this.questionService.updateQuestionById(updatedCheckboxQuestion);
     console.log(formData);
