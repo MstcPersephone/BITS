@@ -7,6 +7,9 @@
   <!-- Add attachment component -->
   <app-attachment [attachmentsLoaded]="question.hasAttachments"></app-attachment>
 
+  <mat-checkbox
+  class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">Is answer case sensitive?
+</mat-checkbox>
   <h3>Current matches</h3>
   <button mat-raised-button type="button" (click)="this.questionService.toggleCreateMatch()">Create New Exact Match</button>
   <app-create-exact-match *ngIf="this.questionService.showCreateMatch" [isEditMode]="true"></app-create-exact-match>

@@ -246,8 +246,10 @@ export class QuestionService {
     hasCaseSensitivityChanged() {
       if (this.isCaseSensitive === false) {
         this.isCaseSensitive = true;
+        console.log(this.isCaseSensitive);
       } else {
         this.isCaseSensitive = false;
+        console.log(this.isCaseSensitive);
       }
     }
 

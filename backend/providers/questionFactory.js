@@ -138,6 +138,7 @@ function createShortAnswer(question) {
     studentAnswer: question.studentAnswer,
     matches: question.matches,
     assessmentIds: question.assessmentIds,
+    isCaseSensitive: question.isCaseSensitive,
     duration: question.duration,
     createdOn: Date.now()
   });
@@ -159,6 +160,7 @@ function updateShortAnswer(question) {
     duration: question.duration,
     points: question.points,
     assessmentIds: question.assessmentIds,
+    isCaseSensitive: question.isCaseSensitive,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
     createdOn: question.createdOn
   }
