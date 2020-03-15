@@ -41,7 +41,7 @@ export class ListQuestionsComponent implements OnInit {
       .subscribe((questionsArray: Question[]) => {
         this.questions = questionsArray;
         // call to function to short questions by category
-        this.sortByCategory();
+        // this.sortByCategory();
         console.table(this.questions);
       });
   }

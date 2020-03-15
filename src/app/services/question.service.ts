@@ -327,13 +327,14 @@ export class QuestionService {
   getAllQuestions() {
     this.helperService.isLoading = true;
     this.http
-      .get<{ message: string, questions: Question[] }>(
+      .get<{ message: string, questions: any }>(
         'http://localhost:3000/api/questions'
       )
       .subscribe((questionData) => {
-        this.questions = questionData.questions;
-        // Subscribers get a copy of the questions array sorted by question type.
-        this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionType > b.questionType) ? 1 : -1)]);
+        console.log(questionData);
+        // this.questions = questionData.questions;
+        // // Subscribers get a copy of the questions array sorted by question type.
+        // this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionType > b.questionType) ? 1 : -1)]);
         this.helperService.isLoading = false;
       });
   }

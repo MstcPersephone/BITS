@@ -63,7 +63,7 @@ app.post("/api/question/update/", (request, response, next) => {
   questionToUpdate.categories = requestedUpdate.categories;
   questionToUpdate.points = requestedUpdate.points;
   const update = questionFactory.editQuestionFactory(requestedUpdate);
-  mongoose.connection.db.collection('questions').updateOne({_id: mongoose.Types.ObjectId(requestedUpdate._id.toString())}, {$set: update}, {upsert: true}, function (error, updatedQuestion) {
+  mongoose.connection.db.collection('questions').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedQuestion) {
 
     // Send a successful response message and an array of categories to work with.
     response.status(200).json({
@@ -145,20 +145,43 @@ app.get("/api/categories", (request, response, next) => {
 // *****Get all questions if they have a question type***** //
 // ******************************************************** //
 app.get("/api/questions", (request, response, next) => {
-
+  // Create the shell of the array that will be returned
+  const organizedQuestions = [];
   // Search the questions collection where:
   // questionType is a property on the object
   find('questions', { questionType: { $exists: true } }, function (error, questions) {
+    // Get all categories
+    find('categories', { _id: { $exists: true } }, function (error, categories) {
+      // Loop through categories to create separate arrays
+      categories.forEach((c) => {
+        // push new object
+        // property is category name
+        // value is array to hold questions
+        organizedQuestions[c.name] = [];
+      });
 
-    // Send a successful response message and an array of questions to work with.
-    response.status(200).json({
-      message: 'Question Fetched Successfully!',
-      questions: questions
+      // for each question
+      questions.forEach((q) => {
+        if (q.categories !== undefined && q.categories.length > 0) {
+          // for each category attached to the question
+          q.categories.forEach((c) => {
+            // Find the proper category array and push the question
+            organizedQuestions[c.name].push(q);
+          });
+        }
+      });
+
+      // Send a successful response message and an array of questions to work with.
+      setTimeout(() => {
+        console.log(organizedQuestions);
+        response.status(200).json({
+          message: 'Question Fetched Successfully!',
+          questions: organizedQuestions
+        });
+      }, 5000);
+
+
     });
-
-    // Logs message and questions array to the backend for debugging.
-    console.log("Questions Fetched Successfully.")
-    console.log(questions);
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.
@@ -274,8 +297,8 @@ app.post("/api/question/save", (request, response, next) => {
     question._id = mongoose.Types.ObjectId();
   }
 
-  // Call to question type factory which creates the object to save
-  questionObjectToSave =  questionFactory.createQuestionTypeFactory(question);
+  // Call to question type factory which creates the object to
+  questionObjectToSave = questionFactory.createQuestionTypeFactory(question);
 
   // // Attach categories to question before saving.
   questionObjectToSave.categories = question.categories;
