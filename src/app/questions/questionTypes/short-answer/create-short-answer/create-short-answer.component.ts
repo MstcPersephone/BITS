@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ShortAnswer } from 'src/app/models/question-types/short-answer.model';
 import { QuestionService } from 'src/app/services/question.service';
@@ -12,7 +12,7 @@ import { AttachmentService } from 'src/app/services/attachment.service';
 export class CreateShortAnswerComponent implements OnInit {
 // The form object
   createShortAnswerForm;
-
+  @Input() caseSensitive;
   constructor(
     private formBuilder: FormBuilder,
     public questionService: QuestionService,
@@ -21,7 +21,8 @@ export class CreateShortAnswerComponent implements OnInit {
     this.createShortAnswerForm = this.formBuilder.group({
       questionText: '',
       questionAnswer: '',
-      hasAttachments: ''
+      hasAttachments: '',
+      isCaseSensitive: ''
     });
      }
 
@@ -40,6 +41,7 @@ export class CreateShortAnswerComponent implements OnInit {
       shortAnswerQuestion.isAnswered = false;
       shortAnswerQuestion.matches = this.questionService.getMatches();
       shortAnswerQuestion.assessmentIds = null;
+      shortAnswerQuestion.isCaseSensitive = this.questionService.isCaseSensitive;
       shortAnswerQuestion.duration = 0;
 
       // Adds option to the options array in the service.

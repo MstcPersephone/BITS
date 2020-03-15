@@ -24,7 +24,8 @@ export class EditShortAnswerComponent implements OnInit {
   ) {
     this.editShortAnswerForm = this.formBuilder.group({
       questionText: '',
-      hasAttachments: ''
+      hasAttachments: '',
+      isCaseSensitive: ''
     });
   }
 
@@ -51,6 +52,7 @@ export class EditShortAnswerComponent implements OnInit {
     updatedShortAnswerQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : [];
     updatedShortAnswerQuestion.isAnswered = false;
     updatedShortAnswerQuestion.studentAnswer = null;
+    updatedShortAnswerQuestion.isCaseSensitive = this.questionService.isCaseSensitive;
     updatedShortAnswerQuestion.duration = 0;
     updatedShortAnswerQuestion.assessmentIds = null;
 
