@@ -9,7 +9,7 @@
 <!-- Add attachment component -->
 <app-attachment></app-attachment>
 
-<mat-checkbox [checked]="questionService.isCaseSensitive"
+<mat-checkbox [checked]="caseSensitive == null ? this.questionService.isCaseSensitive : caseSensitive"
   class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">Is answer case sensitive?
 </mat-checkbox>
 <app-create-exact-match></app-create-exact-match>
