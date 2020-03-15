@@ -23,6 +23,7 @@ export class ListCategoryComponent implements OnInit {
     });
   }
 
+  // This component is inherited into the Create Question and builds the category selector form
   ngOnInit() {
     this.questionService.getAllCategories();
     this.categorySubscription = this.questionService.getCategoriesListener()
@@ -32,8 +33,8 @@ export class ListCategoryComponent implements OnInit {
     });
   }
 
-  onSubmit(formData) {
+  // Id is null at this point because it is generated on the backend.
+  onSubmit(categoryData) {
     // do nothing
   }
-
 }
