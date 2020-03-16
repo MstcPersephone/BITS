@@ -13,7 +13,7 @@ form {
   overflow: hidden;
 }
 
-mat-card, mat-form-field, mat-checkbox, button, app-list-option {
+mat-card, mat-form-field, mat-checkbox, app-list-option {
   display: block;
 }
 
