@@ -8,10 +8,11 @@
 
 <!-- Add attachment component -->
 <app-attachment></app-attachment>
-
+<br>
 <mat-checkbox
-  class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">Is answer case sensitive?
+  class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">Is student answer case sensitive?
 </mat-checkbox>
+<h3>Add accepted responses to the question</h3>
 <app-create-exact-match></app-create-exact-match>
 
  <!-- Submit Button -->

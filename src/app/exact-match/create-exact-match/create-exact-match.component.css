@@ -8,6 +8,7 @@ mat-card {
 
 form {
   margin: 25px;
+  margin-bottom: 0px;
   background-color: #fff;
   overflow: hidden;
 }
