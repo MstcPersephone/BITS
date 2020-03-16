@@ -1,10 +1,4 @@
-/* Adjusts the styling of the Create a Question header (Create a Question). */
-h1{
-  font-size: 25px;
-  margin-bottom: 10px;
-  margin-left: 0px;
-  padding: 0px;
-}
+@import "../../../../styles.css";
 
 /* Adjusts the styling of the main Create a Question form (background box) */
 mat-card {

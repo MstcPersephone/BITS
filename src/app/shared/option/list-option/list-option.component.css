@@ -23,11 +23,11 @@ mat-list-item {
   margin-top: 40px;
 }
 
-.optionListItem, .matchListItem, .categoryListItem {
+.optionListItem, .matchListItem, .categoryListItem{
   margin: 10px;
 }
 
-.optionButtonContainer, .matchButtonContainer, .categoryButtonContainer{
+.optionButtonContainer, .matchButtonContainer, .categoryButtonContainer, .questionButtonContainer{
   margin-left: auto;
   min-width: 65px;
   margin-right: 0;

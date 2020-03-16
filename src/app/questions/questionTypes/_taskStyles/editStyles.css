@@ -1,3 +1,6 @@
 /*
 * Styles affecting the "edit" question components.
 */
+mat-form-field {
+  display: block;
+}
