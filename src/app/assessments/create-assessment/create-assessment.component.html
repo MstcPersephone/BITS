@@ -20,33 +20,67 @@
 
   <!-- All questions on the left -->
   <div class="questions-container">
+
     <div *ngFor="let category of organizedQuestions | keyvalue">
+
       <div *ngIf="this.selectedName === category.key">
+
         <h2>Available {{category.key}} questions</h2>
+
         <p>Select a category to get list of questions</p>
-        <div cdkDropList [cdkDropListData]="category.value | keyvalue" class="questions-available-list"
-          (cdkDropListDropped)="drop($event)">
-          <div class="question-box" *ngFor="let question of category.value | keyvalue" cdkDrag>
+
+        <div
+        cdkDropList
+        [cdkDropListData]="category.value | keyvalue"
+        class="questions-available-list"
+        (cdkDropListDropped)="drop($event)">
+
+          <div
+          class="question-box"
+          *ngFor="let question of category.value | keyvalue"
+          cdkDrag>
+
             <strong style="margin: 5px;width: 50%;">TEXT: {{question.value.questionText}}</strong>
             <strong style="margin: 5px;width: 25%;color:forestgreen;">{{question.value.questionType}}</strong>
             <strong style="margin: 1px;width: 25%;color:darkred;">{{question.value.points}} points</strong>
+
           </div>
         </div>
       </div>
     </div>
   </div>
 
-
   <!-- Assessment Questions on the right -->
   <div class="questions-container">
+
     <h2>Assessment Questions</h2>
+
     <p>Drag and drop to re-order questions</p>
-    <div cdkDropList [cdkDropListData]="assessmentQuestions" class="questions-assessment-list" (cdkDropListDropped)="drop($event)">
-      <div class="question-box" *ngFor="let question of assessmentQuestions; let i = index" cdkDrag>
+
+    <div
+    cdkDropList
+    [cdkDropListData]="assessmentQuestions"
+    class="questions-assessment-list"
+    (cdkDropListDropped)="drop($event)">
+
+
+
+      <div
+      class="question-box"
+      *ngFor="let question of assessmentQuestions; let i = index"
+      [cdkDragData]="question"
+      cdkDrag>
+      <div
+      cdkDrop
+      (cdkDropListEntered)="entered($event, question)"
+      (cdkDropListExited)="exited($event, question)">
+
         <strong style="margin: 5px;width: 50%;">TEXT: {{question.value.questionText}}</strong>
         <strong style="margin: 5px;width: 25%;color:forestgreen;">{{question.value.questionType}}</strong>
         <strong style="margin: 1px;width: 25%;color:darkred;">{{question.value.points}} points</strong>
+
       </div>
+    </div>
     </div>
   </div>
 

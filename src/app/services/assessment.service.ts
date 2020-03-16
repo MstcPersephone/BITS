@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Assessment } from '../models/assessment.model';
 import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,23 @@ export class AssessmentService {
   private assessmentQuestionsUpdated = new Subject<Question[]>();
 
   constructor(private http: HttpClient) { }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
+    console.log('Question moved FROM: ');
+    console.log(event.previousContainer.element);
+    console.log(event.previousContainer.data);
+    console.log('Question moved TO: ');
+    console.log(event.container.element);
+    console.log(event.container.data);
+  }
 
   // Generates the assessment
   startAssessment(questions: Question[]) {
