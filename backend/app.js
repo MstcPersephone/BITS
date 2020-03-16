@@ -109,7 +109,6 @@ app.post("/api/assessment/questions/", (request, response, next) => {
       });
     }
   });
-
 });
 
 // ******************************************************** //
@@ -205,6 +204,11 @@ app.get("/api/question/:id", (request, response, next) => {
         question: null
       })
     })
+});
+
+app.post("api/question/:id", (request, response, next) => {
+  mongoose.collection.db.collection(request._id)
+  questionCollection
 });
 
 // ******************************************************* //

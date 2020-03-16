@@ -353,6 +353,13 @@ export class QuestionService {
   // ************Question Functions**************** //
   // ********************************************** //
 
+  // Finds a question based on ID to move it from current questions to the archived questions collection
+  deleteQuestionById(questionId: string) {
+    const questionToArchive = this.getQuestionById(questionId);
+
+
+  }
+
   // Gets the updateListener subject for single question fetch
   getQuestionUpdatedListener() {
     return this.questionUpdated.asObservable();
