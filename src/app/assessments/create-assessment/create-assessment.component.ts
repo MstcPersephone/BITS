@@ -9,6 +9,8 @@ import { Question } from 'src/app/models/question.interface';
 import { Assessment } from 'src/app/models/assessment.model';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
+import { exists } from 'fs';
+import { Key } from 'protractor';
 
 
 
@@ -18,13 +20,14 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragE
   styleUrls: ['./create-assessment.component.css']
 })
 export class CreateAssessmentComponent implements OnInit {
-
   public categories: Category[] = [];
   private categorySubscription: Subscription;
   public organizedQuestions = {};
   private questionSubscription: Subscription;
   public question: any;
   public assessmentQuestions = [] = [];
+  public usedQuestion = {};
+  public usedQuestionArray = [] = [];
   selectCategoryForm;
   public selectedCategory: Category;
   public selectedName: any;
@@ -36,8 +39,9 @@ export class CreateAssessmentComponent implements OnInit {
     private assessmentService: AssessmentService,
     private formBuilder: FormBuilder) {
     this.selectCategoryForm = this.formBuilder.group({
-      categories: ''
+      categories: '',
     });
+
   }
 
   ngOnInit() {
@@ -45,47 +49,39 @@ export class CreateAssessmentComponent implements OnInit {
     this.getOrganizedQuestions();
   }
 
-  entered(event: CdkDragEnter<string[]>, data: any) {
-
-    this.question = data;
-    console.log(this.question);
-   }
-
-   exited(event: CdkDragExit<string[]>) {
-
-    this.question = event.item.data;
-    console.log(this.question);
-   }
-
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
     } else {
-      transferArrayItem(event.previousContainer.data,
+      transferArrayItem(
+        event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex);
     }
-    console.log('Question moved FROM: ');
-    console.log(event.previousContainer.element);
-    console.log(event.previousContainer.data);
-    console.log('Question moved TO: ');
-    console.log(event.container.element);
-    console.log(event.container.data);
 
+    console.log ('Event:', event);
+
+    console.log('Questions moved FROM: ', event.previousContainer.element, event.previousContainer.data);
+    console.log('Questions moved TO: ', event.container.element, event.container.data);
+
+
+    if (event.container.element.nativeElement.id.includes('0')) {
+
+      // if (event.container.element.nativeElement.attributes === ) {};
+
+      event.container.data.forEach((d) => {
+          this.usedQuestion =  d.valueOf();
+          this.usedQuestionArray.push(this.usedQuestion);
+      });
+
+      console.log('Question to use', this.usedQuestion);
+      console.log('Used Questions array', this.usedQuestionArray);
+    }
   }
-
-  // public entered(event: CdkDragEnter<Question[]>) {
-
-  //   this.question = event.item.data;
-  //   console.log('Entered', this.question);
-  //  }
-
-  //  public exited(event: CdkDragExit<string[]>) {
-
-  //   this.question = event.item.data;
-  //   console.log('Exited', this.question);
-  //  }
 
   getCategoriesSelection() {
     // gets the call to api end point to collect all categories from database
@@ -110,10 +106,6 @@ export class CreateAssessmentComponent implements OnInit {
     this.selectedCategory = event.value;
     this.selectedName = this.selectedCategory.name;
   }
-
-  // setAssessmentQuestions(this.Entered, this.exited) {
-
-  // }
 
   onSubmit(assessmentData) {
     // do nothing
