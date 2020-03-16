@@ -27,6 +27,7 @@ export class CreateAssessmentComponent implements OnInit {
   public question: any;
   public assessmentQuestions = [] = [];
   public usedQuestion = {};
+  public isUsed: boolean;
   public usedQuestionArray = [] = [];
   selectCategoryForm;
   public selectedCategory: Category;
@@ -69,18 +70,44 @@ export class CreateAssessmentComponent implements OnInit {
     console.log('Questions moved TO: ', event.container.element, event.container.data);
 
 
-    if (event.container.element.nativeElement.id.includes('0')) {
+    // if (event.container.element.nativeElement.id.includes('0')) {
 
-      // if (event.container.element.nativeElement.attributes === ) {};
+    //   // if (event.container.element.nativeElement.attributes === ) {};
 
-      event.container.data.forEach((d) => {
-          this.usedQuestion =  d.valueOf();
-          this.usedQuestionArray.push(this.usedQuestion);
-      });
+    //   event.container.data.forEach((d) => {
+    //       this.usedQuestion =  d.valueOf();
+    //       this.usedQuestionArray.push(this.usedQuestion);
+    //   });
 
-      console.log('Question to use', this.usedQuestion);
-      console.log('Used Questions array', this.usedQuestionArray);
-    }
+    //   console.log('Question to use', this.usedQuestion);
+    //   console.log('Used Questions array', this.usedQuestionArray);
+    // }
+  }
+
+  entered(event: CdkDragEnter<string[]>) {
+    console.log('Entered', event.item.data);
+
+    this.usedQuestion = event.item.data.valueOf();
+    this.usedQuestionArray.push(this.usedQuestion);
+
+    console.log('Question to use', this.usedQuestion);
+    console.log('Used Questions array', this.usedQuestionArray);
+
+  }
+
+  exited(event: CdkDragExit<string[]>) {
+    console.log('Exited', event.item.data);
+
+    this.usedQuestionArray.forEach((item, index) => {
+      if (this.usedQuestion === event.item.data.valueOf()) {
+        if (index > -1) {
+          this.usedQuestionArray.splice(index, 1);
+        }
+      }
+    });
+
+    console.log('Question to use', this.usedQuestion);
+    console.log('Used Questions array', this.usedQuestionArray);
   }
 
   getCategoriesSelection() {

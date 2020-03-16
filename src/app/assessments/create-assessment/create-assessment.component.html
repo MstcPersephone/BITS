@@ -37,11 +37,8 @@
         [cdkDropListData]="category.value | keyvalue"
         [cdkDropListConnectedTo]="[assessmentList]"
         class="available-questions-list"
-        (cdkDropListDropped)="drop($event)">
-
-        <!-- <div cdkDrop #assessmentList="cdkDrop"
-        (cdkDropListEntered)="entered($event)"
-        (cdkDropListExited)="exited($event)"> -->
+        (cdkDropListDropped)="drop($event)"
+        >
 
           <div
           class="question-box"
@@ -53,9 +50,7 @@
             <strong style="margin: 5px;width: 25%;color:forestgreen;">{{question.value.questionType}}</strong>
             <strong style="margin: 1px;width: 25%;color:darkred;">{{question.value.points}} points</strong>
 
-
           </div>
-        <!-- </div> -->
         </div>
       </div>
     </div>
@@ -73,24 +68,21 @@
     [cdkDropListData]="assessmentQuestions"
     [cdkDropListConnectedTo]="[availableList]"
     class="assessment-questions-list"
-    (cdkDropListDropped)="drop($event)">
+    (cdkDropListDropped)="drop($event)"
+    (cdkDropListEntered)="entered($event)"
+    (cdkDropListExited)="exited($event)">
 
+      <div
+      class="question-box"
+      *ngFor="let question of assessmentQuestions; let i=index"
+      cdkDrag
+      [cdkDragData]="question">
 
+        <strong style="margin: 5px;width: 50%;">TEXT: {{question.value.questionText}}</strong>
+        <strong style="margin: 5px;width: 25%;color:forestgreen;">{{question.value.questionType}}</strong>
+        <strong style="margin: 1px;width: 25%;color:darkred;">{{question.value.points}} points</strong>
 
-        <div
-        class="question-box"
-        *ngFor="let question of assessmentQuestions"
-        cdkDrag
-        [cdkDragData]="question">
-
-          <!-- <div cdkDrop #question="cdkDrop" (cdkDropEntered)="entered($event)" (cdkDropExited)="exited($event)"> -->
-
-          <strong style="margin: 5px;width: 50%;">TEXT: {{question.value.questionText}}</strong>
-          <strong style="margin: 5px;width: 25%;color:forestgreen;">{{question.value.questionType}}</strong>
-          <strong style="margin: 1px;width: 25%;color:darkred;">{{question.value.points}} points</strong>
-
-        </div>
-
+      </div>
     </div>
   </div>
 </div>
