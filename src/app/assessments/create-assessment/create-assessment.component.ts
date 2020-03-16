@@ -68,20 +68,6 @@ export class CreateAssessmentComponent implements OnInit {
 
     console.log('Questions moved FROM: ', event.previousContainer.element, event.previousContainer.data);
     console.log('Questions moved TO: ', event.container.element, event.container.data);
-
-
-    // if (event.container.element.nativeElement.id.includes('0')) {
-
-    //   // if (event.container.element.nativeElement.attributes === ) {};
-
-    //   event.container.data.forEach((d) => {
-    //       this.usedQuestion =  d.valueOf();
-    //       this.usedQuestionArray.push(this.usedQuestion);
-    //   });
-
-    //   console.log('Question to use', this.usedQuestion);
-    //   console.log('Used Questions array', this.usedQuestionArray);
-    // }
   }
 
   entered(event: CdkDragEnter<string[]>) {
@@ -97,15 +83,9 @@ export class CreateAssessmentComponent implements OnInit {
 
   exited(event: CdkDragExit<string[]>) {
     console.log('Exited', event.item.data);
-
-    this.usedQuestionArray.forEach((item, index) => {
-      if (this.usedQuestion === event.item.data.valueOf()) {
-        if (index > -1) {
-          this.usedQuestionArray.splice(index, 1);
-        }
-      }
-    });
-
+    const key = event.item.data.keys;
+    const index = this.usedQuestionArray.indexOf(key);
+    this.usedQuestionArray.splice(index, 1);
     console.log('Question to use', this.usedQuestion);
     console.log('Used Questions array', this.usedQuestionArray);
   }

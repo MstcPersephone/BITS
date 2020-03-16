@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Assessment } from '../models/assessment.model';
 import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
 
 @Injectable({
   providedIn: 'root',
