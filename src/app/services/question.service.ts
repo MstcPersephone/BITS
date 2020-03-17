@@ -430,6 +430,18 @@ export class QuestionService {
           this.optionsUpdated.next(this.options);
         }
 
+            // Add options to options array if question type supports it
+        if (this.question.questionType === QuestionType.MultipleChoice) {
+              this.options = (this.question as MultipleChoice).options;
+              console.log(this.question);
+              if (this.options.length > 0) {
+                this.hasOptions = true;
+              }
+              console.log(this.options);
+              // subscribers get a copy of the options associated with the question
+              this.optionsUpdated.next(this.options);
+            }
+
         if (this.question.questionType === QuestionType.ShortAnswer) {
           this.exactMatches = (this.question as ShortAnswer).matches;
           console.log(this.question);
