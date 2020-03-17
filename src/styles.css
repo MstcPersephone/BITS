@@ -11,6 +11,8 @@ $mstcYellow: #fcb618;
 $mstcBlue: #0b578a;
 $mstcDarkBlue: #033d60;
 
+$correctAnswerGreen: #ccf8d3;
+
 */
 
 /* Setting html and body elements to reduce white space on page. */
@@ -95,14 +97,12 @@ mat-icon {
 button.saveButton {
   background-color: #82142D;
   color: #ffffff;
-  display: block;
   margin-top: 40px;
   float: right;
 }
 
 /* Styles applied to the Upload button. Puts upload button on one line, rather than inline with the lower content. */
 button.uploadButton {
-  display: block;
   background-color: #404040;
   margin-bottom: 10px;
 }
@@ -128,9 +128,17 @@ button.addOption, button.uploadAnswer{
 }
 
 /* Styles applied to any "correct" options or dialogs */
-mat-list-item.correct, .success-dialog {
+mat-list-item.correct, .success-dialog{
   background-color: #ccf8d3;
   color: black;
+}
+
+/* Styles applied to the correct answer checkmark */
+.isAnswerIcon{
+  color: black;
+}
+.isNotAnswerIcon{
+  color: rgba(0,0,0,0);
 }
 
 /* Styles applied to any "alert" options or dialogs */

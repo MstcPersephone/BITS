@@ -8,11 +8,12 @@ mat-card {
 
 form {
   margin: 25px;
+  margin-bottom: 0px;
   background-color: #fff;
   overflow: hidden;
 }
 
-mat-card, mat-form-field, mat-checkbox, button, app-list-option {
+mat-card, mat-form-field, mat-checkbox, app-list-option {
   display: block;
 }
 

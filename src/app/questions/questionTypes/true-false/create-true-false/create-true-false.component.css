@@ -1,7 +1,7 @@
 /* Importing the task-specific styling. */
 @import "../../_taskStyles/createStyles.css";
 
-mat-card, button, .mat-radio-group {
+mat-card, .mat-radio-group {
   display: block;
   margin-bottom: 10px;
 }

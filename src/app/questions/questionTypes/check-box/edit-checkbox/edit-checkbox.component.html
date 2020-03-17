@@ -4,9 +4,10 @@
     <mat-label>Question Text</mat-label>
     <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}">
   </mat-form-field>
-  <!-- Add attachment component -->
+  <!-- Call to attachment component for editting attachments -->
   <app-attachment [attachmentsLoaded]="question.hasAttachments"></app-attachment>
 
+  <!-- Call to Create or Edit Option Component respectively -->
   <h3>Current options</h3>
   <button mat-raised-button type="button" (click)="this.questionService.toggleCreateOption()">
     {{ this.questionService.showCreateOption ? 'Cancel' : 'Create New Option'}}
