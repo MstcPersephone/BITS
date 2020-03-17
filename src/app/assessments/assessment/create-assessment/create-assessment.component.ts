@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { QuestionService } from 'src/app/services/question.service';
 import { AssessmentService } from 'src/app/services/assessment.service';
 import { Subscription } from 'rxjs';
@@ -6,9 +6,8 @@ import { Category } from 'src/app/models/shared/category.model';
 import { Question } from 'src/app/models/question.interface';
 import { Assessment } from 'src/app/models/assessment.model';
 import { FormBuilder, FormArray } from '@angular/forms';
-import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
-import {CdkTextareaAutosize} from '@angular/cdk/text-field';
-
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 
 @Component({
   selector: 'app-create-assessment',
@@ -20,8 +19,9 @@ export class CreateAssessmentComponent implements OnInit {
   private categorySubscription: Subscription;
   public organizedQuestions = {};
   private questionSubscription: Subscription;
-  public assessmentQuestions = [] = [];
-  private questionIds = [];
+  public assessmentQuestions = [];
+  private assessmentQuestionsSubscription: Subscription;
+  public questionIds = [];
   selectCategoryForm;
   createAssessmentForm;
 
@@ -31,8 +31,7 @@ export class CreateAssessmentComponent implements OnInit {
     private formBuilder: FormBuilder) {
       this.createAssessmentForm = this.formBuilder.group({
         name: '',
-        description: '',
-        questionIds: ''
+        description: ''
       });
       this.selectCategoryForm = this.formBuilder.group({
       categories: '',
@@ -54,62 +53,55 @@ export class CreateAssessmentComponent implements OnInit {
       .subscribe((questionsArray: any) => {
         this.organizedQuestions = questionsArray;
       });
+
+    this.assessmentService.getQuestionsByIds(['5e66b1d326d9b22a70aa1c5c']);
+    this.assessmentQuestionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
+      .subscribe((questionsArray: Question[]) => {
+        this.assessmentQuestions = questionsArray;
+        console.log(this.assessmentQuestions);
+      });
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  dropToAssessment(event: any) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
+      transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex);
     }
-    // console.log ('Event:', event);
-    // console.log('Questions moved FROM: ', event.previousContainer.element, event.previousContainer.data);
-    // console.log('Questions moved TO: ', event.container.element, event.container.data);
   }
 
-  entered(event: any) {
-    if (this.questionIds.includes(event.item.data.value._id)) {
-      alert('This question has already been added to the assessment.');
+  dropToQuestionList(event: any) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      this.questionIds.push(event.item.data.value._id);
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
     }
-
-    console.log('ADDING TO Assessment/list of Ids', this.questionIds);
-    console.log('ADDING TO Assessment/Id Added', event.item.data.value._id);
-  }
-
-  exited(event: any) {
-    // The question id from the event
-    const questionId = event.item.data.value._id;
-    // If the question id is in the list of selected questions...
-    if (this.questionIds.includes(questionId)) {
-      // Get the index of the questionId
-      const index = this.questionIds.indexOf(questionId);
-      // Remove the questionId from the list of selected questions
-      this.questionIds.splice(index, 1);
-    }
-    console.log('REMOVING FROM Assessment/list of Ids', this.questionIds);
-    console.log('REMOVING FROM Assessment/Id Added', questionId);
   }
 
   onSubmit(assessmentData) {
+    this.assessmentQuestions.forEach((q) => {
+      if (!this.questionIds.includes(q._id)) {
+        this.questionIds.push(q._id);
+      }
+    });
     const assessment: Assessment = new Assessment();
     assessment._id = null;
     assessment.name = assessmentData.name;
     assessment.description = assessmentData.description;
-    assessment.questionIds = null;
-    assessment.config = null;
+    assessment.questionIds = this.questionIds;
+    assessment.config = new AssessmentConfig();
+    assessment.config.duration = null;
+    assessment.config.isRandom = null;
+    assessment.config.minimumScore = null;
+    assessment.config.wrongStreak = null;
     assessment.status = null;
-
-    console.log('New Assessment', assessment);
-
+    this.assessmentService.saveAssessment(assessment);
   }
 }
 

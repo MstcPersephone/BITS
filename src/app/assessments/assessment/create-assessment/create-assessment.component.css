@@ -1,12 +1,12 @@
 .questions-container {
-  width: 500px;
+  width: 400px;
   max-width: 100%;
   margin: 0 25px 25px 0;
   display: inline-block;
   vertical-align: top;
 }
 
-.assessment-questions-list, available-questions-list {
+.question-list {
   border: solid 1px #ccc;
   min-height: 60px;
   background: white;
@@ -45,10 +45,10 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-box:last-child {
+.question-box:last-child {
   border: none;
 }
 
-.questions-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+.question-list.cdk-drop-list-dragging .question-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

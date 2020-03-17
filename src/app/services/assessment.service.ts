@@ -6,6 +6,7 @@ import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -24,10 +25,11 @@ export class AssessmentService {
   public configuration: AssessmentConfig;
   private assessment: Assessment;
   public isRandom: boolean;
+  public selectedCategoryName: string;
 
   private assessmentQuestionsUpdated = new Subject<Question[]>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
 
   getConfiguration() {}
@@ -64,7 +66,13 @@ export class AssessmentService {
   // Sets the the available questions by category on create-assessment
   setCategoryCollections(event: any, selectObject: any, selectCategoryForm: any) {
     this.selectedCategory = event.value;
-    this.selectedName = this.selectedCategory.name;
+    this.selectedCategoryName = this.selectedCategory.name;
+  }
+
+  // HTTP request still needs to be built
+  saveAssessment(assessment: Assessment) {
+    console.log(assessment);
+    this.router.navigate(['/question/list']);
   }
 
   // Generates the assessment
