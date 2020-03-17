@@ -50,7 +50,7 @@ app.use((request, response, next) => {
   );
   response.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, OPTIONS"
+    "GET, POST, DELETE, PATCH, OPTIONS"
   );
   next();
 });
@@ -206,9 +206,9 @@ app.get("/api/question/:id", (request, response, next) => {
     })
 });
 
-app.post("api/question/:id", (request, response, next) => {
-  mongoose.collection.db.collection(request._id)
-  questionCollection
+app.delete("api/question/:id", (request, response, next) => {
+  questionCollection.deleteOne({_id: request.params.id});
+
 });
 
 // ******************************************************* //

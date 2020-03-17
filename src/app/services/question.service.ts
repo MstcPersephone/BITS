@@ -365,10 +365,8 @@ export class QuestionService {
   // Deletes the question object after confirmation from the user
   // NOT FUNCTIONING - Orion made this function so that he could add the confirmation message (PER-66).
   deleteQuestionById(questionId: string) {
-    //
-    // Actual delete code should go here.
-    //
-
+  //  this.http.delete
+    console.log(questionId);
     // Displays a message informing that the question deletion has been cancelled.
     // this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
 
