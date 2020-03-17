@@ -90,6 +90,9 @@ export class QuestionService {
     this.categories.splice(i, 1);
     console.table(this.categories);
     this.categoriesUpdated.next([...this.categories]);
+
+    // Open snackbar to display message stating that the option has been removed.
+    this.helperService.openSnackBar('Category Deleted.', 'Close', 'success-dialog', 5000);
   }
 
   // Gets all categories from the database.
@@ -205,6 +208,9 @@ export class QuestionService {
     this.exactMatches.splice(i, 1);
     console.table(this.exactMatches);
     this.exactMatchesUpdated.next([...this.exactMatches]);
+
+    // Open snackbar to display message stating that the option has been removed.
+    this.helperService.openSnackBar('Option Removed.', 'Close', 'success-dialog', 5000);
   }
 
   // Gets copy of the matches.
@@ -293,6 +299,9 @@ export class QuestionService {
     this.options.splice(i, 1);
     console.table(this.options);
     this.optionsUpdated.next([...this.options]);
+
+    // Open snackbar to display message stating that the option has been removed.
+    this.helperService.openSnackBar('Option Removed.', 'Close', 'success-dialog', 5000);
   }
 
   // Gets a copy of the options.
@@ -355,6 +364,20 @@ export class QuestionService {
   // ********************************************** //
   // ************Question Functions**************** //
   // ********************************************** //
+
+  // Deletes the question object after confirmation from the user
+  // NOT FUNCTIONING - Orion made this function so that he could add the confirmation message (PER-66).
+  deleteQuestionById(questionId: string) {
+    //
+    // Actual delete code should go here.
+    //
+
+    // Displays a message informing that the question deletion has been cancelled.
+    // this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
+
+    // Displays a message confirming that the question has been deleted successfully.
+    this.helperService.openSnackBar('Question has been deleted.', 'Close', 'success-dialog', 5000);
+  }
 
   // Gets the updateListener subject for single question fetch
   getQuestionUpdatedListener() {
