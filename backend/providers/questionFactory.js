@@ -38,6 +38,8 @@ const editQuestionFactory = function (question) {
       return updateShortAnswer(question);
     case "Multiple Choice":
       return updateMultipleChoice(question);
+    case "True False":
+      return updateTrueFalse(question);
   }
 }
 
@@ -208,6 +210,23 @@ function createTrueFalse(question) {
   return questionModel;
 }
 
+function updateTrueFalse(question) {
+  return {
+    categories: question.categories,
+    questionText: question.questionText,
+    questionType: question.questionType,
+    hasAttachments: question.hasAttachments,
+    attachments: question.attachments,
+    isAnswered: question.isAnswered,
+    answer: question.answer,
+    studentAnswer: question.studentAnswer,
+    duration: question.duration,
+    points: question.points,
+    assessmentIds: question.assessmentIds,
+    isAnsweredCorrectly: question.isAnsweredCorrectly,
+    createdOn: question.createdOn
+  }
+}
 //*************************************//
 //***********UPLOAD OBJECT*************//
 //*************************************//
