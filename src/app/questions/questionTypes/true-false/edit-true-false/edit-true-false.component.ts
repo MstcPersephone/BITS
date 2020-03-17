@@ -16,7 +16,9 @@ export class EditTrueFalseComponent implements OnInit {
   @Input() question: Question;
 // The true false edit form used to update the quesiton
   editTrueFalseForm;
+  // The selected answer on the form
   selectedAnswer = '';
+  // Array of possible form answers
   answers: any = [
     'True',
     'False'
@@ -46,10 +48,12 @@ export class EditTrueFalseComponent implements OnInit {
     }
   }
 
+  // event to handles true false value changes
   radioChangeHandler(event: any) {
     this.selectedAnswer = event.value;
   }
 
+  // on submit function for updating the true false question
   onSubmit(formData) {
     const updatedTrueFalseQuestion: TrueFalse = new TrueFalse();
     console.log(formData);
