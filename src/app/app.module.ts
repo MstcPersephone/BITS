@@ -5,11 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { AssessmentListComponent } from './assessments/assessment-list/assessment-list.component';
-import { CreateAssessmentComponent } from './assessments/create-assessment/create-assessment.component';
-import { ViewAssessmentComponent } from './assessments/view-assessment/view-assessment.component';
-import { EditAssessmentComponent } from './assessments/edit-assessment/edit-assessment.component';
+import { AssessmentListComponent } from './assessments/assessment/assessment-list/assessment-list.component';
+import { CreateAssessmentComponent } from './assessments/assessment/create-assessment/create-assessment.component';
+import { ViewAssessmentComponent } from './assessments/assessment/view-assessment/view-assessment.component';
+import { EditAssessmentComponent } from './assessments/assessment/edit-assessment/edit-assessment.component';
 
 import { AssessmentService } from './services/assessment.service';
 import { AttachmentService } from './services/attachment.service';
@@ -71,6 +72,9 @@ import { CreateCategoryComponent } from './shared/category/create-category/creat
 import { EditCategoryComponent } from './shared/category/edit-category/edit-category.component';
 import { ListCategoryComponent } from './shared/category/list-category/list-category.component';
 import { ManageCategoryComponent } from './shared/category/manage-category/manage-category.component';
+import { CreateAssessmentConfigComponent } from './assessments/configuration/create-assessment-config/create-assessment-config.component';
+import { ViewAssessmentConfigComponent } from './assessments/configuration/view-assessment-config/view-assessment-config.component';
+import { AssessmentFooterComponent } from './assessments/footer/assessment-footer/assessment-footer.component';
 
 @NgModule({
   declarations: [
@@ -120,7 +124,10 @@ import { ManageCategoryComponent } from './shared/category/manage-category/manag
     CreateCategoryComponent,
     EditCategoryComponent,
     ListCategoryComponent,
-    ManageCategoryComponent
+    ManageCategoryComponent,
+    CreateAssessmentConfigComponent,
+    ViewAssessmentConfigComponent,
+    AssessmentFooterComponent
   ],
   imports: [
     BrowserModule,
@@ -129,7 +136,8 @@ import { ManageCategoryComponent } from './shared/category/manage-category/manag
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DragDropModule
   ],
   providers: [
     AssessmentService,

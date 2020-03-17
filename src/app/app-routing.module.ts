@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AssessmentListComponent } from './assessments/assessment-list/assessment-list.component';
-import { CreateAssessmentComponent} from './assessments/create-assessment/create-assessment.component';
-import { EditAssessmentComponent } from './assessments/edit-assessment/edit-assessment.component';
-import { ViewAssessmentComponent } from './assessments/view-assessment/view-assessment.component';
+import { AssessmentListComponent } from './assessments/assessment/assessment-list/assessment-list.component';
+import { CreateAssessmentComponent} from './assessments/assessment/create-assessment/create-assessment.component';
+import { EditAssessmentComponent } from './assessments/assessment/edit-assessment/edit-assessment.component';
+import { ViewAssessmentComponent } from './assessments/assessment/view-assessment/view-assessment.component';
 
 import { CreateQuestionComponent } from './questions/question/create-question/create-question.component';
 import { EditQuestionComponent } from './questions/question/edit-question/edit-question.component';
