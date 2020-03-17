@@ -14,11 +14,11 @@
   <!-- The assessment Description Input -->
   <mat-form-field appearance="standard">
     <mat-label>Add Assessment Description</mat-label>
-    <input matInput id="description" type="textarea" formControlName="description">
+    <input matInput id="description" type="text" formControlName="description">
   </mat-form-field>
 
   <!-- The assessment entired selection for selecting category and loading questions -->
-  <div id="questionIds" formControlName="questionIds">
+  <!-- <div id="questionIds" formControlName="questionIds"> -->
 
     <!-- Category Selection:  Filters the Available Question List -->
     <div *ngIf="this.questionService.getCategoriesLoaded()">
@@ -98,7 +98,8 @@
         </div>
       </div>
     </div>
-  </div>
+  <!-- </div> -->
+</form>
 
   <!-- This will pull the assessment configuration values from a separate component -->
   <app-create-assessment-config></app-create-assessment-config>
@@ -106,4 +107,4 @@
   <!-- This footer that contains the submit button and will have a button to load the configurations upon a click -->
   <app-assessment-footer></app-assessment-footer>
 
-</form>
+

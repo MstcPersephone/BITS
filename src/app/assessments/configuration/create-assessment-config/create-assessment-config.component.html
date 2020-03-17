@@ -1,1 +1,25 @@
-<p>create-assessment-config works!</p>
+  <!-- Setting if randomized order -->
+  <div appearance="standard">
+    <mat-checkbox
+  class="mt-20" (change)="this.assessmentService.isRandomChanged()">
+    Change the question order to be randomized?
+    </mat-checkbox>
+  </div>
+  <br>
+
+  <!-- Setting if assessment is to be timed -->
+  <!-- <mat-form-field appearance="standard">
+    <mat-checkbox
+    class="mt-20"
+    (change)="this.assessmentService.isRandomChanged()">
+    Will this be a timed assessment?
+    </mat-checkbox>
+  </mat-form-field>
+  <br> -->
+
+  <!-- Setting the max time of the timed test : Only visible if isTimed is checked -->
+  <!-- <div appearance="standard">
+    <mat-label>Max Timed Allowed</mat-label>
+    <input matInput id="maxTime" type="number" formControlName="maxTime">
+  </div>
+  <br> -->

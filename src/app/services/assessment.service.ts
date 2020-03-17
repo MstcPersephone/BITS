@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Assessment } from '../models/assessment.model';
 import { Category } from 'src/app/models/shared/category.model';
+import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
@@ -20,10 +21,45 @@ export class AssessmentService {
   private currentQuestion: Question;
   public selectedCategory: Category;
   public selectedName: any;
+  public configuration: AssessmentConfig;
+  private assessment: Assessment;
+  public isRandom: boolean;
 
   private assessmentQuestionsUpdated = new Subject<Question[]>();
 
   constructor(private http: HttpClient) { }
+
+
+  getConfiguration() {}
+  getDuration() {
+    this.configuration.duration = null;
+  }
+
+  isRandomChanged() {
+    if (this.configuration.isRandom) {
+      this.configuration.isRandom = false;
+    } else {
+    this.configuration.isRandom = true;
+    }
+    console.log(this.isRandom);
+  }
+
+  getIsRandom() {
+    this.isRandom = true;
+
+  }
+
+  getMinimumScore() {
+    this.configuration.minimumScore = 0;
+  }
+
+  getWrongStreak() {
+    this.configuration.wrongStreak = 5;
+  }
+
+  getStatus() {
+    this.assessment.status = '';
+  }
 
   // Sets the the available questions by category on create-assessment
   setCategoryCollections(event: any, selectObject: any, selectCategoryForm: any) {

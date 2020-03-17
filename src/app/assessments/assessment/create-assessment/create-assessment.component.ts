@@ -5,10 +5,10 @@ import { Subscription } from 'rxjs';
 import { Category } from 'src/app/models/shared/category.model';
 import { Question } from 'src/app/models/question.interface';
 import { Assessment } from 'src/app/models/assessment.model';
-import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
-import { Key } from 'protractor';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+
 
 @Component({
   selector: 'app-create-assessment',
@@ -104,12 +104,11 @@ export class CreateAssessmentComponent implements OnInit {
     assessment._id = null;
     assessment.name = assessmentData.name;
     assessment.description = assessmentData.description;
-    assessment.questionIds = assessmentData.questionIds;
-    assessment.config.duration = null;
-    assessment.config.isRandom = null;
-    assessment.config.minimumScore = null;
-    assessment.config.wrongStreak = null;
+    assessment.questionIds = null;
+    assessment.config = null;
     assessment.status = null;
+
+    console.log('New Assessment', assessment);
 
   }
 }
