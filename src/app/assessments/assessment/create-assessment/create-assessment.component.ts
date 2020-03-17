@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Category } from 'src/app/models/shared/category.model';
 import { Question } from 'src/app/models/question.interface';
 import { Assessment } from 'src/app/models/assessment.model';
+import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
 import { Key } from 'protractor';
@@ -22,12 +23,18 @@ export class CreateAssessmentComponent implements OnInit {
   public assessmentQuestions = [] = [];
   private questionIds = [];
   selectCategoryForm;
+  createAssessmentForm;
 
   constructor(
     public questionService: QuestionService,
     public assessmentService: AssessmentService,
     private formBuilder: FormBuilder) {
-    this.selectCategoryForm = this.formBuilder.group({
+      this.createAssessmentForm = this.formBuilder.group({
+        name: '',
+        description: '',
+        questionIds: ''
+      });
+      this.selectCategoryForm = this.formBuilder.group({
       categories: '',
     });
 
@@ -68,8 +75,6 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   entered(event: any) {
-
-
     if (this.questionIds.includes(event.item.data.value._id)) {
       alert('This question has already been added to the assessment.');
     } else {
@@ -81,18 +86,31 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   exited(event: any) {
-
-      if (this.questionIds.includes(event.item.data.value._id)) {
-        const key = this.questionIds.keys;
-        const index = this.questionIds.indexOf(key);
-        this.questionIds.splice(index, 1);
-      }
-      console.log('REMOVING FROM Assessment/list of Ids', this.questionIds);
-      console.log('REMOVING FROM Assessment/Id Added', event.item.data.value._id);
+    // The question id from the event
+    const questionId = event.item.data.value._id;
+    // If the question id is in the list of selected questions...
+    if (this.questionIds.includes(questionId)) {
+      // Get the index of the questionId
+      const index = this.questionIds.indexOf(questionId);
+      // Remove the questionId from the list of selected questions
+      this.questionIds.splice(index, 1);
+    }
+    console.log('REMOVING FROM Assessment/list of Ids', this.questionIds);
+    console.log('REMOVING FROM Assessment/Id Added', questionId);
   }
 
   onSubmit(assessmentData) {
-    // do nothing
+    const assessment: Assessment = new Assessment();
+    assessment._id = null;
+    assessment.name = assessmentData.name;
+    assessment.description = assessmentData.description;
+    assessment.questionIds = assessmentData.questionIds;
+    assessment.config.duration = null;
+    assessment.config.isRandom = null;
+    assessment.config.minimumScore = null;
+    assessment.config.wrongStreak = null;
+    assessment.status = null;
+
   }
 }
 

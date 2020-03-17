@@ -1,44 +1,92 @@
 <!-- Page Header -->
 <h1 class="mat-display-1">Create an Assessment</h1>
 
-<!-- Category Selection:  Filters the Available Question List -->
-<div *ngIf="this.questionService.getCategoriesLoaded()">
-  <form class="categorySelectForm" [formGroup]="selectCategoryForm">
-    <mat-form-field>
-      <mat-label>Select Category Questions</mat-label>
-      <mat-select #categorySelect formControlName="categories"
-        (selectionChange)="this.assessmentService.setCategoryCollections($event, selectCategoryForm)">
-        <mat-option #categoryOption *ngFor="let category of categories; index as i" [value]="category">
-          {{category.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </form>
-</div>
+<!-- The form that builds the assessment property values -->
+<form [formGroup]="createAssessmentForm" (ngSubmit)="onSubmit(createAssessmentForm.value)">
 
-<!-- Drag and drop container -->
-<div cdkDropListGroup>
+  <!-- The assessment Name Input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Add Assessment Name</mat-label>
+    <input matInput id="name" type="text" formControlName="name">
+  </mat-form-field>
+  <br>
 
-  <!-- All questions on the left -->
-  <div class="questions-container">
+  <!-- The assessment Description Input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Add Assessment Description</mat-label>
+    <input matInput id="description" type="textarea" formControlName="description">
+  </mat-form-field>
 
-    <div *ngFor="let category of organizedQuestions | keyvalue">
+  <!-- The assessment entired selection for selecting category and loading questions -->
+  <div id="questionIds" formControlName="questionIds">
 
-      <div *ngIf="this.assessmentService.selectedName === category.key">
+    <!-- Category Selection:  Filters the Available Question List -->
+    <div *ngIf="this.questionService.getCategoriesLoaded()">
+      <form class="categorySelectForm" [formGroup]="selectCategoryForm">
+        <mat-form-field>
+          <mat-label>Select Category Questions</mat-label>
+          <mat-select #categorySelect formControlName="categories"
+            (selectionChange)="this.assessmentService.setCategoryCollections($event, selectCategoryForm)">
+            <mat-option #categoryOption *ngFor="let category of categories; index as i" [value]="category">
+              {{category.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
 
-        <h2>Available {{category.key}} questions</h2>
+    <!-- Drag and drop container -->
+    <div cdkDropListGroup>
+
+      <!-- All questions on the left -->
+      <div class="questions-container">
+
+        <div *ngFor="let category of organizedQuestions | keyvalue">
+
+          <div *ngIf="this.assessmentService.selectedName === category.key">
+
+            <h2>Available {{category.key}} questions</h2>
+
+            <div
+            cdkDropList #availableList="cdkDropList"
+            [cdkDropListData]="category.value | keyvalue"
+            [cdkDropListConnectedTo]="[assessmentList]"
+            class="available-questions-list"
+            (cdkDropListDropped)="drop($event)">
+
+              <div
+              class="question-box"
+              *ngFor="let question of category.value | keyvalue"
+              cdkDrag
+              [cdkDragData]="question">
+
+                <strong style="margin: 5px;width: 50%;">TEXT: {{question.value.questionText}}</strong>
+                <strong style="margin: 5px;width: 25%;color:forestgreen;">{{question.value.questionType}}</strong>
+                <strong style="margin: 1px;width: 25%;color:darkred;">{{question.value.points}} points</strong>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assessment Questions on the right -->
+      <div class="questions-container">
+
+        <h2>Assessment Questions</h2>
 
         <div
         cdkDropList
-        #availableList="cdkDropList"
-        [cdkDropListData]="category.value | keyvalue"
-        [cdkDropListConnectedTo]="[assessmentList]"
-        class="available-questions-list"
+        #assessmentList="cdkDropList"
+        [cdkDropListData]="assessmentQuestions"
+        [cdkDropListConnectedTo]="[availableList]"
+        class="assessment-questions-list"
         (cdkDropListDropped)="drop($event)"
-        >
+        (cdkDropListEntered)="entered($event)"
+        (cdkDropListExited)="exited($event)">
 
           <div
           class="question-box"
-          *ngFor="let question of category.value | keyvalue"
+          *ngFor="let question of assessmentQuestions; let i=index"
           cdkDrag
           [cdkDragData]="question">
 
@@ -52,31 +100,10 @@
     </div>
   </div>
 
-  <!-- Assessment Questions on the right -->
-  <div class="questions-container">
+  <!-- This will pull the assessment configuration values from a separate component -->
+  <app-create-assessment-config></app-create-assessment-config>
 
-    <h2>Assessment Questions</h2>
+  <!-- This footer that contains the submit button and will have a button to load the configurations upon a click -->
+  <app-assessment-footer></app-assessment-footer>
 
-    <div
-    cdkDropList #assessmentList="cdkDropList"
-    [cdkDropListData]="assessmentQuestions"
-    [cdkDropListConnectedTo]="[availableList]"
-    class="assessment-questions-list"
-    (cdkDropListDropped)="drop($event)"
-    (cdkDropListEntered)="entered($event)"
-    (cdkDropListExited)="exited($event)">
-
-      <div
-      class="question-box"
-      *ngFor="let question of assessmentQuestions; let i=index"
-      cdkDrag
-      [cdkDragData]="question">
-
-        <strong style="margin: 5px;width: 50%;">TEXT: {{question.value.questionText}}</strong>
-        <strong style="margin: 5px;width: 25%;color:forestgreen;">{{question.value.questionType}}</strong>
-        <strong style="margin: 1px;width: 25%;color:darkred;">{{question.value.points}} points</strong>
-
-      </div>
-    </div>
-  </div>
-</div>
+</form>
