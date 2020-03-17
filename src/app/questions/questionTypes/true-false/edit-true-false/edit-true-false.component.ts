@@ -29,7 +29,8 @@ export class EditTrueFalseComponent implements OnInit {
   ) {
     this.editTrueFalseForm = this.formBuilder.group({
       questionText: '',
-      hasAttachments: ''
+      hasAttachments: '',
+      answer: false
     });
   }
 
