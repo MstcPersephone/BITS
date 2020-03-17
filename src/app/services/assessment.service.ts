@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Assessment } from '../models/assessment.model';
+import { Category } from 'src/app/models/shared/category.model';
 import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
@@ -17,26 +18,17 @@ export class AssessmentService {
   private questionIds: string[];
   public questions: Question[] = [];
   private currentQuestion: Question;
+  public selectedCategory: Category;
+  public selectedName: any;
 
   private assessmentQuestionsUpdated = new Subject<Question[]>();
 
   constructor(private http: HttpClient) { }
 
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-    }
-    console.log('Question moved FROM: ');
-    console.log(event.previousContainer.element);
-    console.log(event.previousContainer.data);
-    console.log('Question moved TO: ');
-    console.log(event.container.element);
-    console.log(event.container.data);
+  // Sets the the available questions by category on create-assessment
+  setCategoryCollections(event: any, selectObject: any, selectCategoryForm: any) {
+    this.selectedCategory = event.value;
+    this.selectedName = this.selectedCategory.name;
   }
 
   // Generates the assessment

@@ -1,7 +1,5 @@
-import { Component, OnInit, EventEmitter, Output} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { QuestionService } from 'src/app/services/question.service';
-import { AttachmentService } from 'src/app/services/attachment.service';
-import { HelperService } from 'src/app/services/helper.service';
 import { AssessmentService } from 'src/app/services/assessment.service';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/models/shared/category.model';
@@ -9,10 +7,7 @@ import { Question } from 'src/app/models/question.interface';
 import { Assessment } from 'src/app/models/assessment.model';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
-import { exists } from 'fs';
 import { Key } from 'protractor';
-
-
 
 @Component({
   selector: 'app-create-assessment',
@@ -24,20 +19,13 @@ export class CreateAssessmentComponent implements OnInit {
   private categorySubscription: Subscription;
   public organizedQuestions = {};
   private questionSubscription: Subscription;
-  public question: any;
   public assessmentQuestions = [] = [];
-  public usedQuestion = {};
-  public isUsed: boolean;
-  public usedQuestionArray = [] = [];
+  private questionIds = [];
   selectCategoryForm;
-  public selectedCategory: Category;
-  public selectedName: any;
 
   constructor(
     public questionService: QuestionService,
-    public attachmentService: AttachmentService,
-    public helperService: HelperService,
-    private assessmentService: AssessmentService,
+    public assessmentService: AssessmentService,
     private formBuilder: FormBuilder) {
     this.selectCategoryForm = this.formBuilder.group({
       categories: '',
@@ -46,8 +34,19 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCategoriesSelection();
-    this.getOrganizedQuestions();
+    // gets the call to api end point to collect all categories from database
+    this.questionService.getAllCategories();
+    this.categorySubscription = this.questionService.getCategoriesListener()
+      .subscribe((categoriesArray: Category[]) => {
+        this.categories = categoriesArray;
+      });
+    // gets the call to api end point to collect all questions from database
+    this.questionService.getAllQuestions();
+    // subsribe to observer to get question array changes
+    this.questionSubscription = this.questionService.getQuestionsUpdatedListener()
+      .subscribe((questionsArray: any) => {
+        this.organizedQuestions = questionsArray;
+      });
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -63,55 +62,33 @@ export class CreateAssessmentComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
     }
-
-    console.log ('Event:', event);
-
-    console.log('Questions moved FROM: ', event.previousContainer.element, event.previousContainer.data);
-    console.log('Questions moved TO: ', event.container.element, event.container.data);
+    // console.log ('Event:', event);
+    // console.log('Questions moved FROM: ', event.previousContainer.element, event.previousContainer.data);
+    // console.log('Questions moved TO: ', event.container.element, event.container.data);
   }
 
-  entered(event: CdkDragEnter<string[]>) {
-    console.log('Entered', event.item.data);
+  entered(event: any) {
 
-    this.usedQuestion = event.item.data.valueOf();
-    this.usedQuestionArray.push(this.usedQuestion);
 
-    console.log('Question to use', this.usedQuestion);
-    console.log('Used Questions array', this.usedQuestionArray);
+    if (this.questionIds.includes(event.item.data.value._id)) {
+      alert('This question has already been added to the assessment.');
+    } else {
+      this.questionIds.push(event.item.data.value._id);
+    }
 
+    console.log('ADDING TO Assessment/list of Ids', this.questionIds);
+    console.log('ADDING TO Assessment/Id Added', event.item.data.value._id);
   }
 
-  exited(event: CdkDragExit<string[]>) {
-    console.log('Exited', event.item.data);
-    const key = event.item.data.keys;
-    const index = this.usedQuestionArray.indexOf(key);
-    this.usedQuestionArray.splice(index, 1);
-    console.log('Question to use', this.usedQuestion);
-    console.log('Used Questions array', this.usedQuestionArray);
-  }
+  exited(event: any) {
 
-  getCategoriesSelection() {
-    // gets the call to api end point to collect all categories from database
-    this.questionService.getAllCategories();
-    this.questionSubscription = this.questionService.getCategoriesListener()
-      .subscribe((categoriesArray: Category[]) => {
-        this.categories = categoriesArray;
-      });
-  }
-
-  getOrganizedQuestions() {
-    // gets the call to api end point to collect all questions from database
-    this.questionService.getAllQuestions();
-    // subsribe to observer to get question array changes
-    this.questionSubscription = this.questionService.getQuestionsUpdatedListener()
-      .subscribe((questionsArray: any) => {
-        this.organizedQuestions = questionsArray;
-      });
-  }
-
-  setAssessmentAvailableQuestions(event: any, selectObject: any, selectCategoryForm: any) {
-    this.selectedCategory = event.value;
-    this.selectedName = this.selectedCategory.name;
+      if (this.questionIds.includes(event.item.data.value._id)) {
+        const key = this.questionIds.keys;
+        const index = this.questionIds.indexOf(key);
+        this.questionIds.splice(index, 1);
+      }
+      console.log('REMOVING FROM Assessment/list of Ids', this.questionIds);
+      console.log('REMOVING FROM Assessment/Id Added', event.item.data.value._id);
   }
 
   onSubmit(assessmentData) {

@@ -5,17 +5,15 @@
 <div *ngIf="this.questionService.getCategoriesLoaded()">
   <form class="categorySelectForm" [formGroup]="selectCategoryForm">
     <mat-form-field>
-      <mat-label>Select a Category</mat-label>
+      <mat-label>Select Category Questions</mat-label>
       <mat-select #categorySelect formControlName="categories"
-        (selectionChange)="this.setAssessmentAvailableQuestions($event, selectCategoryForm)">
+        (selectionChange)="this.assessmentService.setCategoryCollections($event, selectCategoryForm)">
         <mat-option #categoryOption *ngFor="let category of categories; index as i" [value]="category">
           {{category.name}}</mat-option>
       </mat-select>
     </mat-form-field>
   </form>
 </div>
-
-
 
 <!-- Drag and drop container -->
 <div cdkDropListGroup>
@@ -25,11 +23,9 @@
 
     <div *ngFor="let category of organizedQuestions | keyvalue">
 
-      <div *ngIf="this.selectedName === category.key">
+      <div *ngIf="this.assessmentService.selectedName === category.key">
 
         <h2>Available {{category.key}} questions</h2>
-
-        <p>Select a category to get list of questions</p>
 
         <div
         cdkDropList
@@ -60,8 +56,6 @@
   <div class="questions-container">
 
     <h2>Assessment Questions</h2>
-
-    <p>Drag and drop to re-order questions</p>
 
     <div
     cdkDropList #assessmentList="cdkDropList"
