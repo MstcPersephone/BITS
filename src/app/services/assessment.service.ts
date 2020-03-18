@@ -61,6 +61,9 @@ export class AssessmentService {
   // HTTP request still needs to be built
   saveAssessment(assessment: Assessment) {
 
+    const completeAssessment: any = assessment;
+    completeAssessment.config = this.getAssessmentConfiguration();
+
     // Added the configuration properties that manage it
     // this.assessment.config.duration = null;
     // this.assessment.config.maxTime = this.enteredMaxTime;

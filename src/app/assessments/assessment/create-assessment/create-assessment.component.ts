@@ -97,7 +97,7 @@ export class CreateAssessmentComponent implements OnInit {
     assessment.name = assessmentData.name;
     assessment.description = assessmentData.description;
     assessment.questionIds = this.questionIds;
-    // assessment.config = new AssessmentConfig();
+    assessment.config = new AssessmentConfig();
     this.assessmentService.saveAssessment(assessment);
   }
 }
