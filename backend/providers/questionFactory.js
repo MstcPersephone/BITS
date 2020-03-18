@@ -36,6 +36,8 @@ const editQuestionFactory = function (question) {
       return updateCheckbox(question);
     case "Short Answer":
       return updateShortAnswer(question);
+    case "Multiple Choice":
+      return updateMultipleChoice(question);
   }
 }
 
@@ -115,6 +117,23 @@ function createMultipleChoice(question) {
   return questionModel;
 }
 
+function updateMultipleChoice(question) {
+  // creates an object for updating
+  return {
+    categories: question.categories,
+    questionText: question.questionText,
+    questionType: question.questionType,
+    options: question.options,
+    hasAttachments: question.hasAttachments,
+    attachments: question.attachments,
+    isAnswered: question.isAnswered,
+    assessmentIds: question.assessmentIds,
+    duration: question.duration,
+    points: question.points,
+    isAnsweredCorrectly: question.isAnsweredCorrectly,
+    createdOn: question.createdOn
+  }
+}
 //**********************************************//
 //*************SHORT ANSWER OBJECT**************//
 //**********************************************//

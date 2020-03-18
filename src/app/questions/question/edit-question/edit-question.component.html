@@ -21,5 +21,6 @@
   <div *ngIf="question != null" [ngSwitch]="question.questionType">
     <app-edit-checkbox *ngSwitchCase="'Checkbox'" [question]="question"></app-edit-checkbox>
     <app-edit-short-answer *ngSwitchCase="'Short Answer'" [question]="question"></app-edit-short-answer>
+    <app-edit-multiple-choice *ngSwitchCase="'Multiple Choice'" [question]="question"></app-edit-multiple-choice>
   </div>
 </mat-card>
