@@ -1,1 +1,69 @@
-<p>create-assessment-config works!</p>
+  <!-- The form that builds the assessment property values -->
+  <form [formGroup]="createConfigurationForm" (ngSubmit)="onSubmit(createConfigurationForm.value)">
+
+  <!-- Setting if randomized order -->
+  <div>
+    <mat-checkbox
+    id="isRandom"
+    [checked]="this.assessmentService.isRandom"
+    class="mt-20"
+    (change)="this.assessmentService.isRandomChanged()"
+    formControlName="isRandom">
+    Change the question order to be randomized?
+    </mat-checkbox>
+  </div>
+  <br>
+
+  <!-- Setting if assessment is to be timed -->
+  <div>
+    <mat-checkbox
+    id="isTimed"
+    [checked]="this.assessmentService.isTimed"
+    class="mt-20"
+    (change)="this.assessmentService.isTimedChanged($event)"
+    formControlName="isTimed">
+    Will the assessment be timed?
+    </mat-checkbox>
+  </div>
+  <br>
+
+  <!-- The maximum minutes text input : Only visible if isTimed is checked -->
+
+    <mat-form-field appearance="standard">
+    <mat-label>Maximum Mintues Allowed</mat-label>
+    <input matInput #maxTimeValue id="wrongStreak" type="text"
+       formControlName="maxTime" (change)="this.assessmentService.onHandleMaxTime($event)" value="{{maxTime}}">
+  </mat-form-field>
+  <br>
+
+  <!-- The wrong streak with number ticker -->
+  <mat-form-field appearance="standard">
+    <mat-label>Number of consecutive incorrect answers for auto fail</mat-label>
+    <input matInput #wrongSteakValue id="wrongStreak" type="number"
+       formControlName="wrongStreak" (change)="this.assessmentService.onHandleWrongStreak($event)" value="{{wrongStreak}}">
+  </mat-form-field>
+  <br>
+
+
+  <!-- Setting the minumum passing score percentage -->
+  <div>
+    <mat-slider
+    id="minimumScore"
+    thumbLabel
+    [displayWith]="formatMinScoreLabel"
+    tickInterval="1"
+    min="1"
+    max="100"
+    #matslider
+    [value]="this.assessmentService.getMinScore()"
+    (change)="this.assessmentService.minScoreChanged($event, value)"
+    formControlName="minimumScore">
+    </mat-slider>
+    <br>
+    <mat-label>Minimum Passing Score: {{matslider.value}}%</mat-label>
+  </div>
+  <br>
+
+  <button class="addOption" mat-raised-button type="submit">Save Configurations<mat-icon>&nbsp;add</mat-icon></button>
+</form>
+
