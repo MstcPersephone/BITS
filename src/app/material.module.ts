@@ -16,6 +16,7 @@ import {
   MatMenuModule,
   MatRadioModule,
   MatSelectModule,
+  MatSliderModule,
   MatSnackBarModule,
   MatToolbarModule,
   MatTreeModule
@@ -40,6 +41,7 @@ const MaterialComponents = [
   MatMenuModule,
   MatRadioModule,
   MatSelectModule,
+  MatSliderModule,
   MatSnackBarModule,
   MatToolbarModule,
   MatTreeModule

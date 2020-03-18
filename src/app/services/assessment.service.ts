@@ -24,7 +24,8 @@ export class AssessmentService {
   public selectedName: any;
   public configuration: AssessmentConfig;
   private assessment: Assessment;
-  public isRandom: boolean;
+  isRandom = false;
+  isTimed = false;
   public selectedCategoryName: string;
 
   private assessmentQuestionsUpdated = new Subject<Question[]>();
@@ -38,25 +39,37 @@ export class AssessmentService {
   }
 
   isRandomChanged() {
-    if (this.configuration.isRandom) {
-      this.configuration.isRandom = false;
-    } else {
-    this.configuration.isRandom = true;
-    }
-    console.log(this.isRandom);
+    this.isRandom = !this.isRandom;
+    return this.isRandom;
   }
 
-  getIsRandom() {
-    this.isRandom = true;
+  isTimedChanged() {
+    this.isTimed = !this.isTimed;
+    return this.isTimed;
+  }
+
+  getMaxTime() {
 
   }
 
-  getMinimumScore() {
-    this.configuration.minimumScore = 0;
+  maxTimeChanged($event) {
+
+  }
+
+  getMinScore() {
+
+  }
+
+  minScoreChanged($event) {
+
   }
 
   getWrongStreak() {
-    this.configuration.wrongStreak = 5;
+
+  }
+
+  wrongStreakChanged() {
+
   }
 
   getStatus() {

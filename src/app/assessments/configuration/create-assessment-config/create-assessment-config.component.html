@@ -1,25 +1,73 @@
+  <!-- The form that builds the assessment property values -->
+<!-- <form [formGroup]="createConfigurationForm" (ngSubmit)="onSubmit(createConfigurationForm.value)"> -->
+
   <!-- Setting if randomized order -->
-  <div appearance="standard">
+  <div>
     <mat-checkbox
-  class="mt-20" (change)="this.assessmentService.isRandomChanged()">
+    [checked]="this.assessmentService.isRandom"
+    class="mt-20"
+    (change)="this.assessmentService.isRandomChanged()">
     Change the question order to be randomized?
     </mat-checkbox>
   </div>
   <br>
 
   <!-- Setting if assessment is to be timed -->
-  <!-- <mat-form-field appearance="standard">
+  <div>
     <mat-checkbox
+    [checked]="this.assessmentService.isTimed"
     class="mt-20"
-    (change)="this.assessmentService.isRandomChanged()">
-    Will this be a timed assessment?
+    (change)="this.assessmentService.isTimedChanged($event)">
+    Will the assessment be timed?
     </mat-checkbox>
-  </mat-form-field>
-  <br> -->
+  </div>
+  <br>
 
   <!-- Setting the max time of the timed test : Only visible if isTimed is checked -->
-  <!-- <div appearance="standard">
+  <div>
+    <mat-slider
+    thumbLabel
+    [displayWith]="formatMaxTimeLabel"
+    tickInterval="1"
+    min="1"
+    max="24"
+    [value]="this.assessmentService.getMaxTime()"
+    (change)="this.assessmentService.maxTimeChanged($event)">
+    </mat-slider>
+    <br>
     <mat-label>Max Timed Allowed</mat-label>
-    <input matInput id="maxTime" type="number" formControlName="maxTime">
   </div>
-  <br> -->
+  <br>
+
+  <!-- Setting the max time of the timed test : Only visible if isTimed is checked -->
+  <div>
+    <mat-slider
+    thumbLabel
+    [displayWith]="formatLabel"
+    tickInterval="1"
+    min="1"
+    max="25"
+    [value]="this.assessmentService.getWrongStreak()"
+    (change)="this.assessmentService.wrongStreakChanged($event)">
+    </mat-slider>
+    <br>
+    <mat-label>Number of consecutive incorrect answers for auto fail</mat-label>
+  </div>
+  <br>
+
+  <!-- Setting the max time of the timed test : Only visible if isTimed is checked -->
+  <div>
+    <mat-slider
+    thumbLabel
+    [displayWith]="formatLabel"
+    tickInterval="1"
+    min="1"
+    max="100"
+    [value]="this.assessmentService.getMinScore()"
+    (change)="this.assessmentService.minScoreChanged($event)">
+    </mat-slider>
+    <br>
+    <mat-label>Minimum Passing Score</mat-label>
+  </div>
+  <br>
+<!-- </form> -->
