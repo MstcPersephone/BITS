@@ -1,3 +1,6 @@
+/* Importing global styles for use in component */
+@import "../../../../styles.css";
+
 .questions-container {
   width: 400px;
   max-width: 100%;
