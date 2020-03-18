@@ -53,6 +53,8 @@
           <div *ngIf="!questionIds.includes(question._id)" class="question-box" [cdkDragData]="question" cdkDrag>
             <!-- If the question is not already in the list of assessment questions -->
             <div>{{question.questionText}}</div>
+            <div>{{question.questionType}}</div>
+            <div>{{question.points}}</div>
           </div>
         </div>
       </div>
@@ -64,7 +66,11 @@
     <div cdkDropList #assessmentList="cdkDropList" [cdkDropListData]="assessmentQuestions" class="question-list"
       (cdkDropListDropped)="dropToAssessment($event)">
       <div class="question-box" *ngFor="let question of assessmentQuestions" [cdkDragData]="question" cdkDrag>
-        {{question.questionText}}</div>
+        <div>{{question.questionText}}</div>
+        <div>{{question.questionType}}</div>
+        <div>{{question.points}}</div>
+      </div>
+
     </div>
   </div>
 </div>
