@@ -1,5 +1,4 @@
   <!-- The form that builds the assessment property values -->
-<!-- <form [formGroup]="createConfigurationForm" (ngSubmit)="onSubmit(createConfigurationForm.value)"> -->
 
   <!-- Setting if randomized order -->
   <div>
@@ -23,51 +22,36 @@
   </div>
   <br>
 
-  <!-- Setting the max time of the timed test : Only visible if isTimed is checked -->
-  <div>
-    <mat-slider
-    thumbLabel
-    [displayWith]="formatMaxTimeLabel"
-    tickInterval="1"
-    min="1"
-    max="24"
-    [value]="this.assessmentService.getMaxTime()"
-    (change)="this.assessmentService.maxTimeChanged($event)">
-    </mat-slider>
-    <br>
-    <mat-label>Max Timed Allowed</mat-label>
-  </div>
+  <!-- The maximum minutes text input : Only visible if isTimed is checked -->
+  <form [formGroup]="createConfigurationForm" (ngSubmit)="onSubmit(createConfigurationForm.value)">
+    <mat-form-field appearance="standard">
+    <mat-label>Maximum Mintues Allowed</mat-label>
+    <input matInput id="maxTime" type="text" formControlName="maxTime">
+  </mat-form-field>
   <br>
 
-  <!-- Setting the max time of the timed test : Only visible if isTimed is checked -->
-  <div>
-    <mat-slider
-    thumbLabel
-    [displayWith]="formatLabel"
-    tickInterval="1"
-    min="1"
-    max="25"
-    [value]="this.assessmentService.getWrongStreak()"
-    (change)="this.assessmentService.wrongStreakChanged($event)">
-    </mat-slider>
-    <br>
+  <!-- The wrong streak with number ticker -->
+  <mat-form-field appearance="standard">
     <mat-label>Number of consecutive incorrect answers for auto fail</mat-label>
-  </div>
+    <input matInput id="wrongStreak" type="number" formControlName="wrongStreak">
+  </mat-form-field>
   <br>
+  </form>
 
-  <!-- Setting the max time of the timed test : Only visible if isTimed is checked -->
+  <!-- Setting the minumum passing score percentage -->
   <div>
     <mat-slider
     thumbLabel
-    [displayWith]="formatLabel"
+    [displayWith]="formatMinScoreLabel"
     tickInterval="1"
     min="1"
     max="100"
+    #matslider
     [value]="this.assessmentService.getMinScore()"
-    (change)="this.assessmentService.minScoreChanged($event)">
+    (change)="this.assessmentService.minScoreChanged($event, value)">
     </mat-slider>
     <br>
-    <mat-label>Minimum Passing Score</mat-label>
+    <mat-label>Minimum Passing Score: {{matslider.value}}%</mat-label>
   </div>
   <br>
-<!-- </form> -->
+

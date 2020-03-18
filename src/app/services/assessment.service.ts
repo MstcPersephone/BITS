@@ -7,6 +7,7 @@ import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
 import { Router } from '@angular/router';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,8 @@ export class AssessmentService {
   private assessment: Assessment;
   isRandom = false;
   isTimed = false;
+  maxTime = 0;
+  minimumScore = 75;
   public selectedCategoryName: string;
 
   private assessmentQuestionsUpdated = new Subject<Question[]>();
@@ -49,18 +52,24 @@ export class AssessmentService {
   }
 
   getMaxTime() {
-
+    this.maxTime = 60;
+    return this.maxTime;
   }
 
-  maxTimeChanged($event) {
-
+  maxTimeChanged(evemt, value) {
+    this.maxTime = value * 60;
   }
 
   getMinScore() {
+     console.log('get', this.minimumScore);
+     return this.minimumScore;
 
   }
 
-  minScoreChanged($event) {
+  minScoreChanged($event, value) {
+    this.minimumScore = value;
+    console.log('change', this.minimumScore);
+    return this.minimumScore;
 
   }
 

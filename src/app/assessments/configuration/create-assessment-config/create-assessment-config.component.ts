@@ -13,15 +13,15 @@ import {MatSliderModule} from '@angular/material/slider';
 })
 export class CreateAssessmentConfigComponent implements OnInit {
   createConfigurationForm;
+  public value: any;
 
   constructor(
     public questionService: QuestionService,
     public assessmentService: AssessmentService,
     private formBuilder: FormBuilder) {
     this.createConfigurationForm = this.formBuilder.group({
-      isRandom: '',
-      isTimed: '',
       maxTime: '',
+      wrongStreak: ''
     });
   }
 
@@ -31,16 +31,21 @@ export class CreateAssessmentConfigComponent implements OnInit {
 
   formatMaxTimeLabel(value: number) {
 
-      return Math.round(value * 60) + 'min';
+      return value * 60;
   }
+
+  formatMinScoreLabel(value: number) {
+
+    return value + '%';
+}
 
   onSubmit(configurationdata) {
     const config: AssessmentConfig = new AssessmentConfig();
     config.isRandom = this.assessmentService.isRandomChanged();
     config.isTimed = this.assessmentService.isTimedChanged();
     config.maxTime = configurationdata.maxTime;
-    config.minimumScore = null;
-    config.wrongStreak = null;
+    config.wrongStreak = configurationdata.wrongStreak;
+    config.minimumScore = this.assessmentService.getMinScore();
     config.duration = null;
   }
 
