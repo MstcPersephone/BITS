@@ -1,0 +1,2 @@
+/* Importing shared styles from the Create Question component */
+@import "../create-question/create-question.component.css";

@@ -291,6 +291,9 @@ export class QuestionService {
   createOption(option: Option) {
     this.options.push(option);
     this.optionsUpdated.next([...this.options]);
+
+    // Open snackbar to display message stating that the option has been added.
+    this.helperService.openSnackBar('"' + option.optionText + '" option added to question.', 'Close', 'success-dialog', 5000);
   }
 
   // Removes an option from the list based on its index

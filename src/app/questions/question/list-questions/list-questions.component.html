@@ -48,7 +48,11 @@
           <!-- If Checkbox or Multiple Choice displays the options -->
           <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'"
            class="optionList">
-           <mat-card class="optionListContainer">
+
+            <!-- Displaying each selectable option defined for the question -->
+            <h3 class="optionListHeader">Selectable Options:</h3>
+
+            <mat-card class="optionListContainer">
              <mat-list *ngIf="this.questionService.asCheckbox(question).options.length > 0">
                <div *ngFor="let option of this.questionService.asCheckbox(question).options; let i = index">
                   <mat-divider *ngIf="i != 0"></mat-divider>
@@ -74,8 +78,8 @@
           <!-- If Short Answer displays the exact matches -->
           <div class="matchList" *ngIf="question.questionType == 'Short Answer'">
 
-            <!-- Displaying each accepted answer for the question -->
-            <h3 class="matchListHeader">Accepted Answers:</h3>
+            <!-- Displaying each acceptable answer defined for the question -->
+            <h3 class="matchListHeader">Acceptable Answers:</h3>
 
             <mat-card class="matchListContainer">
               <mat-list *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
