@@ -1,6 +1,7 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { QuestionService } from 'src/app/services/question.service';
 import { AssessmentService } from 'src/app/services/assessment.service';
+import { HelperService } from '../../../services/helper.service';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/models/shared/category.model';
 import { Question } from 'src/app/models/question.interface';
@@ -24,10 +25,12 @@ export class CreateAssessmentComponent implements OnInit {
   public questionIds = [];
   selectCategoryForm;
   createAssessmentForm;
+  config;
 
   constructor(
     public questionService: QuestionService,
     public assessmentService: AssessmentService,
+    public helperService: HelperService,
     private formBuilder: FormBuilder) {
       this.createAssessmentForm = this.formBuilder.group({
         name: '',
@@ -36,7 +39,6 @@ export class CreateAssessmentComponent implements OnInit {
       this.selectCategoryForm = this.formBuilder.group({
       categories: '',
     });
-
   }
 
   ngOnInit() {
@@ -95,12 +97,7 @@ export class CreateAssessmentComponent implements OnInit {
     assessment.name = assessmentData.name;
     assessment.description = assessmentData.description;
     assessment.questionIds = this.questionIds;
-    assessment.config = new AssessmentConfig();
-    assessment.config.duration = null;
-    assessment.config.isRandom = null;
-    assessment.config.minimumScore = null;
-    assessment.config.wrongStreak = null;
-    assessment.status = null;
+    // assessment.config = new AssessmentConfig();
     this.assessmentService.saveAssessment(assessment);
   }
 }
