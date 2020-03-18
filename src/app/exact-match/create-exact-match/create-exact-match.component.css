@@ -1,22 +1,3 @@
-@import "../../../styles.css";
+/* Importing shared styles from Create Option */
+@import "../../shared/option/create-option/create-option.component.css";
 
-mat-card {
-  width: 95%;
-  margin: 0px auto;
-  padding: 15px;
-}
-
-form {
-  margin: 25px;
-  margin-bottom: 0px;
-  background-color: #fff;
-  overflow: hidden;
-}
-
-mat-card, mat-form-field, mat-checkbox, app-list-option {
-  display: block;
-}
-
-.mt-20 {
-  margin-top: 20px;
-}

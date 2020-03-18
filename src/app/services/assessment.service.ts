@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Assessment } from '../models/assessment.model';
+import { Category } from 'src/app/models/shared/category.model';
 import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +19,24 @@ export class AssessmentService {
   private questionIds: string[];
   public questions: Question[] = [];
   private currentQuestion: Question;
+  public selectedCategory: Category;
+  public selectedCategoryName: string;
 
   private assessmentQuestionsUpdated = new Subject<Question[]>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
+
+  // Sets the the available questions by category on create-assessment
+  setCategoryCollections(event: any, selectObject: any, selectCategoryForm: any) {
+    this.selectedCategory = event.value;
+    this.selectedCategoryName = this.selectedCategory.name;
+  }
+
+  // HTTP request still needs to be built
+  saveAssessment(assessment: Assessment) {
+    console.log(assessment);
+    this.router.navigate(['/question/list']);
+  }
 
   // Generates the assessment
   startAssessment(questions: Question[]) {
