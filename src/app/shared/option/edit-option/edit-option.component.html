@@ -1,14 +1,13 @@
+<form class="editOptionContainer" [formGroup]="editOptionForm" (ngSubmit)="onSubmit(editOptionForm.value)">
+  <!-- Option Text Input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Option Text</mat-label>
+    <input matInput id="optionText" type="text" formControlName="optionText" value="{{option.optionText}}">
+  </mat-form-field>
 
-  <form [formGroup]="editOptionForm" (ngSubmit)="onSubmit(editOptionForm.value)">
-    <!-- Option Text Input -->
-    <mat-form-field appearance="standard">
-      <mat-label>Option Text</mat-label>
-      <input matInput id="optionText" type="text" formControlName="optionText" value="{{option.optionText}}">
-    </mat-form-field>
+  <!-- Is Answer Checkbox -->
+  <mat-checkbox class="mt-20" formControlName="isAnswer">Is this a correct answer?</mat-checkbox>
 
-    <!-- Is Answer Checkbox -->
-    <mat-checkbox class="mt-20" formControlName="isAnswer">Is this a correct answer?</mat-checkbox>
-
-    <!-- Submit Button -->
-    <button *ngIf="editOptionForm.dirty" class="mt-20 addIcon" mat-raised-button type="submit">Save Option<mat-icon>&nbsp;save</mat-icon></button>
-  </form>
+  <!-- Submit Button -->
+  <button *ngIf="editOptionForm.dirty" class="addOption" mat-raised-button type="submit">Save Changes to Option<mat-icon>&nbsp;save</mat-icon></button>
+</form>

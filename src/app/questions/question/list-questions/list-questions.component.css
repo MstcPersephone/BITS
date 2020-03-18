@@ -96,12 +96,18 @@ mat-card.optionListContainer{
   margin-bottom: 0;
 }
 
-.matchListHeader{
+/* Styles applied to the Exact Match and Option headers */
+.matchListHeader, .optionListHeader{
   font-weight: bold;
   width: 88%;
   margin: auto;
   padding-bottom: 0;
 }
+.optionListHeader{
+  width: 85%;
+}
+
+/* Styles applied to the Exact Match container */
 .matchListContainer{
   background-color: #ccf8d3;
   margin-bottom: 0;

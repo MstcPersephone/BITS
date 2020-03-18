@@ -1,17 +1,31 @@
 <form [formGroup]="editMultipleChoiceForm" (ngSubmit)="onSubmit(editMultipleChoiceForm.value)">
-  <!-- Question Name Text Input -->
+  <h3>Multiple Choice question details</h3>
+
+  <!-- Question Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Question Text</mat-label>
     <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}">
   </mat-form-field>
+
   <!-- Call to attachment component for editting attachments -->
   <app-attachment [attachmentsLoaded]="question.hasAttachments"></app-attachment>
 
-  <!-- Call to Create or Edit Option Component respectively -->
-  <h3>Current options</h3>
-  <button mat-raised-button type="button" (click)="this.questionService.toggleCreateOption()">Create New Option</button>
-  <app-create-option *ngIf="this.questionService.showCreateOption" [isEditMode]="true"></app-create-option>
-  <app-edit-option *ngFor="let option of this.questionService.asMultipleChoice(question).options; Index as i" [option]="option"></app-edit-option>
+  <!-- Container that displays the question's currently existing options -->
+  <h3>Edit question options</h3>
+  <mat-card class="currentOptionsSection">
+
+    <!-- Add Option button; used to display the Create Option form below -->
+    <button class="addOption" mat-raised-button type="button"
+     (click)="this.questionService.toggleCreateOption()">
+      Add New Option<mat-icon>&nbsp;add</mat-icon>
+    </button>
+
+    <!-- Call to Create Option; displays when Add New Option button is selected -->
+    <app-create-option *ngIf="this.questionService.showCreateOption" [isEditMode]="true"></app-create-option>
+
+    <!-- Call to Edit Option; displays the options currently attached to the question -->
+    <app-edit-option *ngFor="let option of this.questionService.asMultipleChoice(question).options; Index as i" [option]="option"></app-edit-option>
+  </mat-card>
 
   <!-- Submit Button -->
   <button class="mt-20 saveButton" mat-raised-button type="submit">Update Question&nbsp;<mat-icon>save</mat-icon></button>

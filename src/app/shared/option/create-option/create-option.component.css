@@ -1,16 +1,14 @@
 @import "../../../../styles.css";
 
 mat-card {
-  width: 95%;
-  margin: 0px auto;
-  padding-top: 40px;
-  padding-bottom: 0;
+  width: 96%;
+  margin: auto;
+  background-color: #f0f0f0;
 }
 
 form {
   margin: 25px;
-  margin-bottom: 0;
-  background-color: #fff;
+  background-color: #f0f0f0;
   overflow: hidden;
 }
 
