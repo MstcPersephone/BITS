@@ -1,0 +1,20 @@
+/* Importing global stylesheet */
+@import "../../../../styles.css";
+
+/* Adjusting the container for the minimum grade slider; adding a border and some padding */
+.minGradeContainer{
+  padding: 15px;
+  border: solid 1px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+
+/* Adjusting the font size of the minimum passing grade label */
+.minGradeLabel{
+  font-size: 15px;
+}
+
+/* Setting the minimum grade slider to stretch the available width. */
+mat-slider {
+  width: 100%;
+}
+
