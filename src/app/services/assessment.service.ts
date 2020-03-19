@@ -25,7 +25,6 @@ export class AssessmentService {
   // Category properties
   public selectedCategory: Category;
   public selectedName: any;
-  private configuration: AssessmentConfig;
   public selectedCategoryName: string;
 
   // Configuration Properties
@@ -36,7 +35,6 @@ export class AssessmentService {
   minimumScore = 75;
   private maxTimeUpdated = new Subject<number>();
   private wrongStreakUpdated = new Subject<number>();
-  private configurationUpdated = new Subject<AssessmentConfig>();
   private assessmentConfig: AssessmentConfig;
 
   // Question properties
@@ -62,7 +60,7 @@ export class AssessmentService {
   saveAssessment(assessment: Assessment) {
 
     const completeAssessment: any = assessment;
-    completeAssessment.config = this.getAssessmentConfiguration();
+    completeAssessment.config = this.assessmentConfig;
 
     // Added the configuration properties that manage it
     // this.assessment.config.duration = null;
@@ -109,15 +107,7 @@ export class AssessmentService {
     updatedConfigurationItems.minimumScore = configData.minimumScore;
     updatedConfigurationItems.wrongStreak = configData.wrongStreak;
     console.log('Configuration', updatedConfigurationItems);
-    return updatedConfigurationItems;
-  }
-
-  getConfigurationUpdatedListener() {
-    return this.configurationUpdated.asObservable();
-  }
-
-  getAssessmentConfiguration() {
-    return this.getConfigurationUpdatedListener();
+    this.assessmentConfig = updatedConfigurationItems;
   }
 
   // ******************************************************** //
