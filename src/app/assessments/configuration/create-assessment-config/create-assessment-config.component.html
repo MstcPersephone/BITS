@@ -9,7 +9,7 @@
     class="mt-20"
     (change)="this.assessmentService.isRandomChanged()"
     formControlName="isRandom">
-    Change the question order to be randomized?
+    Randomize order of questions?
     </mat-checkbox>
   </div>
   <br>
@@ -22,7 +22,7 @@
     class="mt-20"
     (change)="this.assessmentService.isTimedChanged($event)"
     formControlName="isTimed">
-    Will the assessment be timed?
+    Is this a timed assessment?
     </mat-checkbox>
   </div>
   <br>
@@ -30,7 +30,7 @@
   <!-- The maximum minutes text input : Only visible if isTimed is checked -->
 
     <mat-form-field appearance="standard">
-    <mat-label>Maximum Mintues Allowed</mat-label>
+    <mat-label>Time Limit (minutes)</mat-label>
     <input matInput #maxTimeValue id="wrongStreak" type="text"
        formControlName="maxTime" (change)="this.assessmentService.onHandleMaxTime($event)" value="{{maxTime}}">
   </mat-form-field>
@@ -38,15 +38,16 @@
 
   <!-- The wrong streak with number ticker -->
   <mat-form-field appearance="standard">
-    <mat-label>Number of consecutive incorrect answers for auto fail</mat-label>
+    <mat-label>Number of consecutive incorrect answers before ending assessment</mat-label>
     <input matInput #wrongSteakValue id="wrongStreak" type="number"
        formControlName="wrongStreak" (change)="this.assessmentService.onHandleWrongStreak($event)" value="{{wrongStreak}}">
   </mat-form-field>
   <br>
 
-
   <!-- Setting the minumum passing score percentage -->
-  <div>
+  <div class="minGradeContainer">
+    <mat-label class="minGradeLabel">Minimum Passing Grade: <strong>{{matslider.value}}%</strong></mat-label>
+    <br><br>
     <mat-slider
     id="minimumScore"
     thumbLabel
@@ -59,8 +60,6 @@
     (change)="this.assessmentService.minScoreChanged($event, value)"
     formControlName="minimumScore">
     </mat-slider>
-    <br>
-    <mat-label>Minimum Passing Score: {{matslider.value}}%</mat-label>
   </div>
   <br>
 
