@@ -1,0 +1,9 @@
+/* Importing shared styles from List Option */
+@import "../list-option/list-option.component.css";
+
+/* Styles applied to the Edit Option container*/
+.editOptionContainer, .editMatchContainer{
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(0,0,0,0.1);
+}

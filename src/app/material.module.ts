@@ -5,19 +5,22 @@ import {
   MatCardModule,
   MatCheckboxModule,
   MatChipsModule,
+  MatDialogModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
+  MatProgressSpinnerModule,
   MatMenuModule,
   MatRadioModule,
   MatSelectModule,
+  MatSliderModule,
   MatSnackBarModule,
-  MatProgressSpinnerModule,
+  MatStepperModule,
   MatToolbarModule,
-  MatTreeModule,
-  MatExpansionModule
+  MatTreeModule
 } from '@angular/material';
 
 // Place Material Components that you want to use in here
@@ -28,19 +31,22 @@ const MaterialComponents = [
   MatCardModule,
   MatCheckboxModule,
   MatChipsModule,
+  MatDialogModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
+  MatProgressSpinnerModule,
   MatMenuModule,
   MatRadioModule,
   MatSelectModule,
+  MatSliderModule,
   MatSnackBarModule,
+  MatStepperModule,
   MatToolbarModule,
-  MatTreeModule,
-  MatExpansionModule,
-  MatProgressSpinnerModule
+  MatTreeModule
 ];
 
 @NgModule({

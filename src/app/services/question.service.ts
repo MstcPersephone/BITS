@@ -22,8 +22,11 @@ export class QuestionService {
   isCaseSensitive = false;
 
   // Questions array and subect.
-  private questions: Question[] = [];
-  private questionsUpdated = new Subject<Question[]>();
+  // Type is any so it can be both a Question[] and
+  // the sorted questions object that comes as a response
+  // for getAllQuestions()
+  private questions: any;
+  private questionsUpdated = new Subject<any>();
 
   // Category array and subject.
   private category: Category;
@@ -288,6 +291,9 @@ export class QuestionService {
   createOption(option: Option) {
     this.options.push(option);
     this.optionsUpdated.next([...this.options]);
+
+    // Open snackbar to display message stating that the option has been added.
+    this.helperService.openSnackBar('"' + option.optionText + '" option added to question.', 'Close', 'success-dialog', 5000);
   }
 
   // Removes an option from the list based on its index
@@ -388,13 +394,18 @@ export class QuestionService {
   getAllQuestions() {
     this.helperService.isLoading = true;
     this.http
-      .get<{ message: string, questions: Question[] }>(
+      .get<{ message: string, questions: any }>(
         'http://localhost:3000/api/questions'
       )
       .subscribe((questionData) => {
+        console.log(questionData);
+        // Assign object with sorted questions to qustions variable
+        // to be consumed by subscribers
         this.questions = questionData.questions;
         // Subscribers get a copy of the questions array sorted by question type.
-        this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionType > b.questionType) ? 1 : -1)]);
+        this.questionsUpdated.next(this.questions);
+
+        // Done loading. Remove the loading spinner
         this.helperService.isLoading = false;
       });
   }
@@ -427,6 +438,18 @@ export class QuestionService {
           // subscribers get a copy of the options associated with the question
           this.optionsUpdated.next(this.options);
         }
+
+            // Add options to options array if question type supports it
+        if (this.question.questionType === QuestionType.MultipleChoice) {
+              this.options = (this.question as MultipleChoice).options;
+              console.log(this.question);
+              if (this.options.length > 0) {
+                this.hasOptions = true;
+              }
+              console.log(this.options);
+              // subscribers get a copy of the options associated with the question
+              this.optionsUpdated.next(this.options);
+            }
 
         if (this.question.questionType === QuestionType.ShortAnswer) {
           this.exactMatches = (this.question as ShortAnswer).matches;
