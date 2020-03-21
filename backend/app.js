@@ -232,11 +232,6 @@ app.get("/api/question/:id", (request, response, next) => {
     })
 });
 
-app.delete("api/question/:id", (request, response, next) => {
-  questionCollection.deleteOne({_id: request.params.id});
-
-});
-
 // ******************************************************* //
 // ******CATEGORY saved to the categories collection******* //
 // ******************************************************* //
@@ -343,6 +338,20 @@ app.post("/api/question/save", (request, response, next) => {
         question: question
       })
     });
+});
+
+app.post("/api/question/delete/:id", (request, response, next) => {
+  console.log(request.body);
+  const archivedQuestion = request.body;
+  mongoose.connection.db.collection('archived').save(archivedQuestion);
+
+  next();
+});
+
+app.delete((request, response, next) => {
+  console.log(request.body);
+  questionCollection.deleteOne({_id: request.params.id});
+
 });
 
 // Finds documents in a given collection.
