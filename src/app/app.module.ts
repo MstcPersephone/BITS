@@ -143,6 +143,9 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
     ReactiveFormsModule,
     DragDropModule
   ],
+  entryComponents: [
+    ConfirmationDialogComponent
+  ],
   providers: [
     AssessmentService,
     AttachmentService,

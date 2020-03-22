@@ -14,6 +14,7 @@ import { ShortAnswer } from '../models/question-types/short-answer.model';
 import { Category } from '../models/shared/category.model';
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Injectable({
   providedIn: 'root',
@@ -60,7 +61,8 @@ export class QuestionService {
   constructor(
     private http: HttpClient,
     private helperService: HelperService,
-    private router: Router) { }
+    private router: Router,
+    public dialog: MatDialog) { }
 
   // ************************************************************** //
   // Casting question to questionType for casting in html template. //
@@ -374,11 +376,21 @@ export class QuestionService {
   deleteQuestionById(questionId: string) {
   //  this.http.delete
     console.log(questionId);
-    // Displays a message informing that the question deletion has been cancelled.
-    // this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: 'Are you sure you wish to delete this question?'
+    });
 
-    // Displays a message confirming that the question has been deleted successfully.
-    this.helperService.openSnackBar('Question has been deleted.', 'Close', 'success-dialog', 5000);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Yes clicked');
+         // Displays a message confirming that the question has been deleted successfully.
+        this.helperService.openSnackBar('Question has been deleted.', 'Close', 'success-dialog', 5000);
+      } else {
+        // Displays a message informing that the question deletion has been cancelled.
+        this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
+      }
+    });
   }
 
   // Gets the updateListener subject for single question fetch
