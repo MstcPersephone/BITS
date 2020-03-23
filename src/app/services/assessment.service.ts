@@ -52,22 +52,14 @@ export class AssessmentService {
   // ***************  ASSESSMENT FUNCTIONS  ***************** //
   // ******************************************************** //
 
-  getAssessmentQuestionsUpdatedListener() {
-    return this.assessmentQuestionsUpdated.asObservable();
-  }
-
   // HTTP request still needs to be built
   saveAssessment(assessment: Assessment) {
 
     const completeAssessment: any = assessment;
     completeAssessment.config = this.assessmentConfig;
 
-    // Added the configuration properties that manage it
-    // this.assessment.config.duration = null;
-    // this.assessment.config.maxTime = this.enteredMaxTime;
-    // this.assessment.config.wrongStreak = this.enteredWrongStreak;
     console.log(assessment);
-    this.router.navigate(['/question/list']);
+    this.router.navigate(['/assessment/list']);
   }
 
   // ******************************************************** //
@@ -182,6 +174,10 @@ export class AssessmentService {
   // ******************************************************** //
   // ****************  QUESTION FUNCTIONS  ****************** //
   // ******************************************************** //
+
+  getAssessmentQuestionsUpdatedListener() {
+    return this.assessmentQuestionsUpdated.asObservable();
+  }
 
   // gets a list of questions from an array of ids
   getQuestionsByIds(questionIds: string[]) {
