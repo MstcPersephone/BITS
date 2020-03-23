@@ -233,6 +233,14 @@ app.get("/api/question/:id", (request, response, next) => {
     })
 });
 
+// *********************************************************** //
+// ******   SAVE: ASSESSMENT TO ASSESSMENT COLLECTION   ****** //
+// *********************************************************** //
+app.post("/api/assessment/save", (request, response, next) => {
+
+
+});
+
 // ******************************************************* //
 // ******   SAVE: CATEGORY TO CATEGORY COLLECTION   ****** //
 // ******************************************************* //
