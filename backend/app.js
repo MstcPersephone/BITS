@@ -60,24 +60,11 @@ app.use((request, response, next) => {
   next();
 });
 
-// *************************************************************** //
-// ******   DELETE: SAVE QUESTION TO ARCHIVED COLLECTION   ****** //
-// *************************************************************** //
-
-app.post("/api/question/delete/:id", (request, response, next) => {
-  console.log(request.body);
-  const archivedQuestion = request.body;
-  mongoose.connection.db.collection('archived').save(archivedQuestion);
-
-  next();
-});
-
 // *********************************************************** //
 // ******   DELETE: QUESTION FROM QUESTION COLLECTION   ****** //
 // *********************************************************** //
-app.delete((request, response, next) => {
-  console.log(request.body);
-  questionCollection.deleteOne({ _id: request.params.id });
+app.delete("/api/question/delete/:id", (request, response, next) => {
+console.log('You made it! ' + request.params);
 
 });
 
