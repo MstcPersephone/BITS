@@ -2,14 +2,19 @@
 const fs = require("fs");
 
 // Import questionType mongoose objects for working with questions collection.
-const questionCollection = require("./models/question");
 const checkBoxModel = require("./models/question-types/checkbox");
 const multipleChoiceModel = require("./models/question-types/multiple-choice");
 const trueFalseModel = require("./models/question-types/true-false");
 const shortAnswerModel = require("./models/question-types/short-answer");
 const uploadAnswerModel = require("./models/question-types/upload");
-const categoryModel = require("./models/shared/category");
+
 const questionFactory = require("./providers/questionFactory");
+
+// ******************************************************** //
+// ***********   DATABASE COLLECTION OBJECTS   ************ //
+// ******************************************************** //
+const questionCollection = require("./models/question");
+const categoryCollection = require("./models/shared/category");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -50,70 +55,22 @@ app.use((request, response, next) => {
   );
   response.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, OPTIONS"
+    "GET, POST, DELETE, PATCH, OPTIONS"
   );
   next();
 });
 
-app.post("/api/question/update/", (request, response, next) => {
-  console.log(request.body.points);
-  const requestedUpdate = request.body;
-  console.log(requestedUpdate._id);
-  const questionToUpdate = questionFactory.createQuestionTypeFactory(requestedUpdate);
-  questionToUpdate.categories = requestedUpdate.categories;
-  questionToUpdate.points = requestedUpdate.points;
-  const update = questionFactory.editQuestionFactory(requestedUpdate);
-  mongoose.connection.db.collection('questions').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedQuestion) {
-
-    // Send a successful response message and an array of categories to work with.
-    response.status(200).json({
-      message: 'updatedQuestion Fetched Successfully!',
-      updatedQuestion: updatedQuestion
-    });
-
-    // Logs message and questions array to the backend for debugging.
-    console.log("updatedQuestion Fetched Successfully.")
-    console.log(updatedQuestion);
-  }, error => {
-    // Logs error message.
-    // Sends an error status back to requestor.
-    // Includes what was pulled for a categories array (if anything)
-    console.log(error.message);
-    response.status(400).json({
-      message: error.message,
-      updatedQuestion: updatedQuestion
-    })
-  });
-});
-
-// Gets a list of questions that make up an assessment
-app.post("/api/assessment/questions/", (request, response, next) => {
-  const questionIds = request.body.questionIds;
-  console.log(questionIds);
-  const objectIds = [];
-  // Turns the string ids into ObjectIds
-  questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
-  console.log(objectIds);
-
-  // Performs the search
-  questionCollection.find({ _id: objectIds }, (error, questions) => {
-    if (error) {
-      console.log(error.message);
-    }
-    else {
-      console.log(questions);
-      // Send a successful response message and an array of questions to work with.
-      response.status(200).json({
-        message: 'Question Fetched Successfully!',
-        questions: questions
-      });
-    }
-  });
+// *********************************************************** //
+// ******   DELETE: QUESTION FROM QUESTION COLLECTION   ****** //
+// *********************************************************** //
+app.delete((request, response, next) => {
+  console.log(request.body);
+  questionCollection.deleteOne({ _id: request.params.id });
 
 });
 
 // ******************************************************** //
-// ***************Get all categories by ID***************** //
+// ***************   GET: CATEGORY BY ID  ***************** //
 // ******************************************************** //
 app.get("/api/categories", (request, response, next) => {
 
@@ -141,9 +98,36 @@ app.get("/api/categories", (request, response, next) => {
   });
 });
 
-// ******************************************************** //
-// *****Get all questions if they have a question type***** //
-// ******************************************************** //
+// ********************************************************** //
+// ******   GET: QUESTIONS (ALL) FOR ASSESSMENT USE   ******* //
+// ********************************************************** //
+app.post("/api/assessment/questions/", (request, response, next) => {
+  const questionIds = request.body.questionIds;
+  console.log(questionIds);
+  const objectIds = [];
+  // Turns the string ids into ObjectIds
+  questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
+  console.log(objectIds);
+
+  // Performs the search
+  questionCollection.find({ _id: objectIds }, (error, questions) => {
+    if (error) {
+      console.log(error.message);
+    }
+    else {
+      console.log(questions);
+      // Send a successful response message and an array of questions to work with.
+      response.status(200).json({
+        message: 'Question Fetched Successfully!',
+        questions: questions
+      });
+    }
+  });
+});
+
+// ************************************************************* //
+// ****   GET: QUESTION (ALL) FILTERED IN A CATEGORY ARRAY  **** //
+// ************************************************************* //
 app.get("/api/questions", (request, response, next) => {
   // Create the shell of the array that will be returned
   const organizedQuestions = {};
@@ -197,7 +181,9 @@ app.get("/api/questions", (request, response, next) => {
   });
 });
 
-// Get only questions of a certain type
+// ******************************************************** //
+// *******   GET: QUESTIONS ONLY OF A CERTAIN TYPE  ******* //
+// ******************************************************** //
 app.get("/api/questions/:questionType", (request, response, next) => {
   questionCollection.find({ questionType: request.params.questionType }).then((questions, error) => {
     response.status(200).json({
@@ -214,7 +200,9 @@ app.get("/api/questions/:questionType", (request, response, next) => {
     })
 });
 
-// Get a single question by an id from the questions collection.
+// ******************************************************** //
+// ************   GET: SINGLE QUESTION BY ID  ************* //
+// ******************************************************** //
 app.get("/api/question/:id", (request, response, next) => {
   questionCollection.find({ _id: request.params.id }).then((question, error) => {
     response.status(200).json({
@@ -234,7 +222,7 @@ app.get("/api/question/:id", (request, response, next) => {
 });
 
 // ******************************************************* //
-// ******CATEGORY saved to the categories collection******* //
+// ******   SAVE: CATEGORY TO CATEGORY COLLECTION   ****** //
 // ******************************************************* //
 app.post("/api/categories/save", (request, response, next) => {
 
@@ -247,7 +235,7 @@ app.post("/api/categories/save", (request, response, next) => {
   category._id = categoryId;
 
   // category mapped object from front to back end.
-  const categoryToSaveModel = new categoryModel({
+  const categoryToSaveModel = new categoryCollection({
     id: categoryId,
     name: category.name,
     createdOn: Date.now()
@@ -278,7 +266,7 @@ app.post("/api/categories/save", (request, response, next) => {
 });
 
 // ******************************************************* //
-// ******QUESTION saved to the questions collection******* //
+// ******   SAVE: QUESTION TO QUESTION COLLECTION   ****** //
 // ******************************************************* //
 app.post("/api/question/save", (request, response, next) => {
 
@@ -341,7 +329,75 @@ app.post("/api/question/save", (request, response, next) => {
     });
 });
 
-// Finds documents in a given collection.
+// *************************************************************** //
+// ******   SAVE: DELETED QUESTION TO ARCHIVED COLLECTION   ****** //
+// *************************************************************** //
+
+app.post("/api/question/delete/:id", (request, response, next) => {
+  console.log(request.body);
+  const archivedQuestion = request.body;
+  mongoose.connection.db.collection('archived').save(archivedQuestion);
+
+  next();
+});
+
+
+
+// ******************************************************** //
+// ***********   UPDATE QUESTION COLLECTION   ************* //
+// ******************************************************** //
+app.post("/api/question/update/", (request, response, next) => {
+
+  // Gets the question passed from the front end
+  // Stores data for updating backend properties
+  console.log(request.body.points);
+  const requestedUpdate = request.body;
+
+  console.log(requestedUpdate._id);
+
+  // Gets the question properties to be updated from the question type factory
+  // Stores the data in a question object
+  const questionToUpdate = questionFactory.createQuestionTypeFactory(requestedUpdate);
+
+  // Updates the categories property of the question
+  // Derek, is this actually needed?  being updated in question factory?
+  questionToUpdate.categories = requestedUpdate.categories;
+
+  // Updates the points property of the question
+  // Derek, is this actually needed?  being updated in question factory?
+  questionToUpdate.points = requestedUpdate.points;
+
+  // Sends the data to the question factory to edit the properties for a specific question type
+  // Stores the data in a question object
+  const update = questionFactory.editQuestionFactory(requestedUpdate);
+
+  // passes the data to the database to update a specific question by id
+  mongoose.connection.db.collection('questions').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedQuestion) {
+
+    // Send a successful response message and an array of categories to work with.
+    response.status(200).json({
+      message: 'updatedQuestion Fetched Successfully!',
+      updatedQuestion: updatedQuestion
+    });
+
+    // Logs message and questions array to the backend for debugging.
+    console.log("updatedQuestion Fetched Successfully.")
+    console.log(updatedQuestion);
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a categories array (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      updatedQuestion: updatedQuestion
+    })
+  });
+});
+
+// *********************************************************** //
+// *********   GET: COLLECTION BY GENERIC FUNCTION   ********* //
+// *********************************************************** //
 // Used for when we can't target a specific model.
 function find(name, query, callBack) {
   mongoose.connection.db.collection(name, function (error, collection) {
