@@ -97,8 +97,12 @@ export class AssessmentService {
   // *********  ASSESSMENT: STATUS FUNCTIONS  ********** //
   // *************************************************** //
 
-  changeStatus() {
-    this.status = 'Is Complete';
+  changeCompleteStatus() {
+    this.status = 'Complete';
+  }
+
+  changeInProgressStatus() {
+    this.status = 'In Progress';
   }
 
   // ******************************************************** //
