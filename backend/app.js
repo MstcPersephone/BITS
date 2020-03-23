@@ -238,7 +238,43 @@ app.get("/api/question/:id", (request, response, next) => {
 // *********************************************************** //
 app.post("/api/assessment/save", (request, response, next) => {
 
+// Request.body is the category that is passed through.
+const assessment = request.body;
 
+// Generate unique Id for category.
+const assessmentId = mongoose.Types.ObjectId();
+
+category._id = categoryId;
+
+// category mapped object from front to back end.
+const categoryToSaveModel = new categoryCollection({
+  id: categoryId,
+  name: category.name,
+  createdOn: Date.now()
+});
+
+// Saves the category object to the database.
+// Returns either 200 success or 400 error
+categoryToSaveModel.save().then(() => {
+
+  // Log success message and saved object.
+  console.log(category.name + ' Category Created Successfully');
+  console.log(categoryToSaveModel);
+
+  // Send success message back to front end.
+  // Will probably use for logging later.
+  response.status(200).json({
+    message: 'Category saved successfully!',
+    category: category
+  });
+},
+  error => {
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      category: category
+    })
+  });
 });
 
 // ******************************************************* //
@@ -358,20 +394,6 @@ app.post("/api/question/update/", (request, response, next) => {
   // Stores data for updating backend properties
   console.log(request.body.points);
   const requestedUpdate = request.body;
-
-  console.log(requestedUpdate._id);
-
-  // Gets the question properties to be updated from the question type factory
-  // Stores the data in a question object
-  const questionToUpdate = questionFactory.createQuestionTypeFactory(requestedUpdate);
-
-  // Updates the categories property of the question
-  // Derek, is this actually needed?  being updated in question factory?
-  questionToUpdate.categories = requestedUpdate.categories;
-
-  // Updates the points property of the question
-  // Derek, is this actually needed?  being updated in question factory?
-  questionToUpdate.points = requestedUpdate.points;
 
   // Sends the data to the question factory to edit the properties for a specific question type
   // Stores the data in a question object
