@@ -383,7 +383,7 @@ export class QuestionService {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Yes clicked');
+        console.log(questionId + ' deleted');
          // Displays a message confirming that the question has been deleted successfully.
         this.helperService.openSnackBar('Question has been deleted.', 'Close', 'success-dialog', 5000);
       } else {
