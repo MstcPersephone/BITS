@@ -15,6 +15,7 @@ const questionFactory = require("./providers/questionFactory");
 // ******************************************************** //
 const questionCollection = require("./models/question");
 const categoryCollection = require("./models/shared/category");
+const assessmentCollection = require("./models/assessment");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -238,41 +239,49 @@ app.get("/api/question/:id", (request, response, next) => {
 // *********************************************************** //
 app.post("/api/assessment/save", (request, response, next) => {
 
-// Request.body is the category that is passed through.
+// Request.body is the assessment that is passed through.
 const assessment = request.body;
 
-// Generate unique Id for category.
+// Generate unique Id for assessment.
 const assessmentId = mongoose.Types.ObjectId();
 
-category._id = categoryId;
+// assigns the unique id to the assessment.
+assessment._id = assessmentId;
+console.log('Assessment:', assessment)
 
-// category mapped object from front to back end.
-const categoryToSaveModel = new categoryCollection({
-  id: categoryId,
-  name: category.name,
+// assessment mapped object from front to back end.
+const assessmentToSaveModel = new assessmentCollection({
+  id: assessmentId,
+  name: assessment.name,
+  description: assessment.description,
+  config: assessment.config,
+  questionIds: assessment.questionIds,
+  status: assessment.status,
   createdOn: Date.now()
 });
 
+console.log('Backend Assessment Presave', assessmentToSaveModel);
+
 // Saves the category object to the database.
 // Returns either 200 success or 400 error
-categoryToSaveModel.save().then(() => {
+assessmentToSaveModel.save().then(() => {
 
   // Log success message and saved object.
-  console.log(category.name + ' Category Created Successfully');
-  console.log(categoryToSaveModel);
+  console.log(assessment.name + ' Assessment Created Successfully');
+  console.log('Saved assessment', assessmentToSaveModel);
 
   // Send success message back to front end.
   // Will probably use for logging later.
   response.status(200).json({
-    message: 'Category saved successfully!',
-    category: category
+    message: 'Assessment saved successfully!',
+    category: assessment
   });
 },
   error => {
     console.log(error.message);
     response.status(400).json({
       message: error.message,
-      category: category
+      assessment: assessment
     })
   });
 });

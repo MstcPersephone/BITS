@@ -21,6 +21,7 @@ export class AssessmentService {
 
   // Assessment properties
   private assessment: Assessment;
+  private status: any;
 
   // Category properties
   public selectedCategory: Category;
@@ -57,10 +58,28 @@ export class AssessmentService {
 
     const completeAssessment: any = assessment;
     completeAssessment.config = this.assessmentConfig;
+    completeAssessment.status = this.status;
 
-    console.log(assessment);
-    this.router.navigate(['/assessment/list']);
+    console.log('Complete Assessment', completeAssessment);
+
+
+
+    this.http.post<{ message: string, assesment: Assessment }>('http://localhost:3000/api/assessment/save', completeAssessment)
+    .subscribe(
+      responseData => {
+        this.helperService.openSnackBar(completeAssessment.name + ' Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
+        console.log('%c' + responseData.message, 'color: green;');
+        console.log('%c Database Object:', 'color: orange;');
+        console.log(responseData.assesment);
+        this.router.navigate(['/assessment/list']);
+
+      },
+      error => {
+        console.log('%c' + error.error.message, 'color: red;');
+      });
   }
+
+
 
   // ******************************************************** //
   // ************  ASSESSMENT ENGINE FUNCTIONS  ************* //
@@ -72,6 +91,14 @@ export class AssessmentService {
   // TODO Handle submit question button
   submitAnswer(question: Question) {
     console.log(question);
+  }
+
+    // *************************************************** //
+  // *********  ASSESSMENT: STATUS FUNCTIONS  ********** //
+  // *************************************************** //
+
+  changeStatus() {
+    this.status = 'Is Complete';
   }
 
   // ******************************************************** //
@@ -123,7 +150,7 @@ export class AssessmentService {
   }
 
   // ******************************************************** //
-  // **********  CONFIGURATION: ISTIMED FUNCTIONS  ********** //
+  // *********  CONFIGURATION: MIN SCORE FUNCTIONS  ********* //
   // ******************************************************** //
 
   // gets the minimum score set by user in configuration
@@ -153,6 +180,8 @@ export class AssessmentService {
     this.enteredMaxTime = event.target.value;
     console.log(this.enteredMaxTime);
   }
+
+
 
   // ******************************************************** //
   // *******  CONFIGURATION: WRONG STREAK FUNCTIONS  ******** //

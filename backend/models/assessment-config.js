@@ -29,5 +29,8 @@ const assessmentConfigSchema = mongoose.Schema({
   },
 });
 
+// Export Configuration schema to use in other schemas
+module.exports = assessmentConfigSchema;
+
 // Create and export Assessment Configuration Model
 module.exports = mongoose.model('AssessmentConfig', assessmentConfigSchema, 'assessmentConfig');

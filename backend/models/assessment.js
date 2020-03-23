@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+// Import subdocument schemas
+const assessmentConfigSchema = require('./assessment-config');
+
 // Create Assessment Schema (blueprint)
 const assessmentSchema = mongoose.Schema({
   name: {
@@ -15,12 +18,12 @@ const assessmentSchema = mongoose.Schema({
     required: true
   },
   questionIds: {
-    type: [],
+    type: [String],
     required: true
   },
   status: {
-    type: Boolean,
-    required: true
+    type: String,
+    default: "In Progress"
   }
 });
 
