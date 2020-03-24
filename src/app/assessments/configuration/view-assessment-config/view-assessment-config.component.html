@@ -1,11 +1,13 @@
-<div></div>
+
 <div *ngIf="this.assessmentService.getIsTimedSelected() === true">
-<h4>This is a timed test</h4>
-<p>Maximum Time allowed: {{ this.assessmentService.getMinScore() }} seconds</p>
+<h4>This is a Timed Test</h4>
+<p>Maximum Time Allowed: {{ this.assessmentService.getMaxTime() }} minutes</p>
 </div>
 
 <h4>Minimum Passing Score</h4>
-<p>{{ this.assessmentService.getMinScore() }}</p>
+<p>{{ this.assessmentService.getMinScore() }}%</p>
 
-<!-- <h4>Minimum Passing Score</h4>
-<p>{{ config.minimumScore}}</p> -->
+<div *ngIf="this.assessmentService.getWrongStreak() !== 0">
+<h4>Number of Consecutive Incorrect Answers for Ending Assessment</h4>
+<p>{{ this.assessmentService.getWrongStreak() }}</p>
+</div>
