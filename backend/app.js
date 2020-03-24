@@ -62,11 +62,34 @@ app.use((request, response, next) => {
 });
 
 // *********************************************************** //
-// ******   DELETE: QUESTION FROM QUESTION COLLECTION   ****** //
+// ******   ARCHIVE: QUESTION FROM QUESTION COLLECTION   ****** //
 // *********************************************************** //
-app.delete("/api/question/delete/:id", (request, response, next) => {
-console.log('You made it!');
+app.post("/api/question/delete/:id", (request, response, next) => {
+  console.log('You made it!');
+  // Request.body is the question that is passed through.
+  const question = request.body;
 
+  // Will store the converted object to be saved.
+  let questionObjectToSave;
+
+  // Call to question type factory which creates the object to
+  questionObjectToSave = questionFactory.createQuestionTypeFactory(question);
+
+  questionObjectToSave.save(mongoose.db.collection('archived'))
+  .then(() => {
+    response.status(200).json({
+    message: 'archived successful!'
+  });
+
+  questionCollection.deleteOne({ _id: question._id });
+
+  },
+  error => {
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message
+    })
+})
 });
 
 // ******************************************************** //

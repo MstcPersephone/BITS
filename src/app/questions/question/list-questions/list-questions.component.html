@@ -23,7 +23,7 @@
             <p>{{ question.questionType }} Question</p>
             <!-- Displaying the delete and edit icons -->
             <section class="questionButtonContainer">
-              <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question._id)">delete</mat-icon>
+              <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question)">delete</mat-icon>
               <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
             </section>
           </section>
