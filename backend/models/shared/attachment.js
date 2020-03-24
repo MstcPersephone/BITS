@@ -12,7 +12,7 @@ const attachmentSchema = mongoose.Schema({
     required: true
   },
   content: {
-    type: Buffer,
+    type: mongoose.Mixed,
     required: true
   },
   createdOn: {

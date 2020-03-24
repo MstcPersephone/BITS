@@ -134,48 +134,45 @@ export class AttachmentService {
         };
 
         // Start up the reader and tell it to convert the file to binary string.
-        reader.readAsBinaryString(f);
+        reader.readAsDataURL(f);
       });
   }
 
   downloadAttachment(attachment: Attachment) {
-    const encoder = new TextEncoder();
-    const reader = new FileReader();
-    let base64result = null;
-    reader.onloadend = () => {
-      base64result = reader.result;
-      base64result = base64result.split(',')[1];
-    };
-    const fileArray = encoder.encode(attachment.content as string);
-    console.log(fileArray);
-    console.log(attachment.fileType);
-    const blob = new Blob([fileArray as BlobPart], {type: attachment.fileType});
-    // const xhr = new XMLHttpRequest();
-    // xhr.open('GET', 'http://localhost:4200', true);
-    // xhr.responseType = 'blob';
-    // xhr.onload = () => {
-    //     const urlCreator = window.URL;
-    //     const imageUrl = urlCreator.createObjectURL(blob);
-    //     setTimeout(() => {
-    //       const tag = document.createElement('a');
-    //       tag.href = imageUrl;
-    //       tag.download = attachment.name;
-    //       document.body.appendChild(tag);
-    //       tag.click();
-    //       setTimeout(() => {
-    //         document.body.removeChild(tag);
-    //       }, 0);
-    //     }, 10000);
-    // };
-    // xhr.send();
-
-    console.log(blob.size);
-    console.log(blob.type);
+    const dataUri = attachment.content;
+    const blob = this.dataUriToBlob(dataUri);
+    console.log(blob);
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
     link.download = attachment.name;
     setTimeout(() => {
       link.click();
-    }, 10000);
+    }, 0);
+  }
+
+  // Converts the dataUri (how the file is stored in the database) to a JS Blob
+  dataUriToBlob(dataURI) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    const byteString = atob(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+    // write the bytes of the string to an ArrayBuffer
+    const ab = new ArrayBuffer(byteString.length);
+
+    // create a view into the buffer
+    const ia = new Uint8Array(ab);
+
+    // set the bytes of the buffer to the correct values
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    // write the ArrayBuffer to a blob, and you're done
+    const blob = new Blob([ab], {type: mimeString});
+
+    return blob;
   }
 }

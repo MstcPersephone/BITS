@@ -40,8 +40,7 @@
           <!-- Displays any attachments the question has. -->
           <div *ngFor="let attachment of question.attachments">
             <p class="questionAttachmentDisplay" *ngIf="question.hasAttachments"><strong>Attachments: </strong>
-              <a *ngIf="question.hasAttachments" href="{{attachment.content}}"
-               download="{{attachment.name}}">{{ attachment.name }}</a>
+               <button mat-raised-button (click)="this.attachmentService.downloadAttachment(attachment)">{{attachment.name}}</button>
             </p>
           </div>
 
