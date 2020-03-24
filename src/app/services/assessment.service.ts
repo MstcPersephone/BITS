@@ -41,11 +41,16 @@ export class AssessmentService {
   isRandom = false;
   isTimed = false;
   private enteredMaxTime = 0;
-  private enteredWrongStreak = 0;
-  minimumScore = 75;
   private maxTimeUpdated = new Subject<number>();
+
+  private enteredWrongStreak = 0;
   private wrongStreakUpdated = new Subject<number>();
+
+  private changedMinScore = 75;
+  private changedMinScoreUpdated = new Subject<number>();
+
   private assessmentConfig: AssessmentConfig;
+  private assessmentConfigUpdated = new Subject<number>();
 
   // questions
   private questionIds: string[];
@@ -148,13 +153,13 @@ export class AssessmentService {
 
   // gets the minimum score set by user in configuration
   getMinScore() {
-    return this.minimumScore;
+    return this.changedMinScore;
   }
 
   // gets the changed score based upon slider event
   minScoreChanged($event, value) {
-    this.minimumScore = value;
-    return this.minimumScore;
+    this.changedMinScore = value;
+    return this.changedMinScore;
   }
 
   // ******************************************************** //

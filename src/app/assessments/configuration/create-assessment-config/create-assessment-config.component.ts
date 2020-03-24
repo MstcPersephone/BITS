@@ -27,7 +27,7 @@ export class CreateAssessmentConfigComponent implements OnInit {
       isRandom: '',
       isTimed: '',
       maxTime: '',
-      minimumScore: '',
+      minimumScore: this.assessmentService.getMinScore(),
       wrongStreak: ''
     });
   }
