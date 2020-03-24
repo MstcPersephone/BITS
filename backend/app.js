@@ -64,7 +64,7 @@ app.use((request, response, next) => {
 // ******   DELETE: QUESTION FROM QUESTION COLLECTION   ****** //
 // *********************************************************** //
 app.delete("/api/question/delete/:id", (request, response, next) => {
-console.log('You made it! ' + request.params);
+console.log('You made it!');
 
 });
 
