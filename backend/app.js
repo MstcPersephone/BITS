@@ -83,6 +83,26 @@ app.delete((request, response, next) => {
 });
 
 // ******************************************************** //
+// *************   GET: ALL ASSESSMENTS    ***************** //
+// ******************************************************** //
+app.get("/api/assessments", (request, response, next) => {
+  // Get all assessments from the database
+  assessmentCollection.find({ _id: { $exists: true } }).then((assessments, error) => {
+    response.status(200).json({
+      message: 'Assessments fetched successfully!',
+      assessments: assessments
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        assignments: null
+      })
+    })
+});
+
+// ******************************************************** //
 // ***************   GET: CATEGORY BY ID  ***************** //
 // ******************************************************** //
 app.get("/api/categories", (request, response, next) => {
@@ -239,51 +259,51 @@ app.get("/api/question/:id", (request, response, next) => {
 // *********************************************************** //
 app.post("/api/assessment/save", (request, response, next) => {
 
-// Request.body is the assessment that is passed through.
-const assessment = request.body;
+  // Request.body is the assessment that is passed through.
+  const assessment = request.body;
 
-// Generate unique Id for assessment.
-const assessmentId = mongoose.Types.ObjectId();
+  // Generate unique Id for assessment.
+  const assessmentId = mongoose.Types.ObjectId();
 
-// assigns the unique id to the assessment.
-assessment._id = assessmentId;
-console.log('Assessment:', assessment)
+  // assigns the unique id to the assessment.
+  assessment._id = assessmentId;
+  console.log('Assessment:', assessment)
 
-// assessment mapped object from front to back end.
-const assessmentToSaveModel = new assessmentCollection({
-  id: assessmentId,
-  name: assessment.name,
-  description: assessment.description,
-  config: assessment.config,
-  questionIds: assessment.questionIds,
-  status: assessment.status,
-  createdOn: Date.now()
-});
-
-console.log('Backend Assessment Presave', assessmentToSaveModel);
-
-// Saves the category object to the database.
-// Returns either 200 success or 400 error
-assessmentToSaveModel.save().then(() => {
-
-  // Log success message and saved object.
-  console.log(assessment.name + ' Assessment Created Successfully');
-  console.log('Saved assessment', assessmentToSaveModel);
-
-  // Send success message back to front end.
-  // Will probably use for logging later.
-  response.status(200).json({
-    message: 'Assessment saved successfully!',
-    category: assessment
+  // assessment mapped object from front to back end.
+  const assessmentToSaveModel = new assessmentCollection({
+    id: assessmentId,
+    name: assessment.name,
+    description: assessment.description,
+    config: assessment.config,
+    questionIds: assessment.questionIds,
+    status: assessment.status,
+    createdOn: Date.now()
   });
-},
-  error => {
-    console.log(error.message);
-    response.status(400).json({
-      message: error.message,
-      assessment: assessment
-    })
-  });
+
+  console.log('Backend Assessment Presave', assessmentToSaveModel);
+
+  // Saves the category object to the database.
+  // Returns either 200 success or 400 error
+  assessmentToSaveModel.save().then(() => {
+
+    // Log success message and saved object.
+    console.log(assessment.name + ' Assessment Created Successfully');
+    console.log('Saved assessment', assessmentToSaveModel);
+
+    // Send success message back to front end.
+    // Will probably use for logging later.
+    response.status(200).json({
+      message: 'Assessment saved successfully!',
+      category: assessment
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        assessment: assessment
+      })
+    });
 });
 
 // ******************************************************* //

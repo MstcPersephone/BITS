@@ -19,16 +19,25 @@ export class AssessmentService {
     '5e53dfa22849a450c49e1fd7', '5e603f2f2a61154b480ffafd', '5e6166f40a31644b543fc210', '5e6167ef0a31644b543fc218',
     '5e62b546cdf5ff1b5c73d457'];
 
-  // Assessment properties
+  // ********************** //
+  // ****  PROPERTIES  **** //
+  // ********************** //
+
+  // single assessment
   private assessment: Assessment;
+  private assessmentUpdated = new Subject<any>();
   private status: any;
 
-  // Category properties
+  // list of assessments
+  private assessments: any;
+  private assessmentsUpdated = new Subject<any>();
+
+  // categories
   public selectedCategory: Category;
   public selectedName: any;
   public selectedCategoryName: string;
 
-  // Configuration Properties
+  // assessment configuration
   isRandom = false;
   isTimed = false;
   private enteredMaxTime = 0;
@@ -38,7 +47,7 @@ export class AssessmentService {
   private wrongStreakUpdated = new Subject<number>();
   private assessmentConfig: AssessmentConfig;
 
-  // Question properties
+  // questions
   private questionIds: string[];
   public questions: Question[] = [];
   private currentQuestion: Question;
@@ -53,33 +62,13 @@ export class AssessmentService {
   // ***************  ASSESSMENT FUNCTIONS  ***************** //
   // ******************************************************** //
 
-  // HTTP request still needs to be built
-  saveAssessment(assessment: Assessment) {
-
-    const completeAssessment: any = assessment;
-    completeAssessment.config = this.assessmentConfig;
-    completeAssessment.status = this.status;
-
-    console.log('Complete Assessment', completeAssessment);
-
-
-
-    this.http.post<{ message: string, assesment: Assessment }>('http://localhost:3000/api/assessment/save', completeAssessment)
-    .subscribe(
-      responseData => {
-        this.helperService.openSnackBar(completeAssessment.name + ' Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
-        console.log('%c' + responseData.message, 'color: green;');
-        console.log('%c Database Object:', 'color: orange;');
-        console.log(responseData.assesment);
-        this.router.navigate(['/assessment/list']);
-
-      },
-      error => {
-        console.log('%c' + error.error.message, 'color: red;');
-      });
+  getAssessmentUpdateListener() {
+    return this.assessmentUpdated.asObservable();
   }
 
-
+  getAssessmentsUpdateListener() {
+    return this.assessmentsUpdated.asObservable();
+  }
 
   // ******************************************************** //
   // ************  ASSESSMENT ENGINE FUNCTIONS  ************* //
@@ -93,7 +82,7 @@ export class AssessmentService {
     console.log(question);
   }
 
-    // *************************************************** //
+  // *************************************************** //
   // *********  ASSESSMENT: STATUS FUNCTIONS  ********** //
   // *************************************************** //
 
@@ -185,8 +174,6 @@ export class AssessmentService {
     console.log(this.enteredMaxTime);
   }
 
-
-
   // ******************************************************** //
   // *******  CONFIGURATION: WRONG STREAK FUNCTIONS  ******** //
   // ******************************************************** //
@@ -227,4 +214,47 @@ export class AssessmentService {
           console.log('%c' + error.error.message, 'color: red;');
         });
   }
+
+  // ******************************************************** //
+  // ***************  API CALLS TO BACKEND  ***************** //
+  // ******************************************************** //
+  // Gets all assessments from the database.
+  getAllAssessments() {
+    this.http
+      .get<{ message: string, assessments: Assessment[] }>(
+        'http://localhost:3000/api/assessments'
+      )
+      .subscribe((assessmentData) => {
+        this.assessments = assessmentData.assessments.reverse();
+        console.log(this.assessments);
+        // Subscribers get a copy of the assessments array
+        this.assessmentsUpdated.next(this.assessments);
+      },
+        error => {
+          // log error message from server
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
+  saveAssessment(assessment: Assessment) {
+    const completeAssessment: any = assessment;
+    completeAssessment.config = this.assessmentConfig;
+    completeAssessment.status = this.status;
+    console.log('Complete Assessment', completeAssessment);
+
+    this.http.post<{ message: string, assesment: Assessment }>('http://localhost:3000/api/assessment/save', completeAssessment)
+      .subscribe(
+        responseData => {
+          this.helperService.openSnackBar(completeAssessment.name + ' Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.assesment);
+          this.router.navigate(['/assessment/list']);
+
+        },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
 }
