@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: 'assessment/create', component: CreateAssessmentComponent },
   { path: 'assessment/edit', component: EditAssessmentComponent },
   { path: 'assessment/list', component: AssessmentListComponent },
-  { path: 'assessment/view', component: ViewAssessmentComponent },
+  { path: 'assessment/view/:assessmentId', component: ViewAssessmentComponent },
   { path: 'match/create', component: CreateExactMatchComponent },
   { path: 'option/create', component: CreateOptionComponent },
   { path: 'question/create', component: CreateQuestionComponent },

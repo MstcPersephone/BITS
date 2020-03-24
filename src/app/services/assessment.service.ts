@@ -19,40 +19,57 @@ export class AssessmentService {
     '5e53dfa22849a450c49e1fd7', '5e603f2f2a61154b480ffafd', '5e6166f40a31644b543fc210', '5e6167ef0a31644b543fc218',
     '5e62b546cdf5ff1b5c73d457'];
 
-  // ********************** //
-  // ****  PROPERTIES  **** //
-  // ********************** //
-
+  // ********************************* //
+  // ****  ASSESSMENT PROPERTIES  **** //
+  // ********************************* //
   // single assessment
   private assessment: Assessment;
-  private assessmentUpdated = new Subject<any>();
+  private assessmentUpdated = new Subject<Assessment>();
   private status: any;
 
   // list of assessments
   private assessments: any;
   private assessmentsUpdated = new Subject<any>();
 
-  // categories
+  // assessment name
+  private enteredName: string;
+  private changedNameUpdated = new Subject<string>();
+
+  // assessment description
+  private enteredDescription: string;
+  private changedDescriptionUpdated = new Subject<string>();
+
+  // *********************************************** //
+  // ****  ASSESSMENT CONFIGURATION PROPERTIES  **** //
+  // *********************************************** //
+  private assessmentConfig: AssessmentConfig;
+  private assessmentConfigUpdated = new Subject<AssessmentConfig>();
+
+  isRandom = false;
+  isTimed = false;
+
+  // config maxTime
+  private enteredMaxTime = 0;
+  private maxTimeUpdated = new Subject<number>();
+
+  // config wrongStreak
+  private enteredWrongStreak = 0;
+  private wrongStreakUpdated = new Subject<number>();
+
+  // config minScore
+  private changedMinScore = 75;
+  private changedMinScoreUpdated = new Subject<number>();
+
+  // ******************************* //
+  // ****  CATEGORY PROPERTIES  **** //
+  // ******************************* //
   public selectedCategory: Category;
   public selectedName: any;
   public selectedCategoryName: string;
 
-  // assessment configuration
-  isRandom = false;
-  isTimed = false;
-  private enteredMaxTime = 0;
-  private maxTimeUpdated = new Subject<number>();
-
-  private enteredWrongStreak = 0;
-  private wrongStreakUpdated = new Subject<number>();
-
-  private changedMinScore = 75;
-  private changedMinScoreUpdated = new Subject<number>();
-
-  private assessmentConfig: AssessmentConfig;
-  private assessmentConfigUpdated = new Subject<number>();
-
-  // questions
+  // ******************************* //
+  // ****  QUESTION PROPERTIES  **** //
+  // ******************************* //
   private questionIds: string[];
   public questions: Question[] = [];
   private currentQuestion: Question;
@@ -97,6 +114,32 @@ export class AssessmentService {
 
   changeInProgressStatus() {
     this.status = 'In Progress';
+  }
+
+  // ************************************************ //
+  // *********  ASSESSMENT: NAME FUNCTIONS  ********* //
+  // ************************************************ //
+
+  // gets the minimum score set by user in configuration
+  getChangedName() {
+    return this.enteredName;
+  }
+
+  getChangedNameUpdatedListener() {
+    return this.changedNameUpdated.asObservable();
+  }
+
+  // ******************************************************* //
+  // *********  ASSESSMENT: DESCRIPTION FUNCTIONS  ********* //
+  // ******************************************************* //
+
+  // gets the minimum score set by user in configuration
+  getChangedDescription() {
+    return this.enteredDescription;
+  }
+
+  getChangedDescriptionUpdatedListener() {
+    return this.changedDescriptionUpdated.asObservable();
   }
 
   // ******************************************************** //
@@ -199,25 +242,8 @@ export class AssessmentService {
   // ******************************************************** //
   // ****************  QUESTION FUNCTIONS  ****************** //
   // ******************************************************** //
-
   getAssessmentQuestionsUpdatedListener() {
     return this.assessmentQuestionsUpdated.asObservable();
-  }
-
-  // gets a list of questions from an array of ids
-  getQuestionsByIds(questionIds: string[]) {
-    this.http
-      .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/assessment/questions/', { questionIds })
-      .subscribe(
-        responseData => {
-          this.questions = responseData.questions;
-          this.assessmentQuestionsUpdated.next(this.questions);
-          console.log(responseData.message);
-          console.log(responseData.questions);
-        },
-        error => {
-          console.log('%c' + error.error.message, 'color: red;');
-        });
   }
 
   // ******************************************************** //
@@ -237,6 +263,44 @@ export class AssessmentService {
       },
         error => {
           // log error message from server
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
+  // Gets an assessment by an id
+  getAssessmentById(assessmentId: string) {
+    this.http
+      .get<{ message: string, assessment: Assessment }>(
+        'http://localhost:3000/api/assessment/' + assessmentId
+      )
+      .subscribe((assessmentData) => {
+        // mongoose always returns an array with find()
+        // // grabbing the first (and only) assessment in array
+        this.assessment = assessmentData.assessment[0];
+
+        // Add the values to the variables that manages them
+        this.enteredName = this.assessment.name;
+        this.enteredDescription = this.assessment.description;
+        this.assessmentConfig = this.assessment.config;
+        this.questionIds = this.assessment.questionIds;
+
+        // Subscribers get a copy of the assessment.
+        this.assessmentsUpdated.next(this.assessment);
+      });
+  }
+
+  // gets a list of questions from an array of ids
+  getQuestionsByIds(questionIds: string[]) {
+    this.http
+      .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/assessment/questions/', { questionIds })
+      .subscribe(
+        responseData => {
+          this.questions = responseData.questions;
+          this.assessmentQuestionsUpdated.next(this.questions);
+          console.log(responseData.message);
+          console.log(responseData.questions);
+        },
+        error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
   }
