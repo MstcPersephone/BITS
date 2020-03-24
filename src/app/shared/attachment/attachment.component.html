@@ -2,7 +2,7 @@
   class="mt-20" (change)="this.attachmentService.hasAttachmentsChanged()">Does this question have attachments?
 </mat-checkbox>
 
-<input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event)" />
+<input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event)" multiple />
 
 
 <button type="button" (click)="uploader.click()" *ngIf="this.attachmentService.hasAttachments" mat-raised-button

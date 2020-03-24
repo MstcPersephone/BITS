@@ -37,11 +37,10 @@
           <h3><strong>Point Value:</strong> {{ question.points }}</h3>
           </section>
 
+          <p class="questionAttachmentDisplay" *ngIf="question.hasAttachments"><strong>Attachments: </strong></p>
           <!-- Displays any attachments the question has. -->
           <div *ngFor="let attachment of question.attachments">
-            <p class="questionAttachmentDisplay" *ngIf="question.hasAttachments"><strong>Attachments: </strong>
                <button mat-raised-button (click)="this.attachmentService.downloadAttachment(attachment)">{{attachment.name}}</button>
-            </p>
           </div>
 
           <!-- If Checkbox or Multiple Choice displays the options -->
