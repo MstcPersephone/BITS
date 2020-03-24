@@ -15,6 +15,8 @@ import { QuestionService } from 'src/app/services/question.service';
 export class ViewAssessmentComponent implements OnInit {
   question: Question;
   assessment: Assessment;
+  name: string;
+  description: string;
   private questionsSubscription: Subscription;
   private assessmentSubscription: Subscription;
 
@@ -29,8 +31,8 @@ export class ViewAssessmentComponent implements OnInit {
     .subscribe((assessment: Assessment) => {
       this.assessment = assessment;
     });
-    this.questionService.getQuestionById(this.route.snapshot.params.assessmentId);
-    console.log('Assessment', this.assessment);
+    this.assessmentService.getAssessmentById(this.route.snapshot.params.assessmentId);
+    console.log('Assessment View', this.assessment);
   }
 
 }

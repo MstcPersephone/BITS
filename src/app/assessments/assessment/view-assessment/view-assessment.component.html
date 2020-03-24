@@ -1,1 +1,21 @@
-<p>view-assessment works!</p>
+<mat-card>
+  <h1 class="mat-display-1">View Assessment</h1>
+  <mat-card>
+        <!-- Assessment Header Section: Name-->
+          <h3>{{ this.assessmentService.getEnteredName() }}
+          <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
+          <mat-icon class="editIcon" matListIcon>edit</mat-icon>
+        </h3>
+        <mat-list role="list">
+
+        <!-- Description -->
+        <h4>Description</h4>
+        <p>{{ this.assessmentService.getEnteredDescription() }}</p>
+
+        <app-view-assessment-config></app-view-assessment-config>
+
+    </mat-list>
+  </mat-card>
+</mat-card>
+<br>
+

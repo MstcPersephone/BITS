@@ -1,1 +1,11 @@
-<p>view-assessment-config works!</p>
+<div></div>
+<div *ngIf="this.assessmentService.getIsTimedSelected() === true">
+<h4>This is a timed test</h4>
+<p>Maximum Time allowed: {{ this.assessmentService.getMinScore() }} seconds</p>
+</div>
+
+<h4>Minimum Passing Score</h4>
+<p>{{ this.assessmentService.getMinScore() }}</p>
+
+<!-- <h4>Minimum Passing Score</h4>
+<p>{{ config.minimumScore}}</p> -->

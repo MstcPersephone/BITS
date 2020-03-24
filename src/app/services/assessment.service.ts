@@ -33,11 +33,11 @@ export class AssessmentService {
 
   // assessment name
   private enteredName: string;
-  private changedNameUpdated = new Subject<string>();
+  private enteredNameUpdated = new Subject<string>();
 
   // assessment description
   private enteredDescription: string;
-  private changedDescriptionUpdated = new Subject<string>();
+  private enteredDescriptionUpdated = new Subject<string>();
 
   // *********************************************** //
   // ****  ASSESSMENT CONFIGURATION PROPERTIES  **** //
@@ -45,8 +45,15 @@ export class AssessmentService {
   private assessmentConfig: AssessmentConfig;
   private assessmentConfigUpdated = new Subject<AssessmentConfig>();
 
+   // config isRandom
   isRandom = false;
+  private isRandomSelected: boolean;
+  private isRandcomUpdated = new Subject<boolean>();
+
+  // config isTimed
   isTimed = false;
+  private isTimedSelected: boolean;
+  private isTimedUpdated = new Subject<boolean>();
 
   // config maxTime
   private enteredMaxTime = 0;
@@ -121,12 +128,12 @@ export class AssessmentService {
   // ************************************************ //
 
   // gets the minimum score set by user in configuration
-  getChangedName() {
+  getEnteredName() {
     return this.enteredName;
   }
 
-  getChangedNameUpdatedListener() {
-    return this.changedNameUpdated.asObservable();
+  getEnteredNameUpdatedListener() {
+    return this.enteredNameUpdated.asObservable();
   }
 
   // ******************************************************* //
@@ -134,12 +141,12 @@ export class AssessmentService {
   // ******************************************************* //
 
   // gets the minimum score set by user in configuration
-  getChangedDescription() {
+  getEnteredDescription() {
     return this.enteredDescription;
   }
 
-  getChangedDescriptionUpdatedListener() {
-    return this.changedDescriptionUpdated.asObservable();
+  getEnteredDescriptionUpdatedListener() {
+    return this.enteredDescriptionUpdated.asObservable();
   }
 
   // ******************************************************** //
@@ -170,9 +177,21 @@ export class AssessmentService {
     this.assessmentConfig = updatedConfigurationItems;
   }
 
+  getAssessmentConfigUpdateListener() {
+    return this.assessmentConfigUpdated.asObservable();
+  }
+
   // ******************************************************** //
   // *********  CONFIGURATION: ISRANDOM FUNCTIONS  ********** //
   // ******************************************************** //
+
+  getIsRandomSelected() {
+    return this.isRandomSelected;
+  }
+
+  getIsRandomUpdatedListener() {
+    return this.isRandcomUpdated.asObservable();
+  }
 
   // sets the isRandom based upon a click event
   isRandomChanged() {
@@ -183,6 +202,13 @@ export class AssessmentService {
   // ******************************************************** //
   // **********  CONFIGURATION: ISTIMED FUNCTIONS  ********** //
   // ******************************************************** //
+  getIsTimedSelected() {
+    return this.isTimedSelected;
+  }
+
+  getIsTimedUpdatedListener() {
+    return this.isTimedUpdated.asObservable();
+  }
 
   // sets the isTimed based upon a click event
   isTimedChanged() {
@@ -278,14 +304,22 @@ export class AssessmentService {
         // // grabbing the first (and only) assessment in array
         this.assessment = assessmentData.assessment[0];
 
+        console.log('Assessment Id', this.assessment._id);
+        console.log('Assessment', this.assessment);
+
+
         // Add the values to the variables that manages them
         this.enteredName = this.assessment.name;
         this.enteredDescription = this.assessment.description;
-        this.assessmentConfig = this.assessment.config;
+        this.changedMinScore = this.assessment.config.minimumScore;
+        this.isTimedSelected = this.assessment.config.isTimed;
+        this.enteredMaxTime = this.assessment.config.maxTime;
+        this.isRandomSelected = this.assessment.config.isRandom;
         this.questionIds = this.assessment.questionIds;
 
         // Subscribers get a copy of the assessment.
-        this.assessmentsUpdated.next(this.assessment);
+        this.assessmentUpdated.next(this.assessment);
+
       });
   }
 
