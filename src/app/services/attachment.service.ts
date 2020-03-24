@@ -137,4 +137,45 @@ export class AttachmentService {
         reader.readAsBinaryString(f);
       });
   }
+
+  downloadAttachment(attachment: Attachment) {
+    const encoder = new TextEncoder();
+    const reader = new FileReader();
+    let base64result = null;
+    reader.onloadend = () => {
+      base64result = reader.result;
+      base64result = base64result.split(',')[1];
+    };
+    const fileArray = encoder.encode(attachment.content as string);
+    console.log(fileArray);
+    console.log(attachment.fileType);
+    const blob = new Blob([fileArray as BlobPart], {type: attachment.fileType});
+    // const xhr = new XMLHttpRequest();
+    // xhr.open('GET', 'http://localhost:4200', true);
+    // xhr.responseType = 'blob';
+    // xhr.onload = () => {
+    //     const urlCreator = window.URL;
+    //     const imageUrl = urlCreator.createObjectURL(blob);
+    //     setTimeout(() => {
+    //       const tag = document.createElement('a');
+    //       tag.href = imageUrl;
+    //       tag.download = attachment.name;
+    //       document.body.appendChild(tag);
+    //       tag.click();
+    //       setTimeout(() => {
+    //         document.body.removeChild(tag);
+    //       }, 0);
+    //     }, 10000);
+    // };
+    // xhr.send();
+
+    console.log(blob.size);
+    console.log(blob.type);
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = attachment.name;
+    setTimeout(() => {
+      link.click();
+    }, 10000);
+  }
 }
