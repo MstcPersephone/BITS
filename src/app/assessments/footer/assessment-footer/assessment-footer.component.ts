@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AssessmentService } from 'src/app/services/assessment.service';
 
 @Component({
   selector: 'app-assessment-footer',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssessmentFooterComponent implements OnInit {
 
-  constructor() { }
+  constructor(public assessmentService: AssessmentService) { }
 
   ngOnInit() {
+  }
+
+  onClick() {
+
   }
 
 }

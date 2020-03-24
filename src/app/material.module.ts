@@ -14,12 +14,16 @@ import {
   MatListModule,
   MatProgressSpinnerModule,
   MatMenuModule,
+  MatNativeDateModule,
   MatRadioModule,
   MatSelectModule,
   MatSliderModule,
   MatSnackBarModule,
+  MatSortModule,
   MatStepperModule,
+  MatTableModule,
   MatToolbarModule,
+  MatTooltipModule,
   MatTreeModule
 } from '@angular/material';
 
@@ -40,12 +44,16 @@ const MaterialComponents = [
   MatListModule,
   MatProgressSpinnerModule,
   MatMenuModule,
+  MatNativeDateModule,
   MatRadioModule,
   MatSelectModule,
   MatSliderModule,
   MatSnackBarModule,
+  MatSortModule,
   MatStepperModule,
+  MatTableModule,
   MatToolbarModule,
+  MatTooltipModule,
   MatTreeModule
 ];
 
