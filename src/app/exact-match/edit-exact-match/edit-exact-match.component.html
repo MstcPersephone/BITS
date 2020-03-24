@@ -1,0 +1,10 @@
+<form class="editMatchContainer" [formGroup]="editExactMatchForm" (ngSubmit)="onSubmit(editExactMatchForm.value)">
+  <!-- Exact Match Text Input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Match Text</mat-label>
+    <input matInput id="matchText" type="text" formControlName="matchText" value="{{exactMatch.matchText}}">
+  </mat-form-field>
+
+  <!-- Submit Button -->
+  <button *ngIf="editExactMatchForm.dirty" class="addOption" mat-raised-button type="submit">Save Changes to Answer<mat-icon>&nbsp;save</mat-icon></button>
+</form>

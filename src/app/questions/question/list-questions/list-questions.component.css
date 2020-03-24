@@ -1,0 +1,118 @@
+/* Importing shared styles from the list-option component - used when displaying each question option */
+@import "../../../shared/option/list-option/list-option.component.css";
+
+/* Styles the outer container; the one with the header. */
+mat-card {
+  width: 85%;
+  margin: 20px auto;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: #f9f9f9;
+}
+
+/* Styles the expansion panel and it's related items. */
+mat-expansion-panel{
+  margin: auto;
+  width: 90%;
+  margin-bottom: 5px;
+  background-color: #f0f0f0;
+}
+mat-panel-title{
+  font-size: 16px;
+}
+
+/* Styles the h3 headers, including the Question Text */
+h3{
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+/* Styles content within the question header - Question Type and Symbols */
+section.questionHeaderContent{
+  color: gray;
+  display: flex;
+  flex-direction: row;
+  font-size: 15px;
+}
+section.questionHeaderContent p{
+  margin: 10px 0;
+  padding: 3px;
+}
+section.questionHeaderContent mat-icon{
+  padding-left: 10px;
+  margin: 10px 0;
+}
+
+/* Styles content within the question sub-header - Question Text and Point Value */
+section.questionSubHeaderContent{
+  display: flex;
+  flex-direction: row;
+}
+section.questionSubHeaderContent h3:last-of-type{
+  margin: auto;
+  margin-right: 0;
+}
+
+/* Adds a little bit of spacing to the bottom of the last question. */
+div:last-of-type{
+  padding-bottom: 10px;
+}
+
+.questionAttachmentDisplay{
+  font-size: 15px;
+}
+
+/* Styles applied to the True False answer container */
+.trueFalseContainer{
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+}
+.trueFalseContainer p{
+  font-size: 15px;
+  font-weight: bold;
+  margin: auto 0;
+}
+
+/* Styles applied to the True False Answer icon */
+mat-chip.isTrueFalseAnswerIcon {
+  margin-left: 20px;
+  margin-right: auto;
+  display: inline-block;
+}
+.isTrue{
+  background-color: #ccf8d3;
+  border: solid 1px black;
+}
+.isFalse{
+  background-color: #82142D;
+  color: white;
+}
+
+/* Styles applied to the container holding the list of options */
+mat-card.optionListContainer{
+  padding:0;
+  margin-bottom: 0;
+}
+
+/* Styles applied to the Exact Match and Option headers */
+.matchListHeader, .optionListHeader{
+  font-weight: bold;
+  width: 88%;
+  margin: auto;
+  padding-bottom: 0;
+}
+.optionListHeader{
+  width: 85%;
+}
+
+/* Styles applied to the Exact Match container */
+.matchListContainer{
+  background-color: #ccf8d3;
+  margin-bottom: 0;
+  padding: 0;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+

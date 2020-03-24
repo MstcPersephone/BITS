@@ -1,0 +1,5 @@
+/* Importing the task-specific styling. */
+@import "../../_taskStyles/editStyles.css";
+
+/* Importing shared styling from Create True False */
+@import "../create-true-false/create-true-false.component.css";

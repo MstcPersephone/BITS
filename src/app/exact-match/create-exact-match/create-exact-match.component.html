@@ -1,0 +1,15 @@
+<mat-card>
+  <form [formGroup]="createExactMatchForm" (ngSubmit)="onSubmit(createExactMatchForm.value)">
+
+    <!-- Exact match Text Input -->
+    <mat-form-field appearance="standard">
+      <mat-label>Enter New Accepted Answer</mat-label>
+      <input matInput id="matchText" type="text" formControlName="matchText">
+    </mat-form-field>
+
+    <!-- Submit Button -->
+    <button class="addOption" mat-raised-button color="accent" type="submit">Add Accepted Response<mat-icon>&nbsp;add</mat-icon></button>
+  </form>
+  <app-list-exact-match *ngIf="!isEditMode"></app-list-exact-match>
+</mat-card>
+<br>

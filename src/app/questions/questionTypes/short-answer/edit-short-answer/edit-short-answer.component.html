@@ -1,0 +1,38 @@
+<form [formGroup]="editShortAnswerForm" (ngSubmit)="onSubmit(editShortAnswerForm.value)">
+  <h3>Short Answer question details</h3>
+
+  <!-- Question Text Input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Question Text</mat-label>
+    <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}">
+  </mat-form-field>
+
+  <!-- Call to attachment component for editting attachments -->
+  <app-attachment [attachmentsLoaded]="question.hasAttachments"></app-attachment>
+  <br>
+
+  <!-- Answer Case Sensitivity checkbox -->
+  <mat-checkbox
+   class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">
+    Is student answer case sensitive?
+  </mat-checkbox>
+
+  <!-- Container that displays the question's currently existing options -->
+  <h3>Edit acceptable answers</h3>
+  <mat-card class="currentOptionsSection">
+    <!-- Add Option button; used to display the Create Option form below -->
+    <button class="addOption" mat-raised-button type="button"
+     (click)="this.questionService.toggleCreateMatch()">
+      Add New Acceptable Answer<mat-icon>&nbsp;add</mat-icon>
+    </button>
+
+    <!-- Call to Create Exact Match; displays when Add New Acceptable Answer button is selected -->
+    <app-create-exact-match *ngIf="this.questionService.showCreateMatch" [isEditMode]="true"></app-create-exact-match>
+
+    <!-- Call to Edit Exact Match; displays the acceptable answers currently attached to the question -->
+    <app-edit-exact-match *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; Index as i" [exactMatch]="exactMatch"></app-edit-exact-match>
+  </mat-card>
+
+  <!-- Submit Button -->
+  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+</form>

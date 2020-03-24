@@ -1,0 +1,18 @@
+<form [formGroup]="createMultipleChoiceForm" (ngSubmit)="onSubmit(createMultipleChoiceForm.value)">
+  <h3>Multiple Choice question details</h3>
+  <!-- Question Name Text Input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Enter Question Text</mat-label>
+    <input matInput id="questionText" type="text" formControlName="questionText">
+  </mat-form-field>
+
+  <!-- Add attachment component -->
+  <app-attachment></app-attachment>
+
+  <!-- CreateOption Component -->
+  <h3>Add options to the question</h3>
+  <app-create-option></app-create-option>
+
+  <!-- Submit Button -->
+  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+</form>

@@ -4,23 +4,24 @@ const mongoose = require('mongoose');
 // Import subdocument schemas
 const attachmentSchema = require('../shared/attachment');
 const optionSchema = require('../shared/option');
+const categorySchema = require('../shared/category');
 
 // Create Checkbox Schema (blueprint)
 const checkboxSchema = mongoose.Schema({
+  categories: {
+    type: [categorySchema.schema],
+    required: true
+  },
   questionText: {
     type: String,
     required: true
   },
-  name: {
-    type: String,
-    required: true
-  },
-  questionType = {
+  questionType: {
     type: String,
     required: true
   },
   options: {
-    type: [optionSchema],
+    type: [optionSchema.schema],
     required: true
   },
   hasAttachments: {
@@ -28,15 +29,26 @@ const checkboxSchema = mongoose.Schema({
     required: true
   },
   attachments: {
-    type: [attachmentSchema]
+    type: [attachmentSchema.schema]
   },
   isAnswered: {
     type: Boolean,
     required: true
   },
   duration: {
-    type: number,
+    type: Number,
     default: 0
+  },
+  points: {
+    type: Number,
+    default: 0
+  },
+  isAnsweredCorrectly: {
+    type: Boolean,
+    required: false
+  },
+  assessmentIds: {
+    type: [String]
   },
   createdOn: {
     type: Date,
@@ -45,4 +57,4 @@ const checkboxSchema = mongoose.Schema({
 });
 
 // Create and export Checkbox Model
-module.exports = mongoose.model('Checkbox', checkboxSchema);
+module.exports = mongoose.model('Checkbox', checkboxSchema, 'questions');

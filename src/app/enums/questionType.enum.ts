@@ -1,8 +1,8 @@
 // List of possible question types
 export enum QuestionType {
-  MultipleChoice = 'MULTIPLE_CHOICE',
-  TrueFalse = 'TRUE_FALSE',
-  Essay = 'ESSAY',
-  Upload = 'UPLOAD',
-  CheckBox = 'CHECKBOX'
+  CheckBox = 'Checkbox',
+  MultipleChoice = 'Multiple Choice',
+  TrueFalse = 'True False',
+  ShortAnswer = 'Short Answer',
+  Upload = 'Upload'
 }

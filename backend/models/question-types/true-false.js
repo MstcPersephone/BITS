@@ -3,18 +3,19 @@ const mongoose = require('mongoose');
 
 // Import subdocument schemas
 const attachmentSchema = require('../shared/attachment');
+const categorySchema = require('../shared/category');
 
 // Create True False Schema (blueprint)
 const trueFalseSchema = mongoose.Schema({
-  name: {
-    type: String,
+  categories: {
+    type: [categorySchema.schema],
     required: true
   },
   questionText: {
     type: String,
     required: true
   },
-  questionType = {
+  questionType: {
     type: String,
     required: true
   },
@@ -23,7 +24,7 @@ const trueFalseSchema = mongoose.Schema({
     required: true
   },
   attachments: {
-    type: [attachmentSchema]
+    type: [attachmentSchema.schema]
   },
   isAnswered: {
     type: Boolean,
@@ -33,9 +34,24 @@ const trueFalseSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
+  studentAnswer: {
+    type: String,
+    default: 'Not answered'
+  },
   duration: {
-    type: number,
+    type: Number,
     default: 0
+  },
+  points: {
+    type: Number,
+    default: 0
+  },
+  isAnsweredCorrectly: {
+    type: Boolean,
+    required: false
+  },
+  assessmentIds: {
+    type: [String]
   },
   createdOn: {
     type: Date,
@@ -44,4 +60,4 @@ const trueFalseSchema = mongoose.Schema({
 });
 
 // Create and export TrueFalse Model
-module.exports = mongoose.model('TrueFalse', trueFalseSchema);
+module.exports = mongoose.model('TrueFalse', trueFalseSchema, 'questions');

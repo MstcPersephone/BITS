@@ -1,0 +1,28 @@
+<form [formGroup]="createTrueFalseForm" (ngSubmit)="onSubmit(createTrueFalseForm.value)">
+  <h3>True False question details</h3>
+  <!-- Question Text Input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Enter Question Text</mat-label>
+    <input matInput id="questionText" type="text" formControlName="questionText">
+  </mat-form-field>
+
+  <!-- Attachment Component for uploading files -->
+  <app-attachment></app-attachment>
+
+  <!-- Question Name Text Input -->
+    <h3>Select correct answer:  </h3>
+    <mat-radio-group aria-label="Select correct answer" formControlName="answer">
+      <mat-radio-button
+      *ngFor="let answer of answers; let i = index"
+      [ngClass]="{'ml-25': i > 0}"
+      type="radio"
+      name="answer"
+      matTooltip="Info about the action"
+      value="{{answer}}"
+      (change)="radioChangeHandler($event)">{{answer}}</mat-radio-button>
+    </mat-radio-group>
+
+
+  <!-- Submit Button -->
+  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+</form>

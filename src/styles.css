@@ -1,4 +1,171 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/*
+
+Mid-State Website Colors
+$mstcRed: #82142D;
+$mstcWhite: #fff;
+$mstcGray: #404040;
+$mstcDarkGray: #2d2d2d;
+$mstcYellow: #fcb618;
+$mstcBlue: #0b578a;
+$mstcDarkBlue: #033d60;
+
+$correctAnswerGreen: #ccf8d3;
+
+$backgroundWhite: #f5f5f5;
+$backgroundLightGray: #f0f0f0;
+
+*/
+
+/* Setting html and body elements to reduce white space on page. */
+html,
+body {
+  min-height: 900px;
+}
+html{
+  margin: 10px auto;
+  background-color: #2d2d2d;
+  min-width: 750px;
+  width: 70%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  margin-bottom: 10px;
+}
+
+/* Adjusting the top radius values to make page radius rounded. */
+mat-toolbar{
+  border-radius: 3px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+/* Styles applied to the page's "central component" (Create a Question, etc.) */
+mat-card {
+  width: 75%;
+  margin: auto;
+  margin-bottom: 10px;
+}
+mat-card, mat-form-field, mat-checkbox, mat-radio-group, button, h3, .mat-radio-button {
+  display: block;
+}
+
+/* Styles applied to Forms */
+form{
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  overflow: hidden ; /* Prevents the Save button from falling out of the form due to it's float */
+}
+/* Adjusts spacing between each element. */
+/* 'mat-radio-group' affects all inputs as well, and 'input' cannot be targetted directly. */
+/* Spacing between Save Button and the radio buttons is performed through 'button:last-of-type'. */
+mat-checkbox, mat-label{
+  margin-bottom: 10px;
+}
+button:last-of-type{
+  margin-top: 10px;
+}
+
+/* Adjusts the appearance of h1 headers */
+h1{
+  font-size: 25px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  padding: 0px;
+}
+
+/* Adjusts the appearance of h3 headers */
+h3{
+  padding-top: 20px;
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+
+/* Makes the cursor turn into a hand for buttons */
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"],
+.iconButton,
+mat-icon {
+  cursor: pointer;
+}
+
+/* Styles applied to the Save button */
+button.saveButton {
+  background-color: #82142D;
+  color: #ffffff;
+  margin-top: 40px;
+  float: right;
+}
+
+/* Styles applied to the Upload button. Puts upload button on one line, rather than inline with the lower content. */
+button.uploadButton {
+  background-color: #404040;
+  margin-bottom: 10px;
+}
+
+/* Styles applied to the Edit icon */
+mat-icon.editIcon {
+  color: #2d2d2d;
+}
+/* Styles applied to the Delete icon */
+mat-icon.deleteIcon {
+  color: #82142D;
+}
+mat-icon.deleteIcon:hover, mat-icon.editIcon:hover {
+  opacity: 0.7;
+}
+
+/* Styles applied to the Add buttons (Add Option, Add Exact Match) and the Upload Correct Answer button */
+button.addOption, button.uploadAnswer{
+  background-color: #0b578a !important;
+  color: #ffffff;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* Styles applied to any "correct" options or dialogs */
+mat-list-item.correct, .success-dialog{
+  background-color: #ccf8d3;
+  color: black;
+}
+
+/* Styles applied to the correct answer checkmark */
+.isAnswerIcon{
+  color: black;
+}
+.isNotAnswerIcon{
+  color: rgba(0,0,0,0);
+}
+
+/* Styles applied to any "alert" options or dialogs */
+mat-list-item.alert, .alert-dialog {
+  background-color: #fcb618;
+  color: black;
+}
+
+/* Styles applied to any "error" options or dialogs */
+mat-list-item.error, .error-dialog {
+  background-color: #82142D;
+  color: white;
+}
+
+/* Styles applied to the snackbox dialog popups (appearing when you save or update questions) */
+.success-dialog, .alert-dialog, .error-dialog{
+  display: flex;
+  border: 2px #2d2d2d solid;
+}
+.success-dialog button, .alert-dialog button, .error-dialog button{
+  margin: auto;
+}
+
+/* Styles applied to the "Loading" spinner */
+mat-spinner {
+  margin: 150px auto;
+}

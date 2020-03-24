@@ -1,0 +1,46 @@
+<!-- This is the component for managing all parts of Category (View List/Allow Edit and Delete of Categories) -->
+<mat-card>
+  <h1 class="mat-display-1">Manage Categories</h1>
+  <mat-card>
+  <h3>Add new category</h3>
+  <!-- This is the form for adding a new category -->
+  <form [formGroup]="createCategoryForm" (ngSubmit)="onSubmit(createCategoryForm.value)">
+    <mat-form-field appearance="standard">
+      <mat-label>Category Name</mat-label>
+      <input matInput id="categoryName" type="text" formControlName="categoryName">
+    </mat-form-field>
+    <!-- Submit Button -->
+    <button class="addOption" mat-raised-button color="accent"  type="submit">Add Category<mat-icon>&nbsp;add</mat-icon></button>
+  </form>
+</mat-card>
+
+  <!-- List of categories -->
+  <div class="categoryList">
+    <section class="categoryHeader"><h3>Category List</h3></section>
+    <mat-card class="categoryListContainer">
+      <mat-list *ngIf="categoryList.length > 0">
+        <div *ngFor="let category of categoryList; let i = index">
+
+          <!-- Top divider, which doesn't display on the first list item. -->
+          <mat-divider *ngIf="i != 0"></mat-divider>
+
+          <!-- Category Item -->
+          <mat-list-item>
+
+            <!-- Category Name Display -->
+            <span class="categoryListItem">{{ category.name }}</span>
+
+            <!-- Section containing the list item commands (Edit, Delete) -->
+            <section class="categoryButtonContainer">
+              <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
+              <mat-icon class="deleteIcon iconButton" matListIcon (click)="this.questionService.deleteCategory(i)">delete</mat-icon>
+            </section>
+          </mat-list-item>
+
+          <!-- Bottom divider, which doesn't display on the last list item. -->
+          <mat-divider *ngIf="i != categoryList.length - 1"></mat-divider>
+
+        </div>
+      </mat-list>
+    </mat-card>
+  </div>

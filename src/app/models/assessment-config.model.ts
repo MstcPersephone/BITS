@@ -1,7 +1,13 @@
 // Settings that we can use as switches when the user is building an assessment
+
+import { Time } from '@angular/common';
+
 // Properties that are in here now are just ideas. Not sure if we'll need them yet
 export class AssessmentConfig {
-  allowBack: boolean; // navigate to previously submitted answers
-  allowReview: boolean; // allow changing of answers
+  isRandom: boolean; // whether questions will be random
+  isTimed: boolean; // whether questions will be timed
+  maxTime: number; // the max time allowed for a timed assessment
   duration: number; // 0 will be unlimited time
+  wrongStreak: number; // how many wrong in a row
+  minimumScore: number; // minimum percentage of passing assessment
 }

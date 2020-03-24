@@ -3,18 +3,19 @@ const mongoose = require('mongoose');
 
 // Import subdocument schemas
 const attachmentSchema = require('../shared/attachment');
+const categorySchema = require('../shared/category');
 
 // Create Upload Schema (blueprint)
 const uploadSchema = mongoose.Schema({
-  name: {
-    type: String,
+  categories: {
+    type: [categorySchema.schema],
     required: true
   },
   questionText: {
     type: String,
     required: true
   },
-  questionType = {
+  questionType: {
     type: String,
     required: true
   },
@@ -23,18 +24,32 @@ const uploadSchema = mongoose.Schema({
     required: true
   },
   attachments: {
-    type: [attachmentSchema]
+    type: [attachmentSchema.schema]
   },
   isAnswered: {
     type: Boolean,
     required: true
   },
-  answer: {
-    type: [attachmentSchema]
+  correctAnswer: {
+    type: [attachmentSchema.schema]
+  },
+  submittedAnswer: {
+    type: [attachmentSchema.schema]
   },
   duration: {
-    type: number,
+    type: Number,
     default: 0
+  },
+  points: {
+    type: Number,
+    default: 0
+  },
+  isAnsweredCorrectly: {
+    type: Boolean,
+    required: false
+  },
+  assessmentIds: {
+    type: [String]
   },
   createdOn: {
     type: Date,
@@ -43,4 +58,4 @@ const uploadSchema = mongoose.Schema({
 });
 
 // Create and export Upload Model
-module.exports = mongoose.model('Upload', uploadSchema);
+module.exports = mongoose.model('Upload', uploadSchema, 'questions');

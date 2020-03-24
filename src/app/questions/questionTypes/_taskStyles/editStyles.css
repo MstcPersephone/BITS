@@ -1,0 +1,14 @@
+/*
+* Styles affecting the "edit" question components.
+*/
+@import "../_taskStyles/createStyles.css";
+
+.currentOptionsSection{
+  width: 95%;
+  padding: 15px;
+  margin: 0px auto;
+}
+
+.addOption{
+  margin-bottom: 15px;
+}

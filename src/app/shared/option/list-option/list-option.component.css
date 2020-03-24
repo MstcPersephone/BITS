@@ -1,0 +1,49 @@
+@import "../../../../styles.css";
+
+/* Styles applied to the mat-card and the Edit Option container (Holding each individual option's edit features) */
+mat-card, .editOptionContainer{
+  overflow: hidden;
+  background-color: #f5f5f5;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Styles applied to each list item */
+mat-list-item {
+  padding-top: 15px !important;
+  padding-bottom: 20px !important;
+}
+
+/* Styles applied to the option count display */
+.optionCount, .matchCount, .categoryCount{
+  float: right;
+  margin-right: 20px;
+}
+
+/* Styles applied to the option list (which holds each individual option) */
+.optionList, .matchList, .categoryList{
+  margin-top: 40px;
+}
+
+/* Styles applied to the containers for each option */
+.optionListContainer, .matchListContainer, .categoryContainer{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+/* Styles applied to each individual option */
+.optionListItem, .matchListItem, .categoryListItem{
+  margin: 10px;
+}
+
+/* Styles applied to the option's button container (holding the Edit/Delete buttons) */
+.optionButtonContainer, .matchButtonContainer, .categoryButtonContainer, .questionButtonContainer{
+  margin-left: auto;
+  min-width: 65px;
+  margin-right: 0;
+}
+
+/* This is to override the default Angular Material hover effect */
+.mat-standard-chip:hover::after, .mat-standard-chip:focus::after {
+  opacity: 0;
+}

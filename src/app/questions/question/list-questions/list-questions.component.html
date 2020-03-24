@@ -1,0 +1,128 @@
+<!-- The spinner object, displayed when the application is loading the questions -->
+<mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
+
+<!-- The main "Viewing all questions" display -->
+<mat-card *ngIf="!this.helperService.isLoading">
+  <h1 class="mat-display-1">Viewing all questions</h1>
+
+  <!-- Creating separate category divs and expansion panels to contain each question fitting a category -->
+  <div *ngFor="let category of organizedQuestions | keyvalue">
+    <mat-expansion-panel>
+      <!-- Beginning of the Category Expansion panel Headers -->
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{category.key}} Questions</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <!-- Beginning of the Questions sorted into Category Headers -->
+      <div *ngFor="let question of category.value">
+        <!-- Mat card separator for each question within the expansion panel -->
+        <mat-card>
+          <!-- Question header section-->
+          <section class="questionHeaderContent">
+            <!-- Displaying Question Type -->
+            <p>{{ question.questionType }} Question</p>
+            <!-- Displaying the delete and edit icons -->
+            <section class="questionButtonContainer">
+              <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question._id)">delete</mat-icon>
+              <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
+            </section>
+          </section>
+
+
+          <section class="questionSubHeaderContent">
+          <!-- Displays the question text -->
+          <h3> {{ question.questionText }}</h3>
+
+          <!-- Displays the question points -->
+          <h3><strong>Point Value:</strong> {{ question.points }}</h3>
+          </section>
+
+          <!-- Displays any attachments the question has. -->
+          <div *ngFor="let attachment of question.attachments">
+            <p class="questionAttachmentDisplay" *ngIf="question.hasAttachments"><strong>Attachments: </strong>
+              <a *ngIf="question.hasAttachments" href="{{attachment.content}}"
+               download="{{attachment.name}}">{{ attachment.name }}</a>
+            </p>
+          </div>
+
+          <!-- If Checkbox or Multiple Choice displays the options -->
+          <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'"
+           class="optionList">
+
+            <!-- Displaying each selectable option defined for the question -->
+            <h3 class="optionListHeader">Selectable Options:</h3>
+
+            <mat-card class="optionListContainer">
+             <mat-list *ngIf="this.questionService.asCheckbox(question).options.length > 0">
+               <div *ngFor="let option of this.questionService.asCheckbox(question).options; let i = index">
+                  <mat-divider *ngIf="i != 0"></mat-divider>
+
+                  <!-- The list item itself. Contains the option text and the container which holds related commands. -->
+                  <!-- The [ngClass] definition is used to set the background color to green for correct answers. -->
+                  <mat-list-item [ngClass]="option.isAnswer ? 'correct' : '' ">
+
+                    <!-- The checkmark icon displaying if the option is correct. -->
+                    <!-- Uses the [ngClass] definition to show/hide the isAnswer icon -->
+                    <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
+
+                    <!-- The text displayed within the option. -->
+                    <span class="optionListItem">{{option.optionText}}</span>
+                  </mat-list-item>
+
+                  <mat-divider *ngIf="i != this.questionService.asCheckbox(question).options.length - 1"></mat-divider>
+                </div>
+              </mat-list>
+            </mat-card>
+          </div>
+
+          <!-- If Short Answer displays the exact matches -->
+          <div class="matchList" *ngIf="question.questionType == 'Short Answer'">
+
+            <!-- Displaying each acceptable answer defined for the question -->
+            <h3 class="matchListHeader">Acceptable Answers:</h3>
+
+            <mat-card class="matchListContainer">
+              <mat-list *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
+                <div *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; let i = index">
+                   <mat-divider *ngIf="i != 0"></mat-divider>
+
+                   <!-- The list item itself. Contains the option text and the container which holds related commands. -->
+                   <mat-list-item class="correct">
+
+                    <!-- The checkmark icon showing that the option is correct. -->
+                    <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+
+                     <!-- The text displayed within the option. -->
+                     <span class="matchListItem">{{exactMatch.matchText}}</span>
+                   </mat-list-item>
+
+                   <mat-divider *ngIf="i != this.questionService.asShortAnswer(question).matches.length - 1"></mat-divider>
+                 </div>
+               </mat-list>
+             </mat-card>
+          </div>
+
+          <!-- If True False displays the answer -->
+          <mat-list-item role="listitem" *ngIf="question.questionType === 'True False'">
+            <section class="trueFalseContainer">
+              <p>Correct Answer:</p>
+              <!-- If True/False, show answer -->
+              <mat-chip-list>
+                <mat-chip class="isTrueFalseAnswerIcon isTrue" *ngIf="this.questionService.asTrueFalse(question).answer"
+                [selectable]="false" [selected]="false">
+                True
+                </mat-chip>
+                <mat-chip class="isTrueFalseAnswerIcon isFalse" *ngIf="!this.questionService.asTrueFalse(question).answer"
+                [selectable]="false" [selected]="false">
+                False
+                </mat-chip>
+              </mat-chip-list>
+            </section>
+          </mat-list-item>
+
+        </mat-card>
+      </div>
+    </mat-expansion-panel>
+  </div>
+</mat-card>
+<br>

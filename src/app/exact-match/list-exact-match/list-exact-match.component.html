@@ -1,0 +1,36 @@
+<br>
+<!-- List of created exact match answers for question -->
+<p class="matchCount" *ngIf="this.questionService.getHasMatches()">
+  {{ exactMatches.length }} {{ exactMatches.length > 1 ? "exactMatches" : "exactMatch" }} added to the question.
+</p>
+
+  <mat-card class="matchListContainer">
+    <mat-list *ngIf="exactMatches.length > 0">
+      <div *ngFor="let exactMatch of exactMatches; let i = index">
+
+        <!-- Top divider of list item does not show for the first list item -->
+        <mat-divider *ngIf="i != 0"></mat-divider>
+
+        <mat-list-item class="correct">
+
+          <!-- The checkmark icon displaying that the option is correct. -->
+          <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+
+          <!-- The text displayed within the match. -->
+          <span class="matchListItem">{{exactMatch.matchText}}</span>
+
+          <!-- Section which houses the commands used on the list item (edit and delete buttons, for example). -->
+          <section class="matchButtonContainer">
+            <!-- This will become the link to EditExactMatch component -->
+            <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
+            <mat-icon class="deleteIcon iconButton" (click)="this.questionService.deleteMatch(i)" matListIcon>delete</mat-icon>
+          </section>
+
+        </mat-list-item>
+
+        <!-- Bottom divider of list item does not show for the last list item -->
+        <mat-divider *ngIf="i != exactMatches.length -1"></mat-divider>
+      </div>
+    </mat-list>
+  </mat-card>
+

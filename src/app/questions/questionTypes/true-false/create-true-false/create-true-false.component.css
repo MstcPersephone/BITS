@@ -1,0 +1,14 @@
+/* Importing the task-specific styling. */
+@import "../../_taskStyles/createStyles.css";
+
+mat-card, .mat-radio-group {
+  display: block;
+  margin-bottom: 10px;
+}
+form > mat-label{
+  margin-top: 30px;
+  display: block;
+}
+mat-radio-button:last-of-type {
+  margin-left: 25px;
+}

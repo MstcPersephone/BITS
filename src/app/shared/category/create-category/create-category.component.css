@@ -1,0 +1,26 @@
+/* Importing global styles which were not applied initially */
+@import "../../../../styles.css";
+
+/* Adds extra margin to left side to differentiate the Create Category form from the Create Question form, */
+/* as well as some padding to the left, right, and bottom */
+form{
+  margin-left: 50px;
+  padding: 25px;
+  padding-top: 0;
+}
+
+/* Creating a flex display of the Add and Cancel buttons */
+.categoryOptionContainer{
+  display: flex;
+  flex-wrap: nowrap;
+}
+/* Setting proper margins on Add and Cancel buttons to have them display on the left */
+.categoryOptionContainer button{
+  margin: auto;
+  margin-left: 0;
+  margin-right: 0;
+}
+.categoryOptionContainer button:first-of-type{
+  margin-left: auto;
+  margin-right: 15px;
+}
