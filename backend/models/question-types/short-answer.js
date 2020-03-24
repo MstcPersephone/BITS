@@ -6,7 +6,7 @@ const attachmentSchema = require('../shared/attachment');
 const exactMatchSchema = require('../shared/exact-match');
 const categorySchema = require('../shared/category');
 
-// Create Essay Schema (blueprint)
+// Create Short Answer Schema (blueprint)
 const shortAnswerSchema = mongoose.Schema({
   categories: {
     type: [categorySchema.schema],
@@ -63,5 +63,5 @@ const shortAnswerSchema = mongoose.Schema({
   }
 });
 
-// Create and export Essay Model
+// Create and export Short Answer Model
 module.exports = mongoose.model('ShortAnswer', shortAnswerSchema, 'questions');
