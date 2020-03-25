@@ -79,7 +79,7 @@ export class AssessmentService {
   // ******************************* //
   // ****  QUESTION PROPERTIES  **** //
   // ******************************* //
-  private questionIds: string[];
+  public questionIds: string[];
   public questions: Question[] = [];
   private currentQuestion: Question;
   private assessmentQuestionsUpdated = new Subject<Question[]>();
@@ -310,8 +310,8 @@ export class AssessmentService {
         // // grabbing the first (and only) assessment in array
         this.assessment = assessmentData.assessment[0];
 
-        // console.log('Assessment Id', this.assessment._id);
-        // console.log('Assessment', this.assessment);
+        console.log('Assessment Id', this.assessment._id);
+        console.log('Assessment', this.assessment);
 
 
         // Add the values to the variables that manages them

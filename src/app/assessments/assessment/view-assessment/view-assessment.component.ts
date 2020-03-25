@@ -13,10 +13,8 @@ import { QuestionService } from 'src/app/services/question.service';
   styleUrls: ['./view-assessment.component.css']
 })
 export class ViewAssessmentComponent implements OnInit {
-  question: Question;
+  questions: Question[];
   assessment: Assessment;
-  name: string;
-
   private questionsSubscription: Subscription;
   private assessmentSubscription: Subscription;
 
@@ -29,9 +27,19 @@ export class ViewAssessmentComponent implements OnInit {
   ngOnInit() {
     this.assessmentService.getAssessmentById(this.route.snapshot.params.assessmentId);
     this.assessmentSubscription = this.assessmentService.getAssessmentUpdateListener()
-    .subscribe((assessment: Assessment) => {
-      this.assessment = assessment;
-      console.log('Assessment by Id', this.assessment);
-    });
+      .subscribe((assessment: Assessment) => {
+        this.assessment = assessment;
+        console.log('Assessment by Id', this.assessment);
+
+      //   this.assessmentService.getQuestionsByIds(this.route.snapshot.params.questionIds);
+      //   this.questionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
+      // .subscribe((questions: Question[]) => {
+      //   this.questions = questions;
+      //   console.log('Questions by Id', this.questions);
+      // });
+
+      });
+
+
   }
 }
