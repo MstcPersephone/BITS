@@ -71,23 +71,23 @@
 
   </mat-grid-list>
 
-  <!-- <div *ngFor="let question of this.assessmentService.getQuestionsByIds(this.assessmentService.questionIds)">
+  <div *ngFor="let question of this.assessmentService.getQuestionsByIds(this.assessmentService.questionIds)">
 
     <div *ngIf="question._id === this.assessmentService.questionIds">
-    <section class="questionHeaderContent"> -->
+    <section class="questionHeaderContent">
 
       <!-- Displaying Question Type -->
-      <!-- <p>{{ question.questionType }} Question</p> -->
+      <p>{{ question.questionType }} Question</p>
 
       <!-- Displaying the delete and edit icons -->
-      <!-- <section class="questionButtonContainer">
+      <section class="questionButtonContainer">
         <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question._id)">delete</mat-icon>
         <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
       </section>
     </section>
   </div>
 
-  </div> -->
+  </div>
 
 
 </mat-card>
