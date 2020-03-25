@@ -71,23 +71,42 @@
 
   </mat-grid-list>
 
-  <div *ngFor="let question of this.assessmentService.getQuestionsByIds(this.assessmentService.questionIds)">
+  <div *ngFor="let question of questions">
 
-    <div *ngIf="question._id === this.assessmentService.questionIds">
     <section class="questionHeaderContent">
-
       <!-- Displaying Question Type -->
       <p>{{ question.questionType }} Question</p>
-
-      <!-- Displaying the delete and edit icons -->
-      <section class="questionButtonContainer">
-        <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question._id)">delete</mat-icon>
-        <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
-      </section>
     </section>
   </div>
 
-  </div>
+  <h4>Assessment Questions</h4>
+  <!-- <button><a (click)="reloadOriginalOrder(assessment._id)">Original Sort Order</a></button> -->
 
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="questionType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header width ="20%">Question Type</th>
+      <td mat-cell *matCellDef="let question"></td>
+    </ng-container>
+
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="questionText">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Question Text</th>
+      <td mat-cell *matCellDef="let question" matTooltip={{question.questionText}}>
+        {{question.questionText}} </td>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="points">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header width ="2%">Points</th>
+      <td mat-cell *matCellDef="let question"> {{question.points}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; Index as i"></tr>
+
+  </table>
 
 </mat-card>
