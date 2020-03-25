@@ -4,5 +4,5 @@ export class Attachment {
   name: string;
   fileType: string;
   fileSize: number;
-  content: string | ArrayBuffer;
+  content: any;
 }
