@@ -25,7 +25,6 @@ export class AssessmentService {
   // single assessment
   private assessment: Assessment;
   private assessmentUpdated = new Subject<Assessment>();
-  private status: any;
 
   // list of assessments
   private assessments: any;
@@ -39,6 +38,9 @@ export class AssessmentService {
   private enteredDescription: string;
   private enteredDescriptionUpdated = new Subject<string>();
 
+  // status
+  private status: any;
+
   // *********************************************** //
   // ****  ASSESSMENT CONFIGURATION PROPERTIES  **** //
   // *********************************************** //
@@ -47,20 +49,20 @@ export class AssessmentService {
 
    // config isRandom
   isRandom = false;
-  private isRandomSelected: boolean;
+  public isRandomSelected: boolean;
   private isRandcomUpdated = new Subject<boolean>();
 
   // config isTimed
   isTimed = false;
-  private isTimedSelected: boolean;
+  public isTimedSelected: boolean;
   private isTimedUpdated = new Subject<boolean>();
 
   // config maxTime
-  private enteredMaxTime = 0;
+  public enteredMaxTime = 0;
   private maxTimeUpdated = new Subject<number>();
 
   // config wrongStreak
-  private enteredWrongStreak = 0;
+  public enteredWrongStreak = 0;
   private wrongStreakUpdated = new Subject<number>();
 
   // config minScore
@@ -121,6 +123,10 @@ export class AssessmentService {
 
   changeInProgressStatus() {
     this.status = 'In Progress';
+  }
+
+  getStatus() {
+    return this.status;
   }
 
   // ************************************************ //
@@ -304,8 +310,8 @@ export class AssessmentService {
         // // grabbing the first (and only) assessment in array
         this.assessment = assessmentData.assessment[0];
 
-        console.log('Assessment Id', this.assessment._id);
-        console.log('Assessment', this.assessment);
+        // console.log('Assessment Id', this.assessment._id);
+        // console.log('Assessment', this.assessment);
 
 
         // Add the values to the variables that manages them
@@ -315,7 +321,9 @@ export class AssessmentService {
         this.isTimedSelected = this.assessment.config.isTimed;
         this.enteredMaxTime = this.assessment.config.maxTime;
         this.isRandomSelected = this.assessment.config.isRandom;
+        this.enteredWrongStreak = this.assessment.config.wrongStreak;
         this.questionIds = this.assessment.questionIds;
+        this.status = this.assessment.status;
 
         // Subscribers get a copy of the assessment.
         this.assessmentUpdated.next(this.assessment);

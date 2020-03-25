@@ -24,8 +24,8 @@ export class CreateAssessmentConfigComponent implements OnInit {
     public assessmentService: AssessmentService,
     private formBuilder: FormBuilder) {
     this.createConfigurationForm = this.formBuilder.group({
-      isRandom: '',
-      isTimed: '',
+      isRandom: false,
+      isTimed: false,
       maxTime: '',
       minimumScore: this.assessmentService.getMinScore(),
       wrongStreak: ''

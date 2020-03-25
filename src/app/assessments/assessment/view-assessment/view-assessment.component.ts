@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Assessment } from 'src/app/models/assessment.model';
@@ -15,6 +15,7 @@ import { QuestionService } from 'src/app/services/question.service';
 export class ViewAssessmentComponent implements OnInit {
   question: Question;
   assessment: Assessment;
+  name: string;
 
   private questionsSubscription: Subscription;
   private assessmentSubscription: Subscription;
@@ -27,12 +28,10 @@ export class ViewAssessmentComponent implements OnInit {
 
   ngOnInit() {
     this.assessmentService.getAssessmentById(this.route.snapshot.params.assessmentId);
-    console.log('Assessment View', this.assessment);
     this.assessmentSubscription = this.assessmentService.getAssessmentUpdateListener()
     .subscribe((assessment: Assessment) => {
       this.assessment = assessment;
+      console.log('Assessment by Id', this.assessment);
     });
   }
-
-
 }

@@ -1,20 +1,74 @@
+<h1 class="mat-display-1">Manage Assessment</h1>
+
 <mat-card>
-  <h1 class="mat-display-1">Manage Assessment</h1>
-  <mat-card>
-        <!-- Assessment Header Section: Name-->
-          <h3>{{ this.assessmentService.getEnteredName() }}
-          <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
-          <mat-icon class="editIcon" matListIcon>edit</mat-icon>
-        </h3>
-        <mat-list role="list">
 
-        <!-- Description -->
-        <p>{{ this.assessmentService.getEnteredDescription() }}</p>
+  <!-- Assessment Header Section: Name-->
+  <h3>{{ this.assessmentService.getEnteredName() }}
+    <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
+    <mat-icon class="editIcon" matListIcon>edit</mat-icon>
+  </h3>
 
-        <app-view-assessment-config></app-view-assessment-config>
+  <!-- Description -->
+  <h4>Description</h4>
+  <p>{{ this.assessmentService.getEnteredDescription() }}</p>
+  <!-- Grid List for Configuration / Status -->
+  <mat-grid-list cols="5">
 
-    </mat-list>
-  </mat-card>
+    <!-- Status -->
+    <mat-grid-tile>
+      <mat-grid-tile-header>
+        <h4>Status</h4>
+      </mat-grid-tile-header>
+      <p>{{ this.assessmentService.getStatus() }}</p>
+    </mat-grid-tile>
+
+    <!-- Timed Test -->
+    <mat-grid-tile>
+      <mat-grid-tile-header>
+        <h4>Time Limit</h4>
+      </mat-grid-tile-header>
+      <div *ngIf="this.assessmentService.isTimed === false">
+        <p>N/A</p>
+      </div>
+      <div *ngIf="this.assessmentService.isTimed === true">
+        <p>{{ this.assessmentService.getMaxTime() }} minutes</p>
+      </div>
+    </mat-grid-tile>
+
+    <!-- Wrong Streak -->
+    <mat-grid-tile>
+      <mat-grid-tile-header>
+        <h4>Incorrect Answer Tracking</h4>
+      </mat-grid-tile-header>
+      <div *ngIf="this.assessmentService.enteredWrongStreak === 0">
+        <p>N/A</p>
+      </div>
+      <div *ngIf="this.assessmentService.enteredWrongStreak > 0">
+        <p>{{ this.assessmentService.getWrongStreak() }}</p>
+      </div>
+    </mat-grid-tile>
+
+    <!-- Min Score -->
+    <mat-grid-tile>
+      <mat-grid-tile-header>
+        <h4>Minimum Passing Score</h4>
+      </mat-grid-tile-header>
+      <p>{{ this.assessmentService.getMinScore() }}%</p>
+    </mat-grid-tile>
+
+    <!-- Question Order -->
+    <mat-grid-tile>
+      <mat-grid-tile-header>
+        <h4>Question Order</h4>
+      </mat-grid-tile-header>
+      <div *ngIf="this.assessmentService.isRandomSelected === true">
+        <p>Randomized</p>
+      </div>
+      <div *ngIf="this.assessmentService.isRandomSelected === false">
+        <p>Selected Order</p>
+      </div>
+    </mat-grid-tile>
+
+  </mat-grid-list>
+
 </mat-card>
-<br>
-
