@@ -71,23 +71,14 @@
 
   </mat-grid-list>
 
-  <div *ngFor="let question of questions">
-
-    <section class="questionHeaderContent">
-      <!-- Displaying Question Type -->
-      <p>{{ question.questionType }} Question</p>
-    </section>
-  </div>
-
   <h4>Assessment Questions</h4>
-  <!-- <button><a (click)="reloadOriginalOrder(assessment._id)">Original Sort Order</a></button> -->
 
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <!-- Name Column -->
     <ng-container matColumnDef="questionType">
       <th mat-header-cell *matHeaderCellDef mat-sort-header width ="20%">Question Type</th>
-      <td mat-cell *matCellDef="let question"></td>
+      <td mat-cell *matCellDef="let question">{{ question.questionType }}</td>
     </ng-container>
 
 
