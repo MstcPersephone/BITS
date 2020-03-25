@@ -15,6 +15,9 @@ export class ViewAssessmentConfigComponent implements OnInit {
   assessment: Assessment;
   private configSubscription: Subscription;
   private assessmentSubscription: Subscription;
+  public isTimed: boolean;
+  public isRandom: boolean;
+  public wrongStreak: number;
 
   constructor(
     public assessmentService: AssessmentService,
