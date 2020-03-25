@@ -16,6 +16,7 @@ const questionFactory = require("./providers/questionFactory");
 const questionCollection = require("./models/question");
 const categoryCollection = require("./models/shared/category");
 const assessmentCollection = require("./models/assessment");
+const archiveCollection = require("./models/archive");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -65,7 +66,6 @@ app.use((request, response, next) => {
 // ******   ARCHIVE: QUESTION FROM QUESTION COLLECTION   ****** //
 // *********************************************************** //
 app.post("/api/question/delete/:id", (request, response, next) => {
-  console.log('You made it!');
   // Request.body is the question that is passed through.
   const question = request.body;
 
@@ -75,12 +75,14 @@ app.post("/api/question/delete/:id", (request, response, next) => {
   // Call to question type factory which creates the object to
   questionObjectToSave = questionFactory.createQuestionTypeFactory(question);
 
-  questionObjectToSave.save(mongoose.db.collection('archived'))
+  console.log('question to save ' + questionObjectToSave);
+
+  archiveCollection.save(questionObjectToSave)
   .then(() => {
     response.status(200).json({
     message: 'archived successful!'
   });
-
+  console.log('question to delete ' + question._id);
   questionCollection.deleteOne({ _id: question._id });
 
   },
