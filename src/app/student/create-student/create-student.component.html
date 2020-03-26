@@ -1,1 +1,48 @@
-<p>create-student works!</p>
+<h4>ADD ASSIGNMENT</h4>
+<mat-card>
+  <form [formGroup]="createStudentForm" (ngSubmit)="onSubmit(createStudentForm.value)">
+
+    <!-- Student Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Enter student ID</mat-label>
+      <input matInput id="studentId" type="text" formControlName="studentId" required>
+    </mat-form-field>
+
+    <!-- Campus Location Dropdown -->
+    <mat-form-field class="questionTypeInput">
+      <mat-label>Select Campus Location</mat-label>
+      <mat-select>
+        <mat-option >Stevens Point Location</mat-option>
+        <mat-option >Wisconsin Rapids Location</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+
+    <!-- First Name Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Enter first name</mat-label>
+      <input matInput id="firstName" type="text" formControlName="firstName" required>
+    </mat-form-field>
+
+    <!-- Last Name Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Enter last name</mat-label>
+      <input matInput id="lastName" type="text" formControlName="lastName" required>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field class="date" appearance="standard">
+      <mat-label color="primary" class="label-header">Choose date of birth</mat-label>
+      <input matInput id="dateOfBirth" [matDatepicker]="picker" formControlName="dateOfBirth"
+      [min]="minDate" [max]="maxDate" required>
+      <mat-datepicker-toggle matSuffix [for]="picker" startView="year"></mat-datepicker-toggle>
+      <mat-datepicker #picker startView="multi-year"  [startAt]="startDate"></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Submit Button -->
+    <button color="primary" mat-raised-button type="submit">
+      Submit&nbsp;
+      <mat-icon>save</mat-icon>
+    </button>
+  </form>
+</mat-card>
