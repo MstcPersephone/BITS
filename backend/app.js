@@ -16,7 +16,7 @@ const questionFactory = require("./providers/questionFactory");
 const questionCollection = require("./models/question");
 const categoryCollection = require("./models/shared/category");
 const assessmentCollection = require("./models/assessment");
-const archiveCollection = require("./models/archive");
+const archiveCollection = require("./models/question");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -70,28 +70,19 @@ app.post("/api/question/delete/:id", (request, response, next) => {
   const question = request.body;
 
   // Will store the converted object to be saved.
-  let questionObjectToSave;
+  let questionObjectToArchive;
 
   // Call to question type factory which creates the object to
-  questionObjectToSave = questionFactory.createQuestionTypeFactory(question);
+  questionObjectToArchive = questionFactory.createQuestionTypeFactory(question);
 
-  console.log('question to save ' + questionObjectToSave);
+  // // Attach categories to question before saving.
+  questionObjectToArchive.categories = question.categories;
 
-  archiveCollection.save(questionObjectToSave)
-  .then(() => {
-    response.status(200).json({
-    message: 'archived successful!'
-  });
-  console.log('question to delete ' + question._id);
-  questionCollection.deleteOne({ _id: question._id });
+  // Attach points to the question before saving.
+  questionObjectToArchive.points = question.points;
 
-  },
-  error => {
-    console.log(error.message);
-    response.status(400).json({
-      message: error.message
-    })
-})
+  console.log('question to save ' + questionObjectToArchive);
+
 });
 
 // ******************************************************** //
