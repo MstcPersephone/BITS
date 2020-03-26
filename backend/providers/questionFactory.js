@@ -4,28 +4,28 @@ const checkBoxModel = require("../models/question-types/checkbox");
 const multipleChoiceModel = require("../models/question-types/multiple-choice");
 const trueFalseModel = require("../models/question-types/true-false");
 const shortAnswerModel = require("../models/question-types/short-answer");
-const uploadAnswerModel = require("../models/question-types/upload");
+const uploadModel = require("../models/question-types/upload");
 
 //*************************************************************//
 //****SWITCH STATEMENT TO FIND THE CORRECT QUESTION BY TYPE****//
 //*************************************************************//
-const createQuestionTypeFactory = function (question) {
+const createQuestionTypeFactory = function (question, collectionName) {
   // Switch to internal function that creates object to save.
   switch (question.questionType) {
     case "Checkbox":
-      return createMultipleChoice(question);
+      return createMultipleChoice(question, collectionName);
 
     case "Multiple Choice":
-      return createCheckbox(question);
+      return createCheckbox(question, collectionName);
 
     case "Short Answer":
-      return createShortAnswer(question);
+      return createShortAnswer(question, collectionName);
 
     case "True False":
-      return createTrueFalse(question);
+      return createTrueFalse(question, collectionName);
 
     case "Upload":
-      return createUpload(question);
+      return createUpload(question, collectionName);
   }
 }
 
@@ -259,7 +259,6 @@ function updateTrueFalse(question) {
 //***********UPLOAD OBJECT*************//
 //*************************************//
 function createUpload(question, collectionName = 'questions') {
-
   let q = null;
   switch (collectionName) {
     case 'questions':

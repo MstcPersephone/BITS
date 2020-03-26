@@ -58,5 +58,4 @@ const uploadSchema = mongoose.Schema({
 });
 
 // Create and export Upload Model
-module.exports = mongoose.model('Upload', uploadSchema, 'questions');
-module.exports = mongoose.model('UploadArchive', uploadSchema, 'archive');
+module.exports = {question: mongoose.model('Upload', uploadSchema, 'questions'), archive: mongoose.model('UploadArchive', uploadSchema, 'archive')};

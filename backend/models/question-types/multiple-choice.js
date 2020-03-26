@@ -57,5 +57,4 @@ const multipleChoiceSchema = mongoose.Schema({
 });
 
 // Create and export Multiple Choice Model
-module.exports = mongoose.model('MultipleChoice', multipleChoiceSchema, 'questions');
-module.exports = mongoose.model('MultipleChoiceArchive', multipleChoiceSchema, 'archive');
+module.exports = {question: mongoose.model('MultipleChoice', multipleChoiceSchema, 'questions'), archive: mongoose.model('MultipleChoiceArchive', multipleChoiceSchema, 'archive')};

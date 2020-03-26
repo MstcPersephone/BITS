@@ -2,21 +2,23 @@
 const fs = require("fs");
 
 // Import questionType mongoose objects for working with questions collection.
-const checkBoxModel = require("./models/question-types/checkbox");
-const multipleChoiceModel = require("./models/question-types/multiple-choice");
-const trueFalseModel = require("./models/question-types/true-false");
-const shortAnswerModel = require("./models/question-types/short-answer");
-const uploadAnswerModel = require("./models/question-types/upload");
+const checkBoxModels = require("./models/question-types/checkbox");
+const multipleChoiceModels = require("./models/question-types/multiple-choice");
+const trueFalseModels = require("./models/question-types/true-false");
+const shortAnswerModels = require("./models/question-types/short-answer");
+const uploadAnswerModels = require("./models/question-types/upload");
 
 const questionFactory = require("./providers/questionFactory");
 
 // ******************************************************** //
 // ***********   DATABASE COLLECTION OBJECTS   ************ //
 // ******************************************************** //
-const questionCollection = require("./models/question");
+const questionCollections = require("./models/question");
 const categoryCollection = require("./models/shared/category");
 const assessmentCollection = require("./models/assessment");
-const archiveCollection = require("./models/question");
+
+const questionCollection = questionCollections.questions;
+const archiveCollection = questionCollections.archive;
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -73,7 +75,7 @@ app.post("/api/question/delete/:id", (request, response, next) => {
   let questionObjectToArchive;
 
   // Call to question type factory which creates the object to
-  questionObjectToArchive = questionFactory.createQuestionTypeFactory(question);
+  questionObjectToArchive = questionFactory.createQuestionTypeFactory(question, 'archive');
 
   // // Attach categories to question before saving.
   questionObjectToArchive.categories = question.categories;
@@ -82,6 +84,20 @@ app.post("/api/question/delete/:id", (request, response, next) => {
   questionObjectToArchive.points = question.points;
 
   console.log('question to save ' + questionObjectToArchive);
+
+  questionObjectToArchive.save().then(() => {
+    response.status(200).json({
+      message: 'Question archived successfully!',
+      question: question
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        question: question
+      })
+    });
 
 });
 
