@@ -50,6 +50,7 @@ export class CreateStudentComponent implements OnInit {
     student.firstName = studentData.firstName;
     student.lastName = studentData.lastName;
     student.dateOfBirth = studentData.dateOfBirth;
+    student.campusLocation = this.campusLocationSelected;
     student.lastAssessmentDate = new Date(Date.now());
     student.previousScores = this.assessmentEngineService.getPreviousScores();
 

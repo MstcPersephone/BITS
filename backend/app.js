@@ -16,6 +16,7 @@ const questionFactory = require("./providers/questionFactory");
 const questionCollection = require("./models/question");
 const categoryCollection = require("./models/shared/category");
 const assessmentCollection = require("./models/assessment");
+const studentCollection = require("./models/student");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -303,7 +304,7 @@ app.post("/api/assessment/save", (request, response, next) => {
 
   console.log('Backend Assessment Presave', assessmentToSaveModel);
 
-  // Saves the category object to the database.
+  // Saves the assessment object to the database.
   // Returns either 200 success or 400 error
   assessmentToSaveModel.save().then(() => {
 
@@ -315,7 +316,7 @@ app.post("/api/assessment/save", (request, response, next) => {
     // Will probably use for logging later.
     response.status(200).json({
       message: 'Assessment saved successfully!',
-      category: assessment
+      assessment: assessment
     });
   },
     error => {
@@ -434,6 +435,61 @@ app.post("/api/question/save", (request, response, next) => {
       })
     });
 });
+
+// ***************************************************** //
+// ******   SAVE: STUDENT TO STUDENT COLLECTION   ****** //
+// ***************************************************** //
+app.post("/api/student/save", (request, response, next) => {
+
+  // Request.body is the student that is passed through.
+  const student = request.body;
+
+  // Generate unique Id for student.
+  const studentId = mongoose.Types.ObjectId();
+
+  // assigns the unique id to the student.
+  student._id = studentId;
+  console.log('Student:', student)
+
+  // student mapped object from front to back end.
+  const studentToSaveModel = new studentCollection({
+    id: studentId,
+    studentId: student.studentId,
+    firstName: student.firstName,
+    lastName: student.lastName,
+    dateOfBirth: student.dateOfBirth,
+    campusLocation: student.campusLocation,
+    lastAssessmentDate: student.lastAssessmentDate,
+    previousScores: student.previousScores,
+    createdOn: Date.now()
+  });
+
+  console.log('Backend Student Presave', studentToSaveModel);
+
+  // Saves the student object to the database.
+  // Returns either 200 success or 400 error
+  studentToSaveModel.save().then(() => {
+
+    // Log success message and saved object.
+    console.log(student.studentId + ' Created Successfully');
+    console.log('Saved Student', studentToSaveModel);
+
+    // Send success message back to front end.
+    // Will probably use for logging later.
+    response.status(200).json({
+      message: 'Assessment saved successfully!',
+      student: student
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        student: student
+      })
+    });
+});
+
 
 // ******************************************************** //
 // ***********   UPDATE QUESTION COLLECTION   ************* //

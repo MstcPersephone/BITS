@@ -33,20 +33,21 @@ export class AssessmentEngineService {
   }
 
   saveStudent(student: Student) {
+
     console.log('Student', student);
 
-    // this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/assessment/save', student)
-    //   .subscribe(
-    //     responseData => {
-    //       // tslint:disable-next-line: max-line-length
-    //       this.helperService.openSnackBar(student.firstName + ' ' + student.lastName + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
-    //       console.log('%c' + responseData.message, 'color: green;');
-    //       console.log('%c Database Object:', 'color: orange;');
-    //       console.log(responseData.student);
-    //       // this.router.navigate(['/assessment/list']);
-    //     },
-    //     error => {
-    //       console.log('%c' + error.error.message, 'color: red;');
-    //     });
+    this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/student/save', student)
+      .subscribe(
+        responseData => {
+          // tslint:disable-next-line: max-line-length
+          this.helperService.openSnackBar(student.studentId + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.student);
+          // this.router.navigate(['/assessment/list']);
+        },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
   }
 }
