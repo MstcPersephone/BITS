@@ -20,6 +20,11 @@ import { ListTrueFalseComponent } from './questions/questionTypes/true-false/lis
 import { ListMultipleChoiceComponent } from './questions/questionTypes/multiple-choice/list-multiple-choice/list-multiple-choice.component';
 import { ListShortAnswerComponent } from './questions/questionTypes/short-answer/list-short-answer/list-short-answer.component';
 
+import { CreateStudentComponent } from './student/create-student/create-student.component';
+import { EditStudentComponent } from './student/edit-student/edit-student.component';
+import { ListStudentComponent } from './student/list-student/list-student.component';
+import { ViewStudentComponent } from './student/view-student/view-student.component';
+
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
   { path: '', component: AssessmentListComponent },
@@ -27,6 +32,7 @@ const routes: Routes = [
   { path: 'assessment/edit', component: EditAssessmentComponent },
   { path: 'assessment/list', component: AssessmentListComponent },
   { path: 'assessment/view', component: ViewAssessmentComponent },
+  { path: 'category', component: ManageCategoryComponent },
   { path: 'match/create', component: CreateExactMatchComponent },
   { path: 'option/create', component: CreateOptionComponent },
   { path: 'question/create', component: CreateQuestionComponent },
@@ -37,7 +43,10 @@ const routes: Routes = [
   { path: 'question/multiple-choice/list', component: ListMultipleChoiceComponent },
   { path: 'question/short-answer/list', component: ListShortAnswerComponent },
   { path: 'question/view', component: ViewQuestionComponent },
-  { path: 'category', component: ManageCategoryComponent }
+  { path: 'student/create', component: CreateStudentComponent },
+  { path: 'student/edit', component: EditStudentComponent },
+  { path: 'student/list', component: ListStudentComponent },
+  { path: 'student/view', component: ViewStudentComponent }
 ];
 
 @NgModule({
