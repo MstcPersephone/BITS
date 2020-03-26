@@ -46,18 +46,6 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
             this.dataSource.data = questionsArray;
             console.table(this.dataSource.data);
 
-            // this.dataSource.data.forEach((data) => {
-            //   switch (data.questionType) {
-            //     case 'Checkbox': return 'Checkbox';
-            //     case 'Multiple Choice': return 'Multiple Choice';
-            //     case 'Short Answer': return 'Short Answer';
-            //     case 'True False': return 'True False';
-            //     case 'Upload': return 'Upload';
-
-            //     default: return this.dataSource.data;
-            //     }
-            // });
-
             this.dataSource.sort = this.sort;
           });
       });

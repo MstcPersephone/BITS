@@ -1,5 +1,12 @@
-<h4>ADD ASSIGNMENT</h4>
+<h3>Take your BITS Assessment</h3>
+
+<p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
 <mat-card>
+
+<h4>Add Student Information</h4>
+
   <form [formGroup]="createStudentForm" (ngSubmit)="onSubmit(createStudentForm.value)">
 
     <!-- Student Input -->
@@ -11,9 +18,9 @@
     <!-- Campus Location Dropdown -->
     <mat-form-field class="questionTypeInput">
       <mat-label>Select Campus Location</mat-label>
-      <mat-select>
-        <mat-option >Stevens Point Location</mat-option>
-        <mat-option >Wisconsin Rapids Location</mat-option>
+      <mat-select (selectionChange)="onCampusLocationSelected($event)">
+        <mat-option value="Stevens Point">Stevens Point</mat-option>
+        <mat-option value="Wisconsin Rapids">Wisconsin Rapids</mat-option>
       </mat-select>
     </mat-form-field>
     <br />
@@ -39,10 +46,12 @@
       <mat-datepicker #picker startView="multi-year"  [startAt]="startDate"></mat-datepicker>
     </mat-form-field>
 
-    <!-- Submit Button -->
-    <button color="primary" mat-raised-button type="submit">
-      Submit&nbsp;
-      <mat-icon>save</mat-icon>
-    </button>
-  </form>
+
+  <!-- Submit Button -->
+  <button color="primary" mat-raised-button type="submit">
+    Start Assessment&nbsp;<mat-icon>save</mat-icon>
+  </button>
+</form>
 </mat-card>
+
+

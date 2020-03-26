@@ -14,6 +14,7 @@ export class CreateStudentComponent implements OnInit {
   maxDate: Date;
   minDate: Date;
   startDate: Date;
+  campusLocationSelected: string;
 
   constructor(
     public assessmentEngineService: AssessmentEngineService,
@@ -35,9 +36,24 @@ export class CreateStudentComponent implements OnInit {
   ngOnInit() {
 
   }
+  // Sets the variable for the ngSwitch statement in html file
+  // Function is triggered after user selects an option
+  onCampusLocationSelected(event) {
+    this.campusLocationSelected = event.value;
+    console.log('Campus', this.campusLocationSelected);
+  }
 
-  onSubmit() {
+  onSubmit(studentData) {
+    const student: Student = new Student();
+    student._id = null;
+    student.studentId = studentData.studentId;
+    student.firstName = studentData.firstName;
+    student.lastName = studentData.lastName;
+    student.dateOfBirth = studentData.dateOfBirth;
+    student.lastAssessmentDate = new Date(Date.now());
+    student.previousScores = this.assessmentEngineService.getPreviousScores();
 
+    this.assessmentEngineService.saveStudent(student);
   }
 
 }
