@@ -46,30 +46,37 @@ const editQuestionFactory = function (question) {
 //*************************************//
 //*********CHECKBOX OBJECT*************//
 //*************************************//
-function createCheckbox(question) {
-
-  // Generates an id for each option
-  // Assigns question id to each option
-  question.options.forEach((x) => {
-    x.id = mongoose.Types.ObjectId(),
-      x.questionId = question._id;
-  });
-
+// collectionName is questions unless specified in the call
+function createCheckbox(question, collectionName = 'questions') {
+  // The questionModel
+  let q = null;
+  switch (collectionName) {
+    case 'questions':
+      // Generates an id for each option
+      // Assigns question id to each option
+      question.options.forEach((x) => {
+        x.id = mongoose.Types.ObjectId(),
+          x.questionId = question._id;
+      });
+      // Set the question model to be the checkbox model
+      q = new checkBoxModel();
+      break;
+    case 'archive':
+      q = new checkBoxArchiveModel();
+      break;
+  }
   // Create Checkbox Model
-  const questionModel = new checkBoxModel({
-    id: question._id,
-    questionText: question.questionText,
-    questionType: question.questionType,
-    options: question.options,
-    hasAttachments: question.hasAttachments,
-    attachments: question.attachments,
-    isAnswered: question.isAnswered,
-    assessmentIds: question.assessmentIds,
-    duration: question.duration,
-    createdOn: Date.now()
-  });
-
-  return questionModel;
+  q.id = question._id;
+  q.questionText = question.questionText;
+  q.questionType = question.questionType;
+  q.options = question.options;
+  q.hasAttachments = question.hasAttachments;
+  q.attachments = question.attachments;
+  q.isAnswered = question.isAnswered;
+  q.assessmentIds = question.assessmentIds;
+  q.duration = question.duration;
+  q.createdOn = Date.now();
+  return q;
 }
 
 function updateCheckbox(question) {
@@ -93,30 +100,36 @@ function updateCheckbox(question) {
 //**********************************************//
 //***********MULTIPLE CHOICE OBJECT*************//
 //**********************************************//
-function createMultipleChoice(question) {
+function createMultipleChoice(question, collectionName = 'questions') {
+  let q = null;
+  switch (collectionName) {
+    case 'questions':
+      // Generates an id for each option
+      // Assigns question id to each option
+      question.options.forEach((x) => {
+        x.id = mongoose.Types.ObjectId(),
+          x.questionId = question._id;
+      });
+      // Set the question model to be the checkbox model
+      q = new multipleChoiceModel();
+      break;
+    case 'archive':
+      q = new multipleChoiceArchiveModel();
+      break;
+  }
 
-  // Generates an id for each option
-  // Assigns question id to each option
-  question.options.forEach((x) => {
-    x.id = mongoose.Types.ObjectId(),
-      x.questionId = question._id
-  });
+    q.id = question._id;
+    q.questionText = question.questionText;
+    q.questionType = question.questionType;
+    q.options = question.options;
+    q.hasAttachments = question.hasAttachments;
+    q.attachments = question.attachments;
+    q.isAnswered = question.isAnswered;
+    q.assessmentIds = question.assessmentIds;
+    q.duration = question.duration;
+    q.createdOn = Date.now();
 
-  // Create Multiple Choice Model.
-  const questionModel = new multipleChoiceModel({
-    id: question._id,
-    questionText: question.questionText,
-    questionType: question.questionType,
-    options: question.options,
-    hasAttachments: question.hasAttachments,
-    attachments: question.attachments,
-    isAnswered: question.isAnswered,
-    assessmentIds: question.assessmentIds,
-    duration: question.duration,
-    createdOn: Date.now()
-  });
-
-  return questionModel;
+  return q;
 }
 
 function updateMultipleChoice(question) {
@@ -139,32 +152,40 @@ function updateMultipleChoice(question) {
 //**********************************************//
 //*************SHORT ANSWER OBJECT**************//
 //**********************************************//
-function createShortAnswer(question) {
+function createShortAnswer(question, collectionName = 'questions') {
 
-  // Generates an id for each match option
-  // Assigns question id to each match option
-  question.matches.forEach((x) => {
-    x.id = mongoose.Types.ObjectId(),
-      x.questionId = question._id;
-  });
+ // The questionModel
+ let q = null;
+ switch (collectionName) {
+   case 'questions':
+     // Generates an id for each option
+     // Assigns question id to each option
+     question.matches.forEach((x) => {
+       x.id = mongoose.Types.ObjectId(),
+         x.questionId = question._id;
+     });
+     // Set the question model to be the checkbox model
+     q = new shortAnswerModel();
+     break;
+   case 'archive':
+     q = new shortAnswerArchiveModel();
+     break;
+ }
 
-  // Create Short Answer Model
-  const questionModel = new shortAnswerModel({
-    id: question._id,
-    questionText: question.questionText,
-    questionType: question.questionType,
-    hasAttachments: question.hasAttachments,
-    attachments: question.attachments,
-    isAnswered: question.isAnswered,
-    studentAnswer: question.studentAnswer,
-    matches: question.matches,
-    assessmentIds: question.assessmentIds,
-    isCaseSensitive: question.isCaseSensitive,
-    duration: question.duration,
-    createdOn: Date.now()
-  });
+    q.id = question._id;
+    q.questionText = question.questionText;
+    q.questionType = question.questionType;
+    q.hasAttachments = question.hasAttachments;
+    q.attachments = question.attachments;
+    q.isAnswered = question.isAnswered;
+    q.studentAnswer = question.studentAnswer;
+    q.matches = question.matches;
+    q.assessmentIds = question.assessmentIds;
+    q.isCaseSensitive = question.isCaseSensitive;
+    q.duration = question.duration;
+    q.createdOn = Date.now();
 
-  return questionModel;
+  return q;
 }
 
 function updateShortAnswer(question) {
@@ -190,24 +211,31 @@ function updateShortAnswer(question) {
 //*****************************************//
 //***********TRUE/FALSE OBJECT*************//
 //*****************************************//
-function createTrueFalse(question) {
+function createTrueFalse(question, collectionName = 'questions') {
+  let q = null;
 
-  // Create True/False Model
-  const questionModel = new trueFalseModel({
-    id: question._id,
-    questionText: question.questionText,
-    questionType: question.questionType,
-    hasAttachments: question.hasAttachments,
-    attachments: question.attachments,
-    isAnswered: question.isAnswered,
-    studentAnswer: question.studentAnswer,
-    answer: question.answer,
-    assessmentIds: question.assessmentIds,
-    duration: question.duration,
-    createdOn: Date.now()
-  });
+  switch(collectionName) {
+    case 'questions':
+      q = new trueFalseModel();
+      break;
+    case 'archive':
+      q = new trueFalseArchiveModel();
+      break;
+  }
 
-  return questionModel;
+    q.id = question._id;
+    q.questionText = question.questionText;
+    q.questionType = question.questionType;
+    q.hasAttachments = question.hasAttachments;
+    q.attachments = question.attachments;
+    q.isAnswered = question.isAnswered;
+    q.studentAnswer = question.studentAnswer;
+    q.answer = question.answer;
+    q.assessmentIds = question.assessmentIds;
+    q.duration = question.duration;
+    q.createdOn = Date.now();
+
+  return q;
 }
 
 function updateTrueFalse(question) {
@@ -230,24 +258,31 @@ function updateTrueFalse(question) {
 //*************************************//
 //***********UPLOAD OBJECT*************//
 //*************************************//
-function createUpload(question) {
+function createUpload(question, collectionName = 'questions') {
 
-  // Create Upload Model
-  const uploadModel = new uploadAnswerModel({
-    id: question._id,
-    questionText: question.questionText,
-    questionType: question.questionType,
-    hasAttachments: question.hasAttachments,
-    attachments: question.attachments,
-    isAnswered: question.isAnswered,
-    correctAnswer: question.correctAnswer,
-    submittedAnswer: question.submittedAnswer,
-    assessmentIds: question.assessmentIds,
-    duration: question.duration,
-    createdOn: Date.now()
-  });
+  let q = null;
+  switch (collectionName) {
+    case 'questions':
+      q = new uploadModel();
+      break;
+    case 'archive':
+      q = new uploadArchiveModel();
+      break;
+  }
 
-  return uploadModel;
+    q.id = question._id;
+    q.questionText = question.questionText;
+    q.questionType = question.questionType;
+    q.hasAttachments = question.hasAttachments;
+    q.attachments = question.attachments;
+    q.isAnswered = question.isAnswered;
+    q.correctAnswer = question.correctAnswer;
+    q.submittedAnswer = question.submittedAnswer;
+    q.assessmentIds = question.assessmentIds;
+    q.duration = question.duration;
+    q.createdOn = Date.now();
+
+  return q;
 }
 
 // Exports the question object with all properties attached to it.
