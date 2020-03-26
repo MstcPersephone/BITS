@@ -24,7 +24,7 @@ export class ViewQuestionComponent implements OnInit {
       this.currentQuestion = this.questions[5];
     });
 
-    this.assessmentService.getQuestionsByIds(this.assessmentService.mockQuestionIds);
+    // this.assessmentService.getQuestionsByIds(this.assessmentService.mockQuestionIds);
   }
 
 }

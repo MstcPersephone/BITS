@@ -1,11 +1,11 @@
   <!-- Page Header -->
-  <h1 class="mat-display-1">List of Assignments</h1>
+  <h1 class="mat-display-1">List of Assessments</h1>
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
   <!-- Name Column -->
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header width ="30%">Assignment Name</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header width ="30%">Assessment Name</th>
     <td mat-cell *matCellDef="let assessment" matTooltip={{assessment.name}}>
     {{assessment.name}}
      </td>

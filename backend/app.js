@@ -103,6 +103,27 @@ app.get("/api/assessments", (request, response, next) => {
 });
 
 // ******************************************************** //
+// *********   GET: SINGLE ASSESSMENT BY ID    ************ //
+// ******************************************************** //
+app.get("/api/assessment/:id", (request, response, next) => {
+  assessmentCollection.find({ _id: request.params.id }).then((assessment, error) => {
+    response.status(200).json({
+      message: request.params.id + ' Assessment fetched successfully!',
+      assessment: assessment
+    });
+    // TODO: [PER-98] Remove the console logs before pushing to production.
+    console.log(assessment);
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        assessment: null
+      })
+    })
+});
+
+// ******************************************************** //
 // ***************   GET: CATEGORY BY ID  ***************** //
 // ******************************************************** //
 app.get("/api/categories", (request, response, next) => {
