@@ -73,7 +73,6 @@ import { EditCategoryComponent } from './shared/category/edit-category/edit-cate
 import { ListCategoryComponent } from './shared/category/list-category/list-category.component';
 import { ManageCategoryComponent } from './shared/category/manage-category/manage-category.component';
 import { CreateAssessmentConfigComponent } from './assessments/configuration/create-assessment-config/create-assessment-config.component';
-import { ViewAssessmentConfigComponent } from './assessments/configuration/view-assessment-config/view-assessment-config.component';
 import { AssessmentFooterComponent } from './assessments/footer/assessment-footer/assessment-footer.component';
 
 @NgModule({
@@ -126,7 +125,6 @@ import { AssessmentFooterComponent } from './assessments/footer/assessment-foote
     ListCategoryComponent,
     ManageCategoryComponent,
     CreateAssessmentConfigComponent,
-    ViewAssessmentConfigComponent,
     AssessmentFooterComponent
   ],
   imports: [

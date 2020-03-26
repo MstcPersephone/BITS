@@ -19,36 +19,67 @@ export class AssessmentService {
     '5e53dfa22849a450c49e1fd7', '5e603f2f2a61154b480ffafd', '5e6166f40a31644b543fc210', '5e6167ef0a31644b543fc218',
     '5e62b546cdf5ff1b5c73d457'];
 
-  // ********************** //
-  // ****  PROPERTIES  **** //
-  // ********************** //
-
+  // ********************************* //
+  // ****  ASSESSMENT PROPERTIES  **** //
+  // ********************************* //
   // single assessment
   private assessment: Assessment;
-  private assessmentUpdated = new Subject<any>();
-  private status: any;
+  private assessmentUpdated = new Subject<Assessment>();
 
   // list of assessments
   private assessments: any;
   private assessmentsUpdated = new Subject<any>();
 
-  // categories
+  // assessment name
+  private enteredName: string;
+  private enteredNameUpdated = new Subject<string>();
+
+  // assessment description
+  private enteredDescription: string;
+  private enteredDescriptionUpdated = new Subject<string>();
+
+  // status
+  private status: any;
+
+  // *********************************************** //
+  // ****  ASSESSMENT CONFIGURATION PROPERTIES  **** //
+  // *********************************************** //
+  private assessmentConfig: AssessmentConfig;
+  private assessmentConfigUpdated = new Subject<AssessmentConfig>();
+
+   // config isRandom
+  isRandom = false;
+  public isRandomSelected: boolean;
+  private isRandcomUpdated = new Subject<boolean>();
+
+  // config isTimed
+  isTimed = false;
+  public isTimedSelected: boolean;
+  private isTimedUpdated = new Subject<boolean>();
+
+  // config maxTime
+  public enteredMaxTime = 0;
+  private maxTimeUpdated = new Subject<number>();
+
+  // config wrongStreak
+  public enteredWrongStreak = 0;
+  private wrongStreakUpdated = new Subject<number>();
+
+  // config minScore
+  private changedMinScore = 75;
+  private changedMinScoreUpdated = new Subject<number>();
+
+  // ******************************* //
+  // ****  CATEGORY PROPERTIES  **** //
+  // ******************************* //
   public selectedCategory: Category;
   public selectedName: any;
   public selectedCategoryName: string;
 
-  // assessment configuration
-  isRandom = false;
-  isTimed = false;
-  private enteredMaxTime = 0;
-  private enteredWrongStreak = 0;
-  minimumScore = 75;
-  private maxTimeUpdated = new Subject<number>();
-  private wrongStreakUpdated = new Subject<number>();
-  private assessmentConfig: AssessmentConfig;
-
-  // questions
-  private questionIds: string[];
+  // ******************************* //
+  // ****  QUESTION PROPERTIES  **** //
+  // ******************************* //
+  public questionIds: string[];
   public questions: Question[] = [];
   private currentQuestion: Question;
   private assessmentQuestionsUpdated = new Subject<Question[]>();
@@ -94,6 +125,36 @@ export class AssessmentService {
     this.status = 'In Progress';
   }
 
+  getStatus() {
+    return this.status;
+  }
+
+  // ************************************************ //
+  // *********  ASSESSMENT: NAME FUNCTIONS  ********* //
+  // ************************************************ //
+
+  // gets the minimum score set by user in configuration
+  getEnteredName() {
+    return this.enteredName;
+  }
+
+  getEnteredNameUpdatedListener() {
+    return this.enteredNameUpdated.asObservable();
+  }
+
+  // ******************************************************* //
+  // *********  ASSESSMENT: DESCRIPTION FUNCTIONS  ********* //
+  // ******************************************************* //
+
+  // gets the minimum score set by user in configuration
+  getEnteredDescription() {
+    return this.enteredDescription;
+  }
+
+  getEnteredDescriptionUpdatedListener() {
+    return this.enteredDescriptionUpdated.asObservable();
+  }
+
   // ******************************************************** //
   // ****************  CATEGORY FUNCTIONS  ****************** //
   // ******************************************************** //
@@ -122,9 +183,21 @@ export class AssessmentService {
     this.assessmentConfig = updatedConfigurationItems;
   }
 
+  getAssessmentConfigUpdateListener() {
+    return this.assessmentConfigUpdated.asObservable();
+  }
+
   // ******************************************************** //
   // *********  CONFIGURATION: ISRANDOM FUNCTIONS  ********** //
   // ******************************************************** //
+
+  getIsRandomSelected() {
+    return this.isRandomSelected;
+  }
+
+  getIsRandomUpdatedListener() {
+    return this.isRandcomUpdated.asObservable();
+  }
 
   // sets the isRandom based upon a click event
   isRandomChanged() {
@@ -135,6 +208,13 @@ export class AssessmentService {
   // ******************************************************** //
   // **********  CONFIGURATION: ISTIMED FUNCTIONS  ********** //
   // ******************************************************** //
+  getIsTimedSelected() {
+    return this.isTimedSelected;
+  }
+
+  getIsTimedUpdatedListener() {
+    return this.isTimedUpdated.asObservable();
+  }
 
   // sets the isTimed based upon a click event
   isTimedChanged() {
@@ -148,13 +228,13 @@ export class AssessmentService {
 
   // gets the minimum score set by user in configuration
   getMinScore() {
-    return this.minimumScore;
+    return this.changedMinScore;
   }
 
   // gets the changed score based upon slider event
   minScoreChanged($event, value) {
-    this.minimumScore = value;
-    return this.minimumScore;
+    this.changedMinScore = value;
+    return this.changedMinScore;
   }
 
   // ******************************************************** //
@@ -194,25 +274,8 @@ export class AssessmentService {
   // ******************************************************** //
   // ****************  QUESTION FUNCTIONS  ****************** //
   // ******************************************************** //
-
   getAssessmentQuestionsUpdatedListener() {
     return this.assessmentQuestionsUpdated.asObservable();
-  }
-
-  // gets a list of questions from an array of ids
-  getQuestionsByIds(questionIds: string[]) {
-    this.http
-      .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/assessment/questions/', { questionIds })
-      .subscribe(
-        responseData => {
-          this.questions = responseData.questions;
-          this.assessmentQuestionsUpdated.next(this.questions);
-          console.log(responseData.message);
-          console.log(responseData.questions);
-        },
-        error => {
-          console.log('%c' + error.error.message, 'color: red;');
-        });
   }
 
   // ******************************************************** //
@@ -232,6 +295,54 @@ export class AssessmentService {
       },
         error => {
           // log error message from server
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
+  // Gets an assessment by an id
+  getAssessmentById(assessmentId: string) {
+    this.http
+      .get<{ message: string, assessment: Assessment }>(
+        'http://localhost:3000/api/assessment/' + assessmentId
+      )
+      .subscribe((assessmentData) => {
+        // mongoose always returns an array with find()
+        // // grabbing the first (and only) assessment in array
+        this.assessment = assessmentData.assessment[0];
+
+        console.log('Assessment Id', this.assessment._id);
+        console.log('Assessment', this.assessment);
+
+
+        // Add the values to the variables that manages them
+        this.enteredName = this.assessment.name;
+        this.enteredDescription = this.assessment.description;
+        this.changedMinScore = this.assessment.config.minimumScore;
+        this.isTimedSelected = this.assessment.config.isTimed;
+        this.enteredMaxTime = this.assessment.config.maxTime;
+        this.isRandomSelected = this.assessment.config.isRandom;
+        this.enteredWrongStreak = this.assessment.config.wrongStreak;
+        this.questionIds = this.assessment.questionIds;
+        this.status = this.assessment.status;
+
+        // Subscribers get a copy of the assessment.
+        this.assessmentUpdated.next(this.assessment);
+
+      });
+  }
+
+  // gets a list of questions from an array of ids
+  getQuestionsByIds(questionIds: string[]) {
+    this.http
+      .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/assessment/questions/', { questionIds })
+      .subscribe(
+        responseData => {
+          this.questions = responseData.questions;
+          this.assessmentQuestionsUpdated.next(this.questions);
+          console.log(responseData.message);
+          console.log(responseData.questions);
+        },
+        error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
   }
