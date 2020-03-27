@@ -30,14 +30,6 @@ export class AssessmentService {
   private assessments: any;
   private assessmentsUpdated = new Subject<any>();
 
-  // assessment name
-  private enteredName: string;
-  private enteredNameUpdated = new Subject<string>();
-
-  // assessment description
-  private enteredDescription: string;
-  private enteredDescriptionUpdated = new Subject<string>();
-
   // status
   private status: any;
 
@@ -47,26 +39,22 @@ export class AssessmentService {
   private assessmentConfig: AssessmentConfig;
   private assessmentConfigUpdated = new Subject<AssessmentConfig>();
 
-   // config isRandom
+  // config isRandom
   isRandom = false;
-  public isRandomSelected: boolean;
-  private isRandcomUpdated = new Subject<boolean>();
 
   // config isTimed
   isTimed = false;
-  public isTimedSelected: boolean;
-  private isTimedUpdated = new Subject<boolean>();
 
-  // config maxTime
-  public enteredMaxTime = 0;
+  // config maxTime default: 0
+  maxTime = 0;
   private maxTimeUpdated = new Subject<number>();
 
-  // config wrongStreak
-  public enteredWrongStreak = 0;
+  // config wrongStreak default: 0
+  wrongStreak = 0;
   private wrongStreakUpdated = new Subject<number>();
 
-  // config minScore
-  private changedMinScore = 75;
+  // // config minScore default: 75%
+  minimumScore = 75;
   private changedMinScoreUpdated = new Subject<number>();
 
   // ******************************* //
@@ -117,42 +105,20 @@ export class AssessmentService {
   // *********  ASSESSMENT: STATUS FUNCTIONS  ********** //
   // *************************************************** //
 
+  // Sets the status to complete is Save Assessment button is clicked
   changeCompleteStatus() {
     this.status = 'Complete';
   }
 
+  // Sets the status to in progress is Finish Later button is clicked
   changeInProgressStatus() {
     this.status = 'In Progress';
   }
 
+  // Returns the given status of the assessment created in the webform
+  // based upon the click event above
   getStatus() {
     return this.status;
-  }
-
-  // ************************************************ //
-  // *********  ASSESSMENT: NAME FUNCTIONS  ********* //
-  // ************************************************ //
-
-  // gets the minimum score set by user in configuration
-  getEnteredName() {
-    return this.enteredName;
-  }
-
-  getEnteredNameUpdatedListener() {
-    return this.enteredNameUpdated.asObservable();
-  }
-
-  // ******************************************************* //
-  // *********  ASSESSMENT: DESCRIPTION FUNCTIONS  ********* //
-  // ******************************************************* //
-
-  // gets the minimum score set by user in configuration
-  getEnteredDescription() {
-    return this.enteredDescription;
-  }
-
-  getEnteredDescriptionUpdatedListener() {
-    return this.enteredDescriptionUpdated.asObservable();
   }
 
   // ******************************************************** //
@@ -165,11 +131,11 @@ export class AssessmentService {
     this.selectedCategoryName = this.selectedCategory.name;
   }
 
-
   // ******************************************************** //
   // **************  CONFIGURATION FUNCTIONS  *************** //
   // ******************************************************** //
 
+  // Stores the values of the configuration items tied to an assessment
   createAssessmentConfiguration(configData: any) {
     const updatedConfigurationItems = configData;
 
@@ -190,15 +156,6 @@ export class AssessmentService {
   // ******************************************************** //
   // *********  CONFIGURATION: ISRANDOM FUNCTIONS  ********** //
   // ******************************************************** //
-
-  getIsRandomSelected() {
-    return this.isRandomSelected;
-  }
-
-  getIsRandomUpdatedListener() {
-    return this.isRandcomUpdated.asObservable();
-  }
-
   // sets the isRandom based upon a click event
   isRandomChanged() {
     this.isRandom = !this.isRandom;
@@ -208,17 +165,10 @@ export class AssessmentService {
   // ******************************************************** //
   // **********  CONFIGURATION: ISTIMED FUNCTIONS  ********** //
   // ******************************************************** //
-  getIsTimedSelected() {
-    return this.isTimedSelected;
-  }
-
-  getIsTimedUpdatedListener() {
-    return this.isTimedUpdated.asObservable();
-  }
-
   // sets the isTimed based upon a click event
   isTimedChanged() {
     this.isTimed = !this.isTimed;
+    console.log(this.isTimed);
     return this.isTimed;
   }
 
@@ -228,13 +178,13 @@ export class AssessmentService {
 
   // gets the minimum score set by user in configuration
   getMinScore() {
-    return this.changedMinScore;
+    return this.minimumScore;
   }
 
-  // gets the changed score based upon slider event
+  // Due to default setting, changing the score based upon a slider event
   minScoreChanged($event, value) {
-    this.changedMinScore = value;
-    return this.changedMinScore;
+    this.minimumScore = value;
+    return this.minimumScore;
   }
 
   // ******************************************************** //
@@ -242,33 +192,35 @@ export class AssessmentService {
   // ******************************************************** //
 
   getMaxTime() {
-    return this.enteredMaxTime;
+    return this.maxTime;
   }
 
   getmaxTimUpdatedListener() {
     return this.maxTimeUpdated.asObservable();
   }
 
+  // Due to default setting, changes the max time based upon input
   onHandleMaxTime(event: any) {
-    this.enteredMaxTime = event.target.value;
-    console.log(this.enteredMaxTime);
+    this.maxTime = event.target.value;
+    console.log(this.maxTime);
   }
 
   // ******************************************************** //
   // *******  CONFIGURATION: WRONG STREAK FUNCTIONS  ******** //
   // ******************************************************** //
 
+  getWrongStreak() {
+    return this.wrongStreak;
+  }
+
   getWrongStreakListener() {
     return this.wrongStreakUpdated.asObservable();
   }
 
-  getWrongStreak() {
-    return this.enteredWrongStreak;
-  }
-
+  // Due to default setting, changes the wrong streak based upon input
   onHandleWrongStreak(event: any) {
-    this.enteredWrongStreak = event.target.value;
-    console.log(this.enteredWrongStreak);
+    this.wrongStreak = event.target.value;
+    console.log(this.wrongStreak);
   }
 
   // ******************************************************** //
@@ -283,6 +235,7 @@ export class AssessmentService {
   // ******************************************************** //
   // Gets all assessments from the database.
   getAllAssessments() {
+    this.helperService.isLoading = true;
     this.http
       .get<{ message: string, assessments: Assessment[] }>(
         'http://localhost:3000/api/assessments'
@@ -292,6 +245,8 @@ export class AssessmentService {
         console.log(this.assessments);
         // Subscribers get a copy of the assessments array
         this.assessmentsUpdated.next(this.assessments);
+        // Done loading. Remove the loading spinner
+        this.helperService.isLoading = false;
       },
         error => {
           // log error message from server
@@ -301,6 +256,7 @@ export class AssessmentService {
 
   // Gets an assessment by an id
   getAssessmentById(assessmentId: string) {
+    this.helperService.isLoading = true;
     this.http
       .get<{ message: string, assessment: Assessment }>(
         'http://localhost:3000/api/assessment/' + assessmentId
@@ -313,26 +269,18 @@ export class AssessmentService {
         console.log('Assessment Id', this.assessment._id);
         console.log('Assessment', this.assessment);
 
-
-        // Add the values to the variables that manages them
-        this.enteredName = this.assessment.name;
-        this.enteredDescription = this.assessment.description;
-        this.changedMinScore = this.assessment.config.minimumScore;
-        this.isTimedSelected = this.assessment.config.isTimed;
-        this.enteredMaxTime = this.assessment.config.maxTime;
-        this.isRandomSelected = this.assessment.config.isRandom;
-        this.enteredWrongStreak = this.assessment.config.wrongStreak;
         this.questionIds = this.assessment.questionIds;
-        this.status = this.assessment.status;
 
         // Subscribers get a copy of the assessment.
         this.assessmentUpdated.next(this.assessment);
-
+        // Done loading. Remove the loading spinner
+        this.helperService.isLoading = false;
       });
   }
 
   // gets a list of questions from an array of ids
   getQuestionsByIds(questionIds: string[]) {
+    this.helperService.isLoading = true;
     this.http
       .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/assessment/questions/', { questionIds })
       .subscribe(

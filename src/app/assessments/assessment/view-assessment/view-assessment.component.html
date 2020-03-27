@@ -1,16 +1,18 @@
+<!-- The spinner object, displayed when the application is loading the questions -->
+<mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
 <h1 class="mat-display-1">Manage Assessment</h1>
 
-<mat-card>
+<mat-card *ngIf="!this.helperService.isLoading">
 
   <!-- Assessment Header Section: Name-->
-  <h3>{{ this.assessmentService.getEnteredName() }}
+  <h3>{{ assessment.name }}
     <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
     <mat-icon class="editIcon" matListIcon>edit</mat-icon>
   </h3>
 
   <!-- Description -->
   <h4>Description</h4>
-  <p>{{ this.assessmentService.getEnteredDescription() }}</p>
+  <p>{{ assessment.description }}</p>
   <!-- Grid List for Configuration / Status -->
   <mat-grid-list cols="5">
 
@@ -19,7 +21,7 @@
       <mat-grid-tile-header>
         <h4>Status</h4>
       </mat-grid-tile-header>
-      <p>{{ this.assessmentService.getStatus() }}</p>
+      <p>{{ assessment.status }}</p>
     </mat-grid-tile>
 
     <!-- Timed Test -->
@@ -27,11 +29,11 @@
       <mat-grid-tile-header>
         <h4>Time Limit</h4>
       </mat-grid-tile-header>
-      <div *ngIf="this.assessmentService.isTimed === false">
+      <div *ngIf="this.assessment.config.isTimed === false">
         <p>N/A</p>
       </div>
-      <div *ngIf="this.assessmentService.isTimed === true">
-        <p>{{ this.assessmentService.getMaxTime() }} minutes</p>
+      <div *ngIf="this.assessment.config.isTimed === true">
+        <p>{{ assessment.config.maxTime }} minutes</p>
       </div>
     </mat-grid-tile>
 
@@ -40,11 +42,11 @@
       <mat-grid-tile-header>
         <h4>Incorrect Answer Tracking</h4>
       </mat-grid-tile-header>
-      <div *ngIf="this.assessmentService.enteredWrongStreak === 0">
+      <div *ngIf="this.assessment.config.wrongStreak === 0">
         <p>N/A</p>
       </div>
-      <div *ngIf="this.assessmentService.enteredWrongStreak > 0">
-        <p>{{ this.assessmentService.getWrongStreak() }}</p>
+      <div *ngIf="this.assessment.config.wrongStreak > 0">
+        <p>{{ assessment.config.wrongStreak }}</p>
       </div>
     </mat-grid-tile>
 
@@ -53,7 +55,7 @@
       <mat-grid-tile-header>
         <h4>Minimum Passing Score</h4>
       </mat-grid-tile-header>
-      <p>{{ this.assessmentService.getMinScore() }}%</p>
+      <p>{{ assessment.config.minimumScore }}%</p>
     </mat-grid-tile>
 
     <!-- Question Order -->
@@ -61,10 +63,10 @@
       <mat-grid-tile-header>
         <h4>Question Order</h4>
       </mat-grid-tile-header>
-      <div *ngIf="this.assessmentService.isRandomSelected === true">
+      <div *ngIf="this.assessment.config.isRandom === true">
         <p>Randomized</p>
       </div>
-      <div *ngIf="this.assessmentService.isRandomSelected === false">
+      <div *ngIf="this.assessment.config.isRandom === false">
         <p>Selected Order</p>
       </div>
     </mat-grid-tile>

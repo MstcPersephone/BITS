@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { Assessment } from 'src/app/models/assessment.model';
-import { AssessmentConfig } from 'src/app/models/assessment-config.model';
-import { AssessmentService } from 'src/app/services/assessment.service';
-import { Question } from 'src/app/models/question.interface';
-import { QuestionService } from 'src/app/services/question.service';
 import { Router } from '@angular/router';
+import { AssessmentService } from 'src/app/services/assessment.service';
+import { QuestionService } from 'src/app/services/question.service';
+import { HelperService } from 'src/app/services/helper.service';
+import { Assessment } from 'src/app/models/assessment.model';
+import { Question } from 'src/app/models/question.interface';
 import { MatSort, MatTableDataSource } from '@angular/material';
+import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 
 @Component({
   selector: 'app-view-assessment',
@@ -18,7 +19,7 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
   questions: Question[];
   question: Question;
   assessment: Assessment;
-  id = this.route.snapshot.params.assessmentId;
+  // id = this.route.snapshot.params.assessmentId;
   private questionsSubscription: Subscription;
   private assessmentSubscription: Subscription;
   public displayedColumns: string[] = ['questionType', 'questionText', 'points'];
@@ -29,6 +30,7 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
   constructor(
     public questionService: QuestionService,
     public assessmentService: AssessmentService,
+    public helperService: HelperService,
     public route: ActivatedRoute,
     private router: Router
   ) { }
@@ -54,12 +56,4 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
-
-  reloadOriginalOrder(id) {
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['assessment/view/:' + id]);
-    });
-  }
-
-
 }
