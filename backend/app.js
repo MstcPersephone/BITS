@@ -82,26 +82,25 @@ app.post("/api/question/delete/:id", (request, response, next) => {
   // Request.body is the question that is passed through.
   const question = request.body;
 
-  // Will store the converted object to be saved.
+  // Will store the converted object to be archived.
   let questionObjectToArchive;
 
-  // Call to question type factory which creates the object to
+  // Call to question type factory which creates the object to archive
   questionObjectToArchive = questionFactory.createQuestionTypeFactory(question, 'archive');
 
-  // // Attach categories to question before saving.
+  // Attach categories to question before archiving.
   questionObjectToArchive.categories = question.categories;
 
-  // Attach points to the question before saving.
+  // Attach points to the question before archiving.
   questionObjectToArchive.points = question.points;
 
   console.log('question to save ' + questionObjectToArchive);
-
+// Save question to archive collection and return success or error message
   questionObjectToArchive.save().then(() => {
     response.status(200).json({
       message: 'Question archived successfully!',
       question: question
     });
-
   },
     error => {
       console.log(error.message);
@@ -110,7 +109,6 @@ app.post("/api/question/delete/:id", (request, response, next) => {
         question: question
       })
     });
-
 });
 
 // ******************************************************** //
