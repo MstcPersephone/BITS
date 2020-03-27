@@ -98,8 +98,8 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns; Index as i"></tr>
-    <!-- <a [routerLink]="['/question/view', question._id]"></a> -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; Index as i"
+    [routerLink]="['/question/view', row._id]"></tr>
 
   </table>
 
