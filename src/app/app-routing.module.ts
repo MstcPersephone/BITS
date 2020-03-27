@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: 'question/true-false/list', component: ListTrueFalseComponent },
   { path: 'question/multiple-choice/list', component: ListMultipleChoiceComponent },
   { path: 'question/short-answer/list', component: ListShortAnswerComponent },
-  { path: 'question/view', component: ViewQuestionComponent },
+  { path: 'question/view/:questionId', component: ViewQuestionComponent },
   { path: 'category', component: ManageCategoryComponent }
 ];
 
