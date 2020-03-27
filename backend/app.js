@@ -6,7 +6,18 @@ const checkBoxModels = require("./models/question-types/checkbox");
 const multipleChoiceModels = require("./models/question-types/multiple-choice");
 const trueFalseModels = require("./models/question-types/true-false");
 const shortAnswerModels = require("./models/question-types/short-answer");
-const uploadAnswerModels = require("./models/question-types/upload");
+const uploadModels = require("./models/question-types/upload");
+
+const checkBoxModel = checkBoxModels.question;
+const checkboxArchiveModel = checkBoxModels.archive;
+const multipleChoiceModel = multipleChoiceModels.question;
+const multipleChoiceArchiveModel = multipleChoiceModels.archive;
+const trueFalseModel = trueFalseModels.question;
+const trueFalseArchiveModel = trueFalseModels.archive;
+const shortAnswerModel = shortAnswerModels.question;
+const shortAnswerArchiveModel = shortAnswerModels.archive;
+const uploadModel = uploadModels.question;
+const uploadArchiveModel = uploadModels.archive;
 
 const questionFactory = require("./providers/questionFactory");
 
@@ -90,6 +101,7 @@ app.post("/api/question/delete/:id", (request, response, next) => {
       message: 'Question archived successfully!',
       question: question
     });
+
   },
     error => {
       console.log(error.message);

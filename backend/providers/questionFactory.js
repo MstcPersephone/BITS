@@ -1,10 +1,21 @@
 const mongoose = require('mongoose');
 // Import questionType mongoose objects for working with questions collection.
-const checkBoxModel = require("../models/question-types/checkbox");
-const multipleChoiceModel = require("../models/question-types/multiple-choice");
-const trueFalseModel = require("../models/question-types/true-false");
-const shortAnswerModel = require("../models/question-types/short-answer");
-const uploadModel = require("../models/question-types/upload");
+const checkBoxModels = require("../models/question-types/checkbox");
+const multipleChoiceModels = require("../models/question-types/multiple-choice");
+const trueFalseModels = require("../models/question-types/true-false");
+const shortAnswerModels = require("../models/question-types/short-answer");
+const uploadModels = require("../models/question-types/upload");
+
+const checkBoxModel = checkBoxModels.question;
+const checkBoxArchiveModel = checkBoxModels.archive;
+const multipleChoiceModel = multipleChoiceModels.question;
+const multipleChoiceArchiveModel = multipleChoiceModels.archive;
+const trueFalseModel = trueFalseModels.question;
+const trueFalseArchiveModel = trueFalseModels.archive;
+const shortAnswerModel = shortAnswerModels.question;
+const shortAnswerArchiveModel = shortAnswerModels.archive;
+const uploadModel = uploadModels.question;
+const uploadArchiveModel = uploadModels.archive;
 
 //*************************************************************//
 //****SWITCH STATEMENT TO FIND THE CORRECT QUESTION BY TYPE****//
