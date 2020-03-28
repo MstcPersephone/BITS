@@ -27,5 +27,5 @@ const assessmentSchema = mongoose.Schema({
   }
 });
 
-// Create and export Question Shell Model
+// Create and export Assessment Shell Model
 module.exports = mongoose.model('Assessment', assessmentSchema, 'assessments');
