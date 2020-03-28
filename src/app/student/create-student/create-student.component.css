@@ -1,0 +1,11 @@
+.mat-form-field + .mat-form-field {
+  margin-left: 50px;
+}
+
+.mat-form-field + button {
+  margin-left: 50px;
+}
+
+.mat-form-field {
+  width: 320px;
+}

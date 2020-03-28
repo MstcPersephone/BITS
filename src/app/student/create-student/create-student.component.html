@@ -1,1 +1,57 @@
-<p>create-student works!</p>
+<h3>Take your BITS Assessment</h3>
+
+<p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+<mat-card>
+
+<h4>Add Student Information</h4>
+
+  <form [formGroup]="createStudentForm" (ngSubmit)="onSubmit(createStudentForm.value)">
+
+    <!-- Student Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Enter student ID</mat-label>
+      <input matInput id="studentId" type="text" formControlName="studentId" required>
+    </mat-form-field>
+
+    <!-- Campus Location Dropdown -->
+    <mat-form-field class="questionTypeInput">
+      <mat-label>Select Campus Location</mat-label>
+      <mat-select (selectionChange)="onCampusLocationSelected($event)">
+        <mat-option value="Stevens Point">Stevens Point</mat-option>
+        <mat-option value="Wisconsin Rapids">Wisconsin Rapids</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+
+    <!-- First Name Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Enter first name</mat-label>
+      <input matInput id="firstName" type="text" formControlName="firstName" required>
+    </mat-form-field>
+
+    <!-- Last Name Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Enter last name</mat-label>
+      <input matInput id="lastName" type="text" formControlName="lastName" required>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field class="date" appearance="standard">
+      <mat-label color="primary" class="label-header">Choose date of birth</mat-label>
+      <input matInput id="dateOfBirth" [matDatepicker]="picker" formControlName="dateOfBirth"
+      [min]="minDate" [max]="maxDate" required>
+      <mat-datepicker-toggle matSuffix [for]="picker" startView="year"></mat-datepicker-toggle>
+      <mat-datepicker #picker startView="multi-year"  [startAt]="startDate"></mat-datepicker>
+    </mat-form-field>
+
+
+  <!-- Submit Button -->
+  <button color="primary" mat-raised-button type="submit">
+    Start Assessment&nbsp;<mat-icon>save</mat-icon>
+  </button>
+</form>
+</mat-card>
+
+
