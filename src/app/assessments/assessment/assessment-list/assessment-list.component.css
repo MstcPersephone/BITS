@@ -1,0 +1,25 @@
+/* Importing global styles */
+@import "../../../../styles.css";
+
+/* Adjusting the width of the component to better fit the table contents. */
+mat-card{
+  width: 90%;
+}
+table{
+  width: 100%;
+}
+th{
+  background-color: #404040;
+  color: white;
+  width: 12%;
+  font-size: 15px;
+}
+th:first-of-type{
+  width: 26%;
+}
+th:nth-of-type(2){
+  width: 45%;
+}
+.mat-row:nth-of-type(even){
+  background-color: #f0f0f0;
+}
