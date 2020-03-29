@@ -392,6 +392,7 @@ export class QuestionService {
         error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
+        this.helperService.openSnackBar('Deletion successful.', 'Close', 'alert-dialog', 5000);
         this.helperService.refreshComponent('question/list');
       } else {
         // Displays a message informing that the question deletion has been cancelled.
