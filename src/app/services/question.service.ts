@@ -372,10 +372,9 @@ export class QuestionService {
   // ********************************************** //
 
   // Deletes the question object after confirmation from the user
-  // NOT FUNCTIONING - Orion made this function so that he could add the confirmation message (PER-66).
   deleteQuestionById(question: Question) {
-  //  this.http.delete
     console.log(question);
+    // Opens a dialog to confirm deletion of the question
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
       data: 'Are you sure you wish to delete this question?'
@@ -383,18 +382,17 @@ export class QuestionService {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-       // this.helperService.isLoading = true;
         this.http
       .post<{message: string}>('http://localhost:3000/api/question/delete/', question)
       .subscribe(    responseData => {
         setTimeout(() => {
           console.log(responseData);
-          // reset the isLoading spinner
-        //  this.helperService.isLoading = false;
-        }, 2000); },
+        }, 2000);
+      },
         error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
+        this.helperService.refreshComponent('question/list');
       } else {
         // Displays a message informing that the question deletion has been cancelled.
         this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);

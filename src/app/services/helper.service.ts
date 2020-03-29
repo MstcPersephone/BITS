@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { QuestionType } from '../enums/questionType.enum';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class HelperService {
   public isLoading = false;
 
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar,
+              private router: Router) { }
 
   // Converts the QuestionType enum to an array of objects
   // key is the enum name and value is its text value
@@ -34,6 +36,13 @@ export class HelperService {
     this.snackBar.open(message, action, {
       duration: upTime,
       panelClass: classString
+    });
+  }
+
+  // generic function to reroute a component
+  refreshComponent(path: string) {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+       this.router.navigate([path]);
     });
   }
 }
