@@ -24,10 +24,10 @@ const createQuestionTypeFactory = function (question, collectionName) {
   // Switch to internal function that creates object to save.
   switch (question.questionType) {
     case "Checkbox":
-      return createMultipleChoice(question, collectionName);
+      return createCheckbox(question, collectionName);
 
     case "Multiple Choice":
-      return createCheckbox(question, collectionName);
+      return createMultipleChoice(question, collectionName);
 
     case "Short Answer":
       return createShortAnswer(question, collectionName);
@@ -59,6 +59,7 @@ const editQuestionFactory = function (question) {
 //*************************************//
 // collectionName is questions unless specified in the call
 function createCheckbox(question, collectionName = 'questions') {
+  console.log('createCheckbox function hit');
   // The questionModel
   let q = null;
   switch (collectionName) {
@@ -77,7 +78,8 @@ function createCheckbox(question, collectionName = 'questions') {
       break;
   }
   // Create Checkbox Model
-  q.id = question._id;
+  q._id = question._id;
+  console.log('questionId in function: ', q._id);
   q.questionText = question.questionText;
   q.questionType = question.questionType;
   q.options = question.options;

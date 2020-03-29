@@ -79,9 +79,11 @@ app.use((request, response, next) => {
 // *********************************************************** //
 // ******   ARCHIVE: QUESTION FROM QUESTION COLLECTION   ****** //
 // *********************************************************** //
-app.post("/api/question/delete/", (request, response, next) => {
+app.post("/api/question/delete", (request, response, next) => {
   // Request.body is the question that is passed through.
   const question = request.body;
+
+  console.log('passed back questionId: ', question._id);
 
   // Will store the converted object to be archived.
   let questionObjectToArchive;
@@ -95,15 +97,23 @@ app.post("/api/question/delete/", (request, response, next) => {
   // Attach points to the question before archiving.
   questionObjectToArchive.points = question.points;
 
-  console.log('question to save ' + questionObjectToArchive);
+  // console.log('question to save ' + questionObjectToArchive);
 // Save question to archive collection and return success or error message
   questionObjectToArchive.save().then(() => {
-    deleteById('questions', {_id: questionObjectToArchive._id}, function (error, question) {
-      console.log('delete success hit');
-      response.status(200).json({
-        message: 'Question archived successfully!',
-        question: question
+    const objectId = mongoose.Types.ObjectId(questionObjectToArchive._id);
+    deleteById('questions', {_id: objectId}, function (error, question) {
+      if (error) {
+        response.status(400).json({
+          message: error.message,
+          question: question
+        })
+      }
+      else {
+        response.status(200).json({
+          message: 'Question archived successfully!',
+          question: question
       });
+      }
     });
   },
     error => {
