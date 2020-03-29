@@ -101,8 +101,9 @@ app.post("/api/question/delete", (request, response, next) => {
 // Save question to archive collection and return success or error message
   questionObjectToArchive.save().then(() => {
     const objectId = mongoose.Types.ObjectId(questionObjectToArchive._id);
-    deleteById('questions', {_id: objectId}, function (error, question) {
+    deleteById('questions', {_id: objectId}, function (resp, error) {
       if (error) {
+        console.log(error);
         response.status(400).json({
           message: error.message,
           question: question
@@ -110,8 +111,7 @@ app.post("/api/question/delete", (request, response, next) => {
       }
       else {
         response.status(200).json({
-          message: 'Question archived successfully!',
-          question: question
+          message: 'Question archived successfully!'
       });
       }
     });

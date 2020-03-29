@@ -382,17 +382,21 @@ export class QuestionService {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.helperService.isLoading = true;
         this.http
-      .post<{message: string}>('http://localhost:3000/api/question/delete/', question)
-      .subscribe(    responseData => {
+      .post<{message: string}>('http://localhost:3000/api/question/delete', question)
+      .subscribe((responseData) => {
         setTimeout(() => {
           console.log(responseData);
+          // Displays a message informing that the question deletion has been successful.
+          this.helperService.openSnackBar('Question Deletion.', 'Close', 'success-dialog', 5000);
+          this.helperService.isLoading = false;
+          this.helperService.refreshComponent('question/list');
         }, 2000);
       },
         error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
-        this.helperService.refreshComponent('question/list');
       } else {
         // Displays a message informing that the question deletion has been cancelled.
         this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
