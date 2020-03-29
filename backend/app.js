@@ -79,7 +79,7 @@ app.use((request, response, next) => {
 // *********************************************************** //
 // ******   ARCHIVE: QUESTION FROM QUESTION COLLECTION   ****** //
 // *********************************************************** //
-app.post("/api/question/delete/:id", (request, response, next) => {
+app.post("/api/question/delete/", (request, response, next) => {
   // Request.body is the question that is passed through.
   const question = request.body;
 
@@ -98,9 +98,12 @@ app.post("/api/question/delete/:id", (request, response, next) => {
   console.log('question to save ' + questionObjectToArchive);
 // Save question to archive collection and return success or error message
   questionObjectToArchive.save().then(() => {
-    response.status(200).json({
-      message: 'Question archived successfully!',
-      question: question
+    deleteById('questions', {_id: questionObjectToArchive._id}, function (error, question) {
+      console.log('delete success hit');
+      response.status(200).json({
+        message: 'Question archived successfully!',
+        question: question
+      });
     });
   },
     error => {
@@ -565,6 +568,12 @@ app.post("/api/question/update/", (request, response, next) => {
 function find(name, query, callBack) {
   mongoose.connection.db.collection(name, function (error, collection) {
     collection.find(query).toArray(callBack);
+  });
+}
+
+function deleteById(name, query, callBack) {
+  mongoose.connection.db.collection(name, function(error, collection) {
+    collection.deleteOne(query).then(callBack);
   });
 }
 

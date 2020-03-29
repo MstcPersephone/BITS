@@ -385,7 +385,7 @@ export class QuestionService {
       if (result) {
        // this.helperService.isLoading = true;
         this.http
-      .post<{message: string}>('http://localhost:3000/api/question/delete/' + question._id, question)
+      .post<{message: string}>('http://localhost:3000/api/question/delete/', question)
       .subscribe(    responseData => {
         setTimeout(() => {
           console.log(responseData);
