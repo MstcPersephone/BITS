@@ -1,5 +1,5 @@
-const checker = require('./check-upload-answer');
-const path = require('./path');
+// const checker = require('./check-upload-answer');
+// const path = require('./path');
+const prepare = require('./prepare');
 
-var result = checker.checkUploadAnswer(path.correctAnswerZipPath, path.mockZipFilePath, true);
-console.log(result ? 'Correct: All files matched' : 'Incorrect: Not all files match');
+console.log(prepare.makeDirectory());

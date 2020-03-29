@@ -20,7 +20,4 @@ const compareFiles = function(firstFile, secondFile) {
 // const secondFile = readFileContents(mockSecondFilePath);
 // compareFiles(firstFile, secondFile);
 
-
-// FUNCTIONS //
-
 module.exports = { compareFiles, readFileContents }
