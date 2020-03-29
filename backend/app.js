@@ -97,8 +97,7 @@ app.post("/api/question/delete", (request, response, next) => {
   // Attach points to the question before archiving.
   questionObjectToArchive.points = question.points;
 
-  // console.log('question to save ' + questionObjectToArchive);
-// Save question to archive collection and return success or error message
+// Save question to archive collection, delete from questions collection and return success or error message
   questionObjectToArchive.save().then(() => {
     const objectId = mongoose.Types.ObjectId(questionObjectToArchive._id);
     deleteById('questions', {_id: objectId}, function (resp, error) {

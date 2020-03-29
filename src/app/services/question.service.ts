@@ -380,7 +380,7 @@ export class QuestionService {
       width: '350px',
       data: 'Are you sure you wish to delete this question?'
     });
-
+    // On closing dialog box either call the function to archive the question or cancel the deletion
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.helperService.isLoading = true;
