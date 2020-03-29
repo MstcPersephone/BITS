@@ -91,7 +91,7 @@ mat-panel-title{
 
 /* Adjusts the items within the question boxes */
 .question-box div{
-  width: 10%;
+  width: 15%;
   margin: 0 auto;
   text-align: center;
 }

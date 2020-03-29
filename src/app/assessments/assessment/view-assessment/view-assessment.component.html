@@ -1,25 +1,33 @@
 <!-- The spinner object, displayed when the application is loading the questions -->
 <mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
-<h1 class="mat-display-1">Manage Assessment</h1>
-
+<br>
 <mat-card *ngIf="!this.helperService.isLoading">
+  <h1 class="mat-display-1">Manage Assessment</h1>
 
-  <!-- Assessment Header Section: Name-->
-  <h3>{{ assessment.name }}
-    <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
-    <mat-icon class="editIcon" matListIcon>edit</mat-icon>
-  </h3>
+  <!-- Container holding the assessment details -->
+  <mat-card class="assessmentDetailContainer">
+
+    <!-- Assessment Detail Header - Assessment Name and Edit/Delete Options -->
+    <section class="assessmentDetailHeader">
+      <h3>{{ assessment.name }}</h3>
+      <section class="optionContainer">
+        <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
+        <mat-icon class="editIcon" matListIcon>edit</mat-icon>
+      </section>
+    </section>
 
   <!-- Description -->
   <h4>Description</h4>
   <p>{{ assessment.description }}</p>
+  <br>
+
   <!-- Grid List for Configuration / Status -->
   <mat-grid-list cols="5">
 
     <!-- Status -->
-    <mat-grid-tile>
+    <mat-grid-tile >
       <mat-grid-tile-header>
-        <h4>Status</h4>
+        <h4>Creation Status</h4>
       </mat-grid-tile-header>
       <p>{{ assessment.status }}</p>
     </mat-grid-tile>
@@ -40,7 +48,7 @@
     <!-- Wrong Streak -->
     <mat-grid-tile>
       <mat-grid-tile-header>
-        <h4>Incorrect Answer Tracking</h4>
+        <h4>Incorrect Answer Limit</h4>
       </mat-grid-tile-header>
       <div *ngIf="this.assessment.config.wrongStreak === 0">
         <p>N/A</p>
@@ -101,6 +109,8 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns; Index as i"
     [routerLink]="['/question/view', row._id]"></tr>
 
-  </table>
+    </table>
+  </mat-card>
 
 </mat-card>
+<br>
