@@ -8,7 +8,6 @@ import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
 import { Router } from '@angular/router';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root',
@@ -19,36 +18,55 @@ export class AssessmentService {
     '5e53dfa22849a450c49e1fd7', '5e603f2f2a61154b480ffafd', '5e6166f40a31644b543fc210', '5e6167ef0a31644b543fc218',
     '5e62b546cdf5ff1b5c73d457'];
 
-  // ********************** //
-  // ****  PROPERTIES  **** //
-  // ********************** //
-
+  // ********************************* //
+  // ****  ASSESSMENT PROPERTIES  **** //
+  // ********************************* //
   // single assessment
   private assessment: Assessment;
-  private assessmentUpdated = new Subject<any>();
-  private status: any;
+  private assessmentUpdated = new Subject<Assessment>();
 
   // list of assessments
   private assessments: any;
   private assessmentsUpdated = new Subject<any>();
 
-  // categories
+  // status
+  private status: any;
+
+  // *********************************************** //
+  // ****  ASSESSMENT CONFIGURATION PROPERTIES  **** //
+  // *********************************************** //
+  private assessmentConfig: AssessmentConfig;
+  private assessmentConfigUpdated = new Subject<AssessmentConfig>();
+
+  // config isRandom
+  isRandom = false;
+
+  // config isTimed
+  isTimed = false;
+
+  // config maxTime default: 0
+  maxTime = 0;
+  private maxTimeUpdated = new Subject<number>();
+
+  // config wrongStreak default: 0
+  wrongStreak = 0;
+  private wrongStreakUpdated = new Subject<number>();
+
+  // // config minScore default: 75%
+  minimumScore = 75;
+  private changedMinScoreUpdated = new Subject<number>();
+
+  // ******************************* //
+  // ****  CATEGORY PROPERTIES  **** //
+  // ******************************* //
   public selectedCategory: Category;
   public selectedName: any;
   public selectedCategoryName: string;
 
-  // assessment configuration
-  isRandom = false;
-  isTimed = false;
-  private enteredMaxTime = 0;
-  private enteredWrongStreak = 0;
-  minimumScore = 75;
-  private maxTimeUpdated = new Subject<number>();
-  private wrongStreakUpdated = new Subject<number>();
-  private assessmentConfig: AssessmentConfig;
-
-  // questions
-  private questionIds: string[];
+  // ******************************* //
+  // ****  QUESTION PROPERTIES  **** //
+  // ******************************* //
+  public questionIds: string[];
   public questions: Question[] = [];
   private currentQuestion: Question;
   private assessmentQuestionsUpdated = new Subject<Question[]>();
@@ -86,12 +104,20 @@ export class AssessmentService {
   // *********  ASSESSMENT: STATUS FUNCTIONS  ********** //
   // *************************************************** //
 
+  // Sets the status to complete is Save Assessment button is clicked
   changeCompleteStatus() {
     this.status = 'Complete';
   }
 
+  // Sets the status to in progress is Finish Later button is clicked
   changeInProgressStatus() {
     this.status = 'In Progress';
+  }
+
+  // Returns the given status of the assessment created in the webform
+  // based upon the click event above
+  getStatus() {
+    return this.status;
   }
 
   // ******************************************************** //
@@ -104,11 +130,11 @@ export class AssessmentService {
     this.selectedCategoryName = this.selectedCategory.name;
   }
 
-
   // ******************************************************** //
   // **************  CONFIGURATION FUNCTIONS  *************** //
   // ******************************************************** //
 
+  // Stores the values of the configuration items tied to an assessment
   createAssessmentConfiguration(configData: any) {
     const updatedConfigurationItems = configData;
 
@@ -122,10 +148,13 @@ export class AssessmentService {
     this.assessmentConfig = updatedConfigurationItems;
   }
 
+  getAssessmentConfigUpdateListener() {
+    return this.assessmentConfigUpdated.asObservable();
+  }
+
   // ******************************************************** //
   // *********  CONFIGURATION: ISRANDOM FUNCTIONS  ********** //
   // ******************************************************** //
-
   // sets the isRandom based upon a click event
   isRandomChanged() {
     this.isRandom = !this.isRandom;
@@ -135,10 +164,10 @@ export class AssessmentService {
   // ******************************************************** //
   // **********  CONFIGURATION: ISTIMED FUNCTIONS  ********** //
   // ******************************************************** //
-
   // sets the isTimed based upon a click event
   isTimedChanged() {
     this.isTimed = !this.isTimed;
+    console.log(this.isTimed);
     return this.isTimed;
   }
 
@@ -151,7 +180,7 @@ export class AssessmentService {
     return this.minimumScore;
   }
 
-  // gets the changed score based upon slider event
+  // Due to default setting, changing the score based upon a slider event
   minScoreChanged($event, value) {
     this.minimumScore = value;
     return this.minimumScore;
@@ -162,45 +191,95 @@ export class AssessmentService {
   // ******************************************************** //
 
   getMaxTime() {
-    return this.enteredMaxTime;
+    return this.maxTime;
   }
 
   getmaxTimUpdatedListener() {
     return this.maxTimeUpdated.asObservable();
   }
 
+  // Due to default setting, changes the max time based upon input
   onHandleMaxTime(event: any) {
-    this.enteredMaxTime = event.target.value;
-    console.log(this.enteredMaxTime);
+    this.maxTime = event.target.value;
+    console.log(this.maxTime);
   }
 
   // ******************************************************** //
   // *******  CONFIGURATION: WRONG STREAK FUNCTIONS  ******** //
   // ******************************************************** //
 
+  getWrongStreak() {
+    return this.wrongStreak;
+  }
+
   getWrongStreakListener() {
     return this.wrongStreakUpdated.asObservable();
   }
 
-  getWrongStreak() {
-    return this.enteredWrongStreak;
-  }
-
+  // Due to default setting, changes the wrong streak based upon input
   onHandleWrongStreak(event: any) {
-    this.enteredWrongStreak = event.target.value;
-    console.log(this.enteredWrongStreak);
+    this.wrongStreak = event.target.value;
+    console.log(this.wrongStreak);
   }
 
   // ******************************************************** //
   // ****************  QUESTION FUNCTIONS  ****************** //
   // ******************************************************** //
-
   getAssessmentQuestionsUpdatedListener() {
     return this.assessmentQuestionsUpdated.asObservable();
   }
 
+  // ******************************************************** //
+  // ***************  API CALLS TO BACKEND  ***************** //
+  // ******************************************************** //
+  // Gets all assessments from the database.
+  getAllAssessments() {
+    this.helperService.isLoading = true;
+    this.http
+      .get<{ message: string, assessments: Assessment[] }>(
+        'http://localhost:3000/api/assessments'
+      )
+      .subscribe((assessmentData) => {
+        this.assessments = assessmentData.assessments.reverse();
+        console.log(this.assessments);
+        // Subscribers get a copy of the assessments array
+        this.assessmentsUpdated.next(this.assessments);
+        // Done loading. Remove the loading spinner
+        this.helperService.isLoading = false;
+      },
+        error => {
+          // log error message from server
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
+  // Gets an assessment by an id
+  getAssessmentById(assessmentId: string) {
+    this.helperService.isLoading = true;
+    this.http
+      .get<{ message: string, assessment: Assessment }>(
+        'http://localhost:3000/api/assessment/' + assessmentId
+      )
+      .subscribe((assessmentData) => {
+        // mongoose always returns an array with find()
+        // // grabbing the first (and only) assessment in array
+        this.assessment = assessmentData.assessment[0];
+
+        console.log('Assessment Id', this.assessment._id);
+        console.log('Assessment', this.assessment);
+
+        this.questionIds = this.assessment.questionIds;
+
+        // Subscribers get a copy of the assessment.
+        this.assessmentUpdated.next(this.assessment);
+        // Done loading. Remove the loading spinner
+        this.helperService.isLoading = false;
+      });
+  }
+
   // gets a list of questions from an array of ids
   getQuestionsByIds(questionIds: string[]) {
+    this.helperService.isLoading = true;
     this.http
       .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/assessment/questions/', { questionIds })
       .subscribe(
@@ -211,27 +290,6 @@ export class AssessmentService {
           console.log(responseData.questions);
         },
         error => {
-          console.log('%c' + error.error.message, 'color: red;');
-        });
-  }
-
-  // ******************************************************** //
-  // ***************  API CALLS TO BACKEND  ***************** //
-  // ******************************************************** //
-  // Gets all assessments from the database.
-  getAllAssessments() {
-    this.http
-      .get<{ message: string, assessments: Assessment[] }>(
-        'http://localhost:3000/api/assessments'
-      )
-      .subscribe((assessmentData) => {
-        this.assessments = assessmentData.assessments.reverse();
-        console.log(this.assessments);
-        // Subscribers get a copy of the assessments array
-        this.assessmentsUpdated.next(this.assessments);
-      },
-        error => {
-          // log error message from server
           console.log('%c' + error.error.message, 'color: red;');
         });
   }

@@ -1,0 +1,7 @@
+/* Importing global styles */
+@import "../../../../styles.css";
+
+/* Adjusting the width of the component to better fit the table contents. */
+mat-card{
+  width: 90%;
+}

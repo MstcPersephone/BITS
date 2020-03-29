@@ -1,0 +1,34 @@
+/* Importing global styles */
+@import "../../../../styles.css";
+
+/* Adjusting the width and background of the assessment detail container */
+.assessmentDetailContainer{
+  width: 90%;
+  margin: auto;
+  background-color: #f0f0f0;
+}
+
+/* Adjusting the header content - Assessment Name and the option buttons */
+.assessmentDetailHeader{
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 15px;
+}
+.assessmentDetailHeader h3, .assessmentDetailHeader .optionContainer{
+  padding: 0;
+  margin: auto;
+}
+.assessmentDetailHeader h3{
+  margin-left: 0;
+}
+.assessmentDetailHeader .optionContainer{
+  margin-right: 0;
+}
+.optionContainer mat-icon{
+  padding-left: 10px;
+}
+
+/* Adjusting the padding on the configuration table */
+mat-grid-list{
+  padding-bottom: 130px !important;
+}

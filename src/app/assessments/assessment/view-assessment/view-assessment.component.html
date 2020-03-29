@@ -1,1 +1,116 @@
-<p>view-assessment works!</p>
+<!-- The spinner object, displayed when the application is loading the questions -->
+<mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
+<br>
+<mat-card *ngIf="!this.helperService.isLoading">
+  <h1 class="mat-display-1">Manage Assessment</h1>
+
+  <!-- Container holding the assessment details -->
+  <mat-card class="assessmentDetailContainer">
+
+    <!-- Assessment Detail Header - Assessment Name and Edit/Delete Options -->
+    <section class="assessmentDetailHeader">
+      <h3>{{ assessment.name }}</h3>
+      <section class="optionContainer">
+        <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
+        <mat-icon class="editIcon" matListIcon>edit</mat-icon>
+      </section>
+    </section>
+
+  <!-- Description -->
+  <h4>Description</h4>
+  <p>{{ assessment.description }}</p>
+  <br>
+
+  <!-- Grid List for Configuration / Status -->
+  <mat-grid-list cols="5">
+
+    <!-- Status -->
+    <mat-grid-tile >
+      <mat-grid-tile-header>
+        <h4>Creation Status</h4>
+      </mat-grid-tile-header>
+      <p>{{ assessment.status }}</p>
+    </mat-grid-tile>
+
+    <!-- Timed Test -->
+    <mat-grid-tile>
+      <mat-grid-tile-header>
+        <h4>Time Limit</h4>
+      </mat-grid-tile-header>
+      <div *ngIf="this.assessment.config.isTimed === false">
+        <p>N/A</p>
+      </div>
+      <div *ngIf="this.assessment.config.isTimed === true">
+        <p>{{ assessment.config.maxTime }} minutes</p>
+      </div>
+    </mat-grid-tile>
+
+    <!-- Wrong Streak -->
+    <mat-grid-tile>
+      <mat-grid-tile-header>
+        <h4>Incorrect Answer Limit</h4>
+      </mat-grid-tile-header>
+      <div *ngIf="this.assessment.config.wrongStreak === 0">
+        <p>N/A</p>
+      </div>
+      <div *ngIf="this.assessment.config.wrongStreak > 0">
+        <p>{{ assessment.config.wrongStreak }}</p>
+      </div>
+    </mat-grid-tile>
+
+    <!-- Min Score -->
+    <mat-grid-tile>
+      <mat-grid-tile-header>
+        <h4>Minimum Passing Score</h4>
+      </mat-grid-tile-header>
+      <p>{{ assessment.config.minimumScore }}%</p>
+    </mat-grid-tile>
+
+    <!-- Question Order -->
+    <mat-grid-tile>
+      <mat-grid-tile-header>
+        <h4>Question Order</h4>
+      </mat-grid-tile-header>
+      <div *ngIf="this.assessment.config.isRandom === true">
+        <p>Randomized</p>
+      </div>
+      <div *ngIf="this.assessment.config.isRandom === false">
+        <p>Selected Order</p>
+      </div>
+    </mat-grid-tile>
+
+  </mat-grid-list>
+
+  <h4>Assessment Questions</h4>
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="questionType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header width ="20%">Question Type</th>
+      <td mat-cell *matCellDef="let question">{{ question.questionType }}</td>
+    </ng-container>
+
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="questionText">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Question Text</th>
+      <td mat-cell *matCellDef="let question" matTooltip={{question.questionText}}>
+        {{question.questionText}} </td>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="points">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header width ="2%">Points</th>
+      <td mat-cell *matCellDef="let question"> {{question.points}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; Index as i"
+    [routerLink]="['/question/view', row._id]"></tr>
+
+    </table>
+  </mat-card>
+
+</mat-card>
+<br>
