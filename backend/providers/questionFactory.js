@@ -131,7 +131,7 @@ function createMultipleChoice(question, collectionName = 'questions') {
       break;
   }
 
-    q.id = question._id;
+    q._id = question._id;
     q.questionText = question.questionText;
     q.questionType = question.questionType;
     q.options = question.options;
@@ -185,7 +185,7 @@ function createShortAnswer(question, collectionName = 'questions') {
      break;
  }
 
-    q.id = question._id;
+    q._id = question._id;
     q.questionText = question.questionText;
     q.questionType = question.questionType;
     q.hasAttachments = question.hasAttachments;
@@ -236,7 +236,7 @@ function createTrueFalse(question, collectionName = 'questions') {
       break;
   }
 
-    q.id = question._id;
+    q._id = question._id;
     q.questionText = question.questionText;
     q.questionType = question.questionType;
     q.hasAttachments = question.hasAttachments;
@@ -282,7 +282,7 @@ function createUpload(question, collectionName = 'questions') {
       break;
   }
 
-    q.id = question._id;
+    q._id = question._id;
     q.questionText = question.questionText;
     q.questionType = question.questionType;
     q.hasAttachments = question.hasAttachments;
