@@ -6,4 +6,4 @@ const mongoose = require('mongoose');
 const questionSchema = mongoose.Schema({});
 
 // Create and export Question Shell Model
-module.exports = mongoose.model('Question', questionSchema, 'questions');
+module.exports = { questions: mongoose.model('Question', questionSchema, 'questions'), archive: mongoose.model('Archive', questionSchema, 'archive')};
