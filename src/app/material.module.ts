@@ -7,6 +7,7 @@ import {
   MatChipsModule,
   MatDatepickerModule,
   MatDialogModule,
+  MAT_DIALOG_DEFAULT_OPTIONS,
   MatExpansionModule,
   MatFormFieldModule,
   MatGridListModule,

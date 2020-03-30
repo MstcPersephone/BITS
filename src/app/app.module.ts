@@ -69,6 +69,9 @@ import { ListCategoryComponent } from './shared/category/list-category/list-cate
 import { ManageCategoryComponent } from './shared/category/manage-category/manage-category.component';
 import { CreateAssessmentConfigComponent } from './assessments/configuration/create-assessment-config/create-assessment-config.component';
 import { AssessmentFooterComponent } from './assessments/footer/assessment-footer/assessment-footer.component';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -115,7 +118,8 @@ import { AssessmentFooterComponent } from './assessments/footer/assessment-foote
     ListCategoryComponent,
     ManageCategoryComponent,
     CreateAssessmentConfigComponent,
-    AssessmentFooterComponent
+    AssessmentFooterComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -127,11 +131,15 @@ import { AssessmentFooterComponent } from './assessments/footer/assessment-foote
     ReactiveFormsModule,
     DragDropModule
   ],
+  entryComponents: [
+    ConfirmationDialogComponent
+  ],
   providers: [
     AssessmentService,
     AttachmentService,
     QuestionService,
-    HelperService
+    HelperService,
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]
 })
