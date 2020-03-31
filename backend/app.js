@@ -77,6 +77,16 @@ app.use((request, response, next) => {
 });
 
 // *********************************************************** //
+// ******   ARCHIVE: ASSESSMENT FROM ASSESSMENT COLLECTION *** //
+// *********************************************************** //
+app.post("/api/assessment/delete", (request, response, next) => {
+  const assessment = request.body;
+
+
+
+});
+
+// *********************************************************** //
 // ******   ARCHIVE: QUESTION FROM QUESTION COLLECTION   ****** //
 // *********************************************************** //
 app.post("/api/question/delete", (request, response, next) => {
