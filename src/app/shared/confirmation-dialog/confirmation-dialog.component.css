@@ -1,0 +1,32 @@
+/* Styling applied to the dialog text. */
+.confirmationDialogBox{
+  padding: 15px;
+  margin: auto;
+}
+
+/* Styling applied to the dialog button container to display the buttons in a flex format. */
+.confirmationDialogButtonContainer{
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+/* Styling added to the button elements, mainly centering them and applying appropriate color. */
+.confirmationDialogButtonContainer button{
+  margin: auto;
+  padding: 0px 30px;
+  background-color: #404040;
+  color: white;
+}
+
+/* Styling applied to the dialog container, adding a border and defining max width/height values. */
+/* Additional styling will need to be added to prevent the background objects from breaking when displaying the dialog. */
+/* It may be something with the angular material itself - utilizing the steps from the following stretches the dialog box unusually. */
+/* https://css-tricks.com/quick-css-trick-how-to-center-an-object-exactly-in-the-center/ */
+/* https://material.angular.io/components/dialog/overview */
+::ng-deep .mat-dialog-container {
+  border: 1.5px solid #404040 !important;position: fixed;
+  max-width: 410px;
+  max-height: 150px;
+}

@@ -30,11 +30,14 @@ html{
   width: 70%;
 }
 body {
-  margin: 0;
+  margin: auto;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   border-radius: 5px;
   background-color: #f0f0f0;
   margin-bottom: 10px;
+
+  /* STYLES APPLIED WHILE DIALOG BOX IS BROKEN */
+  max-width: 1250px;
 }
 
 /* Adjusting the top radius values to make page radius rounded. */
@@ -142,9 +145,10 @@ button.saveButton {
   float: right;
 }
 
-/* Styles applied to the Upload button. Puts upload button on one line, rather than inline with the lower content. */
-button.uploadButton {
+/* Styles applied to the Upload and Download buttons. Puts upload button on one line, rather than inline with the lower content. */
+button.uploadButton, button.downloadButton {
   background-color: #404040;
+  color: white;
   margin-bottom: 10px;
 }
 

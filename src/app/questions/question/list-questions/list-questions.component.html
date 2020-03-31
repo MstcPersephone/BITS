@@ -40,7 +40,10 @@
           <p class="questionAttachmentDisplay" *ngIf="question.hasAttachments"><strong>Attachments: </strong></p>
           <!-- Displays any attachments the question has. -->
           <div *ngFor="let attachment of question.attachments">
-               <button mat-raised-button (click)="this.attachmentService.downloadAttachment(attachment)">{{attachment.name}}</button>
+                <button class="downloadButton" mat-raised-button
+                 (click)="this.attachmentService.downloadAttachment(attachment)">
+                  {{attachment.name}} &nbsp;<mat-icon>cloud_download</mat-icon>
+                </button>
           </div>
 
           <!-- If Checkbox or Multiple Choice displays the options -->
