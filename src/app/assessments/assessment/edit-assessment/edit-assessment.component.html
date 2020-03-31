@@ -31,14 +31,14 @@
       </mat-expansion-panel-header>
 
       <!-- This will pull the assessment configuration values from a separate component -->
-      <app-create-assessment-config></app-create-assessment-config>
+      <app-edit-assessment-config [assessment]="assessment"></app-edit-assessment-config>
 
     </mat-expansion-panel>
 
     <br>
 
     <!-- This footer that contains the submit button and will have a button to load the configurations upon a click -->
-    <app-assessment-footer [isEditMode]="true"></app-assessment-footer>
+    <app-assessment-footer [isEditMode]="true" [assessment]="assessment"></app-assessment-footer>
   </form>
 </mat-card>
 <br>

@@ -39,8 +39,8 @@ export class EditAssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Sets up a question listener to get a new question
-    // Gets the question based on the passed in id
+    // Sets up an assessment listener to get a new assessment
+    // Gets the assessment based on the passed in id
     // id is passed through the URL
     this.assessmentService.getAssessmentById(this.route.snapshot.params.assessmentId);
     this.assessmentSubscription = this.assessmentService.getAssessmentUpdateListener()
@@ -59,7 +59,7 @@ export class EditAssessmentComponent implements OnInit {
     updatedAssessment.description = assessmentData.description;
     updatedAssessment.questionIds = null;
     updatedAssessment.config = new AssessmentConfig();
-    this.assessmentService.saveAssessment(updatedAssessment);
+    // this.assessmentService.saveAssessment(updatedAssessment);
   }
 
 }

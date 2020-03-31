@@ -71,6 +71,7 @@ import { CreateAssessmentConfigComponent } from './assessments/configuration/cre
 import { AssessmentFooterComponent } from './assessments/footer/assessment-footer/assessment-footer.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
+import { EditAssessmentConfigComponent } from './assessments/configuration/edit-assessment-config/edit-assessment-config.component';
 
 
 @NgModule({
@@ -119,7 +120,8 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
     ManageCategoryComponent,
     CreateAssessmentConfigComponent,
     AssessmentFooterComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    EditAssessmentConfigComponent
   ],
   imports: [
     BrowserModule,
