@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AssessmentService } from 'src/app/services/assessment.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { AssessmentService } from 'src/app/services/assessment.service';
   styleUrls: ['./assessment-footer.component.css']
 })
 export class AssessmentFooterComponent implements OnInit {
+  @Input() isEditMode: boolean;
 
   constructor(public assessmentService: AssessmentService) { }
 
