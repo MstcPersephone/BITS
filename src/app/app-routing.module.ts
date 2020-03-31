@@ -24,7 +24,7 @@ import { ViewStudentComponent } from './student/view-student/view-student.compon
 const routes: Routes = [
   { path: '', component: AssessmentListComponent },
   { path: 'assessment/create', component: CreateAssessmentComponent },
-  { path: 'assessment/edit', component: EditAssessmentComponent },
+  { path: 'assessment/edit/:assessmentId', component: EditAssessmentComponent },
   { path: 'assessment/list', component: AssessmentListComponent },
   { path: 'assessment/view/:assessmentId', component: ViewAssessmentComponent },
   { path: 'category', component: ManageCategoryComponent },

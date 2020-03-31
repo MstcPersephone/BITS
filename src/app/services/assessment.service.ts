@@ -286,6 +286,8 @@ export class AssessmentService {
         responseData => {
           this.questions = responseData.questions;
           this.assessmentQuestionsUpdated.next(this.questions);
+          // Done loading. Remove the loading spinner
+          this.helperService.isLoading = false;
           console.log(responseData.message);
           console.log(responseData.questions);
         },
