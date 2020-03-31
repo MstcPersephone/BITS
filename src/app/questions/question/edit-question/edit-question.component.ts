@@ -12,6 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./edit-question.component.css']
 })
 export class EditQuestionComponent implements OnInit {
+  isEditMode: boolean;
   question: Question;
   questionSubscription: Subscription;
   editPointForm;

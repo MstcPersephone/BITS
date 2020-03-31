@@ -17,6 +17,7 @@ import { AssessmentConfig } from 'src/app/models/assessment-config.model';
   styleUrls: ['./edit-assessment.component.css']
 })
 export class EditAssessmentComponent implements OnInit {
+  isEditMode: boolean;
   assessment: Assessment;
   assessmentSubscription: Subscription;
   updateAssessmentForm;
