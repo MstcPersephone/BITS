@@ -8,7 +8,8 @@
       [checked]="this.assessmentService.isRandom"
       class="mt-20"
       (change)="this.assessmentService.isRandomChanged()"
-      formControlName="isRandom">
+      formControlName="isRandom"
+      value="{{ assessment.config.isRandom }}">
       Randomize order of questions?
       </mat-checkbox>
     </div>
@@ -21,26 +22,29 @@
       [checked]="this.assessmentService.isTimed"
       class="mt-20"
       (change)="this.assessmentService.isTimedChanged($event)"
-      formControlName="isTimed">
+      formControlName="isTimed"
+      value="{{ assessment.config.isTimed }}">
       Is this a timed assessment?
       </mat-checkbox>
     </div>
     <br>
 
     <!-- The maximum minutes text input : Only visible if isTimed is checked -->
-
-      <mat-form-field appearance="standard">
+      <mat-form-field *ngIf="assessment.config.isTimed === true" appearance="standard">
       <mat-label>Time Limit (minutes)</mat-label>
       <input matInput #maxTimeValue id="wrongStreak" type="text"
-         formControlName="maxTime" (change)="this.assessmentService.onHandleMaxTime($event)" value="{{maxTime}}">
+         formControlName="maxTime" (change)="this.assessmentService.onHandleMaxTime($event)"
+         value="{{ assessment.config.maxTime }}">
+         <br>
     </mat-form-field>
-    <br>
+
 
     <!-- The wrong streak with number ticker -->
     <mat-form-field appearance="standard">
       <mat-label>Number of consecutive incorrect answers before ending assessment</mat-label>
       <input matInput #wrongSteakValue id="wrongStreak" type="number"
-         formControlName="wrongStreak" (change)="this.assessmentService.onHandleWrongStreak($event)" value="{{wrongStreak}}">
+         formControlName="wrongStreak" (change)="this.assessmentService.onHandleWrongStreak($event)"
+         value="{{  assessment.config.wrongStreak }}">
     </mat-form-field>
     <br>
 
