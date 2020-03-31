@@ -13,6 +13,7 @@ import { Assessment } from 'src/app/models/assessment.model';
 })
 export class EditAssessmentConfigComponent implements OnInit {
   @Input() assessment: Assessment;
+  @Input() attachmentsLoaded;
   updateConfigurationForm;
   public value: any;
   maxTimeSubscription: Subscription;
@@ -25,15 +26,20 @@ export class EditAssessmentConfigComponent implements OnInit {
     public assessmentService: AssessmentService,
     private formBuilder: FormBuilder) {
     this.updateConfigurationForm = this.formBuilder.group({
-      isRandom: false,
-      isTimed: false,
-      maxTime: '',
-      minimumScore: this.assessmentService.getMinScore(),
-      wrongStreak: ''
+      isRandom: Boolean,
+      isTimed: Boolean,
+      maxTime: Number,
+      minimumScore: Number,
+      wrongStreak: Number
     });
   }
 
   ngOnInit(): void  {
+    this.updateConfigurationForm.get('isRandom').setValue(this.assessment.config.isRandom);
+    this.updateConfigurationForm.get('isTimed').setValue(this.assessment.config.isTimed);
+    this.updateConfigurationForm.get('maxTime').setValue(this.assessment.config.maxTime);
+    this.updateConfigurationForm.get('minimumScore').setValue(this.assessment.config.minimumScore);
+    this.updateConfigurationForm.get('wrongStreak').setValue(this.assessment.config.wrongStreak);
   }
 
   formatMinScoreLabel(value: number) {

@@ -47,8 +47,6 @@ export class EditAssessmentComponent implements OnInit {
       .subscribe((assessment: Assessment) => {
         this.assessment = assessment;
       });
-    // this.updateAssessmentForm.get('name').setValue(this.assessment.name);
-    // this.updateAssessmentForm.get('description').setValue(this.assessment.description);
   }
 
   onSubmit(assessmentData) {
