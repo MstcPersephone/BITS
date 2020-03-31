@@ -8,6 +8,8 @@ import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
 import { Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Injectable({
   providedIn: 'root',
@@ -74,7 +76,8 @@ export class AssessmentService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private helperService: HelperService, ) { }
+    private helperService: HelperService,
+    public dialog: MatDialog) { }
 
   // ******************************************************** //
   // ***************  ASSESSMENT FUNCTIONS  ***************** //
@@ -232,6 +235,40 @@ export class AssessmentService {
   // ******************************************************** //
   // ***************  API CALLS TO BACKEND  ***************** //
   // ******************************************************** //
+
+  // Archives an assessment object after confirmation from the user
+  deleteAssessmentById(assessment: Assessment) {
+    console.log(assessment);
+     // Opens a dialog to confirm deletion of the assessment
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: 'Are you sure you wish to delete this assessment?'
+    });
+    // On closing dialog box either call the function to archive the assessment or cancel the deletion
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.helperService.isLoading = true;
+        this.http
+      .post<{message: string}>('http://localhost:3000/api/assessment/delete', assessment)
+      .subscribe((responseData) => {
+        setTimeout(() => {
+          console.log(responseData);
+          // Displays a message informing that the assessment deletion has been successful.
+          this.helperService.openSnackBar('Assessment Deletion.', 'Close', 'success-dialog', 5000);
+          this.helperService.isLoading = false;
+          this.helperService.refreshComponent('assessment/list');
+        }, 2000);
+      },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+      } else {
+        // Displays a message informing that the assessment deletion has been cancelled.
+        this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
+      }
+    });
+  }
+
   // Gets all assessments from the database.
   getAllAssessments() {
     this.helperService.isLoading = true;
