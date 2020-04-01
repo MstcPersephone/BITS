@@ -26,9 +26,10 @@ const questionFactory = require("./providers/questionFactory");
 // ******************************************************** //
 const questionCollections = require("./models/question");
 const categoryCollection = require("./models/shared/category");
-const assessmentCollection = require("./models/assessment");
+const assessmentCollections = require("./models/assessment");
 const studentCollection = require("./models/student");
-
+const assessmentCollection = assessmentCollections.assessments;
+const archiveAssessmentCollection = assessmentCollections.archive;
 const questionCollection = questionCollections.questions;
 const archiveCollection = questionCollections.archive;
 
