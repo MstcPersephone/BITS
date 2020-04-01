@@ -148,6 +148,15 @@ export class AssessmentService {
     this.assessmentConfig = updatedConfigurationItems;
   }
 
+  resetConfigurationForm() {
+    // Clear values that are stored in the service.
+    this.isRandom = false;
+    this.isTimed = false;
+    this.maxTime = null;
+    this.minimumScore = 75;
+    this.wrongStreak = 0;
+    }
+
   getAssessmentConfigUpdateListener() {
     return this.assessmentConfigUpdated.asObservable();
   }
@@ -309,6 +318,7 @@ export class AssessmentService {
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.assesment);
+          this.resetConfigurationForm();
           this.router.navigate(['/assessment/list']);
 
         },
