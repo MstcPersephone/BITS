@@ -306,6 +306,7 @@ export class AssessmentService {
   }
 
   saveAssessment(assessment: Assessment) {
+    document.getElementById('saveConfigurations').click();
     const completeAssessment: any = assessment;
     completeAssessment.config = this.assessmentConfig;
     completeAssessment.status = this.status;
