@@ -327,4 +327,36 @@ export class AssessmentService {
         });
   }
 
+  // Makes a call to the server to update a question based on its id
+  updateAssessmentById(assessment: Assessment) {
+    // isLoading is used to add a spinner
+    this.helperService.isLoading = true;
+    const updatedAssessment: any = assessment;
+    updatedAssessment.config = this.assessmentConfig;
+    updatedAssessment.status = this.status;
+    console.log('Updated Assessment', updatedAssessment);
+    this.http.post<{ message: string, updatedAssessment: Assessment}>('http://localhost:3000/api/assessment/update', updatedAssessment)
+    .subscribe(
+      responseData => {
+        // Success message at the bottom of the screen
+        // console log information about the response for debugging
+        this.helperService.openSnackBar(assessment.name + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
+
+        setTimeout(() => {
+          this.router.navigate(['/assessment/list']);
+          // reset the isLoading spinner
+          this.helperService.isLoading = false;
+        }, 2000);
+        console.log('%c' + responseData.message, 'color: green;');
+        console.log('%c Database Object:', 'color: orange;');
+        console.log(responseData.updatedAssessment);
+        console.table(responseData.updatedAssessment);
+      },
+      error => {
+        // log error message from server
+        console.log('%c' + error.error.message, 'color: red;');
+      }
+    );
+  }
+
 }

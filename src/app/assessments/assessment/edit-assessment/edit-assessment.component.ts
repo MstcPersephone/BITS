@@ -53,12 +53,12 @@ export class EditAssessmentComponent implements OnInit {
   onSubmit(assessmentData) {
 
     const updatedAssessment: Assessment = new Assessment();
-    updatedAssessment._id = null;
+    updatedAssessment._id = this.assessment._id;
     updatedAssessment.name = assessmentData.name;
     updatedAssessment.description = assessmentData.description;
-    updatedAssessment.questionIds = null;
+    updatedAssessment.questionIds = null;  // TODO: Add questions to edit
     updatedAssessment.config = new AssessmentConfig();
-    // this.assessmentService.saveAssessment(updatedAssessment);
+    this.assessmentService.updateAssessmentById(updatedAssessment);
   }
 
 }
