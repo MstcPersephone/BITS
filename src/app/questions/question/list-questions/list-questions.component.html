@@ -14,16 +14,28 @@
         <mat-panel-title>{{category.key}} Questions</mat-panel-title>
       </mat-expansion-panel-header>
       <mat-card *ngFor="let question of category.value">
+        <mat-grid-list [cols]="16" gutterSize="5px" rowHeight="30px">
+
+          <mat-grid-tile [colspan]="8" [rowspan]="1">
+            <mat-grid-tile-header>
+              <h5>Question Text</h5>
+            </mat-grid-tile-header>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="6" [rowspan]="1">
+          </mat-grid-tile>
+
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question._id)">delete</mat-icon>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
+          </mat-grid-tile>
+          </mat-grid-list>
 
         <h3 class="questionSubHeaderContent">{{ question.questionText }}</h3>
-
-        <!-- Edit / Delete Buttons -->
-        <div>
-          <section class="questionButtonContainer">
-            <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question._id)">delete</mat-icon>
-            <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
-          </section>
-        </div>
 
         <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
 
