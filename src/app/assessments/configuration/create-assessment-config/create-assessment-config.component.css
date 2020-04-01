@@ -18,3 +18,7 @@ mat-slider {
   width: 100%;
 }
 
+.addConfiguration {
+  display: none;
+}
+
