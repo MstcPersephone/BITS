@@ -202,8 +202,10 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   console.log(questionIds);
   const objectIds = [];
   // Turns the string ids into ObjectIds
+  if (questionIds !== null && questionIds !== undefined) {
   questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
   console.log(objectIds);
+  }
 
   // Performs the search
   questionCollection.find({ _id: objectIds }, (error, questions) => {
