@@ -13,6 +13,9 @@ import { Upload } from '../models/question-types/upload.model';
 import { ShortAnswer } from '../models/question-types/short-answer.model';
 import { Category } from '../models/shared/category.model';
 import { Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+//
+import { MatDialog } from '@angular/material';
 
 @Injectable({
   providedIn: 'root',
@@ -59,7 +62,8 @@ export class QuestionService {
   constructor(
     private http: HttpClient,
     private helperService: HelperService,
-    private router: Router) { }
+    private router: Router,
+    public dialog: MatDialog) { }
 
   // ************************************************************** //
   // Casting question to questionType for casting in html template. //
@@ -369,17 +373,36 @@ export class QuestionService {
   // ********************************************** //
 
   // Deletes the question object after confirmation from the user
-  // NOT FUNCTIONING - Orion made this function so that he could add the confirmation message (PER-66).
-  deleteQuestionById(questionId: string) {
-    //
-    // Actual delete code should go here.
-    //
-
-    // Displays a message informing that the question deletion has been cancelled.
-    // this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
-
-    // Displays a message confirming that the question has been deleted successfully.
-    this.helperService.openSnackBar('Question has been deleted.', 'Close', 'success-dialog', 5000);
+  deleteQuestionById(question: Question) {
+    console.log(question);
+    // Opens a dialog to confirm deletion of the question
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: 'Are you sure you wish to delete this question?'
+    });
+    // On closing dialog box either call the function to archive the question or cancel the deletion
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.helperService.isLoading = true;
+        this.http
+      .post<{message: string}>('http://localhost:3000/api/question/delete', question)
+      .subscribe((responseData) => {
+        setTimeout(() => {
+          console.log(responseData);
+          // Displays a message informing that the question deletion has been successful.
+          this.helperService.openSnackBar('Question Deletion.', 'Close', 'success-dialog', 5000);
+          this.helperService.isLoading = false;
+          this.helperService.refreshComponent('question/list');
+        }, 2000);
+      },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+      } else {
+        // Displays a message informing that the question deletion has been cancelled.
+        this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
+      }
+    });
   }
 
   // Gets the updateListener subject for single question fetch

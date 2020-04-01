@@ -64,4 +64,5 @@ const shortAnswerSchema = mongoose.Schema({
 });
 
 // Create and export Short Answer Model
-module.exports = mongoose.model('ShortAnswer', shortAnswerSchema, 'questions');
+module.exports = {question: mongoose.model('ShortAnswer', shortAnswerSchema, 'questions'), archive: mongoose.model('ShortAnswerArchive', shortAnswerSchema, 'archive')};
+

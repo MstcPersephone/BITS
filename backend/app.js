@@ -2,21 +2,35 @@
 const fs = require("fs");
 
 // Import questionType mongoose objects for working with questions collection.
-const checkBoxModel = require("./models/question-types/checkbox");
-const multipleChoiceModel = require("./models/question-types/multiple-choice");
-const trueFalseModel = require("./models/question-types/true-false");
-const shortAnswerModel = require("./models/question-types/short-answer");
-const uploadAnswerModel = require("./models/question-types/upload");
+const checkBoxModels = require("./models/question-types/checkbox");
+const multipleChoiceModels = require("./models/question-types/multiple-choice");
+const trueFalseModels = require("./models/question-types/true-false");
+const shortAnswerModels = require("./models/question-types/short-answer");
+const uploadModels = require("./models/question-types/upload");
+
+const checkBoxModel = checkBoxModels.question;
+const checkboxArchiveModel = checkBoxModels.archive;
+const multipleChoiceModel = multipleChoiceModels.question;
+const multipleChoiceArchiveModel = multipleChoiceModels.archive;
+const trueFalseModel = trueFalseModels.question;
+const trueFalseArchiveModel = trueFalseModels.archive;
+const shortAnswerModel = shortAnswerModels.question;
+const shortAnswerArchiveModel = shortAnswerModels.archive;
+const uploadModel = uploadModels.question;
+const uploadArchiveModel = uploadModels.archive;
 
 const questionFactory = require("./providers/questionFactory");
 
 // ******************************************************** //
 // ***********   DATABASE COLLECTION OBJECTS   ************ //
 // ******************************************************** //
-const questionCollection = require("./models/question");
+const questionCollections = require("./models/question");
 const categoryCollection = require("./models/shared/category");
 const assessmentCollection = require("./models/assessment");
 const studentCollection = require("./models/student");
+
+const questionCollection = questionCollections.questions;
+const archiveCollection = questionCollections.archive;
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -62,25 +76,52 @@ app.use((request, response, next) => {
   next();
 });
 
-// *************************************************************** //
-// ******   DELETE: SAVE QUESTION TO ARCHIVED COLLECTION   ****** //
-// *************************************************************** //
-
-app.post("/api/question/delete/:id", (request, response, next) => {
-  console.log(request.body);
-  const archivedQuestion = request.body;
-  mongoose.connection.db.collection('archived').save(archivedQuestion);
-
-  next();
-});
-
 // *********************************************************** //
-// ******   DELETE: QUESTION FROM QUESTION COLLECTION   ****** //
+// ******   ARCHIVE: QUESTION FROM QUESTION COLLECTION   ****** //
 // *********************************************************** //
-app.delete((request, response, next) => {
-  console.log(request.body);
-  questionCollection.deleteOne({ _id: request.params.id });
+app.post("/api/question/delete", (request, response, next) => {
+  // Request.body is the question that is passed through.
+  const question = request.body;
 
+  console.log('passed back questionId: ', question._id);
+
+  // Will store the converted object to be archived.
+  let questionObjectToArchive;
+
+  // Call to question type factory which creates the object to archive
+  questionObjectToArchive = questionFactory.createQuestionTypeFactory(question, 'archive');
+
+  // Attach categories to question before archiving.
+  questionObjectToArchive.categories = question.categories;
+
+  // Attach points to the question before archiving.
+  questionObjectToArchive.points = question.points;
+
+// Save question to archive collection, delete from questions collection and return success or error message
+  questionObjectToArchive.save().then(() => {
+    const objectId = mongoose.Types.ObjectId(questionObjectToArchive._id);
+    deleteById('questions', {_id: objectId}, function (resp, error) {
+      if (error) {
+        console.log(error);
+        response.status(400).json({
+          message: error.message,
+          question: question
+        })
+      }
+      else {
+        response.status(200).json({
+          message: 'Question archived successfully!'
+      });
+      }
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        question: question
+      })
+    });
 });
 
 // ******************************************************** //
@@ -536,6 +577,12 @@ app.post("/api/question/update/", (request, response, next) => {
 function find(name, query, callBack) {
   mongoose.connection.db.collection(name, function (error, collection) {
     collection.find(query).toArray(callBack);
+  });
+}
+
+function deleteById(name, query, callBack) {
+  mongoose.connection.db.collection(name, function(error, collection) {
+    collection.deleteOne(query).then(callBack);
   });
 }
 
