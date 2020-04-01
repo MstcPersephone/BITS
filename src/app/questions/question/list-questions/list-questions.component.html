@@ -90,18 +90,77 @@
             </mat-grid-tile>
 
           </mat-grid-list>
-          <div  class="optionListContainer"
-          *ngIf="this.questionService.asCheckbox(question).options.length > 0">
+          <div class="optionListContainer" *ngIf="this.questionService.asCheckbox(question).options.length > 0">
 
-          <div *ngFor="let option of this.questionService.asCheckbox(question).options; let i = index">
-            <div [ngClass]="option.isAnswer ? 'correct' : '' ">
-              <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
-              <span class="optionListItem">{{option.optionText}}</span>
+            <div *ngFor="let option of this.questionService.asCheckbox(question).options; let i = index">
+              <div [ngClass]="option.isAnswer ? 'correct' : '' ">
+                <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
+                <span class="optionListItem">{{option.optionText}}</span>
+              </div>
             </div>
           </div>
-        </div>
 
         </div>
+
+
+        <!-- If Short Answer displays the exact matches -->
+        <div class="matchList" *ngIf="question.questionType == 'Short Answer'">
+
+          <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
+
+            <mat-grid-tile [colspan]="4" [rowspan]="1">
+              <mat-grid-tile-header>
+                <h5>Acceptable Answers</h5>
+              </mat-grid-tile-header>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="4" [rowspan]="1">
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <div class="matchListContainer" *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
+
+            <div *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; let i = index">
+              <div class="correct">
+                <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+                <span class="matchListItem">{{exactMatch.matchText}}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- If True False displays the answer -->
+        <div *ngIf="question.questionType === 'True False'">
+
+          <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
+
+            <mat-grid-tile [colspan]="4" [rowspan]="1">
+              <mat-grid-tile-header>
+                <h5>Correct Answer</h5>
+              </mat-grid-tile-header>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="4" [rowspan]="1">
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <section class="trueFalseContainer">
+          <!-- If True/False, show answer -->
+          <mat-chip-list>
+            <mat-chip class="isTrueFalseAnswerIcon isTrue" *ngIf="this.questionService.asTrueFalse(question).answer"
+              [selectable]="false" [selected]="false">
+              True
+            </mat-chip>
+            <mat-chip class="isTrueFalseAnswerIcon isFalse" *ngIf="!this.questionService.asTrueFalse(question).answer"
+              [selectable]="false" [selected]="false">
+              False
+            </mat-chip>
+          </mat-chip-list>
+        </section>
+
+        </div>
+
 
       </mat-card>
     </mat-expansion-panel>
