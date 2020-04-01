@@ -16,21 +16,19 @@ export class EditAssessmentConfigComponent implements OnInit {
   @Input() attachmentsLoaded;
   updateConfigurationForm;
   public value: any;
-  maxTimeSubscription: Subscription;
-  maxTime: number;
-  wrongStreakSubscription: Subscription;
-  wrongStreak: number;
+  isTimedSubscription: Subscription;
+  isTimed;
 
   constructor(
     public questionService: QuestionService,
     public assessmentService: AssessmentService,
     private formBuilder: FormBuilder) {
     this.updateConfigurationForm = this.formBuilder.group({
-      isRandom: Boolean,
-      isTimed: Boolean,
-      maxTime: Number,
-      minimumScore: Number,
-      wrongStreak: Number
+      isRandom: '',
+      isTimed: '',
+      maxTime: '',
+      minimumScore: '',
+      wrongStreak: ''
     });
   }
 
@@ -40,6 +38,12 @@ export class EditAssessmentConfigComponent implements OnInit {
     this.updateConfigurationForm.get('maxTime').setValue(this.assessment.config.maxTime);
     this.updateConfigurationForm.get('minimumScore').setValue(this.assessment.config.minimumScore);
     this.updateConfigurationForm.get('wrongStreak').setValue(this.assessment.config.wrongStreak);
+    // Sets up a maxTime listener
+    this.isTimedSubscription = this.assessmentService.getIsTimedUpdateListener()
+      .subscribe((isTimed: boolean) => {
+        console.log(isTimed);
+        this.isTimed = isTimed;
+      });
   }
 
   formatMinScoreLabel(value: number) {

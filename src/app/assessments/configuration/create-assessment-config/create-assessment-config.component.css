@@ -18,6 +18,8 @@ mat-slider {
   width: 100%;
 }
 
+/* Hides the button to save configurations
+   The button click is now simulated in the save assessment of assessment service*/
 .addConfiguration {
   display: none;
 }
