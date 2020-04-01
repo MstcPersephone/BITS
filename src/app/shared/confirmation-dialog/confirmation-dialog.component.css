@@ -26,7 +26,6 @@
 /* https://css-tricks.com/quick-css-trick-how-to-center-an-object-exactly-in-the-center/ */
 /* https://material.angular.io/components/dialog/overview */
 ::ng-deep .mat-dialog-container {
-  border: 1.5px solid #404040 !important;position: fixed;
-  max-width: 410px;
-  max-height: 150px;
+  border: 1.5px solid #404040 !important;
+  background-color: #fcb618;
 }
