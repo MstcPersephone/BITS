@@ -9,11 +9,15 @@ import { ValidationService } from '../../services/validation.service';
 })
 export class ValidationMessagesComponent {
   errorMessage: string;
+  // The reference to propertyName controller
   @Input() control: FormControl;
 
   constructor() { }
 
-
+  // If the control if touched and an error exists, the control and the errorMessage string
+  // is passed to the validation service.
+  // the template has directive to check for the controller reference
+  // if the reference exists (true), then error message returned from validation service is displayed
   get errorMessages() {
     // tslint:disable-next-line: prefer-const
     for (let propertyName in this.control.errors) {
