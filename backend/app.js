@@ -80,7 +80,9 @@ app.use((request, response, next) => {
 // ******   ARCHIVE: ASSESSMENT FROM ASSESSMENT COLLECTION *** //
 // *********************************************************** //
 app.post("/api/assessment/delete", (request, response, next) => {
-  const assessment = request.body;
+  const assessment = request.body.params;
+  console.log("Assessment: " + assessment);
+  console.log("Request " + request.body);
 
   const assessmentToArchive = new archiveAssessmentCollection({
     _id: assessment._id,

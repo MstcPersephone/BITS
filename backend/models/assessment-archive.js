@@ -19,7 +19,7 @@ const assessmentArchiveSchema = mongoose.Schema({
   },
   questionIds: {
     type: [String],
-    required: true
+ //   required: true
   },
   status: {
     type: String,

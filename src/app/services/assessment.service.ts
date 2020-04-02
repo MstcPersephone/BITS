@@ -249,7 +249,7 @@ export class AssessmentService {
       if (result) {
         this.helperService.isLoading = true;
         this.http
-      .post<{message: string}>('http://localhost:3000/api/assessment/delete', assessment)
+      .post<{message: string, assessment: Assessment}>('http://localhost:3000/api/assessment/delete', assessment)
       .subscribe((responseData) => {
         setTimeout(() => {
           console.log(responseData);
