@@ -86,6 +86,7 @@ app.post("/api/assessment/delete", (request, response, next) => {
     _id: assessment._id,
     name: assessment.name,
     description: assessment.description,
+    config: assessment.config,
     questionIds: assessment.questionIds,
     status: assessment.status,
     createdOn: Date.now()
@@ -98,8 +99,7 @@ app.post("/api/assessment/delete", (request, response, next) => {
     if (error) {
       console.log(error);
       response.status(400).json({
-        message: error.message,
-        question: question
+        message: error.message
       })
     }
     else {
@@ -112,8 +112,7 @@ app.post("/api/assessment/delete", (request, response, next) => {
   error => {
     console.log(error.message);
     response.status(400).json({
-      message: error.message,
-      question: question
+      message: error.message
     })
   });
 });
