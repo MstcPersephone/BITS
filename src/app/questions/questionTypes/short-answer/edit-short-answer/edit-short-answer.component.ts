@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Question } from 'src/app/models/question.interface';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
 import { ShortAnswer } from 'src/app/models/question-types/short-answer.model';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { ExactMatch } from 'src/app/models/shared/exact-match.model';
+import { ValidationService } from 'src/app/services/validation.service';
 
 @Component({
   selector: 'app-edit-short-answer',
@@ -23,7 +24,7 @@ export class EditShortAnswerComponent implements OnInit {
     public attachmentService: AttachmentService
   ) {
     this.editShortAnswerForm = this.formBuilder.group({
-      questionText: '',
+      questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
       hasAttachments: '',
       isCaseSensitive: ''
     });
