@@ -3,8 +3,9 @@
   <!-- Question Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Enter Question Text</mat-label>
-    <input matInput id="questionText" type="text" formControlName="questionText">
+    <input matInput id="questionText" type="text" formControlName="questionText" required>
   </mat-form-field>
+  <app-validation-messages [control]="createTrueFalseForm.get('questionText')"></app-validation-messages>
 
   <!-- Attachment Component for uploading files -->
   <app-attachment></app-attachment>
@@ -20,8 +21,9 @@
       value="{{answer}}"
       (change)="radioChangeHandler($event)">{{answer}}</mat-radio-button>
     </mat-radio-group>
+    <app-validation-messages [control]="createTrueFalseForm.get('answer')"></app-validation-messages>
 
 
   <!-- Submit Button -->
-  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+  <button class="mt-20 saveButton" mat-raised-button type="submit" (click)="createTrueFalseForm.get(control)">Save Question&nbsp;<mat-icon>save</mat-icon></button>
 </form>

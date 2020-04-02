@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Question } from 'src/app/models/question.interface';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
+import { ValidationService } from 'src/app/services/validation.service';
 import { TrueFalse } from 'src/app/models/question-types/true-false.model';
 
 @Component({
@@ -30,9 +31,9 @@ export class EditTrueFalseComponent implements OnInit {
     private helperService: HelperService
   ) {
     this.editTrueFalseForm = this.formBuilder.group({
-      questionText: '',
+      questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
       hasAttachments: '',
-      answer: false
+      answer: [false, [Validators.required]]
     });
   }
 
