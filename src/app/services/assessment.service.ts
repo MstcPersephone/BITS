@@ -248,8 +248,8 @@ export class AssessmentService {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.helperService.isLoading = true;
-        this.http
-      .post<{message: string, assessment: Assessment}>('http://localhost:3000/api/assessment/delete', assessment)
+        console.log(assessment);
+        this.http.post<{message: string, assessment: Assessment}>('http://localhost:3000/api/assessment/delete', assessment)
       .subscribe((responseData) => {
         setTimeout(() => {
           console.log(responseData);

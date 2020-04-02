@@ -85,7 +85,7 @@ app.post("/api/assessment/delete", (request, response, next) => {
   console.log("Request " + request.body);
 
   const assessmentToArchive = new archiveAssessmentCollection({
-    _id: assessment._id,
+    _id: assessment.id,
     name: assessment.name,
     description: assessment.description,
     config: assessment.config,
