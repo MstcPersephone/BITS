@@ -26,10 +26,9 @@ const questionFactory = require("./providers/questionFactory");
 // ******************************************************** //
 const questionCollections = require("./models/question");
 const categoryCollection = require("./models/shared/category");
-const assessmentCollections = require("./models/assessment");
+const assessmentCollection = require("./models/assessment");
+const archiveAssessmentCollection = require("./models/assessment-archive");
 const studentCollection = require("./models/student");
-const assessmentCollection = assessmentCollections.assessments;
-const archiveAssessmentCollection = assessmentCollections.archive;
 const questionCollection = questionCollections.questions;
 const archiveCollection = questionCollections.archive;
 
@@ -83,8 +82,40 @@ app.use((request, response, next) => {
 app.post("/api/assessment/delete", (request, response, next) => {
   const assessment = request.body;
 
+  const assessmentToArchive = new archiveAssessmentCollection({
+    _id: assessment._id,
+    name: assessment.name,
+    description: assessment.description,
+    questionIds: assessment.questionIds,
+    status: assessment.status,
+    createdOn: Date.now()
+  });
 
+  assessmentToArchive.save().then(() => {
+  const objectId = mongoose.Types.ObjectId(assessmentToArchive._id);
 
+  deleteById('assessments', {_id: objectId}, function (resp, error) {
+    if (error) {
+      console.log(error);
+      response.status(400).json({
+        message: error.message,
+        question: question
+      })
+    }
+    else {
+      response.status(200).json({
+        message: 'assessment archived successfully!'
+    });
+    }
+  });
+},
+  error => {
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      question: question
+    })
+  });
 });
 
 // *********************************************************** //

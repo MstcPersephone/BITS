@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const assessmentConfigSchema = require('./assessment-config');
 
 // Create Assessment Schema (blueprint)
-const assessmentSchema = mongoose.Schema({
+const assessmentArchiveSchema = mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -28,4 +28,4 @@ const assessmentSchema = mongoose.Schema({
 });
 
 // Create and export Assessment Shell Model
-module.exports = mongoose.model('Assessment', assessmentSchema, 'assessments');
+module.exports = mongoose.model('AssessmentArchive', assessmentArchiveSchema, 'archive');
