@@ -1,5 +1,4 @@
-// const checker = require('./check-upload-answer');
-// const path = require('./path');
-const prepare = require('./prepare');
+const checkUpload = require('./check-upload-answer');
+const path = require('./contstants');
 
-console.log(prepare.makeDirectory());
+checkUpload.checkUploadAnswer(path.mockFirstFilePath, path.mockSecondFilePath);

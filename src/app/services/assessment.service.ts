@@ -15,9 +15,9 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 })
 export class AssessmentService {
   // MOCK DATA
-  public mockQuestionIds: string[] = ['5e50ba9499062123580d5245', '5e512dc2f614c627f0443d18',
-    '5e53dfa22849a450c49e1fd7', '5e603f2f2a61154b480ffafd', '5e6166f40a31644b543fc210', '5e6167ef0a31644b543fc218',
-    '5e62b546cdf5ff1b5c73d457'];
+  public mockQuestionIds: string[] = [
+    '5e84ce31e673382f84b77954'
+  ];
 
   // ********************************* //
   // ****  ASSESSMENT PROPERTIES  **** //
@@ -111,6 +111,10 @@ export class AssessmentService {
   // TODO Handle submit question button
   submitAnswer(question: Question) {
     console.log(question);
+    this.http.post<{message: string, result: boolean}>('http://localhost:3000/api/assessment/checkUpload', question)
+      .subscribe((responseData) => {
+        console.log(responseData);
+      });
   }
 
   // *************************************************** //
@@ -338,9 +342,9 @@ export class AssessmentService {
       .subscribe(
         responseData => {
           this.questions = responseData.questions;
-          this.assessmentQuestionsUpdated.next(this.questions);
+          this.assessmentQuestionsUpdated.next(...[this.questions]);
           console.log(responseData.message);
-          console.log(responseData.questions);
+          console.log(this.questions);
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');

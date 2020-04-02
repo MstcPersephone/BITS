@@ -9,6 +9,7 @@ const shortAnswerModel = require("./models/question-types/short-answer");
 const uploadAnswerModel = require("./models/question-types/upload");
 
 const questionFactory = require("./providers/questionFactory");
+const checkUploadAnswer = require("./file-engine/check-upload-answer");
 
 // ******************************************************** //
 // ***********   DATABASE COLLECTION OBJECTS   ************ //
@@ -59,6 +60,22 @@ app.use((request, response, next) => {
     "GET, POST, DELETE, PATCH, OPTIONS"
   );
   next();
+});
+
+app.post("/api/assessment/checkUpload", (request, response, next) => {
+
+  // The question object to check.
+  const question = request.body;
+
+  const result = checkUploadAnswer.checkUploadAnswer(question);
+
+  const responseMessage = result === true ? 'The file contents match' : 'The file contents do not match';
+
+  // Send message message back to front end.
+  response.status(200).json({
+    message: responseMessage,
+    result: result
+  });
 });
 
 // *************************************************************** //
