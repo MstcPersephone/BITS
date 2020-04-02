@@ -7,12 +7,13 @@
       <mat-label>Select one or more Categories</mat-label>
       <!-- This is where the category is selected or a new category may be added -->
       <mat-select #categorySelect formControlName="categoryList"
-       (selectionChange)="this.questionService.onHandleCategory($event, categorySelect, selectCategoriesForm)" multiple>
+       (selectionChange)="this.questionService.onHandleCategory($event, categorySelect, selectCategoriesForm)" multiple required>
         <mat-option value="create">Create New...</mat-option>
         <!-- Looping through the list of categories and adding each selected category to the categories -->
         <mat-option #categoryOption *ngFor="let category of categoryList; index as i" [value]="category">
         {{category.name}}</mat-option>
       </mat-select>
     </mat-form-field>
+    <app-validation-messages [control]="selectCategoriesForm.get('categoryList')"></app-validation-messages>
   </form>
 </div>
