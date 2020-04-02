@@ -48,4 +48,13 @@ export class CreateQuestionComponent implements OnInit {
     console.log(this.questionTypeSelected + ' Question Selected');
   }
 
+  // This is a button click simulation to help with validation when saving question
+  onSubmit(pointsData) {
+    if (!this.addPointForm.valid) {
+      (Object as any).values(this.addPointForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
+  }
+
 }

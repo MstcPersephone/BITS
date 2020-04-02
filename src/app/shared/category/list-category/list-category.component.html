@@ -15,5 +15,10 @@
       </mat-select>
     </mat-form-field>
     <app-validation-messages [control]="selectCategoriesForm.get('categoryList')"></app-validation-messages>
+
+    <!-- This button will not display: click is simulated in helping validate the form -->
+    <button class="simulatedButton" id="validateCategories" type="submit"></button>
+
+
   </form>
 </div>

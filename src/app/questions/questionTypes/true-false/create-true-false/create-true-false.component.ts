@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { TrueFalse } from 'src/app/models/question-types/true-false.model';
 import { QuestionService } from 'src/app/services/question.service';
@@ -22,7 +22,7 @@ export class CreateTrueFalseComponent implements OnInit {
   createTrueFalseForm;
   constructor(
     private formBuilder: FormBuilder,
-    private questionService: QuestionService,
+    public questionService: QuestionService,
     public attachmentService: AttachmentService,
     private helperService: HelperService
   ) {

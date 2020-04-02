@@ -48,6 +48,7 @@ export class EditTrueFalseComponent implements OnInit {
       this.attachmentService.attachments = [];
     }
 
+    this.editTrueFalseForm.get('questionText').setValue(this.question.questionText);
     if (this.question.answer === true) {
       this.editTrueFalseForm.get('answer').setValue('True');
     } else {
@@ -62,6 +63,7 @@ export class EditTrueFalseComponent implements OnInit {
 
   // on submit function for updating the true false question
   onSubmit(formData) {
+    if (this.editTrueFalseForm.valid) {
     const updatedTrueFalseQuestion: TrueFalse = new TrueFalse();
     console.log(formData);
     updatedTrueFalseQuestion._id = this.question._id;
@@ -76,5 +78,11 @@ export class EditTrueFalseComponent implements OnInit {
 
     this.questionService.updateQuestionById(updatedTrueFalseQuestion);
     console.log(formData);
+  } else {
+    (Object as any).values(this.editTrueFalseForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
+
+  }
   }
 }

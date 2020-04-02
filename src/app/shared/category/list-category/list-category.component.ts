@@ -34,8 +34,12 @@ export class ListCategoryComponent implements OnInit {
     });
   }
 
-  // Id is null at this point because it is generated on the backend.
+  // This is a button click simulation to help with validation when saving question
   onSubmit(categoryData) {
-    // do nothing
+    if (!this.selectCategoriesForm.valid) {
+      (Object as any).values(this.selectCategoriesForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
   }
 }
