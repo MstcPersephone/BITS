@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HelperService } from '../../../services/helper.service';
-import { FormBuilder } from '@angular/forms';
+import { ValidationService } from '../../../services/validation.service';
+import { FormBuilder, Validators } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
 import { Subscription } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-create-question',
@@ -22,7 +25,7 @@ export class CreateQuestionComponent implements OnInit {
               public helperService: HelperService) {
     // Creates an object to hold form values.
     this.addPointForm = this.formBuilder.group({
-      points: ''
+      points: ['', [Validators.required, ValidationService.pointsValidator]]
     });
   }
 

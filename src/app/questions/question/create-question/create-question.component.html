@@ -21,7 +21,8 @@
       <mat-label>Enter Point Value (Numeric)</mat-label>
       <input matInput #pointValue id="points" type="text"
        formControlName="points" (keyup)="this.questionService.onHandlePoints($event)" value="{{points}}">
-    </mat-form-field>
+      </mat-form-field>
+      <app-validation-messages [control]="addPointForm.get('points')"></app-validation-messages>
   </form>
 
   <!-- Category Dropdown : Go to create-category.component.html -->
