@@ -116,3 +116,10 @@ mat-card.optionListContainer{
   padding-right: 15px;
 }
 
+mat-grid-tile mat-grid-tile-header{
+  height: 30px !important;
+}
+
+.text {
+  justify-content: flex-start !important;
+}
