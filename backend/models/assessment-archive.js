@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // Import subdocument schemas
 const assessmentConfigSchema = require('./assessment-config');
 
-// Create Assessment Schema (blueprint)
+// Create Assessment archive Schema (blueprint)
 const assessmentArchiveSchema = mongoose.Schema({
   name: {
     type: String
@@ -22,5 +22,5 @@ const assessmentArchiveSchema = mongoose.Schema({
   }
 });
 
-// Create and export Assessment Shell Model
+// Create and export Assessment Archive Shell Model
 module.exports = mongoose.model('AssessmentArchive', assessmentArchiveSchema, 'archiveAssessment');
