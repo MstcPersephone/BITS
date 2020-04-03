@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from 'src/app/services/question.service';
+import { ValidationService } from '../../../services/validation.service';
+import { HelperService } from 'src/app/services/helper.service';
 import { Question } from 'src/app/models/question.interface';
 import { Subscription } from 'rxjs';
-import { FormBuilder } from '@angular/forms';
-import { HelperService } from 'src/app/services/helper.service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-question',
@@ -24,7 +25,7 @@ export class EditQuestionComponent implements OnInit {
     ) {
       // Creates an object to hold form values.
     this.editPointForm = this.formBuilder.group({
-      points: ''
+      points: ['', [Validators.required, ValidationService.pointsValidator]]
     });
      }
 
@@ -37,6 +38,15 @@ export class EditQuestionComponent implements OnInit {
       this.question = question;
     });
     this.questionService.getQuestionById(this.route.snapshot.params.questionId);
+  }
+
+  // This is a button click simulation to help with validation when saving question
+  onSubmit(pointsData) {
+    if (!this.editPointForm.valid) {
+      (Object as any).values(this.editPointForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
   }
 
 }

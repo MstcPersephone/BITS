@@ -173,7 +173,7 @@ button.addOption, button.uploadAnswer{
 }
 
 /* Styles applied to any "correct" options or dialogs */
-mat-list-item.correct, .success-dialog{
+div.correct, mat-list-item.correct, .success-dialog{
   background-color: #ccf8d3;
   color: black;
 }

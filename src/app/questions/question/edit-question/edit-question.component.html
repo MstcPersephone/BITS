@@ -12,6 +12,10 @@
       <input matInput #pointValue id="points" type="text" formControlName="points"
        (keyup)="this.questionService.onHandlePoints($event)" [value]="this.questionService.getPoints()">
     </mat-form-field>
+    <app-validation-messages [control]="editPointForm.get('points')"></app-validation-messages>
+
+          <!-- This button will not display: click is simulated in helping validate the form -->
+          <button class="simulatedButton" id="validatePoints" type="submit"></button>
   </form>
 
   <!-- The categories list -->
