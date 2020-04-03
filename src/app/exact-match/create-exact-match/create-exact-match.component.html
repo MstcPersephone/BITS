@@ -6,6 +6,7 @@
       <mat-label>Enter New Accepted Answer</mat-label>
       <input matInput id="matchText" type="text" formControlName="matchText">
     </mat-form-field>
+    <app-validation-messages [control]="createExactMatchForm.get('matchText')"></app-validation-messages>
 
     <!-- Submit Button -->
     <button class="addOption" mat-raised-button color="accent" type="submit">Add Accepted Response<mat-icon>&nbsp;add</mat-icon></button>

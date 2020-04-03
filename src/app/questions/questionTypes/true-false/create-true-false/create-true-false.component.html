@@ -19,8 +19,7 @@
   <app-validation-messages [control]="createTrueFalseForm.get('answer')"></app-validation-messages>
 
   <!-- Submit Button : calls validation on parent form controllers when clicked -->
-  <button class="mt-20 saveButton" mat-raised-button type="submit"
-    (click)="this.questionService.handleParentQuestionFormValidation()">Save Question&nbsp;<mat-icon>save</mat-icon>
+  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon>
     </button>
 
   <!-- Cancel Button : Cancels the save and send user back to question list -->

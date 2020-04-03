@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { QuestionService } from 'src/app/services/question.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValidationService {
 
-  constructor() { }
+  constructor(private questionService: QuestionService) { }
 
   // called from the validation-messages component
   // the errorMessages property is passed along with the propertyName

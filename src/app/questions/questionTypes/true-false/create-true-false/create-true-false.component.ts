@@ -41,39 +41,50 @@ export class CreateTrueFalseComponent implements OnInit {
     this.attachmentService.resetAttachments();
   }
 
-  validateAllFormFields(formGroup: FormBuilder) {
-    Object.keys(formGroup.control).forEach(field => {
-      const control = formGroup.control;
-      if (control instanceof FormControl) {
-        control.markAllAsTouched();
-      } else if (control instanceof FormBuilder) {
-        this.validateAllFormFields(control);
-      }
-    });
-  }
+  // validateAllFormFields(formGroup: FormBuilder) {
+  //   Object.keys(formGroup.control).forEach(field => {
+  //     const control = formGroup.control;
+  //     if (control instanceof FormControl) {
+  //       control.markAllAsTouched();
+  //     } else if (control instanceof FormBuilder) {
+  //       this.validateAllFormFields(control);
+  //     }
+  //   });
+  // }
 
 
   onSubmit(trueFalseData) {
+
+    // Initializes a new True False question to be saved
+    const trueFalseQuestion: TrueFalse = new TrueFalse();
+
+    // Calls validation on parent form controls
+    this.questionService.handleParentQuestionFormValidation();
+
     if (this.createTrueFalseForm.valid) {
-      const trueFalseQuestion: TrueFalse = new TrueFalse();
 
-      trueFalseQuestion._id = null;
-      trueFalseQuestion.questionText = trueFalseData.questionText;
-      trueFalseQuestion.hasAttachments = this.attachmentService.hasAttachments;
-      trueFalseQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
-      trueFalseQuestion.isAnswered = false;
-      trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
-      trueFalseQuestion.duration = 0;
-      trueFalseQuestion.assessmentIds = null;
+      console.log('Question to save', trueFalseData);
 
-      // Adds option to the options array in the service.
-      this.questionService.saveQuestion(trueFalseQuestion);
+      // trueFalseQuestion._id = null;
+      // trueFalseQuestion.questionText = trueFalseData.questionText;
+      // trueFalseQuestion.hasAttachments = this.attachmentService.hasAttachments;
+      // trueFalseQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
+      // trueFalseQuestion.isAnswered = false;
+      // trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
+      // trueFalseQuestion.duration = 0;
+      // trueFalseQuestion.assessmentIds = null;
+
+      // // Adds option to the options array in the service.
+      // this.questionService.saveQuestion(trueFalseQuestion);
 
     } else {
+      // Runs all validation on the createTrueFalse form controls
       (Object as any).values(this.createTrueFalseForm.controls).forEach(control => {
         control.markAsTouched();
       });
 
+      // Calls validation on parent form controls
+      this.questionService.handleParentQuestionFormValidation();
     }
   }
 }

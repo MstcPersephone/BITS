@@ -11,30 +11,30 @@ import { ValidationService } from 'src/app/services/validation.service';
   styleUrls: ['./create-short-answer.component.css']
 })
 export class CreateShortAnswerComponent implements OnInit {
-// The form object
+  // The form object
   createShortAnswerForm;
   @Input() caseSensitive;
   constructor(
     private formBuilder: FormBuilder,
     public questionService: QuestionService,
     public attachmentService: AttachmentService
-              ) {
+  ) {
     this.createShortAnswerForm = this.formBuilder.group({
       questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
-      questionAnswer: '',
       hasAttachments: '',
       isCaseSensitive: ''
     });
-     }
+  }
 
   ngOnInit(): void {
     // Clear the attachments on init for when the form reloads
     this.attachmentService.resetAttachments();
   }
 
-    // Id is null at this point because it is generated on the backend.
-    onSubmit(questionData) {
-      const shortAnswerQuestion: ShortAnswer =  new ShortAnswer();
+  // Id is null at this point because it is generated on the backend.
+  onSubmit(questionData) {
+    if (this.createShortAnswerForm.valid) {
+      const shortAnswerQuestion: ShortAnswer = new ShortAnswer();
       shortAnswerQuestion._id = null;
       shortAnswerQuestion.questionText = questionData.questionText;
       shortAnswerQuestion.hasAttachments = this.attachmentService.hasAttachments;
@@ -50,5 +50,11 @@ export class CreateShortAnswerComponent implements OnInit {
 
       // For testing, we can remove later.
       console.log(shortAnswerQuestion);
+    } else {
+      // Runs all validation on the createShortAnswer form controls
+      (Object as any).values(this.createShortAnswerForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
     }
+  }
 }
