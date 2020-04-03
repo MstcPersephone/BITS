@@ -20,12 +20,13 @@
   color: white;
 }
 
-/* Styling applied to the dialog container, adding a border and defining max width/height values. */
+/* Styling applied to the dialog container, adding a border and background color. */
 /* Additional styling will need to be added to prevent the background objects from breaking when displaying the dialog. */
 /* It may be something with the angular material itself - utilizing the steps from the following stretches the dialog box unusually. */
 /* https://css-tricks.com/quick-css-trick-how-to-center-an-object-exactly-in-the-center/ */
 /* https://material.angular.io/components/dialog/overview */
 ::ng-deep .mat-dialog-container {
+  overflow-y: hidden;
   border: 1.5px solid #404040 !important;
   background-color: #fcb618;
 }

@@ -2,7 +2,7 @@
 <mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
 
 <!-- The main "Viewing all questions" display -->
-<div *ngIf="!this.helperService.isLoading">
+<mat-card *ngIf="!this.helperService.isLoading">
   <h1 class="mat-display-1">Viewing all questions</h1>
 
   <!-- Creating separate category divs and expansion panels to contain each question fitting a category -->
@@ -187,5 +187,5 @@
     </mat-expansion-panel>
 
   </div>
-</div>
+</mat-card>
 <br>
