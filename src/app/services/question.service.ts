@@ -548,8 +548,22 @@ export class QuestionService {
         responseData => {
           // Refreshes the component so a new question can be created right away
           setTimeout(() => {
-            this.router.navigate(['/question/create']);
-            this.resetQuestionForm();
+
+            const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+              width: '350px',
+              data: 'Would you like to add another question?'
+            });
+
+            dialogRef.afterClosed().subscribe(result => {
+              if (result) {
+                this.resetQuestionForm();
+                this.router.navigate(['/question/create']);
+              } else {
+                this.resetQuestionForm();
+                this.router.navigate(['/question/list']);
+              }
+            });
+
             // reset the isLoading spinner
             this.helperService.isLoading = false;
           }, 2000);

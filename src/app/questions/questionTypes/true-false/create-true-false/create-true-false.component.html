@@ -11,19 +11,18 @@
   <app-attachment></app-attachment>
 
   <!-- Question Name Text Input -->
-    <h3>Select correct answer:  </h3>
-    <mat-radio-group aria-label="Select correct answer" formControlName="answer">
-      <mat-radio-button
-      *ngFor="let answer of answers; let i = index"
-      [ngClass]="{'ml-25': i > 0}"
-      type="radio"
-      name="answer"
-      value="{{answer}}"
-      (change)="radioChangeHandler($event)">{{answer}}</mat-radio-button>
-    </mat-radio-group>
-    <app-validation-messages [control]="createTrueFalseForm.get('answer')"></app-validation-messages>
+  <h3>Select correct answer: </h3>
+  <mat-radio-group aria-label="Select correct answer" formControlName="answer">
+    <mat-radio-button *ngFor="let answer of answers; let i = index" [ngClass]="{'ml-25': i > 0}" type="radio"
+      name="answer" value="{{answer}}" (change)="radioChangeHandler($event)">{{answer}}</mat-radio-button>
+  </mat-radio-group>
+  <app-validation-messages [control]="createTrueFalseForm.get('answer')"></app-validation-messages>
 
+  <!-- Submit Button : calls validation on parent form controllers when clicked -->
+  <button class="mt-20 saveButton" mat-raised-button type="submit"
+    (click)="this.questionService.handleParentQuestionFormValidation()">Save Question&nbsp;<mat-icon>save</mat-icon>
+    </button>
 
-  <!-- Submit Button -->
-  <button class="mt-20 saveButton" mat-raised-button type="submit" (click)="this.questionService.handleParentQuestionFormValidation()">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+  <!-- Cancel Button : Cancels the save and send user back to question list -->
+  <button class="mt-20 saveButton" mat-raised-button [routerLink]="['/question/list']">Cancel&nbsp;<mat-icon>cancel</mat-icon></button>
 </form>
