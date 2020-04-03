@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Question } from 'src/app/models/question.interface';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
+import { ValidationService } from 'src/app/services/validation.service';
 import { TrueFalse } from 'src/app/models/question-types/true-false.model';
 
 @Component({
@@ -30,9 +31,9 @@ export class EditTrueFalseComponent implements OnInit {
     private helperService: HelperService
   ) {
     this.editTrueFalseForm = this.formBuilder.group({
-      questionText: '',
+      questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
       hasAttachments: '',
-      answer: false
+      answer: [false, [Validators.required]]
     });
   }
 
@@ -47,6 +48,7 @@ export class EditTrueFalseComponent implements OnInit {
       this.attachmentService.attachments = [];
     }
 
+    this.editTrueFalseForm.get('questionText').setValue(this.question.questionText);
     if (this.question.answer === true) {
       this.editTrueFalseForm.get('answer').setValue('True');
     } else {
@@ -61,6 +63,7 @@ export class EditTrueFalseComponent implements OnInit {
 
   // on submit function for updating the true false question
   onSubmit(formData) {
+    if (this.editTrueFalseForm.valid) {
     const updatedTrueFalseQuestion: TrueFalse = new TrueFalse();
     console.log(formData);
     updatedTrueFalseQuestion._id = this.question._id;
@@ -75,5 +78,11 @@ export class EditTrueFalseComponent implements OnInit {
 
     this.questionService.updateQuestionById(updatedTrueFalseQuestion);
     console.log(formData);
+  } else {
+    (Object as any).values(this.editTrueFalseForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
+
+  }
   }
 }

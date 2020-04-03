@@ -3,8 +3,10 @@
   <!-- Question Name Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Enter Question Text</mat-label>
-    <input matInput id="questionText" type="text" formControlName="questionText">
+    <input matInput id="questionText" type="text" formControlName="questionText" required>
   </mat-form-field>
+  <app-validation-messages [control]="createMultipleChoiceForm.get('questionText')"></app-validation-messages>
+
 
   <!-- Add attachment component -->
   <app-attachment></app-attachment>

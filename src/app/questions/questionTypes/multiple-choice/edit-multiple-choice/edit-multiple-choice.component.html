@@ -4,8 +4,10 @@
   <!-- Question Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Question Text</mat-label>
-    <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}">
+    <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}" required>
   </mat-form-field>
+  <app-validation-messages [control]="editMultipleChoiceForm.get('questionText')"></app-validation-messages>
+
 
   <!-- Call to attachment component for editting attachments -->
   <app-attachment [attachmentsLoaded]="question.hasAttachments"></app-attachment>

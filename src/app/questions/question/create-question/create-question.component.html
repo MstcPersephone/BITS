@@ -5,10 +5,11 @@
   <h1 class="mat-display-1">Create a Question</h1>
 
   <!-- Question Type Dropdown -->
+  <!-- No validation required, submit button not visible until the question type selected -->
   <mat-form-field class="questionTypeInput">
     <mat-label>Select Question Type</mat-label>
     <!-- Calls onQuestionTypeSelected in ts file -->
-    <mat-select #questionTypeSelect (selectionChange)="onQuestionTypeSelected($event)">
+    <mat-select #questionTypeSelect (selectionChange)="onQuestionTypeSelected($event)" required>
       <!-- This element loops over the question types and adds them as options -->
       <mat-option *ngFor="let questionType of questionTypes" [value]="questionType.key">{{ questionType.value }}
       </mat-option>
@@ -16,12 +17,16 @@
   </mat-form-field>
 
   <!-- Point Value Input -->
-  <form class="pointValueForm" [formGroup]="addPointForm">
+  <form class="pointValueForm" [formGroup]="addPointForm"  (ngSubmit)=onSubmit(addPointForm.value)>
     <mat-form-field class="pointValueInput">
       <mat-label>Enter Point Value (Numeric)</mat-label>
       <input matInput #pointValue id="points" type="text"
-       formControlName="points" (keyup)="this.questionService.onHandlePoints($event)" value="{{points}}">
-    </mat-form-field>
+       formControlName="points" (keyup)="this.questionService.onHandlePoints($event)" value="{{points}}" required>
+      </mat-form-field>
+      <app-validation-messages [control]="addPointForm.get('points')"></app-validation-messages>
+
+      <!-- This button will not display: click is simulated in helping validate the form -->
+    <button class="simulatedButton" id="validatePoints" type="submit"></button>
   </form>
 
   <!-- Category Dropdown : Go to create-category.component.html -->
@@ -35,7 +40,7 @@
     <app-create-short-answer *ngSwitchCase="'Short Answer'"></app-create-short-answer>
     <app-create-multiple-choice *ngSwitchCase="'Multiple Choice'"></app-create-multiple-choice>
     <app-create-true-false *ngSwitchCase="'True False'"></app-create-true-false>
-    <app-create-upload *ngSwitchCase="'Upload'"></app-create-upload>
+    <app-create-upload *ngSwitchCase="'Upload'" ></app-create-upload>
   </div>
 </mat-card>
 <br>
