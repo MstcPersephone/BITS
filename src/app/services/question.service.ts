@@ -296,14 +296,10 @@ export class QuestionService {
     console.log('ok, buttons clicked and errors showing, now what?');
 
     if (question.questionType === QuestionType.ShortAnswer) {
-      if (this.exactMatches.length === 0) {
+      if (this.exactMatches.length < 1) {
         document.getElementById('validateExactMatches').click();
-        // need to pass validation for this.exactMatches to save question:
-        //  .length must be > 0
-       } // else {
-      // }
+       }
       console.log('In Short Answer Question Type condition', question.questionType);
-
     }
 
     // if (question.questionType === QuestionType.ShortAnswer

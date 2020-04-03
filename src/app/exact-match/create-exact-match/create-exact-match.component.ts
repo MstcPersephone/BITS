@@ -29,6 +29,10 @@ export class CreateExactMatchComponent implements OnInit {
 
   onSubmit(exactMatchData) {
     const exactMatch: ExactMatch = new ExactMatch();
+    const matches = this.questionService.getMatches();
+
+    if (exactMatchData.matchText !== null && matches.length > 0)
+    {}
 
     if (this.createExactMatchForm.valid) {
 
@@ -45,10 +49,12 @@ export class CreateExactMatchComponent implements OnInit {
       // For testing, we can remove later.
       console.log(exactMatch);
     } else {
-      // Runs all validation on the createTrueFalse form controls
-      (Object as any).values(this.createExactMatchForm.controls).forEach(control => {
-        control.markAsTouched();
-      });
+      if (matches.length < 1) {
+        // Runs all validation on the createTrueFalse form controls
+        (Object as any).values(this.createExactMatchForm.controls).forEach(control => {
+          control.markAsTouched();
+        });
+      }
     }
   }
 }
