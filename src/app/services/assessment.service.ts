@@ -40,19 +40,15 @@ export class AssessmentService {
   private assessmentConfig: AssessmentConfig;
   private assessmentConfigUpdated = new Subject<AssessmentConfig>();
 
-  // config isRandom
+
   isRandom = false;
-
-  // config isTimed
   isTimed = false;
+  private isTimedUpdated = new Subject<boolean>();
 
-  // config maxTime default: 0
   maxTime = 0;
-  private maxTimeUpdated = new Subject<number>();
 
   // config wrongStreak default: 0
   wrongStreak = 0;
-  private wrongStreakUpdated = new Subject<number>();
 
   // // config minScore default: 75%
   minimumScore = 75;
@@ -151,6 +147,15 @@ export class AssessmentService {
     this.assessmentConfig = updatedConfigurationItems;
   }
 
+  resetConfigurationForm() {
+    // Clear values that are stored in the service.
+    this.isRandom = false;
+    this.isTimed = false;
+    this.maxTime = null;
+    this.minimumScore = 75;
+    this.wrongStreak = 0;
+    }
+
   getAssessmentConfigUpdateListener() {
     return this.assessmentConfigUpdated.asObservable();
   }
@@ -170,8 +175,13 @@ export class AssessmentService {
   // sets the isTimed based upon a click event
   isTimedChanged() {
     this.isTimed = !this.isTimed;
+    this.maxTime = 0;
     console.log(this.isTimed);
     return this.isTimed;
+  }
+
+  getIsTimedUpdateListener() {
+    return this.isTimedUpdated.asObservable();
   }
 
   // ******************************************************** //
@@ -197,10 +207,6 @@ export class AssessmentService {
     return this.maxTime;
   }
 
-  getmaxTimUpdatedListener() {
-    return this.maxTimeUpdated.asObservable();
-  }
-
   // Due to default setting, changes the max time based upon input
   onHandleMaxTime(event: any) {
     this.maxTime = event.target.value;
@@ -213,10 +219,6 @@ export class AssessmentService {
 
   getWrongStreak() {
     return this.wrongStreak;
-  }
-
-  getWrongStreakListener() {
-    return this.wrongStreakUpdated.asObservable();
   }
 
   // Due to default setting, changes the wrong streak based upon input
@@ -306,6 +308,7 @@ export class AssessmentService {
         console.log('Assessment', this.assessment);
 
         this.questionIds = this.assessment.questionIds;
+        this.isTimed = this.assessment.config.isTimed;
 
         // Subscribers get a copy of the assessment.
         this.assessmentUpdated.next(this.assessment);
@@ -323,6 +326,8 @@ export class AssessmentService {
         responseData => {
           this.questions = responseData.questions;
           this.assessmentQuestionsUpdated.next(this.questions);
+          // Done loading. Remove the loading spinner
+          this.helperService.isLoading = false;
           console.log(responseData.message);
           console.log(responseData.questions);
         },
@@ -332,6 +337,7 @@ export class AssessmentService {
   }
 
   saveAssessment(assessment: Assessment) {
+    document.getElementById('saveConfigurations').click();
     const completeAssessment: any = assessment;
     completeAssessment.config = this.assessmentConfig;
     completeAssessment.status = this.status;
@@ -344,12 +350,46 @@ export class AssessmentService {
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.assesment);
+          this.resetConfigurationForm();
           this.router.navigate(['/assessment/list']);
 
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
+  }
+
+  // Makes a call to the server to update a question based on its id
+  updateAssessmentById(assessment: Assessment) {
+    // isLoading is used to add a spinner
+    this.helperService.isLoading = true;
+    document.getElementById('updateConfigurations').click();
+    const updatedAssessment: any = assessment;
+    updatedAssessment.config = this.assessmentConfig;
+    updatedAssessment.status = this.status;
+    console.log('Updated Assessment', updatedAssessment);
+    this.http.post<{ message: string, updatedAssessment: Assessment}>('http://localhost:3000/api/assessment/update', updatedAssessment)
+    .subscribe(
+      responseData => {
+        // Success message at the bottom of the screen
+        // console log information about the response for debugging
+        this.helperService.openSnackBar(assessment.name + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
+
+        setTimeout(() => {
+          this.router.navigate(['/assessment/list']);
+          // reset the isLoading spinner
+          this.helperService.isLoading = false;
+        }, 2000);
+        console.log('%c' + responseData.message, 'color: green;');
+        console.log('%c Database Object:', 'color: orange;');
+        console.log(responseData.updatedAssessment);
+        console.table(responseData.updatedAssessment);
+      },
+      error => {
+        // log error message from server
+        console.log('%c' + error.error.message, 'color: red;');
+      }
+    );
   }
 
 }
