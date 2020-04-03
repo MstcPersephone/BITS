@@ -82,6 +82,7 @@ app.use((request, response, next) => {
 app.post("/api/assessment/delete", (request, response, next) => {
   const assessment = request.body;
 
+  // Create object to archive
   const assessmentToArchive = new archiveAssessmentCollection({
     _id: assessment._id,
     name: assessment.name,
@@ -93,7 +94,7 @@ app.post("/api/assessment/delete", (request, response, next) => {
   });
 
   console.log(assessmentToArchive);
-
+  // Save the copy to archive assessment collection then delete from assessment collection
   assessmentToArchive.save().then(() => {
   const objectId = mongoose.Types.ObjectId(assessment._id);
   console.log(objectId);
