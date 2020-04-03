@@ -27,7 +27,6 @@ html{
   margin: 10px auto;
   background-color: #2d2d2d;
   min-width: 750px;
-  width: 70%;
 }
 body {
   margin: auto;
@@ -35,9 +34,8 @@ body {
   border-radius: 5px;
   background-color: #f0f0f0;
   margin-bottom: 10px;
-
-  /* STYLES APPLIED WHILE DIALOG BOX IS BROKEN */
-  max-width: 1250px;
+  min-width: 850px;
+  width: 70%;
 }
 
 /* Adjusting the top radius values to make page radius rounded. */
