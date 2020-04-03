@@ -16,6 +16,7 @@ import { AssessmentConfig } from 'src/app/models/assessment-config.model';
   styleUrls: ['./create-assessment.component.css']
 })
 export class CreateAssessmentComponent implements OnInit {
+  isEditMode: boolean;
   public categories: Category[] = [];
   private categorySubscription: Subscription;
   public organizedQuestions = {};

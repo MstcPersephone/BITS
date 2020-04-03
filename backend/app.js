@@ -27,8 +27,8 @@ const questionFactory = require("./providers/questionFactory");
 const questionCollections = require("./models/question");
 const categoryCollection = require("./models/shared/category");
 const assessmentCollection = require("./models/assessment");
+const archiveAssessmentCollection = require("./models/assessment-archive");
 const studentCollection = require("./models/student");
-
 const questionCollection = questionCollections.questions;
 const archiveCollection = questionCollections.archive;
 
@@ -74,6 +74,53 @@ app.use((request, response, next) => {
     "GET, POST, DELETE, PATCH, OPTIONS"
   );
   next();
+});
+
+// *********************************************************** //
+// ******   ARCHIVE: ASSESSMENT FROM ASSESSMENT COLLECTION *** //
+// *********************************************************** //
+app.post("/api/assessment/delete", (request, response, next) => {
+  const assessment = request.body;
+
+  // Create archived model for the assessment
+  const assessmentToArchive = new archiveAssessmentCollection({
+    _id: assessment._id,
+    name: assessment.name,
+    description: assessment.description,
+    config: assessment.config,
+    questionIds: assessment.questionIds,
+    status: assessment.status,
+    createdOn: Date.now()
+  });
+
+  console.log(assessmentToArchive);
+  // Save the archive model to the archive assessment collection
+  assessmentToArchive.save().then(() => {
+  // get the id of the original assessment to find and delete from assessment collection
+  const objectId = mongoose.Types.ObjectId(assessment._id);
+  console.log(objectId);
+  // pass the original assessment to the delete function
+  deleteById('assessments', {_id: objectId}, function (resp, error) {
+    if (error) {
+      console.log(error);
+      response.status(400).json({
+        message: error.message
+      })
+    }
+    else {
+      console.log("");
+      response.status(200).json({
+        message: 'assessment archived successfully!'
+    });
+    }
+  });
+},
+  error => {
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message
+    })
+  });
 });
 
 // *********************************************************** //
@@ -202,8 +249,10 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   console.log(questionIds);
   const objectIds = [];
   // Turns the string ids into ObjectIds
+  if (questionIds !== null && questionIds !== undefined) {
   questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
   console.log(objectIds);
+  }
 
   // Performs the search
   questionCollection.find({ _id: objectIds }, (error, questions) => {
@@ -530,6 +579,51 @@ app.post("/api/student/save", (request, response, next) => {
       })
     });
 });
+
+// ******************************************************** //
+// ***********   UPDATE ASSESSMENT COLLECTION   ************* //
+// ******************************************************** //
+app.post("/api/assessment/update/", (request, response, next) => {
+
+  // Gets the assessment passed from the front end
+  // Stores data for updating backend properties
+  const requestedUpdate = request.body;
+
+  // Stores the updated assessment data
+  const update = {
+    id: requestedUpdate._id,
+    name: requestedUpdate.name,
+    description: requestedUpdate.description,
+    config: requestedUpdate.config,
+    questionIds: requestedUpdate.questionIds,
+    status: requestedUpdate.status,
+    createdOn: requestedUpdate.createdOn
+  };
+
+  // passes the data to the database to update a specific assessment by id
+  mongoose.connection.db.collection('assessments').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedAssessment) {
+
+    // Send a successful response message
+    response.status(200).json({
+      message: 'updatedAssessment Fetched Successfully!',
+      updatedAssessment: updatedAssessment
+    });
+
+    // Logs message and assessment array to the backend for debugging.
+    console.log("updatedQuestion Fetched Successfully.")
+    console.log(updatedAssessment);
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a categories array (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      updatedAssessment: updatedAssessment
+    })
+  });
+});
+
 
 
 // ******************************************************** //

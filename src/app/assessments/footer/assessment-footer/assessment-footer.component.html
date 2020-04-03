@@ -1,3 +1,7 @@
 <!-- Submit Button -->
 <button class="mt-20 saveButton" mat-raised-button type="submit" (click)="assessmentService.changeCompleteStatus()">Save Assessment&nbsp;<mat-icon>save</mat-icon></button>
-<button class="mt-20 saveButton" mat-raised-button type="submit" (click)="assessmentService.changeInProgressStatus()">Finish Later&nbsp;<mat-icon>save</mat-icon></button>
+
+<button *ngIf="!isEditMode" class="mt-20 saveButton" mat-raised-button type="submit" (click)="assessmentService.changeInProgressStatus()">Finish Later&nbsp;<mat-icon>save</mat-icon></button>
+
+<button *ngIf="isEditMode" class="mt-20 saveButton" mat-raised-button
+[routerLink]="['/assessment/view', assessment._id]">Cancel</button>

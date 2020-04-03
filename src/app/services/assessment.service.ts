@@ -8,6 +8,8 @@ import { Question } from '../models/question.interface';
 import { Subject } from 'rxjs';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
 import { Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Injectable({
   providedIn: 'root',
@@ -38,19 +40,15 @@ export class AssessmentService {
   private assessmentConfig: AssessmentConfig;
   private assessmentConfigUpdated = new Subject<AssessmentConfig>();
 
-  // config isRandom
+
   isRandom = false;
-
-  // config isTimed
   isTimed = false;
+  private isTimedUpdated = new Subject<boolean>();
 
-  // config maxTime default: 0
   maxTime = 0;
-  private maxTimeUpdated = new Subject<number>();
 
   // config wrongStreak default: 0
   wrongStreak = 0;
-  private wrongStreakUpdated = new Subject<number>();
 
   // // config minScore default: 75%
   minimumScore = 75;
@@ -74,7 +72,8 @@ export class AssessmentService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private helperService: HelperService, ) { }
+    private helperService: HelperService,
+    public dialog: MatDialog) { }
 
   // ******************************************************** //
   // ***************  ASSESSMENT FUNCTIONS  ***************** //
@@ -148,6 +147,15 @@ export class AssessmentService {
     this.assessmentConfig = updatedConfigurationItems;
   }
 
+  resetConfigurationForm() {
+    // Clear values that are stored in the service.
+    this.isRandom = false;
+    this.isTimed = false;
+    this.maxTime = null;
+    this.minimumScore = 75;
+    this.wrongStreak = 0;
+    }
+
   getAssessmentConfigUpdateListener() {
     return this.assessmentConfigUpdated.asObservable();
   }
@@ -167,8 +175,13 @@ export class AssessmentService {
   // sets the isTimed based upon a click event
   isTimedChanged() {
     this.isTimed = !this.isTimed;
+    this.maxTime = 0;
     console.log(this.isTimed);
     return this.isTimed;
+  }
+
+  getIsTimedUpdateListener() {
+    return this.isTimedUpdated.asObservable();
   }
 
   // ******************************************************** //
@@ -194,10 +207,6 @@ export class AssessmentService {
     return this.maxTime;
   }
 
-  getmaxTimUpdatedListener() {
-    return this.maxTimeUpdated.asObservable();
-  }
-
   // Due to default setting, changes the max time based upon input
   onHandleMaxTime(event: any) {
     this.maxTime = event.target.value;
@@ -210,10 +219,6 @@ export class AssessmentService {
 
   getWrongStreak() {
     return this.wrongStreak;
-  }
-
-  getWrongStreakListener() {
-    return this.wrongStreakUpdated.asObservable();
   }
 
   // Due to default setting, changes the wrong streak based upon input
@@ -232,6 +237,40 @@ export class AssessmentService {
   // ******************************************************** //
   // ***************  API CALLS TO BACKEND  ***************** //
   // ******************************************************** //
+
+  // Archives an assessment object after confirmation from the user
+  deleteAssessmentById(assessment: Assessment) {
+    console.log(assessment);
+     // Opens a dialog to confirm deletion of the assessment
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: 'Are you sure you wish to delete this assessment?'
+    });
+    // On closing dialog box either call the function to archive the assessment or cancel the deletion
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.helperService.isLoading = true;
+        console.log(assessment);
+        this.http.post<{message: string}>('http://localhost:3000/api/assessment/delete', assessment)
+      .subscribe(responseData => {
+        setTimeout(() => {
+          console.log(responseData);
+          // Displays a message informing that the assessment deletion has been successful.
+          this.helperService.openSnackBar('Assessment Deletion.', 'Close', 'success-dialog', 5000);
+          this.helperService.isLoading = false;
+          this.helperService.refreshComponent('assessment/list');
+        }, 2000);
+      },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+      } else {
+        // Displays a message informing that the assessment deletion has been cancelled.
+        this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
+      }
+    });
+  }
+
   // Gets all assessments from the database.
   getAllAssessments() {
     this.helperService.isLoading = true;
@@ -269,6 +308,7 @@ export class AssessmentService {
         console.log('Assessment', this.assessment);
 
         this.questionIds = this.assessment.questionIds;
+        this.isTimed = this.assessment.config.isTimed;
 
         // Subscribers get a copy of the assessment.
         this.assessmentUpdated.next(this.assessment);
@@ -286,6 +326,8 @@ export class AssessmentService {
         responseData => {
           this.questions = responseData.questions;
           this.assessmentQuestionsUpdated.next(this.questions);
+          // Done loading. Remove the loading spinner
+          this.helperService.isLoading = false;
           console.log(responseData.message);
           console.log(responseData.questions);
         },
@@ -295,6 +337,7 @@ export class AssessmentService {
   }
 
   saveAssessment(assessment: Assessment) {
+    document.getElementById('saveConfigurations').click();
     const completeAssessment: any = assessment;
     completeAssessment.config = this.assessmentConfig;
     completeAssessment.status = this.status;
@@ -307,12 +350,46 @@ export class AssessmentService {
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.assesment);
+          this.resetConfigurationForm();
           this.router.navigate(['/assessment/list']);
 
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
+  }
+
+  // Makes a call to the server to update a question based on its id
+  updateAssessmentById(assessment: Assessment) {
+    // isLoading is used to add a spinner
+    this.helperService.isLoading = true;
+    document.getElementById('updateConfigurations').click();
+    const updatedAssessment: any = assessment;
+    updatedAssessment.config = this.assessmentConfig;
+    updatedAssessment.status = this.status;
+    console.log('Updated Assessment', updatedAssessment);
+    this.http.post<{ message: string, updatedAssessment: Assessment}>('http://localhost:3000/api/assessment/update', updatedAssessment)
+    .subscribe(
+      responseData => {
+        // Success message at the bottom of the screen
+        // console log information about the response for debugging
+        this.helperService.openSnackBar(assessment.name + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
+
+        setTimeout(() => {
+          this.router.navigate(['/assessment/list']);
+          // reset the isLoading spinner
+          this.helperService.isLoading = false;
+        }, 2000);
+        console.log('%c' + responseData.message, 'color: green;');
+        console.log('%c Database Object:', 'color: orange;');
+        console.log(responseData.updatedAssessment);
+        console.table(responseData.updatedAssessment);
+      },
+      error => {
+        // log error message from server
+        console.log('%c' + error.error.message, 'color: red;');
+      }
+    );
   }
 
 }

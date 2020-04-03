@@ -11,8 +11,8 @@
     <section class="assessmentDetailHeader">
       <h3>{{ assessment.name }}</h3>
       <section class="optionContainer">
-        <mat-icon class="deleteIcon" matListIcon>delete</mat-icon>
-        <mat-icon class="editIcon" matListIcon>edit</mat-icon>
+        <mat-icon class="deleteIcon" (click)="this.assessmentService.deleteAssessmentById(assessment)" matListIcon>delete</mat-icon>
+        <mat-icon class="editIcon" matListIcon [routerLink]="['/assessment/edit', assessment._id]" >edit</mat-icon>
       </section>
     </section>
 

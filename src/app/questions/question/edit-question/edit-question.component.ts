@@ -13,6 +13,7 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./edit-question.component.css']
 })
 export class EditQuestionComponent implements OnInit {
+  isEditMode: boolean;
   question: Question;
   questionSubscription: Subscription;
   editPointForm;

@@ -26,26 +26,14 @@ export class CreateAssessmentConfigComponent implements OnInit {
     this.createConfigurationForm = this.formBuilder.group({
       isRandom: false,
       isTimed: false,
-      maxTime: '',
-      minimumScore: this.assessmentService.getMinScore(),
-      wrongStreak: ''
+      maxTime: 0,
+      minimumScore: 75,
+      wrongStreak: 0
     });
   }
 
   ngOnInit() {
-    // Sets up a maxTime listener
-    this.maxTimeSubscription = this.assessmentService.getmaxTimUpdatedListener()
-      .subscribe((points: number) => {
-        console.log(this.maxTime);
-        this.maxTime = this.maxTime;
-      });
 
-    // Sets up a wrongStreak listener
-    this.wrongStreakSubscription = this.assessmentService.getWrongStreakListener()
-      .subscribe((wrongStreak: number) => {
-        console.log(wrongStreak);
-        this.wrongStreak = this.wrongStreak;
-      });
   }
 
   formatMinScoreLabel(value: number) {

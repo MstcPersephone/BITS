@@ -1,1 +1,44 @@
-<p>edit-assessment works!</p>
+<!-- The spinner object, displayed when the application is loading the questions -->
+<mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
+
+<!-- The main "Edit Question" display -->
+<br>
+<mat-card *ngIf="!this.helperService.isLoading">
+  <!-- Page Header -->
+  <h1 class="mat-display-1">Edit an Assessment</h1>
+
+  <!-- The form that builds the assessment property values -->
+  <form class="assessmentForm" [formGroup]="updateAssessmentForm" (ngSubmit)="onSubmit(updateAssessmentForm.value)">
+
+    <!-- The assessment Name Input -->
+    <mat-form-field appearance="standard">
+      <mat-label class="assessmentNameHeader">Assessment Name</mat-label>
+      <input matInput id="name" type="text" formControlName="name" value="{{ assessment.name }}">
+    </mat-form-field>
+
+    <br>
+
+    <!-- The assessment Description Input -->
+    <mat-form-field appearance="standard">
+      <mat-label>Assessment Description</mat-label>
+      <input matInput id="description" type="text" formControlName="description" value="{{ assessment.description }}">
+    </mat-form-field>
+
+    <!-- Configuration Expansion Panel -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Assessment Configuration</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <!-- This will pull the assessment configuration values from a separate component -->
+      <app-edit-assessment-config [assessment]="assessment"></app-edit-assessment-config>
+
+    </mat-expansion-panel>
+
+    <br>
+
+    <!-- This footer that contains the submit button and will have a button to load the configurations upon a click -->
+    <app-assessment-footer [isEditMode]="true" [assessment]="assessment"></app-assessment-footer>
+  </form>
+</mat-card>
+<br>
