@@ -31,8 +31,7 @@ export class CreateExactMatchComponent implements OnInit {
     const exactMatch: ExactMatch = new ExactMatch();
     const matches = this.questionService.getMatches();
 
-    if (exactMatchData.matchText !== null && matches.length > 0)
-    {}
+    if (exactMatchData.matchText !== null && matches.length > 0) {}
 
     if (this.createExactMatchForm.valid) {
 
