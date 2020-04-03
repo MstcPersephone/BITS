@@ -20,7 +20,7 @@ export class CreateExactMatchComponent implements OnInit {
     private questionService: QuestionService) {
     // Creates an object to hold form values.
     this.createExactMatchForm = this.formBuilder.group({
-      matchText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]]
+      matchText: ['', [Validators.required]]
     });
   }
 
@@ -29,17 +29,26 @@ export class CreateExactMatchComponent implements OnInit {
 
   onSubmit(exactMatchData) {
     const exactMatch: ExactMatch = new ExactMatch();
-    exactMatch._id = null;
-    exactMatch.questionId = null;
-    exactMatch.matchText = exactMatchData.matchText;
 
-    // Adds option to the options array in the service.
-    this.questionService.createExactMatch(exactMatch);
+    if (this.createExactMatchForm.valid) {
 
-    // Resets the form values.
-    this.createExactMatchForm.reset();
+      exactMatch._id = null;
+      exactMatch.questionId = null;
+      exactMatch.matchText = exactMatchData.matchText;
 
-    // For testing, we can remove later.
-    console.log(exactMatch);
+      // Adds option to the options array in the service.
+      this.questionService.createExactMatch(exactMatch);
+
+      // Resets the form values.
+      this.createExactMatchForm.reset();
+
+      // For testing, we can remove later.
+      console.log(exactMatch);
+    } else {
+      // Runs all validation on the createTrueFalse form controls
+      (Object as any).values(this.createExactMatchForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
   }
 }
