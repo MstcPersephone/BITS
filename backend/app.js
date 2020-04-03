@@ -27,8 +27,8 @@ const questionFactory = require("./providers/questionFactory");
 const questionCollections = require("./models/question");
 const categoryCollection = require("./models/shared/category");
 const assessmentCollection = require("./models/assessment");
+const archiveAssessmentCollection = require("./models/assessment-archive");
 const studentCollection = require("./models/student");
-
 const questionCollection = questionCollections.questions;
 const archiveCollection = questionCollections.archive;
 
@@ -74,6 +74,53 @@ app.use((request, response, next) => {
     "GET, POST, DELETE, PATCH, OPTIONS"
   );
   next();
+});
+
+// *********************************************************** //
+// ******   ARCHIVE: ASSESSMENT FROM ASSESSMENT COLLECTION *** //
+// *********************************************************** //
+app.post("/api/assessment/delete", (request, response, next) => {
+  const assessment = request.body;
+
+  // Create archived model for the assessment
+  const assessmentToArchive = new archiveAssessmentCollection({
+    _id: assessment._id,
+    name: assessment.name,
+    description: assessment.description,
+    config: assessment.config,
+    questionIds: assessment.questionIds,
+    status: assessment.status,
+    createdOn: Date.now()
+  });
+
+  console.log(assessmentToArchive);
+  // Save the archive model to the archive assessment collection
+  assessmentToArchive.save().then(() => {
+  // get the id of the original assessment to find and delete from assessment collection
+  const objectId = mongoose.Types.ObjectId(assessment._id);
+  console.log(objectId);
+  // pass the original assessment to the delete function
+  deleteById('assessments', {_id: objectId}, function (resp, error) {
+    if (error) {
+      console.log(error);
+      response.status(400).json({
+        message: error.message
+      })
+    }
+    else {
+      console.log("");
+      response.status(200).json({
+        message: 'assessment archived successfully!'
+    });
+    }
+  });
+},
+  error => {
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message
+    })
+  });
 });
 
 // *********************************************************** //

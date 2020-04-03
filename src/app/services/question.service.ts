@@ -14,7 +14,6 @@ import { ShortAnswer } from '../models/question-types/short-answer.model';
 import { Category } from '../models/shared/category.model';
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
-//
 import { MatDialog } from '@angular/material';
 
 @Injectable({
