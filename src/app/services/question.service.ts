@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 //
 import { MatDialog } from '@angular/material';
+import { ok } from 'assert';
 
 @Injectable({
   providedIn: 'root',
@@ -289,9 +290,14 @@ export class QuestionService {
   // This function is called by save question button click
   // This function will simulate a button click on the categories and points
   // The simulated clicks will rerun validation on parent level forms of question
-  handleParentQuestionFormValidation() {
+  handleParentQuestionFormValidation(question: Question) {
     document.getElementById('validatePoints').click();
     document.getElementById('validateCategories').click();
+    console.log('ok, buttons clicked and errors showing, now what?');
+
+    if (question.questionType === QuestionType.ShortAnswer) {
+      console.log('In Short Answer Question Type condition', question.questionType);
+    }
 
     // if (question.questionType === QuestionType.ShortAnswer
     //   && this.exactMatches !== null) {

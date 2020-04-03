@@ -58,22 +58,20 @@ export class CreateTrueFalseComponent implements OnInit {
     // Initializes a new True False question to be saved
     const trueFalseQuestion: TrueFalse = new TrueFalse();
 
-    // Calls validation on parent form controls
-    this.questionService.handleParentQuestionFormValidation();
-
     if (this.createTrueFalseForm.valid) {
+      // Calls validation on parent form controls
+      this.questionService.handleParentQuestionFormValidation(trueFalseQuestion);
 
-      console.log('Question to save', trueFalseData);
+      trueFalseQuestion._id = null;
+      trueFalseQuestion.questionText = trueFalseData.questionText;
+      trueFalseQuestion.hasAttachments = this.attachmentService.hasAttachments;
+      trueFalseQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
+      trueFalseQuestion.isAnswered = false;
+      trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
+      trueFalseQuestion.duration = 0;
+      trueFalseQuestion.assessmentIds = null;
 
-      // trueFalseQuestion._id = null;
-      // trueFalseQuestion.questionText = trueFalseData.questionText;
-      // trueFalseQuestion.hasAttachments = this.attachmentService.hasAttachments;
-      // trueFalseQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
-      // trueFalseQuestion.isAnswered = false;
-      // trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
-      // trueFalseQuestion.duration = 0;
-      // trueFalseQuestion.assessmentIds = null;
-
+      console.log('Question to save', trueFalseQuestion);
       // // Adds option to the options array in the service.
       // this.questionService.saveQuestion(trueFalseQuestion);
 
@@ -84,7 +82,7 @@ export class CreateTrueFalseComponent implements OnInit {
       });
 
       // Calls validation on parent form controls
-      this.questionService.handleParentQuestionFormValidation();
+      this.questionService.handleParentQuestionFormValidation(trueFalseQuestion);
     }
   }
 }

@@ -33,28 +33,36 @@ export class CreateShortAnswerComponent implements OnInit {
 
   // Id is null at this point because it is generated on the backend.
   onSubmit(questionData) {
+    const shortAnswerQuestion: ShortAnswer = new ShortAnswer();
+
     if (this.createShortAnswerForm.valid) {
-      const shortAnswerQuestion: ShortAnswer = new ShortAnswer();
-      shortAnswerQuestion._id = null;
-      shortAnswerQuestion.questionText = questionData.questionText;
-      shortAnswerQuestion.hasAttachments = this.attachmentService.hasAttachments;
-      shortAnswerQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
-      shortAnswerQuestion.isAnswered = false;
-      shortAnswerQuestion.matches = this.questionService.getMatches();
-      shortAnswerQuestion.assessmentIds = null;
-      shortAnswerQuestion.isCaseSensitive = this.questionService.isCaseSensitive;
-      shortAnswerQuestion.duration = 0;
+       // Calls validation on parent form controls
+    this.questionService.handleParentQuestionFormValidation(shortAnswerQuestion);
+
+    shortAnswerQuestion._id = null;
+    shortAnswerQuestion.questionText = questionData.questionText;
+    shortAnswerQuestion.hasAttachments = this.attachmentService.hasAttachments;
+    shortAnswerQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
+    shortAnswerQuestion.isAnswered = false;
+    shortAnswerQuestion.matches = this.questionService.getMatches();
+    shortAnswerQuestion.assessmentIds = null;
+    shortAnswerQuestion.isCaseSensitive = this.questionService.isCaseSensitive;
+    shortAnswerQuestion.duration = 0;
 
       // Adds option to the options array in the service.
-      this.questionService.saveQuestion(shortAnswerQuestion);
+    // this.questionService.saveQuestion(shortAnswerQuestion);
 
       // For testing, we can remove later.
-      console.log(shortAnswerQuestion);
+    console.log('Question to save', shortAnswerQuestion);
+
     } else {
-      // Runs all validation on the createShortAnswer form controls
+      // Runs all validation on the createTrueFalse form controls
       (Object as any).values(this.createShortAnswerForm.controls).forEach(control => {
         control.markAsTouched();
       });
+
+      // Calls validation on parent form controls
+      this.questionService.handleParentQuestionFormValidation(shortAnswerQuestion);
     }
   }
 }
