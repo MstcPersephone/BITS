@@ -6,24 +6,19 @@ const assessmentConfigSchema = require('./assessment-config');
 // Create Assessment Schema (blueprint)
 const assessmentArchiveSchema = mongoose.Schema({
   name: {
-    type: String,
-    required: true
+    type: String
   },
   description: {
-    type: String,
-    required: true
+    type: String
   },
   config: {
-    type: assessmentConfigSchema.schema,
-    required: true
+    type: assessmentConfigSchema.schema
   },
   questionIds: {
-    type: [String],
- //   required: true
+    type: [String]
   },
   status: {
-    type: String,
-    default: "In Progress"
+    type: String
   }
 });
 

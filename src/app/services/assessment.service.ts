@@ -249,8 +249,8 @@ export class AssessmentService {
       if (result) {
         this.helperService.isLoading = true;
         console.log(assessment);
-        this.http.post<{message: string, assessment: Assessment}>('http://localhost:3000/api/assessment/delete', assessment)
-      .subscribe((responseData) => {
+        this.http.post<{message: string}>('http://localhost:3000/api/assessment/delete', assessment)
+      .subscribe(responseData => {
         setTimeout(() => {
           console.log(responseData);
           // Displays a message informing that the assessment deletion has been successful.
