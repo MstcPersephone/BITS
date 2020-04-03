@@ -5,3 +5,8 @@
 mat-card{
   width: 90%;
 }
+
+::ng-deep .mat-sort-header-arrow {
+  color: #fff;
+}
+
