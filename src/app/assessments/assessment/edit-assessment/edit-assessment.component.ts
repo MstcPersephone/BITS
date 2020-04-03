@@ -47,11 +47,12 @@ export class EditAssessmentComponent implements OnInit {
     this.assessmentSubscription = this.assessmentService.getAssessmentUpdateListener()
       .subscribe((assessment: Assessment) => {
         this.assessment = assessment;
+        this.updateAssessmentForm.get('name').setValue(this.assessment.name);
+        this.updateAssessmentForm.get('description').setValue(this.assessment.description);
       });
   }
 
   onSubmit(assessmentData) {
-
     const updatedAssessment: Assessment = new Assessment();
     updatedAssessment._id = this.assessment._id;
     updatedAssessment.name = assessmentData.name;
