@@ -16,6 +16,7 @@ import { AssessmentService } from './services/assessment.service';
 import { AttachmentService } from './services/attachment.service';
 import { QuestionService } from './services/question.service';
 import { HelperService } from './services/helper.service';
+import { ValidationService } from './services/validation.service';
 
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -76,6 +77,7 @@ import { CreateAssessmentConfigComponent } from './assessments/configuration/cre
 import { AssessmentFooterComponent } from './assessments/footer/assessment-footer/assessment-footer.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
+import { ValidationMessagesComponent } from './shared/validation-messages/validation-messages.component';
 
 
 @NgModule({
@@ -129,7 +131,8 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
     ManageCategoryComponent,
     CreateAssessmentConfigComponent,
     AssessmentFooterComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    ValidationMessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -149,6 +152,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
     AttachmentService,
     QuestionService,
     HelperService,
+    ValidationService,
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]

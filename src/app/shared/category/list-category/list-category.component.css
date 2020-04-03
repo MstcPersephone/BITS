@@ -6,3 +6,9 @@ div{
   padding: 0;
   margin-bottom: 0;
 }
+
+/* Hides the button to save configurations
++   The button click is now simulated in the save assessment of assessment service*/
+.simulatedButton {
+    display: none;
+}
