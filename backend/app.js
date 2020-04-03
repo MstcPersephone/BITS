@@ -76,6 +76,49 @@ app.use((request, response, next) => {
   next();
 });
 
+// *********************************************************** //
+// ******   ARCHIVE: ASSESSMENT FROM ASSESSMENT COLLECTION *** //
+// *********************************************************** //
+app.post("/api/assessment/delete", (request, response, next) => {
+  const assessment = request.body;
+
+  const assessmentToArchive = new archiveAssessmentCollection({
+    _id: assessment._id,
+    name: assessment.name,
+    description: assessment.description,
+    config: assessment.config,
+    questionIds: assessment.questionIds,
+    status: assessment.status,
+    createdOn: Date.now()
+  });
+
+  console.log(assessmentToArchive);
+
+  assessmentToArchive.save().then(() => {
+  const objectId = mongoose.Types.ObjectId(assessment._id);
+  console.log(objectId);
+  deleteById('assessments', {_id: objectId}, function (resp, error) {
+    if (error) {
+      console.log(error);
+      response.status(400).json({
+        message: error.message
+      })
+    }
+    else {
+      console.log("");
+      response.status(200).json({
+        message: 'assessment archived successfully!'
+    });
+    }
+  });
+},
+  error => {
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message
+    })
+  });
+});
 
 // *********************************************************** //
 // ******   ARCHIVE: QUESTION FROM QUESTION COLLECTION   ****** //
@@ -123,50 +166,6 @@ app.post("/api/question/delete", (request, response, next) => {
         question: question
       })
     });
-});
-
-// *********************************************************** //
-// ******   ARCHIVE: ASSESSMENT FROM ASSESSMENT COLLECTION *** //
-// *********************************************************** //
-app.post("/api/assessment/delete", (request, response, next) => {
-  const assessment = request.body;
-
-  const assessmentToArchive = new archiveAssessmentCollection({
-    _id: assessment._id,
-    name: assessment.name,
-    description: assessment.description,
-    config: assessment.config,
-    questionIds: assessment.questionIds,
-    status: assessment.status,
-    createdOn: Date.now()
-  });
-
-  console.log(assessmentToArchive);
-
-  assessmentToArchive.save().then(() => {
-  const objectId = mongoose.Types.ObjectId(assessment._id);
-  console.log(objectId);
-  deleteById('assessments', {_id: objectId}, function (resp, error) {
-    if (error) {
-      console.log(error);
-      response.status(400).json({
-        message: error.message
-      })
-    }
-    else {
-      console.log("");
-      response.status(200).json({
-        message: 'assessment archived successfully!'
-    });
-    }
-  });
-},
-  error => {
-    console.log(error.message);
-    response.status(400).json({
-      message: error.message
-    })
-  });
 });
 
 // ******************************************************** //
