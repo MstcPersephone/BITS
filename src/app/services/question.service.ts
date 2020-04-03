@@ -389,7 +389,6 @@ export class QuestionService {
     console.log(question);
     // Opens a dialog to confirm deletion of the question
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '350px',
       data: 'Are you sure you wish to delete this question?'
     });
     // On closing dialog box either call the function to archive the question or cancel the deletion
