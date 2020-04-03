@@ -202,8 +202,10 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   console.log(questionIds);
   const objectIds = [];
   // Turns the string ids into ObjectIds
+  if (questionIds !== null && questionIds !== undefined) {
   questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
   console.log(objectIds);
+  }
 
   // Performs the search
   questionCollection.find({ _id: objectIds }, (error, questions) => {
@@ -530,6 +532,51 @@ app.post("/api/student/save", (request, response, next) => {
       })
     });
 });
+
+// ******************************************************** //
+// ***********   UPDATE ASSESSMENT COLLECTION   ************* //
+// ******************************************************** //
+app.post("/api/assessment/update/", (request, response, next) => {
+
+  // Gets the assessment passed from the front end
+  // Stores data for updating backend properties
+  const requestedUpdate = request.body;
+
+  // Stores the updated assessment data
+  const update = {
+    id: requestedUpdate._id,
+    name: requestedUpdate.name,
+    description: requestedUpdate.description,
+    config: requestedUpdate.config,
+    questionIds: requestedUpdate.questionIds,
+    status: requestedUpdate.status,
+    createdOn: requestedUpdate.createdOn
+  };
+
+  // passes the data to the database to update a specific assessment by id
+  mongoose.connection.db.collection('assessments').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedAssessment) {
+
+    // Send a successful response message
+    response.status(200).json({
+      message: 'updatedAssessment Fetched Successfully!',
+      updatedAssessment: updatedAssessment
+    });
+
+    // Logs message and assessment array to the backend for debugging.
+    console.log("updatedQuestion Fetched Successfully.")
+    console.log(updatedAssessment);
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a categories array (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      updatedAssessment: updatedAssessment
+    })
+  });
+});
+
 
 
 // ******************************************************** //

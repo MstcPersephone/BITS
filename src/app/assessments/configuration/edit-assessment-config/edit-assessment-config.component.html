@@ -1,14 +1,15 @@
   <!-- The form that builds the assessment property values -->
-  <form [formGroup]="createConfigurationForm" (ngSubmit)="onSubmit(createConfigurationForm.value)">
+  <form [formGroup]="updateConfigurationForm" (ngSubmit)="onSubmit(updateConfigurationForm.value)">
 
-  <!-- Setting if randomized order -->
+    <!-- Setting if randomized order -->
   <div>
     <mat-checkbox
     id="isRandom"
     [checked]="this.assessmentService.isRandom"
     class="mt-20"
     (change)="this.assessmentService.isRandomChanged()"
-    formControlName="isRandom">
+    formControlName="isRandom"
+    [value]="this.assessmentService.isRandom">
     Randomize order of questions?
     </mat-checkbox>
   </div>
@@ -21,7 +22,8 @@
     [checked]="this.assessmentService.isTimed"
     class="mt-20"
     (change)="this.assessmentService.isTimedChanged($event)"
-    formControlName="isTimed">
+    formControlName="isTimed"
+    [value]="this.isTimed">
     Is this a timed assessment?
     </mat-checkbox>
   </div>
@@ -31,8 +33,8 @@
   <div *ngIf="this.assessmentService.isTimed === true">
     <mat-form-field appearance="standard">
     <mat-label>Time Limit (minutes)</mat-label>
-    <input matInput #maxTimeValue id="wrongStreak" type="text"
-       formControlName="maxTime" (change)="this.assessmentService.onHandleMaxTime($event)" value="{{maxTime}}">
+    <input matInput #maxTimeValue id="maxTime" type="text"
+       formControlName="maxTime" (change)="this.assessmentService.onHandleMaxTime($event)">
   </mat-form-field>
   <br>
   </div>
@@ -41,7 +43,7 @@
   <mat-form-field appearance="standard">
     <mat-label>Number of consecutive incorrect answers before ending assessment</mat-label>
     <input matInput #wrongSteakValue id="wrongStreak" type="number"
-       formControlName="wrongStreak" (change)="this.assessmentService.onHandleWrongStreak($event)" value="{{wrongStreak}}">
+       formControlName="wrongStreak" (change)="this.assessmentService.onHandleWrongStreak($event)">
   </mat-form-field>
   <br>
 
@@ -65,6 +67,6 @@
   <br>
 
   <!-- This button will not display: click is simulated in the save assessments to store the configuration properties -->
-  <button class="addOption addConfiguration" id="saveConfigurations" mat-raised-button type="submit">Save Configurations<mat-icon>&nbsp;add</mat-icon></button>
+  <button class="addOption addConfiguration" id="updateConfigurations" mat-raised-button type="submit">Save Configurations<mat-icon>&nbsp;add</mat-icon></button>
 </form>
 
