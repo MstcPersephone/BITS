@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/models/shared/category.model';
 import { Subscription } from 'rxjs';
 import { QuestionService } from 'src/app/services/question.service';
-import { FormBuilder, FormArray } from '@angular/forms';
+import { ValidationService } from '../../../services/validation.service';
+import { FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-list-category',
@@ -19,7 +20,7 @@ export class ListCategoryComponent implements OnInit {
     public questionService: QuestionService,
     private formBuilder: FormBuilder ) {
     this.selectCategoriesForm = this.formBuilder.group({
-      categoryList: ''
+      categoryList: ['', [Validators.required]]
     });
   }
 
@@ -33,8 +34,12 @@ export class ListCategoryComponent implements OnInit {
     });
   }
 
-  // Id is null at this point because it is generated on the backend.
+  // This is a button click simulation to help with validation when saving question
   onSubmit(categoryData) {
-    // do nothing
+    if (!this.selectCategoriesForm.valid) {
+      (Object as any).values(this.selectCategoriesForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
   }
 }

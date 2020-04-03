@@ -16,6 +16,7 @@ import { AssessmentService } from './services/assessment.service';
 import { AttachmentService } from './services/attachment.service';
 import { QuestionService } from './services/question.service';
 import { HelperService } from './services/helper.service';
+import { ValidationService } from './services/validation.service';
 
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -72,6 +73,7 @@ import { AssessmentFooterComponent } from './assessments/footer/assessment-foote
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 import { EditAssessmentConfigComponent } from './assessments/configuration/edit-assessment-config/edit-assessment-config.component';
+import { ValidationMessagesComponent } from './shared/validation-messages/validation-messages.component';
 
 
 @NgModule({
@@ -121,7 +123,8 @@ import { EditAssessmentConfigComponent } from './assessments/configuration/edit-
     CreateAssessmentConfigComponent,
     AssessmentFooterComponent,
     ConfirmationDialogComponent,
-    EditAssessmentConfigComponent
+    EditAssessmentConfigComponent,
+    ValidationMessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -141,6 +144,7 @@ import { EditAssessmentConfigComponent } from './assessments/configuration/edit-
     AttachmentService,
     QuestionService,
     HelperService,
+    ValidationService,
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]
