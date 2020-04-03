@@ -23,4 +23,4 @@ const assessmentArchiveSchema = mongoose.Schema({
 });
 
 // Create and export Assessment Shell Model
-module.exports = mongoose.model('AssessmentArchive', assessmentArchiveSchema, 'archive');
+module.exports = mongoose.model('AssessmentArchive', assessmentArchiveSchema, 'archiveAssessment');

@@ -129,9 +129,10 @@ app.post("/api/question/delete", (request, response, next) => {
 // ******   ARCHIVE: ASSESSMENT FROM ASSESSMENT COLLECTION *** //
 // *********************************************************** //
 app.post("/api/assessment/delete", (request, response, next) => {
-  const assessment = request.params;
+  const assessment = request.body;
 
   const assessmentToArchive = new archiveAssessmentCollection({
+    _id: assessment._id,
     name: assessment.name,
     description: assessment.description,
     config: assessment.config,
@@ -139,6 +140,8 @@ app.post("/api/assessment/delete", (request, response, next) => {
     status: assessment.status,
     createdOn: Date.now()
   });
+
+  console.log(assessmentToArchive);
 
   assessmentToArchive.save().then(() => {
   const objectId = mongoose.Types.ObjectId(assessment._id);
