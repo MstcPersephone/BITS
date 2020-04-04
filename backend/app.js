@@ -131,7 +131,7 @@ app.post("/api/question/delete", (request, response, next) => {
   const question = request.body;
 
   console.log('passed back questionId: ', question._id);
-
+  console.log(question.categories);
   // Will store the converted object to be archived.
   let questionObjectToArchive;
 
