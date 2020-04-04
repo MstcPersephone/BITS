@@ -59,7 +59,10 @@ export class QuestionService {
   private question: Question;
   private questionUpdated = new Subject<Question>();
 
+  // forms
   private categoryForm;
+  public pointsIsValid;
+  public categoriesIsValid;
 
   constructor(
     private http: HttpClient,
@@ -308,6 +311,22 @@ export class QuestionService {
     //   document.getElementById('validateExactMatches').click();
     //   console.log('Question Type', question.questionType);
     // }
+  }
+
+  setPointsIsValid() {
+    this.pointsIsValid = true;
+  }
+
+  setPointsInvalid() {
+    this.pointsIsValid = false;
+  }
+
+  setCategoriesIsValid() {
+    this.categoriesIsValid = true;
+  }
+
+  setCategoriesInvalid() {
+    this.categoriesIsValid = false;
   }
 
   // ******************************************** //

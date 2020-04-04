@@ -57,11 +57,21 @@ export class CreateTrueFalseComponent implements OnInit {
 
     // Initializes a new True False question to be saved
     const trueFalseQuestion: TrueFalse = new TrueFalse();
+    // Calls validation on parent form controls
+    this.questionService.handleParentQuestionFormValidation(trueFalseQuestion);
+    console.log('Points are valid', this.questionService.pointsIsValid);
+    console.log('Categoriess are valid', this.questionService.categoriesIsValid);
+    console.log('True False From is valid', this.createTrueFalseForm.valid);
 
-    if (this.createTrueFalseForm.valid) {
-      // Calls validation on parent form controls
-      this.questionService.handleParentQuestionFormValidation(trueFalseQuestion);
+    if (!this.createTrueFalseForm.valid) {
+      // Runs all validation on the createTrueFalse form controls
+      (Object as any).values(this.createTrueFalseForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
 
+    if (this.createTrueFalseForm.valid && this.questionService.pointsIsValid
+      && this.questionService.categoriesIsValid) {
       trueFalseQuestion._id = null;
       trueFalseQuestion.questionText = trueFalseData.questionText;
       trueFalseQuestion.hasAttachments = this.attachmentService.hasAttachments;
@@ -71,20 +81,12 @@ export class CreateTrueFalseComponent implements OnInit {
       trueFalseQuestion.duration = 0;
       trueFalseQuestion.assessmentIds = null;
 
-      // // Adds option to the options array in the service.
-      // this.questionService.saveQuestion(trueFalseQuestion);
+      // Adds option to the options array in the service.
+      this.questionService.saveQuestion(trueFalseQuestion);
 
       // For testing, we can remove later.
       console.log('Question to save', trueFalseQuestion);
 
-    } else {
-      // Runs all validation on the createTrueFalse form controls
-      (Object as any).values(this.createTrueFalseForm.controls).forEach(control => {
-        control.markAsTouched();
-      });
-
-      // Calls validation on parent form controls
-      this.questionService.handleParentQuestionFormValidation(trueFalseQuestion);
     }
   }
 }

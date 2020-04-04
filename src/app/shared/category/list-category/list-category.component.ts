@@ -37,9 +37,12 @@ export class ListCategoryComponent implements OnInit {
   // This is a button click simulation to help with validation when saving question
   onSubmit(categoryData) {
     if (!this.selectCategoriesForm.valid) {
+      this.questionService.setCategoriesInvalid();
       (Object as any).values(this.selectCategoriesForm.controls).forEach(control => {
         control.markAsTouched();
       });
+    } else {
+      this.questionService.setCategoriesIsValid();
     }
   }
 }
