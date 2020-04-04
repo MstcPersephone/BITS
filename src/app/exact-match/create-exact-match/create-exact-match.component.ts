@@ -49,7 +49,7 @@ export class CreateExactMatchComponent implements OnInit {
       console.log(exactMatch);
     } else {
       if (matches.length < 1) {
-        // Runs all validation on the createTrueFalse form controls
+        // Runs all validation on the createExactMatchForm controls
         (Object as any).values(this.createExactMatchForm.controls).forEach(control => {
           control.markAsTouched();
         });

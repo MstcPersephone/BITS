@@ -290,9 +290,11 @@ export class QuestionService {
   // This function will simulate a button click on the categories and points
   // The simulated clicks will rerun validation on parent level forms of question
   handleParentQuestionFormValidation(question: Question) {
+
     document.getElementById('validatePoints').click();
     document.getElementById('validateCategories').click();
     console.log('ok, buttons clicked and errors showing, now what?');
+
 
     if (question.questionType === QuestionType.ShortAnswer) {
       if (this.exactMatches.length < 1) {

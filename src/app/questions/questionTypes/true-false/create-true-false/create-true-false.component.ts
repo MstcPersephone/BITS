@@ -71,9 +71,11 @@ export class CreateTrueFalseComponent implements OnInit {
       trueFalseQuestion.duration = 0;
       trueFalseQuestion.assessmentIds = null;
 
-      console.log('Question to save', trueFalseQuestion);
       // // Adds option to the options array in the service.
       // this.questionService.saveQuestion(trueFalseQuestion);
+
+      // For testing, we can remove later.
+      console.log('Question to save', trueFalseQuestion);
 
     } else {
       // Runs all validation on the createTrueFalse form controls
