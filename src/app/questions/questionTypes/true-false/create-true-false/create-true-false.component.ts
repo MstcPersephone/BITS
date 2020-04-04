@@ -57,12 +57,17 @@ export class CreateTrueFalseComponent implements OnInit {
 
     // Initializes a new True False question to be saved
     const trueFalseQuestion: TrueFalse = new TrueFalse();
-    // Calls validation on parent form controls
-    this.questionService.handleParentQuestionFormValidation(trueFalseQuestion);
-    console.log('Points are valid', this.questionService.pointsIsValid);
-    console.log('Categoriess are valid', this.questionService.categoriesIsValid);
-    console.log('True False From is valid', this.createTrueFalseForm.valid);
 
+    // Calls validation on parent form controls
+    // If the parent forms are invalid, submit is not allowed
+    // Marks all input as touched to show errors so user knows what requires valid input
+    this.questionService.handleParentQuestionFormValidation(trueFalseQuestion);
+    // console.log('Points are valid', this.questionService.pointsIsValid);
+    // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
+    // console.log('True False From is valid', this.createTrueFalseForm.valid);
+
+    // If the createTrueFalseForm is invalid, submit is not allowed
+    // Marks all input as touched to show errors so user knows what requires valid input
     if (!this.createTrueFalseForm.valid) {
       // Runs all validation on the createTrueFalse form controls
       (Object as any).values(this.createTrueFalseForm.controls).forEach(control => {
@@ -70,6 +75,7 @@ export class CreateTrueFalseComponent implements OnInit {
       });
     }
 
+    // If all input of parent and child forms is valid, data will be passed to question service for saving
     if (this.createTrueFalseForm.valid && this.questionService.pointsIsValid
       && this.questionService.categoriesIsValid) {
       trueFalseQuestion._id = null;
@@ -81,12 +87,11 @@ export class CreateTrueFalseComponent implements OnInit {
       trueFalseQuestion.duration = 0;
       trueFalseQuestion.assessmentIds = null;
 
-      // Adds option to the options array in the service.
+      // Sends the data to the quesiton service to handle passing data for saving in database
       this.questionService.saveQuestion(trueFalseQuestion);
 
       // For testing, we can remove later.
-      console.log('Question to save', trueFalseQuestion);
-
+      // console.log('Question to save', trueFalseQuestion);
     }
   }
 }
