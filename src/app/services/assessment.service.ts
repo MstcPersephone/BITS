@@ -243,8 +243,10 @@ export class AssessmentService {
     console.log(assessment);
      // Opens a dialog to confirm deletion of the assessment
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '350px',
-      data: 'Are you sure you wish to delete this assessment?'
+      data: 'Are you sure you wish to delete this assessment?',
+      hasBackdrop: true,
+      disableClose: true,
+      closeOnNavigation: true
     });
     // On closing dialog box either call the function to archive the assessment or cancel the deletion
     dialogRef.afterClosed().subscribe(result => {
