@@ -1,1 +1,14 @@
-<p>edit-category works!</p>
+<!-- The spinner object, displayed when the application is loading the questions -->
+<mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
+<mat-card *ngIf="!this.helperService.isLoading">
+  <h1 class="mat-display-1">Edit Category</h1>
+  <form [formGroup]="editCategoryForm" (ngSubmit)="onSubmit(editCategoryForm.value)">
+    <!-- Category Text Input -->
+    <mat-form-field appearance="standard">
+      <mat-label>Category Name</mat-label>
+      <input matInput id="name" type="text" formControlName="name" value="{{ category.name }}" required>
+    </mat-form-field>
+    <app-validation-messages [control]="editCategoryForm.get('name')"></app-validation-messages>
+    <button class="mt-20 saveButton" mat-raised-button type="submit">Update Category</button>
+  </form>
+</mat-card>

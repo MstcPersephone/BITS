@@ -12,9 +12,11 @@ import { FormBuilder, Validators, FormArray } from '@angular/forms';
 })
 export class ListCategoryComponent implements OnInit {
   categoryList: Category[] = [];
+  selectedCategories: Category[] = [];
   selectCategoriesForm;
 
   private categorySubscription: Subscription;
+  private selectedCategoriesSubscription: Subscription;
 
   constructor(
     public questionService: QuestionService,
@@ -30,8 +32,15 @@ export class ListCategoryComponent implements OnInit {
     this.categorySubscription = this.questionService.getCategoriesListener()
     .subscribe((categoriesArray: Category[]) => {
       this.categoryList = categoriesArray;
-      console.table(this.categoryList);
+      console.table('All Categories', this.categoryList);
     });
+
+    this.selectedCategoriesSubscription = this.questionService.getSelectedCategoriesListener()
+      .subscribe((selectedCategoriesArray: Category[]) => {
+        this.selectedCategories = selectedCategoriesArray;
+        console.table('Selected Categories', this.selectedCategories);
+        this.selectCategoriesForm.get('categoryList').setValue(this.selectedCategories);
+      });
   }
 
   // This is a button click simulation to help with validation when saving question
@@ -41,5 +50,10 @@ export class ListCategoryComponent implements OnInit {
         control.markAsTouched();
       });
     }
+  }
+
+  // Compares categories from overall array to selected ones to set default values
+  matchSelectedCategories(catOne: Category, catTwo: Category) {
+    return catOne._id === catTwo._id;
   }
 }

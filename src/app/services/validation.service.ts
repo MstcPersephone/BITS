@@ -27,7 +27,7 @@ export class ValidationService {
   // validation for whole numeric value only
   // if the value does not pass validation, the property is assigned true, else null
   static pointsValidator(control) {
-    if (control.value.match(/^(0|[1-9][0-9]*)$/)) {
+    if (String(control.value).match(/^(0|[1-9][0-9]*)$/)) {
       return null;
     } else {
       return { invalidPoints: true };
