@@ -215,5 +215,6 @@ mat-spinner {
   font-weight: bold;
   border-radius: 15px;
   color: red;
+  margin-top: -1em;
   margin-bottom: 25px;
 }

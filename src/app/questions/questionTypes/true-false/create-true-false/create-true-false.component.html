@@ -16,6 +16,7 @@
     <mat-radio-button *ngFor="let answer of answers; let i = index" [ngClass]="{'ml-25': i > 0}" type="radio"
       name="answer" value="{{answer}}" (change)="radioChangeHandler($event)">{{answer}}</mat-radio-button>
   </mat-radio-group>
+  <br>
   <app-validation-messages [control]="createTrueFalseForm.get('answer')"></app-validation-messages>
 
   <!-- Submit Button : calls validation on parent form controllers when clicked -->
