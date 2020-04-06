@@ -51,9 +51,12 @@ export class CreateQuestionComponent implements OnInit {
   // This is a button click simulation to help with validation when saving question
   onSubmit(pointsData) {
     if (!this.addPointForm.valid) {
+      this.questionService.setPointsInvalid();
       (Object as any).values(this.addPointForm.controls).forEach(control => {
         control.markAsTouched();
       });
+    } else {
+      this.questionService.setPointsIsValid();
     }
   }
 

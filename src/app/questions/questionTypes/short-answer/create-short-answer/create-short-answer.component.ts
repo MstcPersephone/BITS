@@ -11,30 +11,83 @@ import { ValidationService } from 'src/app/services/validation.service';
   styleUrls: ['./create-short-answer.component.css']
 })
 export class CreateShortAnswerComponent implements OnInit {
-// The form object
+  // The form object
   createShortAnswerForm;
+  isValid; // stores the validation set in the question service
+  showCancelButton = false;
   @Input() caseSensitive;
+
   constructor(
     private formBuilder: FormBuilder,
     public questionService: QuestionService,
     public attachmentService: AttachmentService
-              ) {
+  ) {
     this.createShortAnswerForm = this.formBuilder.group({
       questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
       questionAnswer: '',
       hasAttachments: '',
       isCaseSensitive: ''
     });
-     }
+  }
 
   ngOnInit(): void {
     // Clear the attachments on init for when the form reloads
     this.attachmentService.resetAttachments();
+    // Sets the form to visible on initial load
+    this.questionService.showCreateMatch = true;
   }
 
-    // Id is null at this point because it is generated on the backend.
-    onSubmit(questionData) {
-      const shortAnswerQuestion: ShortAnswer =  new ShortAnswer();
+  clickAdd() {
+    // If the child form is loaded, calls validation on the child form when add button is clicked
+    if (this.questionService.showCreateMatch) {
+      document.getElementById('validateExactMatches').click();
+      this.isValid = this.questionService.exactMatchIsValid;
+    }
+    // sets the form to remain as visible
+    this.questionService.showCreateMatch = true;
+    // sets the cancel button to visible
+    this.showCancelButton = true;
+  }
+
+  clickCancel() {
+    // Hides the form and the cancel button
+    // restores previous validity on the exact match to allow saving on submit
+    const matches = this.questionService.getMatches();
+    if (matches.length > 0) {
+      this.questionService.showCreateMatch = false;
+    }
+    this.showCancelButton = false;
+    this.questionService.exactMatchIsValid = this.isValid;
+  }
+
+  // Id is null at this point because it is generated on the backend.
+  onSubmit(questionData) {
+    // Initializes a new Short Answer question to be saved
+    const shortAnswerQuestion: ShortAnswer = new ShortAnswer();
+
+    // Calls validation on parent form controls when submit button is clicked
+    this.questionService.handleParentQuestionFormValidation(shortAnswerQuestion);
+
+    // If the child form is loaded, calls validation on the child form when submit button is clicked
+    if (this.questionService.showCreateMatch) {
+      document.getElementById('validateExactMatches').click();
+    }
+    console.log('Points are valid', this.questionService.pointsIsValid);
+    console.log('Categoriess are valid', this.questionService.categoriesIsValid);
+    console.log('Sort Answer form is valid', this.createShortAnswerForm.valid);
+    console.log('Exact Match form is valid', this.questionService.exactMatchIsValid);
+
+    // Calls validation on the current form when submit button is clicked
+    if (!this.createShortAnswerForm.valid) {
+      // Runs all validation on the createShortAnswerForm form controls
+      (Object as any).values(this.createShortAnswerForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
+
+    // If all input of parent and child forms is valid, data will be passed to question service for saving
+    if (this.createShortAnswerForm.valid && this.questionService.pointsIsValid
+      && this.questionService.categoriesIsValid && this.questionService.exactMatchIsValid) {
       shortAnswerQuestion._id = null;
       shortAnswerQuestion.questionText = questionData.questionText;
       shortAnswerQuestion.hasAttachments = this.attachmentService.hasAttachments;
@@ -45,10 +98,15 @@ export class CreateShortAnswerComponent implements OnInit {
       shortAnswerQuestion.isCaseSensitive = this.questionService.isCaseSensitive;
       shortAnswerQuestion.duration = 0;
 
-      // Adds option to the options array in the service.
+      // Sends the data to the quesiton service to handle passing data for saving in database
       this.questionService.saveQuestion(shortAnswerQuestion);
 
+      // Resets both current form and cancel button to not visible
+      this.questionService.showCreateMatch = false;
+      this.showCancelButton = false;
+
       // For testing, we can remove later.
-      console.log(shortAnswerQuestion);
+      console.log('Question to save', shortAnswerQuestion);
     }
+  }
 }

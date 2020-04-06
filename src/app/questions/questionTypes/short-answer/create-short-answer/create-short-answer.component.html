@@ -12,10 +12,27 @@
 <app-attachment></app-attachment>
 <br>
 <mat-checkbox
-  class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">Is student answer case sensitive?
+  class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">Is acceptable answer case sensitive?
 </mat-checkbox>
-<h3>Add accepted responses to the question</h3>
-<app-create-exact-match></app-create-exact-match>
+<br>
+<mat-card>
+<h3>Acceptable Answer</h3>
+<app-create-exact-match *ngIf="this.questionService.showCreateMatch"></app-create-exact-match>
+
+<div class="buttonContainer">
+  <!-- Cancel Button : If clicked will close the add acceptable answer form -->
+  <button *ngIf="this.showCancelButton" mat-raised-button color="accent" (click)="this.clickCancel()">
+    Cancel<mat-icon>&nbsp;cancel</mat-icon>
+  </button>
+  <!-- Add Option button; used to display the Create Option form above -->
+  <button class="addOption" mat-raised-button type="button" (click)="this.clickAdd()">
+    Add<mat-icon>&nbsp;add</mat-icon>
+  </button>
+</div>
+
+<app-list-exact-match></app-list-exact-match>
+</mat-card>
+<br>
 
  <!-- Submit Button -->
  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
