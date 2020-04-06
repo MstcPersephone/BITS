@@ -40,13 +40,13 @@ export class QuestionService {
   private showHideCreateCategory = false;
 
   // Exact match array and subject.
-  private exactMatches: ExactMatch[] = [];
+  public exactMatches: ExactMatch[] = [];
   private exactMatchesUpdated = new Subject<ExactMatch[]>();
   private hasMatches = false;
   public showCreateMatch = false;
 
   // Options array and subject.
-  private options: Option[] = [];
+  public options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
   private hasOptions = false;
   public showCreateOption = false;

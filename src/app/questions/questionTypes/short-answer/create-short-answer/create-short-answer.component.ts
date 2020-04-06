@@ -35,6 +35,8 @@ export class CreateShortAnswerComponent implements OnInit {
     this.attachmentService.resetAttachments();
     // Sets the form to visible on initial load
     this.questionService.showCreateMatch = true;
+
+    this.questionService.exactMatches = [];
   }
 
   clickAdd() {

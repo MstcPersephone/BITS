@@ -57,7 +57,7 @@ export class EditShortAnswerComponent implements OnInit {
     updatedShortAnswerQuestion.duration = 0;
     updatedShortAnswerQuestion.assessmentIds = null;
 
-    this.questionService.updateQuestionById(updatedShortAnswerQuestion);
+    // this.questionService.updateQuestionById(updatedShortAnswerQuestion);
     console.log(formData);
   }
 }
