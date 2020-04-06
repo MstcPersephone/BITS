@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./assessment-engine.component.css']
 })
 export class AssessmentEngineComponent implements OnInit {
-
+answerForm;
   constructor() { }
 
   ngOnInit() {
   }
 
+  onSubmit() {
+  }
 }
