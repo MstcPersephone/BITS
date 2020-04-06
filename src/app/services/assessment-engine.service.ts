@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { HelperService } from './helper.service';
 import { Student } from '../models/student.model';
 import { Question } from '../models/question.interface';
+import { Assessment } from '../models/assessment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +22,19 @@ export class AssessmentEngineService {
     private helperService: HelperService, ) { }
 
   // ********************************************** //
+  // *********  ASSESSMENT: SCORING   ********* //
+  // ********************************************** //
+    checkAnswer(question: Question) {
+      console.log(question);
+    }
+
+    checkAssessment(assessment: Assessment) {
+      console.log(assessment);
+    }
+
+  // ********************************************** //
   // *********  STUDENT: PREVIOUS SCORES  ********* //
   // ********************************************** //
-
-  checkAnswer(question: Question) {
-  }
 
   // gets the minimum score set by user in configuration
   getPreviousScores() {
