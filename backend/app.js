@@ -666,24 +666,6 @@ app.post("/api/category/update", (request, response, next) => {
   });
 });
 
-function updateQuestionCategories(updatedCategory) {
-  console.log('TEST');
-  console.log('Updated Category', updatedCategory);
-  questionCollection.find({categories: {$elemMatch: {_id: mongoose.Types.ObjectId(updatedCategory._id)}}}).then((questions, error) => {
-    questions.forEach((q) => {
-      console.log('QUESTION', q);
-      // q.categories.forEach((c) => {
-      //   if (c._id === updatedCategory._id) {
-      //     mongoose.connection.db.collection.update({"categories._id": mongoose.Types.ObjectId(updatedCategory._id)}, {"$set": {"$.name": updatedCategory.name }});
-      //   }
-      // });
-    });
-  },
-    error => {
-      console.log(error.message);
-    });
-}
-
 // ******************************************************** //
 // ***********   UPDATE QUESTION COLLECTION   ************* //
 // ******************************************************** //
@@ -736,6 +718,11 @@ function deleteById(name, query, callBack) {
   mongoose.connection.db.collection(name, function(error, collection) {
     collection.deleteOne(query).then(callBack);
   });
+}
+
+// Updates all questions that have the updated category with the updated name
+function updateQuestionCategories(updatedCategory) {
+  mongoose.connection.db.collection('questions').updateMany({categories: {$elemMatch: {_id: mongoose.Types.ObjectId(updatedCategory._id)}}}, {$set: {"categories.$.name": updatedCategory.name }});
 }
 
 // Exports the contstants and all of the middlewares attached to it.
