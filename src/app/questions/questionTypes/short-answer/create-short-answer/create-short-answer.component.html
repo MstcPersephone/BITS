@@ -1,23 +1,27 @@
-  <form [formGroup]="createShortAnswerForm" (ngSubmit)="onSubmit(createShortAnswerForm.value)">
-    <h3>Short Answer question details</h3>
-<!-- Question Text Input -->
-    <mat-form-field appearance="standard">
-      <mat-label>Enter Question Text:</mat-label>
-      <input matInput id="questionText" type="text" formControlName="questionText" required>
-    </mat-form-field>
-    <app-validation-messages [control]="createShortAnswerForm.get('questionText')"></app-validation-messages>
+<form [formGroup]="createShortAnswerForm" (ngSubmit)="onSubmit(createShortAnswerForm.value)">
+  <h3>Short Answer question details</h3>
+  <!-- Question Text Input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Enter Question Text:</mat-label>
+    <input matInput id="questionText" type="text" formControlName="questionText" required>
+  </mat-form-field>
+  <app-validation-messages [control]="createShortAnswerForm.get('questionText')"></app-validation-messages>
 
 
-<!-- Add attachment component -->
-<app-attachment></app-attachment>
-<br>
-<mat-checkbox
-  class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">Is student answer case sensitive?
-</mat-checkbox>
-<h3>Add accepted responses to the question</h3>
-<app-create-exact-match></app-create-exact-match>
+  <!-- Add attachment component -->
+  <app-attachment></app-attachment>
+  <br>
+  <mat-checkbox class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">Is student answer case
+    sensitive?
+  </mat-checkbox>
+  <h3>Add accepted responses to the question</h3>
+  <app-create-exact-match></app-create-exact-match>
 
- <!-- Submit Button -->
- <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
-  </form>
+  <!-- Submit Button : calls validation on parent form controllers when clicked -->
+  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon>
+  </button>
 
+  <!-- Cancel Button : Cancels the save and send user back to question list -->
+  <button class="mt-20 saveButton" mat-raised-button [routerLink]="['/question/list']">Cancel&nbsp;<mat-icon>cancel
+    </mat-icon></button>
+</form>
