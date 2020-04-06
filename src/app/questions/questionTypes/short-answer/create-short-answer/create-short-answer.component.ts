@@ -24,7 +24,6 @@ export class CreateShortAnswerComponent implements OnInit {
   ) {
     this.createShortAnswerForm = this.formBuilder.group({
       questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
-      questionAnswer: '',
       hasAttachments: '',
       isCaseSensitive: ''
     });

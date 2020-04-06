@@ -39,6 +39,7 @@ export class EditTrueFalseComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.question);
+    this.editTrueFalseForm.get('questionText').setValue(this.question.questionText);
     // Pass the attachments off to the attachment service to be managed.
     if (this.question.hasAttachments) {
       this.attachmentService.attachments = this.question.attachments;
@@ -48,7 +49,6 @@ export class EditTrueFalseComponent implements OnInit {
       this.attachmentService.attachments = [];
     }
 
-    this.editTrueFalseForm.get('questionText').setValue(this.question.questionText);
     if (this.question.answer === true) {
       this.editTrueFalseForm.get('answer').setValue('True');
     } else {

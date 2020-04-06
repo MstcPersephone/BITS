@@ -18,7 +18,7 @@
   </mat-radio-group>
   <app-validation-messages [control]="createTrueFalseForm.get('answer')"></app-validation-messages>
 
-  <!-- Submit Button : calls validation on parent form controllers when clicked -->
+  <!-- Submit Button : calls validation on all forms controllers when clicked -->
   <button class="mt-20 saveButton" mat-raised-button type="submit"
     (click)="this.questionService.handleParentQuestionFormValidation()">Save Question&nbsp;<mat-icon>save</mat-icon>
     </button>
