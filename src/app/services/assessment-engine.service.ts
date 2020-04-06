@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { HelperService } from './helper.service';
 import { Student } from '../models/student.model';
+import { Question } from '../models/question.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,9 @@ export class AssessmentEngineService {
   // ********************************************** //
   // *********  STUDENT: PREVIOUS SCORES  ********* //
   // ********************************************** //
+
+  checkAnswer(question: Question) {
+  }
 
   // gets the minimum score set by user in configuration
   getPreviousScores() {

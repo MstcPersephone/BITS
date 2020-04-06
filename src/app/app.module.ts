@@ -74,6 +74,7 @@ import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confir
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 import { EditAssessmentConfigComponent } from './assessments/configuration/edit-assessment-config/edit-assessment-config.component';
 import { ValidationMessagesComponent } from './shared/validation-messages/validation-messages.component';
+import { FooterComponent } from './questions/footer/footer.component';
 
 
 @NgModule({
@@ -124,7 +125,8 @@ import { ValidationMessagesComponent } from './shared/validation-messages/valida
     AssessmentFooterComponent,
     ConfirmationDialogComponent,
     EditAssessmentConfigComponent,
-    ValidationMessagesComponent
+    ValidationMessagesComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
