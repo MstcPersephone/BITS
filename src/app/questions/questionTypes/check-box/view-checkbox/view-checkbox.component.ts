@@ -9,7 +9,7 @@ import { AssessmentService } from 'src/app/services/assessment.service';
   styleUrls: ['./view-checkbox.component.css']
 })
 export class ViewCheckboxComponent implements OnInit {
-  answerCheckboxForm;
+  answerForm;
   @Input() question: Checkbox;
   constructor(
     private assessmentService: AssessmentService,
@@ -18,7 +18,7 @@ export class ViewCheckboxComponent implements OnInit {
     // Although there are no fields,
     // We still want to create the form and use angular forms
     // to handle the submit function
-    this.answerCheckboxForm = this.formBuilder.group({});
+    this.answerForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {

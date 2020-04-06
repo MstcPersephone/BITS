@@ -1,5 +1,5 @@
 <p>{{ question.questionText }}</p>
-<form [formGroup]="answerMultipleChoiceForm" (ngSubmit)="onSubmit(answerMultipleChoiceForm.value)">
+
 <mat-radio-group>
   <mat-radio-button
   *ngFor="let option of question.options; index as i;"
@@ -7,4 +7,4 @@
   (change)="onChangeOption($event, i)">{{ option.optionText }}</mat-radio-button>
 </mat-radio-group>
   <button mat-raised-button type="submit">Next Question&nbsp;<mat-icon>forward</mat-icon></button>
-</form>
+

@@ -9,7 +9,7 @@ import { Assessment } from 'src/app/models/assessment.model';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-
+  answerForm;
   constructor(public assessmentEngineService: AssessmentEngineService) { }
 
   ngOnInit() {

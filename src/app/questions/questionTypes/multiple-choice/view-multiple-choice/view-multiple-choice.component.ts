@@ -9,7 +9,7 @@ import { AssessmentService } from 'src/app/services/assessment.service';
   styleUrls: ['./view-multiple-choice.component.css']
 })
 export class ViewMultipleChoiceComponent implements OnInit {
-  answerMultipleChoiceForm;
+  answerForm;
   @Input() question: MultipleChoice;
 
   constructor(
@@ -19,7 +19,7 @@ export class ViewMultipleChoiceComponent implements OnInit {
     // Although there are no fields,
     // We still want to create the form and use angular forms
     // to handle the submit function
-    this.answerMultipleChoiceForm = this.formBuilder.group({});
+    this.answerForm = this.formBuilder.group({});
    }
 
   ngOnInit(): void {
