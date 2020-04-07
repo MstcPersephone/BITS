@@ -39,25 +39,12 @@ export class CreateExactMatchComponent implements OnInit {
     }
 
     const exactMatch: ExactMatch = new ExactMatch();
-<<<<<<< HEAD
 
     if (this.questionService.exactMatchIsValid) {
       exactMatch._id = null;
       exactMatch.questionId = null;
       exactMatch.matchText = exactMatchData.matchText;
 
-=======
-    const matches = this.questionService.getMatches();
-
-    if (exactMatchData.matchText !== null && matches.length > 0) {}
-
-    if (this.createExactMatchForm.valid) {
-
-      exactMatch._id = null;
-      exactMatch.questionId = null;
-      exactMatch.matchText = exactMatchData.matchText;
-
->>>>>>> master
       // Adds option to the options array in the service.
       this.questionService.createExactMatch(exactMatch);
 
@@ -66,16 +53,6 @@ export class CreateExactMatchComponent implements OnInit {
 
       // For testing, we can remove later.
       console.log(exactMatch);
-<<<<<<< HEAD
-=======
-    } else {
-      if (matches.length < 1) {
-        // Runs all validation on the createExactMatchForm controls
-        (Object as any).values(this.createExactMatchForm.controls).forEach(control => {
-          control.markAsTouched();
-        });
-      }
->>>>>>> master
     }
   }
 }

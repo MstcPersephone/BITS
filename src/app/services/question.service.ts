@@ -63,10 +63,7 @@ export class QuestionService {
   private categoryForm;
   public pointsIsValid;
   public categoriesIsValid;
-<<<<<<< HEAD
   public exactMatchIsValid;
-=======
->>>>>>> master
 
   constructor(
     private http: HttpClient,
@@ -303,19 +300,10 @@ export class QuestionService {
     console.log('ok, buttons clicked and errors showing, now what?');
 
 
-<<<<<<< HEAD
     // if (question.questionType === QuestionType.ShortAnswer) {
     //   console.log('Question Type', question.questionType);
     //   document.getElementById('validateExactMatches').click();
     // }
-=======
-    if (question.questionType === QuestionType.ShortAnswer) {
-      if (this.exactMatches.length < 1) {
-        document.getElementById('validateExactMatches').click();
-       }
-      console.log('In Short Answer Question Type condition', question.questionType);
-    }
->>>>>>> master
 
     // if (question.questionType === QuestionType.ShortAnswer
     //   && this.exactMatches !== null) {
@@ -338,7 +326,6 @@ export class QuestionService {
 
   setCategoriesInvalid() {
     this.categoriesIsValid = false;
-<<<<<<< HEAD
   }
 
   setExactMatchIsValid() {
@@ -347,8 +334,6 @@ export class QuestionService {
 
   setExactMatchInvalid() {
     this.exactMatchIsValid = false;
-=======
->>>>>>> master
   }
 
   // ******************************************** //

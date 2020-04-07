@@ -1,13 +1,8 @@
 /* Importing shared styles from Create Option */
 @import "../../shared/option/create-option/create-option.component.css";
 
-<<<<<<< HEAD
 /* Hides the button to save exact matches
 The button click is now simulated in the handleParentQuestionFormValidation of question service*/
-=======
-/* Hides the button to save configurations
-+   The button click is now simulated in the save assessment of assessment service*/
->>>>>>> master
 .simulatedButton {
   display: none;
 }

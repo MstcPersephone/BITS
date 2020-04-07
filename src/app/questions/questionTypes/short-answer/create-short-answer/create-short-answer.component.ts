@@ -63,7 +63,6 @@ export class CreateShortAnswerComponent implements OnInit {
 
   // Id is null at this point because it is generated on the backend.
   onSubmit(questionData) {
-<<<<<<< HEAD
     // Initializes a new Short Answer question to be saved
     const shortAnswerQuestion: ShortAnswer = new ShortAnswer();
 
@@ -102,46 +101,13 @@ export class CreateShortAnswerComponent implements OnInit {
 
       // Sends the data to the quesiton service to handle passing data for saving in database
       this.questionService.saveQuestion(shortAnswerQuestion);
-=======
-    const shortAnswerQuestion: ShortAnswer = new ShortAnswer();
-
-    if (this.createShortAnswerForm.valid) {
-       // Calls validation on parent form controls
-    this.questionService.handleParentQuestionFormValidation(shortAnswerQuestion);
-
-    shortAnswerQuestion._id = null;
-    shortAnswerQuestion.questionText = questionData.questionText;
-    shortAnswerQuestion.hasAttachments = this.attachmentService.hasAttachments;
-    shortAnswerQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
-    shortAnswerQuestion.isAnswered = false;
-    shortAnswerQuestion.matches = this.questionService.getMatches();
-    shortAnswerQuestion.assessmentIds = null;
-    shortAnswerQuestion.isCaseSensitive = this.questionService.isCaseSensitive;
-    shortAnswerQuestion.duration = 0;
-
-      // Adds option to the options array in the service.
-    // this.questionService.saveQuestion(shortAnswerQuestion);
->>>>>>> master
 
       // Resets both current form and cancel button to not visible
       this.questionService.showCreateMatch = false;
       this.showCancelButton = false;
 
       // For testing, we can remove later.
-<<<<<<< HEAD
       console.log('Question to save', shortAnswerQuestion);
-=======
-    console.log('Question to save', shortAnswerQuestion);
-
-    } else {
-      // Runs all validation on the createTrueFalse form controls
-      (Object as any).values(this.createShortAnswerForm.controls).forEach(control => {
-        control.markAsTouched();
-      });
-
-      // Calls validation on parent form controls
-      this.questionService.handleParentQuestionFormValidation(shortAnswerQuestion);
->>>>>>> master
     }
   }
 }

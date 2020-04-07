@@ -18,14 +18,8 @@
   </mat-radio-group>
   <app-validation-messages [control]="createTrueFalseForm.get('answer')"></app-validation-messages>
 
-<<<<<<< HEAD
-  <!-- Submit Button : calls validation on all forms controllers when clicked -->
-  <button class="mt-20 saveButton" mat-raised-button type="submit"
-    (click)="this.questionService.handleParentQuestionFormValidation()">Save Question&nbsp;<mat-icon>save</mat-icon>
-=======
   <!-- Submit Button : calls validation on parent form controllers when clicked -->
   <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon>
->>>>>>> master
     </button>
 
   <!-- Cancel Button : Cancels the save and send user back to question list -->
