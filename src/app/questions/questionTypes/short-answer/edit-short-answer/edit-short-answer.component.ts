@@ -123,6 +123,7 @@ export class EditShortAnswerComponent implements OnInit {
       this.questionService.showCreateMatch = false;
       this.showCancelButton = false;
 
+      // Sends the data to the quesiton service to handle passing data for updating in database
       this.questionService.updateQuestionById(updatedShortAnswerQuestion);
 
       // For testing, we can remove later.
