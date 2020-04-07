@@ -48,10 +48,10 @@ export class EditShortAnswerComponent implements OnInit {
 
   clickAdd() {
     // If the child form is loaded, calls validation on the child form when add button is clicked
-    // if (this.questionService.showCreateMatch) {
-    //   document.getElementById('validateExactMatches').click();
-    //   this.isValid = this.questionService.exactMatchIsValid;
-    // }
+    if (this.questionService.showCreateMatch) {
+      document.getElementById('validateExactMatches').click();
+      this.isValid = this.questionService.exactMatchIsValid;
+    }
     // sets the form to remain as visible
     this.questionService.showCreateMatch = true;
     // sets the cancel button to visible
@@ -61,10 +61,10 @@ export class EditShortAnswerComponent implements OnInit {
   clickCancel() {
     // Hides the form and the cancel button
     // restores previous validity on the exact match to allow saving on submit
-    // const matches = this.questionService.getMatches();
-    // if (matches.length > 0) {
-    //   this.questionService.showCreateMatch = false;
-    // }
+    const matches = this.questionService.getMatches();
+    if (matches.length > 0) {
+      this.questionService.showCreateMatch = false;
+    }
     this.showCancelButton = false;
     this.questionService.showCreateMatch = false;
     this.questionService.exactMatchIsValid = this.isValid;

@@ -20,7 +20,7 @@ export class CreateExactMatchComponent implements OnInit {
     private questionService: QuestionService) {
     // Creates an object to hold form values.
     this.createExactMatchForm = this.formBuilder.group({
-      matchText: ['', [Validators.required]]
+      matchText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]]
     });
   }
 
