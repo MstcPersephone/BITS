@@ -10,6 +10,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragE
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material';
+import { QuestionType } from '../enums/questionType.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -95,7 +96,20 @@ export class AssessmentService {
   }
 
   // TODO Handle submit question button
+  // Used for now until we have the engine code written
   submitAnswer(question: Question) {
+    switch (question.questionType) {
+      case QuestionType.Upload:
+        this.checkUploadAnswer(question);
+        break;
+      default:
+        break;
+    }
+  }
+
+  // Makes a call to the back end to extract (if necessary), store, and compare file contents
+  // Returns an object that contains a true/false result
+  checkUploadAnswer(question: Question) {
     console.log(question);
     this.http.post<{message: string, result: boolean}>('http://localhost:3000/api/assessment/checkUpload', question)
       .subscribe((responseData) => {

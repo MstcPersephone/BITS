@@ -5,6 +5,7 @@ const Constants = require('../providers/constants');
 
 // Compares two files and returns the results
 const compareFiles = function(firstFile, secondFile) {
+
   // Read contents of first file
   console.log('first file', firstFile);
   const firstFileResults = readFileContents(firstFile);
@@ -23,17 +24,22 @@ const compareFiles = function(firstFile, secondFile) {
 
 // Makes a new temp directory
 const makeDirectory = () => {
+
+  // Create a folder with a GUID as a name
   const tempPath = 'backend/temp/' + guid.createGuid() + '/';
   fs.mkdirSync(tempPath, {recursive: true});
+
+  // Return the newly created path as a string to use with other functions
   return tempPath;
 };
 
-// // Copies files from question object to temp folders
+// Copies files to temp folders
 const copyFile = (tempFilePath, file) => {
   const newPath = tempFilePath + file.name;
   fs.writeFileSync(newPath, Buffer.from(file.content, 'base64'));
 }
 
+// Reads a directory
 const readDirectory = (directory) => {
   return fs.readdirSync(directory);
 }
