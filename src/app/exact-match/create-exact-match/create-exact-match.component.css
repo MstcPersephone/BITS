@@ -1,8 +1,9 @@
+/* Importing global styles. */
+@import "../../../styles.css";
+
 /* Importing shared styles from Create Option */
 @import "../../shared/option/create-option/create-option.component.css";
 
-/* Hides the button to save exact matches
-The button click is now simulated in the handleCreateQuestionFormValidation of question service*/
-.simulatedButton {
-  display: none;
+form{
+  margin: 0;
 }

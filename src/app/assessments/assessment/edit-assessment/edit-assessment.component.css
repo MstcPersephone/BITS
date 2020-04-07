@@ -1,3 +1,5 @@
-
+/* Importing global styles. */
 @import "../../../../styles.css";
+
+/* Importing shared styles from create-assessment. */
 @import "../create-assessment/create-assessment.component.css";

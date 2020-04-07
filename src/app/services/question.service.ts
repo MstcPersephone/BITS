@@ -438,7 +438,10 @@ export class QuestionService {
     console.log(question);
     // Opens a dialog to confirm deletion of the question
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'Are you sure you wish to delete this question?'
+      data: 'Are you sure you wish to delete this question?',
+      hasBackdrop: true,
+      disableClose: true,
+      closeOnNavigation: true
     });
     // On closing dialog box either call the function to archive the question or cancel the deletion
     dialogRef.afterClosed().subscribe(result => {
@@ -610,8 +613,10 @@ export class QuestionService {
           setTimeout(() => {
 
             const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-              width: '350px',
-              data: 'Would you like to add another question?'
+              data: 'Would you like to add another question?',
+              hasBackdrop: true,
+              disableClose: true,
+              closeOnNavigation: true
             });
 
             dialogRef.afterClosed().subscribe(result => {

@@ -1,3 +1,6 @@
+/* Importing global styles. */
+@import "../../../../styles.css";
+
 /* Importing the create-question stylesheet for shared styles */
 @import "../../../questions/question/create-question/create-question.component.css";
 
@@ -5,10 +8,4 @@
 div{
   padding: 0;
   margin-bottom: 0;
-}
-
-/* Hides the button to save configurations
-+   The button click is now simulated in the save assessment of assessment service*/
-.simulatedButton {
-    display: none;
 }

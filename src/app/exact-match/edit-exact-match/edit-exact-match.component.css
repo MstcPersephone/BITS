@@ -1,6 +1,4 @@
+/* Importing global styles. */
+@import "../../../styles.css";
+
 @import "../../shared/option/edit-option/edit-option.component.css";
-/* Hides the button to save exact matches
-The button click is now simulated in the handleEditQuestionFormValidation of question service*/
-.simulatedButton {
-  display: none;
-}
