@@ -37,20 +37,20 @@
 
     <div class="buttonContainer">
       <!-- Cancel Button : If clicked will close the add acceptable answer form -->
-      <button *ngIf="this.showCancelButton" mat-raised-button color="warn" (click)="this.clickCancel()">
-        Cancel<mat-icon>&nbsp;remove_circle_outline</mat-icon>
+      <button class="cancelOption" mat-raised-button type="button" *ngIf="this.showCancelButton" (click)="this.clickCancel()">
+        Cancel<mat-icon>&nbsp;close</mat-icon>
       </button>
       <!-- Add Option button; used to display the Create Option form above -->
       <button class="addOption" mat-raised-button type="button" (click)="this.clickAdd()">
-        Add<mat-icon>&nbsp;add_circle_outline</mat-icon>
+        Add<mat-icon>&nbsp;add</mat-icon>
       </button>
     </div>
   </mat-card>
 
   <!-- Submit Button : calls validation on all forms controllers when clicked -->
-  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+  <button class="saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
 
   <!-- Cancel Button : Cancels the save and send user back to question list -->
-  <button class="mt-20 saveButton" mat-raised-button [routerLink]="['/question/list']">Cancel&nbsp;<mat-icon>cancel
+  <button class="cancelOption" mat-raised-button type="button" [routerLink]="['/question/list']">Cancel&nbsp;<mat-icon>close
     </mat-icon></button>
 </form>

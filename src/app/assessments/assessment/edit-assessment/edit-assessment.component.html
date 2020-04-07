@@ -16,8 +16,6 @@
       <input matInput id="name" type="text" formControlName="name" value="{{ assessment.name }}">
     </mat-form-field>
 
-    <br>
-
     <!-- The assessment Description Input -->
     <mat-form-field appearance="standard">
       <mat-label>Assessment Description</mat-label>
@@ -34,6 +32,8 @@
       <app-edit-assessment-config [assessment]="assessment"></app-edit-assessment-config>
 
     </mat-expansion-panel>
+
+    <br>
 
     <!-- Questions Expansion Panel -->
     <mat-expansion-panel>
