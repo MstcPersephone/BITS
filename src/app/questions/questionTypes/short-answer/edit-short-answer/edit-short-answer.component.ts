@@ -78,12 +78,6 @@ export class EditShortAnswerComponent implements OnInit {
     // Initializes a new Short Answer question to be saved
     const updatedShortAnswerQuestion: ShortAnswer = new ShortAnswer();
 
-    const matches = this.questionService.getMatches();
-
-    matches.forEach(match => {
-      document.getElementById('validateEditMatches').click();
-    });
-
     // Calls validation on parent form controls when submit button is clicked
     this.questionService.handleEditQuestionFormValidation(updatedShortAnswerQuestion);
 
@@ -92,6 +86,10 @@ export class EditShortAnswerComponent implements OnInit {
       document.getElementById('validateExactMatches').click();
     }
 
+    const matches = this.questionService.getMatches();
+    matches.forEach(match => {
+      document.getElementById('validateEditMatches').click();
+    });
 
     console.log('Points are valid', this.questionService.pointsIsValid);
     console.log('Categoriess are valid', this.questionService.categoriesIsValid);
@@ -125,7 +123,7 @@ export class EditShortAnswerComponent implements OnInit {
       this.questionService.showCreateMatch = false;
       this.showCancelButton = false;
 
-      // this.questionService.updateQuestionById(updatedShortAnswerQuestion);
+      this.questionService.updateQuestionById(updatedShortAnswerQuestion);
 
       // For testing, we can remove later.
       console.log('Question to save', updatedShortAnswerQuestion);
