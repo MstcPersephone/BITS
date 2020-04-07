@@ -35,7 +35,9 @@ export class QuestionService {
   private category: Category;
   private categories: Category[] = [];
   public selectedCategories: Category[] = [];
+  private categoryUpdated = new Subject<Category>();
   private categoriesUpdated = new Subject<Category[]>();
+  private selectedCategoriesUpdated = new Subject<Category[]>();
   private categoriesLoaded = false;
   private showHideCreateCategory = false;
 
@@ -119,10 +121,18 @@ export class QuestionService {
       });
   }
 
+  getCategoryListener() {
+    return this.categoryUpdated.asObservable();
+  }
+
   // Returns the category subject as observable.
   // Used to subscribe to changes in categories array.
   getCategoriesListener() {
     return this.categoriesUpdated.asObservable();
+  }
+
+  getSelectedCategoriesListener() {
+    return this.selectedCategoriesUpdated.asObservable();
   }
 
   // Returns whether the categories loaded to a list.
@@ -483,6 +493,16 @@ export class QuestionService {
       });
   }
 
+  getCategoryById(categoryId: string) {
+    this.helperService.isLoading = true;
+    this.http.get<{ message: string, category: Category }>('http://localhost:3000/api/category/' + categoryId)
+      .subscribe((categoryData) => {
+        this.category = categoryData.category[0];
+        this.categoryUpdated.next(this.category);
+        this.helperService.isLoading = false;
+      });
+  }
+
   // Gets a question by an id
   getQuestionById(questionId: string) {
     this.http
@@ -495,6 +515,8 @@ export class QuestionService {
         this.question = questionData.question[0];
         // Add the selected categories to the array
         this.selectedCategories = this.question.categories;
+
+        this.selectedCategoriesUpdated.next(this.selectedCategories);
 
         // Add the points to the variable that manages it
         this.enteredPoints = this.question.points;
@@ -616,6 +638,24 @@ export class QuestionService {
         error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
+  }
+
+  updateCategoryById(category: Category) {
+    this.helperService.isLoading = true;
+    this.http.post<{ message: string, updatedCategory: Category }>('http://localhost:3000/api/category/update', category)
+      .subscribe(
+        responseData => {
+          this.helperService.openSnackBar('Category Name: ' + category.name + ' updated successfully', 'Close', 'success-dialog');
+          setTimeout(() => {
+            this.helperService.isLoading = false;
+            this.router.navigate(['/category']);
+          }, 2000);
+        },
+        error => {
+          // log error message from server
+          console.log('%c' + error.error.message, 'color: red;');
+        }
+      );
   }
 
   // Makes a call to the server to update a question based on its id
