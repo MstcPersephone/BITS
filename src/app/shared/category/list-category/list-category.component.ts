@@ -57,6 +57,9 @@ export class ListCategoryComponent implements OnInit {
 
   // Compares categories from overall array to selected ones to set default values
   matchSelectedCategories(catOne: Category, catTwo: Category) {
-    return catOne._id === catTwo._id;
+    if (catOne._id !== undefined && catTwo._id !== undefined) {
+      return catOne._id === catTwo._id;
+    }
+    return false;
   }
 }
