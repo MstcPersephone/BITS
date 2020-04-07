@@ -17,9 +17,9 @@ export class AssessmentListComponent implements OnInit, AfterViewInit {
   questions: Question[] = [];
   private questionsSubscription: Subscription;
   private assessmentsSubscription: Subscription;
-  public displayedColumns: string[] = ['name', 'description', 'status', 'view'];
+  public displayedColumns: string[] = ['name', 'description', 'status'];
   public dataSource = new MatTableDataSource<Assessment>();
-  public columnsToDisplay = ['name', 'description', 'status', 'view'];
+  public columnsToDisplay = ['name', 'description', 'status'];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(

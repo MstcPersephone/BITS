@@ -16,6 +16,7 @@ import { AssessmentService } from './services/assessment.service';
 import { AttachmentService } from './services/attachment.service';
 import { QuestionService } from './services/question.service';
 import { HelperService } from './services/helper.service';
+import { ValidationService } from './services/validation.service';
 
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -27,28 +28,23 @@ import { EditQuestionComponent } from './questions/question/edit-question/edit-q
 
 import { CreateCheckboxComponent } from './questions/questionTypes/check-box/create-checkbox/create-checkbox.component';
 import { EditCheckboxComponent } from './questions/questionTypes/check-box/edit-checkbox/edit-checkbox.component';
-import { ListCheckboxComponent } from './questions/questionTypes/check-box/list-checkbox/list-checkbox.component';
 import { ViewCheckboxComponent } from './questions/questionTypes/check-box/view-checkbox/view-checkbox.component';
 
 import { CreateShortAnswerComponent } from './questions/questionTypes/short-answer/create-short-answer/create-short-answer.component';
 import { EditShortAnswerComponent } from './questions/questionTypes/short-answer/edit-short-answer/edit-short-answer.component';
-import { ListShortAnswerComponent } from './questions/questionTypes/short-answer/list-short-answer/list-short-answer.component';
 import { ViewShortAnswerComponent } from './questions/questionTypes/short-answer/view-short-answer/view-short-answer.component';
 
 // tslint:disable-next-line:max-line-length (The following line is 120+ characters and normally throws an error.)
 import { CreateMultipleChoiceComponent } from './questions/questionTypes/multiple-choice/create-multiple-choice/create-multiple-choice.component';
 import { EditMultipleChoiceComponent } from './questions/questionTypes/multiple-choice/edit-multiple-choice/edit-multiple-choice.component';
-import { ListMultipleChoiceComponent } from './questions/questionTypes/multiple-choice/list-multiple-choice/list-multiple-choice.component';
 import { ViewMultipleChoiceComponent } from './questions/questionTypes/multiple-choice/view-multiple-choice/view-multiple-choice.component';
 
 import { CreateTrueFalseComponent } from './questions/questionTypes/true-false/create-true-false/create-true-false.component';
 import { EditTrueFalseComponent } from './questions/questionTypes/true-false/edit-true-false/edit-true-false.component';
-import { ListTrueFalseComponent } from './questions/questionTypes/true-false/list-true-false/list-true-false.component';
 import { ViewTrueFalseComponent } from './questions/questionTypes/true-false/view-true-false/view-true-false.component';
 
 import { CreateUploadComponent } from './questions/questionTypes/upload/create-upload/create-upload.component';
 import { EditUploadComponent } from './questions/questionTypes/upload/edit-upload/edit-upload.component';
-import { ListUploadComponent } from './questions/questionTypes/upload/list-upload/list-upload.component';
 import { ViewUploadComponent } from './questions/questionTypes/upload/view-upload/view-upload.component';
 
 import { CreateOptionComponent } from './shared/option/create-option/create-option.component';
@@ -74,6 +70,11 @@ import { ListCategoryComponent } from './shared/category/list-category/list-cate
 import { ManageCategoryComponent } from './shared/category/manage-category/manage-category.component';
 import { CreateAssessmentConfigComponent } from './assessments/configuration/create-assessment-config/create-assessment-config.component';
 import { AssessmentFooterComponent } from './assessments/footer/assessment-footer/assessment-footer.component';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
+import { EditAssessmentConfigComponent } from './assessments/configuration/edit-assessment-config/edit-assessment-config.component';
+import { ValidationMessagesComponent } from './shared/validation-messages/validation-messages.component';
+
 
 @NgModule({
   declarations: [
@@ -100,15 +101,10 @@ import { AssessmentFooterComponent } from './assessments/footer/assessment-foote
     EditTrueFalseComponent,
     EditUploadComponent,
     HeaderComponent,
-    ListCheckboxComponent,
     ListExactMatchComponent,
-    ListMultipleChoiceComponent,
     ListOptionComponent,
     ListQuestionsComponent,
-    ListShortAnswerComponent,
     ListStudentComponent,
-    ListTrueFalseComponent,
-    ListUploadComponent,
     ViewAssessmentComponent,
     ViewCheckboxComponent,
     ViewExactMatchComponent,
@@ -125,7 +121,10 @@ import { AssessmentFooterComponent } from './assessments/footer/assessment-foote
     ListCategoryComponent,
     ManageCategoryComponent,
     CreateAssessmentConfigComponent,
-    AssessmentFooterComponent
+    AssessmentFooterComponent,
+    ConfirmationDialogComponent,
+    EditAssessmentConfigComponent,
+    ValidationMessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -137,11 +136,16 @@ import { AssessmentFooterComponent } from './assessments/footer/assessment-foote
     ReactiveFormsModule,
     DragDropModule
   ],
+  entryComponents: [
+    ConfirmationDialogComponent
+  ],
   providers: [
     AssessmentService,
     AttachmentService,
     QuestionService,
-    HelperService
+    HelperService,
+    ValidationService,
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]
 })

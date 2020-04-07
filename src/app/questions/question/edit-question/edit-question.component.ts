@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from 'src/app/services/question.service';
+import { ValidationService } from '../../../services/validation.service';
+import { HelperService } from 'src/app/services/helper.service';
 import { Question } from 'src/app/models/question.interface';
 import { Subscription } from 'rxjs';
-import { FormBuilder } from '@angular/forms';
-import { HelperService } from 'src/app/services/helper.service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-question',
@@ -12,6 +13,7 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./edit-question.component.css']
 })
 export class EditQuestionComponent implements OnInit {
+  isEditMode: boolean;
   question: Question;
   questionSubscription: Subscription;
   editPointForm;
@@ -21,12 +23,12 @@ export class EditQuestionComponent implements OnInit {
     public questionService: QuestionService,
     private formBuilder: FormBuilder,
     public helperService: HelperService
-    ) {
-      // Creates an object to hold form values.
+  ) {
+    // Creates an object to hold form values.
     this.editPointForm = this.formBuilder.group({
-      points: ''
+      points: ['', [Validators.required, ValidationService.pointsValidator]]
     });
-     }
+  }
 
   ngOnInit(): void {
     // Sets up a question listener to get a new question
@@ -35,8 +37,21 @@ export class EditQuestionComponent implements OnInit {
     this.questionSubscription = this.questionService.getQuestionUpdatedListener()
     .subscribe((question: Question) => {
       this.question = question;
+      this.editPointForm.setValue({points: String(this.question.points) });
     });
     this.questionService.getQuestionById(this.route.snapshot.params.questionId);
+  }
+
+  // This is a button click simulation to help with validation when saving question
+  onSubmit(pointsData) {
+    if (!this.editPointForm.valid) {
+      this.questionService.setPointsInvalid();
+      (Object as any).values(this.editPointForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    } else {
+      this.questionService.setPointsIsValid();
+    }
   }
 
 }

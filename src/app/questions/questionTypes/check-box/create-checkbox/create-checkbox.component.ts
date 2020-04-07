@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Checkbox } from 'src/app/models/question-types/checkbox.model';
 import { QuestionType } from '../../../../enums/questionType.enum';
 import { QuestionService } from 'src/app/services/question.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
+import { ValidationService } from 'src/app/services/validation.service';
 
 @Component({
   selector: 'app-create-checkbox',
@@ -18,7 +19,7 @@ export class CreateCheckboxComponent implements OnInit {
     private questionService: QuestionService
   ) {
     this.createCheckboxForm = this.formBuilder.group({
-      questionText: '',
+      questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
       hasAttachments: ''
     });
   }
@@ -26,6 +27,8 @@ export class CreateCheckboxComponent implements OnInit {
   ngOnInit(): void {
     // Clear the attachments on init for when the form reloads
     this.attachmentService.resetAttachments();
+
+    this.questionService.options = [];
   }
 
   // Id is null at this point because it is generated on the backend.

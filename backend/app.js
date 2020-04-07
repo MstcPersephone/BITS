@@ -2,11 +2,22 @@
 const fs = require("fs");
 
 // Import questionType mongoose objects for working with questions collection.
-const checkBoxModel = require("./models/question-types/checkbox");
-const multipleChoiceModel = require("./models/question-types/multiple-choice");
-const trueFalseModel = require("./models/question-types/true-false");
-const shortAnswerModel = require("./models/question-types/short-answer");
-const uploadAnswerModel = require("./models/question-types/upload");
+const checkBoxModels = require("./models/question-types/checkbox");
+const multipleChoiceModels = require("./models/question-types/multiple-choice");
+const trueFalseModels = require("./models/question-types/true-false");
+const shortAnswerModels = require("./models/question-types/short-answer");
+const uploadModels = require("./models/question-types/upload");
+
+const checkBoxModel = checkBoxModels.question;
+const checkboxArchiveModel = checkBoxModels.archive;
+const multipleChoiceModel = multipleChoiceModels.question;
+const multipleChoiceArchiveModel = multipleChoiceModels.archive;
+const trueFalseModel = trueFalseModels.question;
+const trueFalseArchiveModel = trueFalseModels.archive;
+const shortAnswerModel = shortAnswerModels.question;
+const shortAnswerArchiveModel = shortAnswerModels.archive;
+const uploadModel = uploadModels.question;
+const uploadArchiveModel = uploadModels.archive;
 
 const questionFactory = require("./providers/questionFactory");
 const checkUploadAnswer = require("./file-engine/check-upload-answer");
@@ -14,9 +25,13 @@ const checkUploadAnswer = require("./file-engine/check-upload-answer");
 // ******************************************************** //
 // ***********   DATABASE COLLECTION OBJECTS   ************ //
 // ******************************************************** //
-const questionCollection = require("./models/question");
+const questionCollections = require("./models/question");
 const categoryCollection = require("./models/shared/category");
 const assessmentCollection = require("./models/assessment");
+const archiveAssessmentCollection = require("./models/assessment-archive");
+const studentCollection = require("./models/student");
+const questionCollection = questionCollections.questions;
+const archiveCollection = questionCollections.archive;
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -81,22 +96,99 @@ app.post("/api/assessment/checkUpload", (request, response, next) => {
 // *************************************************************** //
 // ******   DELETE: SAVE QUESTION TO ARCHIVED COLLECTION   ****** //
 // *************************************************************** //
+// *********************************************************** //
+// ******   ARCHIVE: ASSESSMENT FROM ASSESSMENT COLLECTION *** //
+// *********************************************************** //
+app.post("/api/assessment/delete", (request, response, next) => {
+  const assessment = request.body;
 
-app.post("/api/question/delete/:id", (request, response, next) => {
-  console.log(request.body);
-  const archivedQuestion = request.body;
-  mongoose.connection.db.collection('archived').save(archivedQuestion);
+  // Create archived model for the assessment
+  const assessmentToArchive = new archiveAssessmentCollection({
+    _id: assessment._id,
+    name: assessment.name,
+    description: assessment.description,
+    config: assessment.config,
+    questionIds: assessment.questionIds,
+    status: assessment.status,
+    createdOn: Date.now()
+  });
 
-  next();
+  console.log(assessmentToArchive);
+  // Save the archive model to the archive assessment collection
+  assessmentToArchive.save().then(() => {
+  // get the id of the original assessment to find and delete from assessment collection
+  const objectId = mongoose.Types.ObjectId(assessment._id);
+  console.log(objectId);
+  // pass the original assessment to the delete function
+  deleteById('assessments', {_id: objectId}, function (resp, error) {
+    if (error) {
+      console.log(error);
+      response.status(400).json({
+        message: error.message
+      })
+    }
+    else {
+      console.log("");
+      response.status(200).json({
+        message: 'assessment archived successfully!'
+    });
+    }
+  });
+},
+  error => {
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message
+    })
+  });
 });
 
 // *********************************************************** //
-// ******   DELETE: QUESTION FROM QUESTION COLLECTION   ****** //
+// ******   ARCHIVE: QUESTION FROM QUESTION COLLECTION   ****** //
 // *********************************************************** //
-app.delete((request, response, next) => {
-  console.log(request.body);
-  questionCollection.deleteOne({ _id: request.params.id });
+app.post("/api/question/delete", (request, response, next) => {
+  // Request.body is the question that is passed through.
+  const question = request.body;
 
+  console.log('passed back questionId: ', question._id);
+  console.log(question.categories);
+  // Will store the converted object to be archived.
+  let questionObjectToArchive;
+
+  // Call to question type factory which creates the object to archive
+  questionObjectToArchive = questionFactory.createQuestionTypeFactory(question, 'archive');
+
+  // Attach categories to question before archiving.
+  questionObjectToArchive.categories = question.categories;
+
+  // Attach points to the question before archiving.
+  questionObjectToArchive.points = question.points;
+
+// Save question to archive collection, delete from questions collection and return success or error message
+  questionObjectToArchive.save().then(() => {
+    const objectId = mongoose.Types.ObjectId(questionObjectToArchive._id);
+    deleteById('questions', {_id: objectId}, function (resp, error) {
+      if (error) {
+        console.log(error);
+        response.status(400).json({
+          message: error.message,
+          question: question
+        })
+      }
+      else {
+        response.status(200).json({
+          message: 'Question archived successfully!'
+      });
+      }
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        question: question
+      })
+    });
 });
 
 // ******************************************************** //
@@ -141,7 +233,7 @@ app.get("/api/assessment/:id", (request, response, next) => {
 });
 
 // ******************************************************** //
-// ***************   GET: CATEGORY BY ID  ***************** //
+// ***************   GET: ALL CATEGORIES  ***************** //
 // ******************************************************** //
 app.get("/api/categories", (request, response, next) => {
 
@@ -155,8 +247,8 @@ app.get("/api/categories", (request, response, next) => {
     });
 
     // Logs message and questions array to the backend for debugging.
-    console.log("Categories Fetched Successfully.")
-    console.log(categories);
+    // console.log("Categories Fetched Successfully.")
+    // console.log(categories);
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.
@@ -170,6 +262,26 @@ app.get("/api/categories", (request, response, next) => {
 });
 
 // ********************************************************** //
+// ******   GET: CATEGORY BY ID ******* //
+// ********************************************************** //
+app.get("/api/category/:id", (request, response, next) => {
+  categoryCollection.find({ _id: request.params.id }).then((category, error) => {
+    response.status(200).json({
+      message: request.params.id + ' Category fetched successfully!',
+      category: category
+    });
+    console.log(category);
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        category: null
+      })
+    })
+});
+
+// ********************************************************** //
 // ******   GET: QUESTIONS (ALL) FOR ASSESSMENT USE   ******* //
 // ********************************************************** //
 app.post("/api/assessment/questions/", (request, response, next) => {
@@ -177,8 +289,10 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   console.log(questionIds);
   const objectIds = [];
   // Turns the string ids into ObjectIds
+  if (questionIds !== null && questionIds !== undefined) {
   questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
   console.log(objectIds);
+  }
 
   // Performs the search
   questionCollection.find({ _id: objectIds }, (error, questions) => {
@@ -320,7 +434,7 @@ app.post("/api/assessment/save", (request, response, next) => {
 
   console.log('Backend Assessment Presave', assessmentToSaveModel);
 
-  // Saves the category object to the database.
+  // Saves the assessment object to the database.
   // Returns either 200 success or 400 error
   assessmentToSaveModel.save().then(() => {
 
@@ -332,7 +446,7 @@ app.post("/api/assessment/save", (request, response, next) => {
     // Will probably use for logging later.
     response.status(200).json({
       message: 'Assessment saved successfully!',
-      category: assessment
+      assessment: assessment
     });
   },
     error => {
@@ -452,6 +566,126 @@ app.post("/api/question/save", (request, response, next) => {
     });
 });
 
+// ***************************************************** //
+// ******   SAVE: STUDENT TO STUDENT COLLECTION   ****** //
+// ***************************************************** //
+app.post("/api/student/save", (request, response, next) => {
+
+  // Request.body is the student that is passed through.
+  const student = request.body;
+
+  // Generate unique Id for student.
+  const studentId = mongoose.Types.ObjectId();
+
+  // assigns the unique id to the student.
+  student._id = studentId;
+  console.log('Student:', student)
+
+  // student mapped object from front to back end.
+  const studentToSaveModel = new studentCollection({
+    id: studentId,
+    studentId: student.studentId,
+    firstName: student.firstName,
+    lastName: student.lastName,
+    dateOfBirth: student.dateOfBirth,
+    campusLocation: student.campusLocation,
+    lastAssessmentDate: student.lastAssessmentDate,
+    previousScores: student.previousScores,
+    createdOn: Date.now()
+  });
+
+  console.log('Backend Student Presave', studentToSaveModel);
+
+  // Saves the student object to the database.
+  // Returns either 200 success or 400 error
+  studentToSaveModel.save().then(() => {
+
+    // Log success message and saved object.
+    console.log(student.studentId + ' Created Successfully');
+    console.log('Saved Student', studentToSaveModel);
+
+    // Send success message back to front end.
+    // Will probably use for logging later.
+    response.status(200).json({
+      message: 'Assessment saved successfully!',
+      student: student
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        student: student
+      })
+    });
+});
+
+// ******************************************************** //
+// ***********   UPDATE ASSESSMENT COLLECTION   ************* //
+// ******************************************************** //
+app.post("/api/assessment/update/", (request, response, next) => {
+
+  // Gets the assessment passed from the front end
+  // Stores data for updating backend properties
+  const requestedUpdate = request.body;
+
+  // Stores the updated assessment data
+  const update = {
+    id: requestedUpdate._id,
+    name: requestedUpdate.name,
+    description: requestedUpdate.description,
+    config: requestedUpdate.config,
+    questionIds: requestedUpdate.questionIds,
+    status: requestedUpdate.status,
+    createdOn: requestedUpdate.createdOn
+  };
+
+  // passes the data to the database to update a specific assessment by id
+  mongoose.connection.db.collection('assessments').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedAssessment) {
+
+    // Send a successful response message
+    response.status(200).json({
+      message: 'updatedAssessment Fetched Successfully!',
+      updatedAssessment: updatedAssessment
+    });
+
+    // Logs message and assessment array to the backend for debugging.
+    console.log("updatedQuestion Fetched Successfully.")
+    console.log(updatedAssessment);
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a categories array (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      updatedAssessment: updatedAssessment
+    })
+  });
+});
+
+app.post("/api/category/update", (request, response, next) => {
+  const requestedUpdate = request.body;
+
+  mongoose.connection.db.collection('categories').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString())}, { $set: {name: requestedUpdate.name }}, function (error, updatedCategory) {
+    updateQuestionCategories(requestedUpdate);
+    // Send a successful response message and an array of categories to work with.
+    response.status(200).json({
+      message: updatedCategory.name + ' updated successfully!',
+      updatedCategory: updatedCategory
+    });
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a categories array (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      updatedCategory: updatedCategory
+    })
+  });
+});
+
 // ******************************************************** //
 // ***********   UPDATE QUESTION COLLECTION   ************* //
 // ******************************************************** //
@@ -469,7 +703,7 @@ app.post("/api/question/update/", (request, response, next) => {
   // passes the data to the database to update a specific question by id
   mongoose.connection.db.collection('questions').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedQuestion) {
 
-    // Send a successful response message and an array of categories to work with.
+    // Send a successful response message.
     response.status(200).json({
       message: 'updatedQuestion Fetched Successfully!',
       updatedQuestion: updatedQuestion
@@ -481,7 +715,7 @@ app.post("/api/question/update/", (request, response, next) => {
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.
-    // Includes what was pulled for a categories array (if anything)
+    // Includes what was pulled for a question array (if anything)
     console.log(error.message);
     response.status(400).json({
       message: error.message,
@@ -498,6 +732,17 @@ function find(name, query, callBack) {
   mongoose.connection.db.collection(name, function (error, collection) {
     collection.find(query).toArray(callBack);
   });
+}
+
+function deleteById(name, query, callBack) {
+  mongoose.connection.db.collection(name, function(error, collection) {
+    collection.deleteOne(query).then(callBack);
+  });
+}
+
+// Updates all questions that have the updated category with the updated name
+function updateQuestionCategories(updatedCategory) {
+  mongoose.connection.db.collection('questions').updateMany({categories: {$elemMatch: {_id: mongoose.Types.ObjectId(updatedCategory._id)}}}, {$set: {"categories.$.name": updatedCategory.name }});
 }
 
 // Exports the contstants and all of the middlewares attached to it.

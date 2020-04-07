@@ -13,6 +13,9 @@ import { Upload } from '../models/question-types/upload.model';
 import { ShortAnswer } from '../models/question-types/short-answer.model';
 import { Category } from '../models/shared/category.model';
 import { Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material';
+import { ok } from 'assert';
 
 @Injectable({
   providedIn: 'root',
@@ -32,18 +35,20 @@ export class QuestionService {
   private category: Category;
   private categories: Category[] = [];
   public selectedCategories: Category[] = [];
+  private categoryUpdated = new Subject<Category>();
   private categoriesUpdated = new Subject<Category[]>();
+  private selectedCategoriesUpdated = new Subject<Category[]>();
   private categoriesLoaded = false;
   private showHideCreateCategory = false;
 
   // Exact match array and subject.
-  private exactMatches: ExactMatch[] = [];
+  public exactMatches: ExactMatch[] = [];
   private exactMatchesUpdated = new Subject<ExactMatch[]>();
   private hasMatches = false;
   public showCreateMatch = false;
 
   // Options array and subject.
-  private options: Option[] = [];
+  public options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
   private hasOptions = false;
   public showCreateOption = false;
@@ -56,10 +61,17 @@ export class QuestionService {
   private question: Question;
   private questionUpdated = new Subject<Question>();
 
+  // forms
+  private categoryForm;
+  public pointsIsValid;
+  public categoriesIsValid;
+  public exactMatchIsValid;
+
   constructor(
     private http: HttpClient,
     private helperService: HelperService,
-    private router: Router) { }
+    private router: Router,
+    public dialog: MatDialog) { }
 
   // ************************************************************** //
   // Casting question to questionType for casting in html template. //
@@ -110,21 +122,29 @@ export class QuestionService {
       });
   }
 
+  getCategoryListener() {
+    return this.categoryUpdated.asObservable();
+  }
+
   // Returns the category subject as observable.
   // Used to subscribe to changes in categories array.
   getCategoriesListener() {
     return this.categoriesUpdated.asObservable();
   }
 
+  getSelectedCategoriesListener() {
+    return this.selectedCategoriesUpdated.asObservable();
+  }
+
   // Returns whether the categories loaded to a list.
   getQuestionCategories(question) {
 
     return this.question.categories;
-}
+  }
 
   // Returns whether the categories loaded to a list.
   getCategoriesLoaded() {
-      return this.categoriesLoaded;
+    return this.categoriesLoaded;
   }
 
   // Gets a category from the questions list of categories based on its index
@@ -144,6 +164,7 @@ export class QuestionService {
 
   // Updates the selectedCategories array with the values selected by the user.
   onHandleCategory(event: any, selectObject: any, selectCategoriesForm: any) {
+    this.categoryForm = selectCategoriesForm;
     if (event.value[0] === 'create') {
       // Show create category
       this.showHideCreateCategory = true;
@@ -225,42 +246,42 @@ export class QuestionService {
     return this.exactMatchesUpdated.asObservable();
   }
 
-    // Returns whether or not the question has matches.
-    getHasMatches() {
-      return this.hasMatches;
+  // Returns whether or not the question has matches.
+  getHasMatches() {
+    return this.hasMatches;
+  }
+
+  // Toggles whether to show create exact match.
+  toggleCreateMatch() {
+    this.showCreateMatch = !this.showCreateMatch;
+  }
+
+  // Finds the match in the array and updates its value.
+  updateMatch(originalMatch: ExactMatch, newMatch: ExactMatch) {
+    if (newMatch.matchText === '') {
+      newMatch.matchText = originalMatch.matchText;
     }
 
-    // Toggles whether to show create exact match.
-    toggleCreateMatch() {
-      this.showCreateMatch = !this.showCreateMatch;
+    // Finding the index of the original match
+    const index = this.exactMatches.indexOf(originalMatch);
+
+    // Replacing old match with new match
+    this.exactMatches[index] = newMatch;
+
+    // Open snackbar to display success message
+    this.helperService.openSnackBar('Exact Match Updated Successfully!', 'Close', 'success-dialog', 5000);
+  }
+
+  // Changes the status of case sensitivity
+  hasCaseSensitivityChanged() {
+    if (this.isCaseSensitive === false || this.isCaseSensitive === null) {
+      this.isCaseSensitive = true;
+      console.log(this.isCaseSensitive);
+    } else {
+      this.isCaseSensitive = false;
+      console.log(this.isCaseSensitive);
     }
-
-    // Finds the match in the array and updates its value.
-    updateMatch(originalMatch: ExactMatch, newMatch: ExactMatch) {
-      if (newMatch.matchText === '') {
-        newMatch.matchText = originalMatch.matchText;
-      }
-
-      // Finding the index of the original match
-      const index = this.exactMatches.indexOf(originalMatch);
-
-      // Replacing old match with new match
-      this.exactMatches[index] = newMatch;
-
-     // Open snackbar to display success message
-      this.helperService.openSnackBar('Exact Match Updated Successfully!', 'Close', 'success-dialog', 5000);
-    }
-
-    // Changes the status of case sensitivity
-    hasCaseSensitivityChanged() {
-      if (this.isCaseSensitive === false || this.isCaseSensitive === null) {
-        this.isCaseSensitive = true;
-        console.log(this.isCaseSensitive);
-      } else {
-        this.isCaseSensitive = false;
-        console.log(this.isCaseSensitive);
-      }
-    }
+  }
 
   // ******************************************** //
   // ************Form Functions**************** //
@@ -277,7 +298,51 @@ export class QuestionService {
     this.pointsUpdated.next(this.enteredPoints);
     this.exactMatchesUpdated.next(this.exactMatches);
     this.optionsUpdated.next(this.options);
-    }
+  }
+
+  // This function is called by save question button click
+  // This function will simulate a button click on the categories and points
+  // The simulated clicks will rerun validation on parent level forms of question
+  handleCreateQuestionFormValidation(question: Question) {
+
+    document.getElementById('validatePoints').click();
+    document.getElementById('validateCategories').click();
+    console.log('ok, buttons clicked and errors showing, now what?');
+  }
+
+  // This function is called by save question button click
+  // This function will simulate a button click on the categories and points
+  // The simulated clicks will rerun validation on parent level forms of question
+  handleEditQuestionFormValidation(question: Question) {
+
+    document.getElementById('validatePointsEdited').click();
+    document.getElementById('validateCategories').click();
+    console.log('ok, buttons clicked and errors showing, now what?');
+  }
+
+  setPointsIsValid() {
+    this.pointsIsValid = true;
+  }
+
+  setPointsInvalid() {
+    this.pointsIsValid = false;
+  }
+
+  setCategoriesIsValid() {
+    this.categoriesIsValid = true;
+  }
+
+  setCategoriesInvalid() {
+    this.categoriesIsValid = false;
+  }
+
+  setExactMatchIsValid() {
+    this.exactMatchIsValid = true;
+  }
+
+  setExactMatchInvalid() {
+    this.exactMatchIsValid = false;
+  }
 
   // ******************************************** //
   // ************Option Functions**************** //
@@ -369,17 +434,35 @@ export class QuestionService {
   // ********************************************** //
 
   // Deletes the question object after confirmation from the user
-  // NOT FUNCTIONING - Orion made this function so that he could add the confirmation message (PER-66).
-  deleteQuestionById(questionId: string) {
-    //
-    // Actual delete code should go here.
-    //
-
-    // Displays a message informing that the question deletion has been cancelled.
-    // this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
-
-    // Displays a message confirming that the question has been deleted successfully.
-    this.helperService.openSnackBar('Question has been deleted.', 'Close', 'success-dialog', 5000);
+  deleteQuestionById(question: Question) {
+    console.log(question);
+    // Opens a dialog to confirm deletion of the question
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Are you sure you wish to delete this question?'
+    });
+    // On closing dialog box either call the function to archive the question or cancel the deletion
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.helperService.isLoading = true;
+        this.http
+          .post<{ message: string }>('http://localhost:3000/api/question/delete', question)
+          .subscribe((responseData) => {
+            setTimeout(() => {
+              console.log(responseData);
+              // Displays a message informing that the question deletion has been successful.
+              this.helperService.openSnackBar('Question Deletion.', 'Close', 'success-dialog', 5000);
+              this.helperService.isLoading = false;
+              this.helperService.refreshComponent('question/list');
+            }, 2000);
+          },
+            error => {
+              console.log('%c' + error.error.message, 'color: red;');
+            });
+      } else {
+        // Displays a message informing that the question deletion has been cancelled.
+        this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
+      }
+    });
   }
 
   // Gets the updateListener subject for single question fetch
@@ -412,6 +495,16 @@ export class QuestionService {
       });
   }
 
+  getCategoryById(categoryId: string) {
+    this.helperService.isLoading = true;
+    this.http.get<{ message: string, category: Category }>('http://localhost:3000/api/category/' + categoryId)
+      .subscribe((categoryData) => {
+        this.category = categoryData.category[0];
+        this.categoryUpdated.next(this.category);
+        this.helperService.isLoading = false;
+      });
+  }
+
   // Gets a question by an id
   getQuestionById(questionId: string) {
     this.http
@@ -424,6 +517,8 @@ export class QuestionService {
         this.question = questionData.question[0];
         // Add the selected categories to the array
         this.selectedCategories = this.question.categories;
+
+        this.selectedCategoriesUpdated.next(this.selectedCategories);
 
         // Add the points to the variable that manages it
         this.enteredPoints = this.question.points;
@@ -441,17 +536,17 @@ export class QuestionService {
           this.optionsUpdated.next(this.options);
         }
 
-            // Add options to options array if question type supports it
+        // Add options to options array if question type supports it
         if (this.question.questionType === QuestionType.MultipleChoice) {
-              this.options = (this.question as MultipleChoice).options;
-              console.log(this.question);
-              if (this.options.length > 0) {
-                this.hasOptions = true;
-              }
-              console.log(this.options);
-              // subscribers get a copy of the options associated with the question
-              this.optionsUpdated.next(this.options);
-            }
+          this.options = (this.question as MultipleChoice).options;
+          console.log(this.question);
+          if (this.options.length > 0) {
+            this.hasOptions = true;
+          }
+          console.log(this.options);
+          // subscribers get a copy of the options associated with the question
+          this.optionsUpdated.next(this.options);
+        }
 
         if (this.question.questionType === QuestionType.ShortAnswer) {
           this.exactMatches = (this.question as ShortAnswer).matches;
@@ -472,18 +567,18 @@ export class QuestionService {
       });
   }
 
-    // Gets all questions of a specific type
-    getQuestionsByType(questionType: QuestionType) {
-      this.http
-        .get<{ message: string, questions: Question[] }>(
-          'http://localhost:3000/api/questions/' + questionType
-        )
-        .subscribe((questionData) => {
-          this.questions = questionData.questions;
-          // Subscribers get a copy of the questions array sorted by question text.
-          this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionText > b.questionText) ? 1 : -1)]);
-        });
-    }
+  // Gets all questions of a specific type
+  getQuestionsByType(questionType: QuestionType) {
+    this.http
+      .get<{ message: string, questions: Question[] }>(
+        'http://localhost:3000/api/questions/' + questionType
+      )
+      .subscribe((questionData) => {
+        this.questions = questionData.questions;
+        // Subscribers get a copy of the questions array sorted by question text.
+        this.questionsUpdated.next([...this.questions.sort((a, b) => (a.questionText > b.questionText) ? 1 : -1)]);
+      });
+  }
 
   // Returns the question type of a question
   getQuestionType(question: Question) {
@@ -513,8 +608,22 @@ export class QuestionService {
         responseData => {
           // Refreshes the component so a new question can be created right away
           setTimeout(() => {
-            this.router.navigate(['/question/create']);
-            this.resetQuestionForm();
+
+            const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+              width: '350px',
+              data: 'Would you like to add another question?'
+            });
+
+            dialogRef.afterClosed().subscribe(result => {
+              if (result) {
+                this.resetQuestionForm();
+                this.helperService.refreshComponent('question/create');
+              } else {
+                this.resetQuestionForm();
+                this.helperService.refreshComponent('question/list');
+              }
+            });
+
             // reset the isLoading spinner
             this.helperService.isLoading = false;
           }, 2000);
@@ -531,6 +640,24 @@ export class QuestionService {
         });
   }
 
+  updateCategoryById(category: Category) {
+    this.helperService.isLoading = true;
+    this.http.post<{ message: string, updatedCategory: Category }>('http://localhost:3000/api/category/update', category)
+      .subscribe(
+        responseData => {
+          this.helperService.openSnackBar('Category Name: ' + category.name + ' updated successfully', 'Close', 'success-dialog');
+          setTimeout(() => {
+            this.helperService.isLoading = false;
+            this.router.navigate(['/category']);
+          }, 2000);
+        },
+        error => {
+          // log error message from server
+          console.log('%c' + error.error.message, 'color: red;');
+        }
+      );
+  }
+
   // Makes a call to the server to update a question based on its id
   updateQuestionById(question: Question) {
     // isLoading is used to add a spinner
@@ -538,27 +665,27 @@ export class QuestionService {
     // Add points and categories from the service
     question.categories = this.selectedCategories;
     question.points = this.enteredPoints;
-    this.http.post<{ message: string, updatedQuestion: Question}>('http://localhost:3000/api/question/update', question)
-    .subscribe(
-      responseData => {
-        // Success message at the bottom of the screen
-        // console log information about the response for debugging
-        this.helperService.openSnackBar(question.questionType + ' Question Updated Successfully!', 'Close', 'success-dialog', 5000);
+    this.http.post<{ message: string, updatedQuestion: Question }>('http://localhost:3000/api/question/update', question)
+      .subscribe(
+        responseData => {
+          // Success message at the bottom of the screen
+          // console log information about the response for debugging
+          this.helperService.openSnackBar(question.questionType + ' Question Updated Successfully!', 'Close', 'success-dialog', 5000);
 
-        setTimeout(() => {
-          this.router.navigate(['/question/list']);
-          // reset the isLoading spinner
-          this.helperService.isLoading = false;
-        }, 2000);
-        console.log('%c' + responseData.message, 'color: green;');
-        console.log('%c Database Object:', 'color: orange;');
-        console.log(responseData.updatedQuestion);
-        console.table(responseData.updatedQuestion);
-      },
-      error => {
-        // log error message from server
-        console.log('%c' + error.error.message, 'color: red;');
-      }
-    );
+          setTimeout(() => {
+            this.router.navigate(['/question/list']);
+            // reset the isLoading spinner
+            this.helperService.isLoading = false;
+          }, 2000);
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.updatedQuestion);
+          console.table(responseData.updatedQuestion);
+        },
+        error => {
+          // log error message from server
+          console.log('%c' + error.error.message, 'color: red;');
+        }
+      );
   }
 }

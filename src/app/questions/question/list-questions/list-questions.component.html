@@ -7,120 +7,179 @@
 
   <!-- Creating separate category divs and expansion panels to contain each question fitting a category -->
   <div *ngFor="let category of organizedQuestions | keyvalue">
+
     <mat-expansion-panel>
       <!-- Beginning of the Category Expansion panel Headers -->
       <mat-expansion-panel-header>
         <mat-panel-title>{{category.key}} Questions</mat-panel-title>
       </mat-expansion-panel-header>
+      <mat-card *ngFor="let question of category.value">
+        <mat-grid-list [cols]="16" gutterSize="5px" rowHeight="30px">
+          <!-- Tiles utilize space as follows: -->
+          <!-- QT = Question Text Header -->
+          <!-- DI = Delete Icon -->
+          <!-- EI = Edit Icon -->
+          <!-- [QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT] [DI] [EI] -->
+          <!-- [                        QT h3 object                            ] -->
 
-      <!-- Beginning of the Questions sorted into Category Headers -->
-      <div *ngFor="let question of category.value">
-        <!-- Mat card separator for each question within the expansion panel -->
-        <mat-card>
-          <!-- Question header section-->
-          <section class="questionHeaderContent">
-            <!-- Displaying Question Type -->
-            <p>{{ question.questionType }} Question</p>
-            <!-- Displaying the delete and edit icons -->
-            <section class="questionButtonContainer">
-              <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question._id)">delete</mat-icon>
-              <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
-            </section>
-          </section>
+          <mat-grid-tile [colspan]="14" [rowspan]="1">
+            <mat-grid-tile-header>
+              <h5>Question Text</h5>
+            </mat-grid-tile-header>
+          </mat-grid-tile>
 
 
-          <section class="questionSubHeaderContent">
-          <!-- Displays the question text -->
-          <h3> {{ question.questionText }}</h3>
+          <mat-grid-tile class="iconContainer" [colspan]="1" [rowspan]="1">
+            <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question)">delete</mat-icon>
+          </mat-grid-tile>
 
-          <!-- Displays the question points -->
-          <h3><strong>Point Value:</strong> {{ question.points }}</h3>
-          </section>
 
-          <p class="questionAttachmentDisplay" *ngIf="question.hasAttachments"><strong>Attachments: </strong></p>
-          <!-- Displays any attachments the question has. -->
-          <div *ngFor="let attachment of question.attachments">
-               <button mat-raised-button (click)="this.attachmentService.downloadAttachment(attachment)">{{attachment.name}}</button>
+          <mat-grid-tile class="iconContainer" [colspan]="1" [rowspan]="1">
+            <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
+          </mat-grid-tile>
+          </mat-grid-list>
+
+        <h3 class="questionTextContent">{{ question.questionText }}</h3>
+
+        <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
+          <!-- Tiles utilize space as follows: -->
+          <!-- QT = Question Type -->
+          <!-- PV = Point Value -->
+          <!-- AT = Attachments -->
+          <!-- [QT][QT] [PV][PV] [AT][AT][AT][AT] -->
+          <!-- [QT][QT] [PV][PV] [AT][AT][AT][AT] -->
+          <!-- (second row is the space devoted to the actual content, not header) -->
+
+          <mat-grid-tile [colspan]="8" [rowspan]="1">
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="2" [rowspan]="1">
+            <mat-grid-tile-header>
+              <h5>Question Type</h5>
+            </mat-grid-tile-header>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="2" [rowspan]="1">
+            <mat-grid-tile-header>
+              <h5>Point Value</h5>
+            </mat-grid-tile-header>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="4" [rowspan]="1">
+            <mat-grid-tile-header>
+              <h5>Attachments</h5>
+            </mat-grid-tile-header>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="2" [rowspan]="1">
+            <p> {{ question.questionType }} </p>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="2" [rowspan]="1">
+            <p> {{ question.points }} </p>
+          </mat-grid-tile>
+
+          <mat-grid-tile class="attachmentContainer" [colspan]="4" [rowspan]="1">
+            <div class="attachmentsContent" *ngIf="question.hasAttachments === true">
+              <div *ngFor="let attachment of question.attachments">
+                <button class="uploadAnswer" mat-raised-button
+                  (click)="this.attachmentService.downloadAttachment(attachment)">
+                  {{attachment.name}} &nbsp;<mat-icon>cloud_download</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="attachmentsContent" *ngIf="question.hasAttachments === false">
+              <p>N/A</p>
+            </div>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+
+        <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'"
+          class="optionList">
+
+          <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
+
+            <mat-grid-tile [colspan]="8" [rowspan]="1">
+              <mat-grid-tile-header>
+                <h5>Selectable Options</h5>
+              </mat-grid-tile-header>
+            </mat-grid-tile>
+
+
+          </mat-grid-list>
+          <div class="optionListContainer" *ngIf="this.questionService.asCheckbox(question).options.length > 0">
+
+            <div *ngFor="let option of this.questionService.asCheckbox(question).options; let i = index">
+              <div class="optionContainer" [ngClass]="option.isAnswer ? 'correct' : '' ">
+                <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
+                <span class="optionListItem">{{option.optionText}}</span>
+              </div>
+            </div>
           </div>
 
-          <!-- If Checkbox or Multiple Choice displays the options -->
-          <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'"
-           class="optionList">
+        </div>
 
-            <!-- Displaying each selectable option defined for the question -->
-            <h3 class="optionListHeader">Selectable Options:</h3>
 
-            <mat-card class="optionListContainer">
-             <mat-list *ngIf="this.questionService.asCheckbox(question).options.length > 0">
-               <div *ngFor="let option of this.questionService.asCheckbox(question).options; let i = index">
-                  <mat-divider *ngIf="i != 0"></mat-divider>
+        <!-- If Short Answer displays the exact matches -->
+        <div class="matchList" *ngIf="question.questionType == 'Short Answer'">
 
-                  <!-- The list item itself. Contains the option text and the container which holds related commands. -->
-                  <!-- The [ngClass] definition is used to set the background color to green for correct answers. -->
-                  <mat-list-item [ngClass]="option.isAnswer ? 'correct' : '' ">
+          <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
 
-                    <!-- The checkmark icon displaying if the option is correct. -->
-                    <!-- Uses the [ngClass] definition to show/hide the isAnswer icon -->
-                    <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
+            <mat-grid-tile [colspan]="8" [rowspan]="1">
+              <mat-grid-tile-header>
+                <h5>Acceptable Answers</h5>
+              </mat-grid-tile-header>
+            </mat-grid-tile>
 
-                    <!-- The text displayed within the option. -->
-                    <span class="optionListItem">{{option.optionText}}</span>
-                  </mat-list-item>
+          </mat-grid-list>
+          <div class="matchListContainer" *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
 
-                  <mat-divider *ngIf="i != this.questionService.asCheckbox(question).options.length - 1"></mat-divider>
-                </div>
-              </mat-list>
-            </mat-card>
+            <div *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; let i = index">
+              <div class="optionContainer correct">
+                <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+                <span class="matchListItem">{{exactMatch.matchText}}</span>
+              </div>
+            </div>
           </div>
 
-          <!-- If Short Answer displays the exact matches -->
-          <div class="matchList" *ngIf="question.questionType == 'Short Answer'">
+        </div>
 
-            <!-- Displaying each acceptable answer defined for the question -->
-            <h3 class="matchListHeader">Acceptable Answers:</h3>
+        <!-- If True False displays the answer -->
+        <div *ngIf="question.questionType === 'True False'">
+          <br>
+          <br>
 
-            <mat-card class="matchListContainer">
-              <mat-list *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
-                <div *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; let i = index">
-                   <mat-divider *ngIf="i != 0"></mat-divider>
 
-                   <!-- The list item itself. Contains the option text and the container which holds related commands. -->
-                   <mat-list-item class="correct">
+          <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
 
-                    <!-- The checkmark icon showing that the option is correct. -->
-                    <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+            <mat-grid-tile [colspan]="8" [rowspan]="1">
+              <mat-grid-tile-header>
+                <h5>Correct Answer</h5>
+              </mat-grid-tile-header>
+            </mat-grid-tile>
 
-                     <!-- The text displayed within the option. -->
-                     <span class="matchListItem">{{exactMatch.matchText}}</span>
-                   </mat-list-item>
+          </mat-grid-list>
+          <section class="trueFalseContainer">
+          <!-- If True/False, show answer -->
+          <mat-chip-list>
+            <mat-chip class="isTrueFalseAnswerIcon isTrue" *ngIf="this.questionService.asTrueFalse(question).answer"
+              [selectable]="false" [selected]="false">
+              True
+            </mat-chip>
+            <mat-chip class="isTrueFalseAnswerIcon isFalse" *ngIf="!this.questionService.asTrueFalse(question).answer"
+              [selectable]="false" [selected]="false">
+              False
+            </mat-chip>
+          </mat-chip-list>
+        </section>
+        </div>
 
-                   <mat-divider *ngIf="i != this.questionService.asShortAnswer(question).matches.length - 1"></mat-divider>
-                 </div>
-               </mat-list>
-             </mat-card>
-          </div>
 
-          <!-- If True False displays the answer -->
-          <mat-list-item role="listitem" *ngIf="question.questionType === 'True False'">
-            <section class="trueFalseContainer">
-              <p>Correct Answer:</p>
-              <!-- If True/False, show answer -->
-              <mat-chip-list>
-                <mat-chip class="isTrueFalseAnswerIcon isTrue" *ngIf="this.questionService.asTrueFalse(question).answer"
-                [selectable]="false" [selected]="false">
-                True
-                </mat-chip>
-                <mat-chip class="isTrueFalseAnswerIcon isFalse" *ngIf="!this.questionService.asTrueFalse(question).answer"
-                [selectable]="false" [selected]="false">
-                False
-                </mat-chip>
-              </mat-chip-list>
-            </section>
-          </mat-list-item>
 
-        </mat-card>
-      </div>
+      </mat-card>
     </mat-expansion-panel>
+
   </div>
 </mat-card>
 <br>

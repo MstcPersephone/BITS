@@ -27,14 +27,15 @@ html{
   margin: 10px auto;
   background-color: #2d2d2d;
   min-width: 750px;
-  width: 70%;
 }
 body {
-  margin: 0;
+  margin: auto;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   border-radius: 5px;
   background-color: #f0f0f0;
   margin-bottom: 10px;
+  min-width: 850px;
+  width: 70%;
 }
 
 /* Adjusting the top radius values to make page radius rounded. */
@@ -86,13 +87,51 @@ h3{
   font-weight: normal;
 }
 
-/* Makes the cursor turn into a hand for buttons */
+/* Setting the table to span the width of the container. */
+table{
+  width: 100%;
+}
+
+/* Adjusting the table headers, setting table column widths to appropriate values. */
+th, mat-grid-tile mat-grid-tile-header{
+  background-color: #404040;
+  color: white;
+  font-size: 15px;
+  padding-left: 5px !important;
+}
+th:first-of-type{
+  width: 25%;
+}
+th:last-of-type{
+  width: 10%;
+  min-width: 85px;
+}
+
+/* Adjusting the table cells, adding additional padding and removing some white space.*/
+td{
+  border-left: 1px solid rgba(0,0,0,0.1);
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+/* Adding subtle background alternations to each row in the table. */
+.mat-row:nth-of-type(even){
+  background-color: #f0f0f0;
+}
+
+/* Adjusting the background color when hovering over a row to demonstrate click functionality. */
+.mat-row:hover{
+  background-color: rgba(0,0,0,0.15);
+}
+
+/* Makes the cursor turn into a hand for buttons and table rows when hovering */
 button,
 html input[type="button"],
 input[type="reset"],
 input[type="submit"],
 .iconButton,
-mat-icon {
+mat-icon,
+.mat-row:hover {
   cursor: pointer;
 }
 
@@ -101,12 +140,14 @@ button.saveButton {
   background-color: #82142D;
   color: #ffffff;
   margin-top: 40px;
+  margin-left: 10px;
   float: right;
 }
 
-/* Styles applied to the Upload button. Puts upload button on one line, rather than inline with the lower content. */
-button.uploadButton {
+/* Styles applied to the Upload and Download buttons. Puts upload button on one line, rather than inline with the lower content. */
+button.uploadButton, button.downloadButton {
   background-color: #404040;
+  color: white;
   margin-bottom: 10px;
 }
 
@@ -131,7 +172,7 @@ button.addOption, button.uploadAnswer{
 }
 
 /* Styles applied to any "correct" options or dialogs */
-mat-list-item.correct, .success-dialog{
+div.correct, mat-list-item.correct, .success-dialog{
   background-color: #ccf8d3;
   color: black;
 }
@@ -168,4 +209,13 @@ mat-list-item.error, .error-dialog {
 /* Styles applied to the "Loading" spinner */
 mat-spinner {
   margin: 150px auto;
+}
+
+/* Styles applied to error messages, such as validation errors. */
+.error{
+  font-weight: bold;
+  border-radius: 15px;
+  color: red;
+  margin-top: -1em;
+  margin-bottom: 25px;
 }

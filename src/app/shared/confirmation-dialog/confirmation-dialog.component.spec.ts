@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListTrueFalseComponent } from './list-true-false.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 
-describe('ListTrueFalseComponent', () => {
-  let component: ListTrueFalseComponent;
-  let fixture: ComponentFixture<ListTrueFalseComponent>;
+describe('ConfirmationDialogComponent', () => {
+  let component: ConfirmationDialogComponent;
+  let fixture: ComponentFixture<ConfirmationDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListTrueFalseComponent ]
+      declarations: [ ConfirmationDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListTrueFalseComponent);
+    fixture = TestBed.createComponent(ConfirmationDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

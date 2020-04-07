@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AttachmentService } from 'src/app/services/attachment.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MultipleChoice } from 'src/app/models/question-types/multiple-choice.model';
 import { QuestionService } from 'src/app/services/question.service';
+import { ValidationService } from 'src/app/services/validation.service';
 
 @Component({
   selector: 'app-create-multiple-choice',
@@ -18,7 +19,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
     private questionService: QuestionService
   ) {
     this.createMultipleChoiceForm = this.formBuilder.group({
-      questionText: '',
+      questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
       hasAttachments: ''
     });
    }
@@ -26,6 +27,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
   ngOnInit(): void {
     // Clear the attachments on init for when the form reloads
     this.attachmentService.resetAttachments();
+    this.questionService.options = [];
   }
 
   // Id is null at this point because it is generated on the backend.

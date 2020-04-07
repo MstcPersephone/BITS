@@ -6,12 +6,16 @@
   <h1 class="mat-display-1">Edit Question</h1>
 
   <!-- Point Value Input -->
-  <form class="pointValueForm" [formGroup]="editPointForm">
+  <form class="pointValueForm" [formGroup]="editPointForm" (ngSubmit)=onSubmit(editPointForm.value)>
     <mat-form-field class="pointValueInput">
       <mat-label>Enter Point Value (Numeric)</mat-label>
       <input matInput #pointValue id="points" type="text" formControlName="points"
-       (keyup)="this.questionService.onHandlePoints($event)" [value]="this.questionService.getPoints()">
+        (keyup)="this.questionService.onHandlePoints($event)" [value]="this.questionService.getPoints()">
     </mat-form-field>
+    <app-validation-messages [control]="editPointForm.get('points')"></app-validation-messages>
+
+    <!-- This button will not display: click is simulated in helping validate the form -->
+    <button class="simulatedButton" id="validatePointsEdited" type="submit"></button>
   </form>
 
   <!-- The categories list -->

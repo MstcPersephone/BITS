@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListMultipleChoiceComponent } from './list-multiple-choice.component';
+import { ValidationMessagesComponent } from './validation-messages.component';
 
-describe('ListMultipleChoiceComponent', () => {
-  let component: ListMultipleChoiceComponent;
-  let fixture: ComponentFixture<ListMultipleChoiceComponent>;
+describe('ValidationMessagesComponent', () => {
+  let component: ValidationMessagesComponent;
+  let fixture: ComponentFixture<ValidationMessagesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListMultipleChoiceComponent ]
+      declarations: [ ValidationMessagesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListMultipleChoiceComponent);
+    fixture = TestBed.createComponent(ValidationMessagesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
