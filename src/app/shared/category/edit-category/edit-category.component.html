@@ -10,5 +10,8 @@
     </mat-form-field>
     <app-validation-messages [control]="editCategoryForm.get('name')"></app-validation-messages>
     <button class="mt-20 saveButton" mat-raised-button type="submit">Update Category</button>
+
+    <!-- Cancel Button : Cancels the save and send user back to question list -->
+    <button class="mt-20 saveButton" mat-raised-button [routerLink]="['/category']">Cancel&nbsp;<mat-icon>cancel</mat-icon></button>
   </form>
 </mat-card>
