@@ -66,6 +66,7 @@ export class QuestionService {
   public pointsIsValid;
   public categoriesIsValid;
   public exactMatchIsValid;
+  public optionIsValid;
 
   constructor(
     private http: HttpClient,
@@ -342,6 +343,14 @@ export class QuestionService {
 
   setExactMatchInvalid() {
     this.exactMatchIsValid = false;
+  }
+
+  setOptionIsValid() {
+    this.optionIsValid = true;
+  }
+
+  setOptionInvalid() {
+    this.optionIsValid = false;
   }
 
   // ******************************************** //

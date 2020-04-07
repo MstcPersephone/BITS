@@ -12,11 +12,12 @@ import { ValidationService } from 'src/app/services/validation.service';
 })
 export class CreateMultipleChoiceComponent implements OnInit {
   createMultipleChoiceForm;
+  showCancelButton = false;
 
   constructor(
     public attachmentService: AttachmentService,
     private formBuilder: FormBuilder,
-    private questionService: QuestionService
+    public questionService: QuestionService
   ) {
     this.createMultipleChoiceForm = this.formBuilder.group({
       questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
@@ -27,7 +28,31 @@ export class CreateMultipleChoiceComponent implements OnInit {
   ngOnInit(): void {
     // Clear the attachments on init for when the form reloads
     this.attachmentService.resetAttachments();
+    this.questionService.showCreateOption = true;
     this.questionService.options = [];
+  }
+
+  clickAdd() {
+    // // If the child form is loaded, calls validation on the child form when add button is clicked
+    // if (this.questionService.showCreateMatch) {
+    //   document.getElementById('validateExactMatches').click();
+    //   this.isValid = this.questionService.exactMatchIsValid;
+    // }
+    // // sets the form to remain as visible
+    this.questionService.showCreateMatch = true;
+    // // sets the cancel button to visible
+    this.showCancelButton = true;
+  }
+
+  clickCancel() {
+    // Hides the form and the cancel button
+    // restores previous validity on the exact match to allow saving on submit
+    // const matches = this.questionService.getMatches();
+    // if (matches.length > 0) {
+    //   this.questionService.showCreateMatch = false;
+    // }
+    this.showCancelButton = false;
+    // this.questionService.exactMatchIsValid = this.isValid;
   }
 
   // Id is null at this point because it is generated on the backend.
