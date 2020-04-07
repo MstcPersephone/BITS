@@ -210,3 +210,12 @@ mat-list-item.error, .error-dialog {
 mat-spinner {
   margin: 150px auto;
 }
+
+/* Styles applied to error messages, such as validation errors. */
+.error{
+  font-weight: bold;
+  border-radius: 15px;
+  color: red;
+  margin-top: -1em;
+  margin-bottom: 25px;
+}
