@@ -275,12 +275,11 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   }
 
   // Performs the search
-  questionCollection.find({ _id: objectIds }, (error, questions) => {
+  questionCollection.find({ _id: {$in: objectIds} }, (error, questions) => {
     if (error) {
       console.log(error.message);
     }
     else {
-      console.log(questions);
       // Send a successful response message and an array of questions to work with.
       response.status(200).json({
         message: 'Question Fetched Successfully!',

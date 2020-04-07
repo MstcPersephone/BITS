@@ -19,6 +19,7 @@ export class CreateAssessmentComponent implements OnInit {
   isEditMode: boolean;
   public categories: Category[] = [];
   private categorySubscription: Subscription;
+  private originalOrganizedQuestions = {};
   public organizedQuestions = {};
   private questionSubscription: Subscription;
   public assessmentQuestions = [];
@@ -54,7 +55,12 @@ export class CreateAssessmentComponent implements OnInit {
     // subsribe to observer to get question array changes
     this.questionSubscription = this.questionService.getQuestionsUpdatedListener()
       .subscribe((questionsArray: any) => {
-        this.organizedQuestions = questionsArray;
+
+        // Create two copies of the questions
+        // organizedQuestions is the array that displays
+        // originalOrganizedQuestions is used to refresh the filtered lists
+        this.originalOrganizedQuestions = JSON.parse(JSON.stringify(questionsArray));
+        this.organizedQuestions = JSON.parse(JSON.stringify(questionsArray));
       });
 
     this.assessmentService.getQuestionsByIds(['5e66b1d326d9b22a70aa1c5c']);
@@ -69,10 +75,23 @@ export class CreateAssessmentComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
+      const question = event.item.data;
+      let canMove = true;
+
+      // Check to see if question is already in assessmentQuestions
+      this.assessmentQuestions.forEach((q) => {
+        if (question._id === q._id) {
+          canMove = false;
+        }
+      });
+      if (canMove) {
+        transferArrayItem(event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex);
+      } else {
+        this.helperService.openSnackBar('Question is already added to assessment', 'OK', 'error-dialog', 5000);
+      }
     }
   }
 
@@ -81,10 +100,15 @@ export class CreateAssessmentComponent implements OnInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
+                        event.container.data,
+                        event.previousIndex,
+                        event.currentIndex);
+      this.refreshFilteredQuestions();
     }
+  }
+
+  refreshFilteredQuestions() {
+    this.organizedQuestions = JSON.parse(JSON.stringify(this.originalOrganizedQuestions));
   }
 
   onSubmit(assessmentData) {
