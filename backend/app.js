@@ -280,7 +280,6 @@ app.post("/api/assessment/questions/", (request, response, next) => {
       console.log(error.message);
     }
     else {
-      console.log('QUESTIONS', questions);
       // Send a successful response message and an array of questions to work with.
       response.status(200).json({
         message: 'Question Fetched Successfully!',

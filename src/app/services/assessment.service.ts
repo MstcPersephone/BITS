@@ -321,7 +321,6 @@ export class AssessmentService {
 
   // gets a list of questions from an array of ids
   getQuestionsByIds(questionIds: string[]) {
-    console.log('QUESTIONIDS IN THE SERVICE', questionIds);
     this.helperService.isLoading = true;
     this.http
       .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/assessment/questions/', { questionIds })
