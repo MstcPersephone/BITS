@@ -1,2 +1,7 @@
+@import "../../../../../styles.css";
 /* Importing the task-specific styling. */
 @import "../../_taskStyles/editStyles.css";
+
+.buttonContainer{
+  margin-top: 10px;
+}

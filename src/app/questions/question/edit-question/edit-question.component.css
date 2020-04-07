@@ -1,8 +1,5 @@
+/* Importing global styles. */
+@import "../../../../styles.css";
+
 /* Importing shared styles from the Create Question component */
 @import "../create-question/create-question.component.css";
-
-/* Hides the button to save configurations
-+   The button click is now simulated in the save assessment of assessment service*/
-.simulatedButton {
-  display: none;
-}
