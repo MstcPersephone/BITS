@@ -196,6 +196,9 @@ mat-list-item.error, .error-dialog {
   background-color: #82142D;
   color: white;
 }
+mat-list-item.error button, .error-dialog button{
+  color: white;
+}
 
 /* Styles applied to the snackbox dialog popups (appearing when you save or update questions) */
 .success-dialog, .alert-dialog, .error-dialog{
