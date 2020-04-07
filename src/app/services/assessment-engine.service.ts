@@ -15,6 +15,7 @@ export class AssessmentEngineService {
   // Students previous scores array and subject.
   public previousScores: any[];
   private previousScoresUpdated = new Subject<any[]>();
+  public assessmentStarted = false;
 
   constructor(
     private http: HttpClient,

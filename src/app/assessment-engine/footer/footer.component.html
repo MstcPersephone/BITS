@@ -1,6 +1,8 @@
 <!-- Submit Button -->
-<button class="mt-20 saveButton" mat-raised-button type="next" (click)="assessmentEngineService.checkAnswer(answerForm.value)">Save Assessment&nbsp;<mat-icon>save</mat-icon></button>
+<button color="primary" *ngIf="!this.assessmentEngineService.assessmentStarted" mat-raised-button type="submit" (click)="startAssessment()">Start Assessment&nbsp;<mat-icon>save</mat-icon></button>
 
-<button class="mt-20 saveButton" mat-raised-button type="submit" (click)="assessmentEngineService.checkAssessment()">Finish&nbsp;<mat-icon>save</mat-icon></button>
+<button *ngIf="this.assessmentEngineService.assessmentStarted" class="mt-20 saveButton" mat-raised-button type="submit">Save Assessment&nbsp;<mat-icon>save</mat-icon></button>
 
-<button class="mt-20 saveButton" mat-raised-button>Quit Assessment&nbsp;<mat-icon>cancel</mat-icon></button>
+<button *ngIf="this.assessmentEngineService.assessmentStarted" class="mt-20 saveButton" mat-raised-button type="submit">Finish&nbsp;<mat-icon>save</mat-icon></button>
+
+<button *ngIf="this.assessmentEngineService.assessmentStarted" class="mt-20 saveButton" mat-raised-button>Quit Assessment&nbsp;<mat-icon>cancel</mat-icon></button>

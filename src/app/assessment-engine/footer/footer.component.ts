@@ -9,10 +9,15 @@ import { Assessment } from 'src/app/models/assessment.model';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-  answerForm;
+
   constructor(public assessmentEngineService: AssessmentEngineService) { }
 
   ngOnInit() {
   }
 
+  startAssessment() {
+    document.getElementById('validateStudentForm').click();
+    this.assessmentEngineService.assessmentStarted = true;
+    console.log('Assessment started');
+}
 }

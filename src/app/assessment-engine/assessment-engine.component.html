@@ -1,5 +1,5 @@
+<app-create-student *ngIf="!this.assessmentEngineService.assessmentStarted"></app-create-student>
 <form [formGroup]="answerForm" (ngSubmit)="onSubmit(answerForm.value)">
-
-<app-view-question></app-view-question>
+<app-view-question *ngIf="this.assessmentEngineService.assessmentStarted"></app-view-question>
 <app-footer></app-footer>
 </form>

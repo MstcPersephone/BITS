@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { AssessmentEngineService } from '../services/assessment-engine.service';
 
 @Component({
   selector: 'app-assessment-engine',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssessmentEngineComponent implements OnInit {
 answerForm;
-  constructor() { }
+  constructor(
+    public assessmentEngineService: AssessmentEngineService,
+    private formBuilder: FormBuilder) {
+    this.answerForm = this.formBuilder.group({});
+   }
 
   ngOnInit() {
   }
