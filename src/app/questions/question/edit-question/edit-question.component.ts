@@ -37,7 +37,7 @@ export class EditQuestionComponent implements OnInit {
     this.questionSubscription = this.questionService.getQuestionUpdatedListener()
     .subscribe((question: Question) => {
       this.question = question;
-      this.editPointForm.get('points').setValue(this.question.points);
+      this.editPointForm.setValue({points: String(this.question.points) });
     });
     this.questionService.getQuestionById(this.route.snapshot.params.questionId);
   }

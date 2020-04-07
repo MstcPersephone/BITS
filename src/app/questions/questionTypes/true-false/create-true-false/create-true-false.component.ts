@@ -41,18 +41,6 @@ export class CreateTrueFalseComponent implements OnInit {
     this.attachmentService.resetAttachments();
   }
 
-  // validateAllFormFields(formGroup: FormBuilder) {
-  //   Object.keys(formGroup.control).forEach(field => {
-  //     const control = formGroup.control;
-  //     if (control instanceof FormControl) {
-  //       control.markAllAsTouched();
-  //     } else if (control instanceof FormBuilder) {
-  //       this.validateAllFormFields(control);
-  //     }
-  //   });
-  // }
-
-
   onSubmit(trueFalseData) {
 
     // Initializes a new True False question to be saved
@@ -61,7 +49,7 @@ export class CreateTrueFalseComponent implements OnInit {
     // Calls validation on parent form controls
     // If the parent forms are invalid, submit is not allowed
     // Marks all input as touched to show errors so user knows what requires valid input
-    this.questionService.handleParentQuestionFormValidation(trueFalseQuestion);
+    this.questionService.handleCreateQuestionFormValidation(trueFalseQuestion);
     // console.log('Points are valid', this.questionService.pointsIsValid);
     // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
     // console.log('True False From is valid', this.createTrueFalseForm.valid);

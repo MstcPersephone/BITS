@@ -293,23 +293,21 @@ export class QuestionService {
   // This function is called by save question button click
   // This function will simulate a button click on the categories and points
   // The simulated clicks will rerun validation on parent level forms of question
-  handleParentQuestionFormValidation(question: Question) {
+  handleCreateQuestionFormValidation(question: Question) {
 
     document.getElementById('validatePoints').click();
     document.getElementById('validateCategories').click();
     console.log('ok, buttons clicked and errors showing, now what?');
+  }
 
+  // This function is called by save question button click
+  // This function will simulate a button click on the categories and points
+  // The simulated clicks will rerun validation on parent level forms of question
+  handleEditQuestionFormValidation(question: Question) {
 
-    // if (question.questionType === QuestionType.ShortAnswer) {
-    //   console.log('Question Type', question.questionType);
-    //   document.getElementById('validateExactMatches').click();
-    // }
-
-    // if (question.questionType === QuestionType.ShortAnswer
-    //   && this.exactMatches !== null) {
-    //   document.getElementById('validateExactMatches').click();
-    //   console.log('Question Type', question.questionType);
-    // }
+    document.getElementById('validatePointsEdited').click();
+    document.getElementById('validateCategories').click();
+    console.log('ok, buttons clicked and errors showing, now what?');
   }
 
   setPointsIsValid() {
@@ -597,10 +595,10 @@ export class QuestionService {
             dialogRef.afterClosed().subscribe(result => {
               if (result) {
                 this.resetQuestionForm();
-                this.router.navigate(['/question/create']);
+                this.helperService.refreshComponent('question/create');
               } else {
                 this.resetQuestionForm();
-                this.router.navigate(['/question/list']);
+                this.helperService.refreshComponent('question/list');
               }
             });
 

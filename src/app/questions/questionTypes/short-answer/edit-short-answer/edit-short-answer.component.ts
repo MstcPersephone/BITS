@@ -79,7 +79,7 @@ export class EditShortAnswerComponent implements OnInit {
     const updatedShortAnswerQuestion: ShortAnswer = new ShortAnswer();
 
     // Calls validation on parent form controls when submit button is clicked
-    this.questionService.handleParentQuestionFormValidation(updatedShortAnswerQuestion);
+    this.questionService.handleEditQuestionFormValidation(updatedShortAnswerQuestion);
 
     // If the child form is loaded, calls validation on the child form when submit button is clicked
     if (this.questionService.showCreateMatch) {

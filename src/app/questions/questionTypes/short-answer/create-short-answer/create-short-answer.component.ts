@@ -67,16 +67,16 @@ export class CreateShortAnswerComponent implements OnInit {
     const shortAnswerQuestion: ShortAnswer = new ShortAnswer();
 
     // Calls validation on parent form controls when submit button is clicked
-    this.questionService.handleParentQuestionFormValidation(shortAnswerQuestion);
+    this.questionService.handleCreateQuestionFormValidation(shortAnswerQuestion);
 
     // If the child form is loaded, calls validation on the child form when submit button is clicked
     if (this.questionService.showCreateMatch) {
       document.getElementById('validateExactMatches').click();
     }
-    console.log('Points are valid', this.questionService.pointsIsValid);
-    console.log('Categoriess are valid', this.questionService.categoriesIsValid);
-    console.log('Sort Answer form is valid', this.createShortAnswerForm.valid);
-    console.log('Exact Match form is valid', this.questionService.exactMatchIsValid);
+    // console.log('Points are valid', this.questionService.pointsIsValid);
+    // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
+    // console.log('Sort Answer form is valid', this.createShortAnswerForm.valid);
+    // console.log('Exact Match form is valid', this.questionService.exactMatchIsValid);
 
     // Calls validation on the current form when submit button is clicked
     if (!this.createShortAnswerForm.valid) {
@@ -107,7 +107,7 @@ export class CreateShortAnswerComponent implements OnInit {
       this.showCancelButton = false;
 
       // For testing, we can remove later.
-      console.log('Question to save', shortAnswerQuestion);
+      // console.log('Question to save', shortAnswerQuestion);
     }
   }
 }
