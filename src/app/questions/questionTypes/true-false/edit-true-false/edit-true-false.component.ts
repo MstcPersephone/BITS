@@ -39,6 +39,7 @@ export class EditTrueFalseComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.question);
+    this.editTrueFalseForm.get('questionText').setValue(this.question.questionText);
     // Pass the attachments off to the attachment service to be managed.
     if (this.question.hasAttachments) {
       this.attachmentService.attachments = this.question.attachments;
@@ -48,7 +49,6 @@ export class EditTrueFalseComponent implements OnInit {
       this.attachmentService.attachments = [];
     }
 
-    this.editTrueFalseForm.get('questionText').setValue(this.question.questionText);
     if (this.question.answer === true) {
       this.editTrueFalseForm.get('answer').setValue('True');
     } else {
@@ -69,7 +69,7 @@ export class EditTrueFalseComponent implements OnInit {
     // Calls validation on parent form controls
     // If the parent forms are invalid, submit is not allowed
     // Marks all input as touched to show errors so user knows what requires valid input
-    this.questionService.handleParentQuestionFormValidation(updatedTrueFalseQuestion);
+    this.questionService.handleEditQuestionFormValidation(updatedTrueFalseQuestion);
     // console.log('Points are valid', this.questionService.pointsIsValid);
     // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
     // console.log('True False From is valid', this.createTrueFalseForm.valid);

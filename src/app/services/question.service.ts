@@ -42,13 +42,13 @@ export class QuestionService {
   private showHideCreateCategory = false;
 
   // Exact match array and subject.
-  private exactMatches: ExactMatch[] = [];
+  public exactMatches: ExactMatch[] = [];
   private exactMatchesUpdated = new Subject<ExactMatch[]>();
   private hasMatches = false;
   public showCreateMatch = false;
 
   // Options array and subject.
-  private options: Option[] = [];
+  public options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
   private hasOptions = false;
   public showCreateOption = false;
@@ -65,6 +65,7 @@ export class QuestionService {
   private categoryForm;
   public pointsIsValid;
   public categoriesIsValid;
+  public exactMatchIsValid;
 
   constructor(
     private http: HttpClient,
@@ -302,25 +303,21 @@ export class QuestionService {
   // This function is called by save question button click
   // This function will simulate a button click on the categories and points
   // The simulated clicks will rerun validation on parent level forms of question
-  handleParentQuestionFormValidation(question: Question) {
+  handleCreateQuestionFormValidation(question: Question) {
 
     document.getElementById('validatePoints').click();
     document.getElementById('validateCategories').click();
     console.log('ok, buttons clicked and errors showing, now what?');
+  }
 
+  // This function is called by save question button click
+  // This function will simulate a button click on the categories and points
+  // The simulated clicks will rerun validation on parent level forms of question
+  handleEditQuestionFormValidation(question: Question) {
 
-    if (question.questionType === QuestionType.ShortAnswer) {
-      if (this.exactMatches.length < 1) {
-        document.getElementById('validateExactMatches').click();
-       }
-      console.log('In Short Answer Question Type condition', question.questionType);
-    }
-
-    // if (question.questionType === QuestionType.ShortAnswer
-    //   && this.exactMatches !== null) {
-    //   document.getElementById('validateExactMatches').click();
-    //   console.log('Question Type', question.questionType);
-    // }
+    document.getElementById('validatePointsEdited').click();
+    document.getElementById('validateCategories').click();
+    console.log('ok, buttons clicked and errors showing, now what?');
   }
 
   setPointsIsValid() {
@@ -337,6 +334,14 @@ export class QuestionService {
 
   setCategoriesInvalid() {
     this.categoriesIsValid = false;
+  }
+
+  setExactMatchIsValid() {
+    this.exactMatchIsValid = true;
+  }
+
+  setExactMatchInvalid() {
+    this.exactMatchIsValid = false;
   }
 
   // ******************************************** //
@@ -433,10 +438,7 @@ export class QuestionService {
     console.log(question);
     // Opens a dialog to confirm deletion of the question
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'Are you sure you wish to delete this question?',
-      hasBackdrop: true,
-      disableClose: true,
-      closeOnNavigation: true
+      data: 'Are you sure you wish to delete this question?'
     });
     // On closing dialog box either call the function to archive the question or cancel the deletion
     dialogRef.afterClosed().subscribe(result => {
@@ -448,7 +450,7 @@ export class QuestionService {
             setTimeout(() => {
               console.log(responseData);
               // Displays a message informing that the question deletion has been successful.
-              this.helperService.openSnackBar('Question Deletion Successful.', 'Close', 'success-dialog', 5000);
+              this.helperService.openSnackBar('Question Deletion.', 'Close', 'success-dialog', 5000);
               this.helperService.isLoading = false;
               this.helperService.refreshComponent('question/list');
             }, 2000);
@@ -608,19 +610,17 @@ export class QuestionService {
           setTimeout(() => {
 
             const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-              data: 'Would you like to add another question?',
-              hasBackdrop: true,
-              disableClose: true,
-              closeOnNavigation: true
+              width: '350px',
+              data: 'Would you like to add another question?'
             });
 
             dialogRef.afterClosed().subscribe(result => {
               if (result) {
                 this.resetQuestionForm();
-                this.router.navigate(['/question/create']);
+                this.helperService.refreshComponent('question/create');
               } else {
                 this.resetQuestionForm();
-                this.router.navigate(['/question/list']);
+                this.helperService.refreshComponent('question/list');
               }
             });
 

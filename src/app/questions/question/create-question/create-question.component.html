@@ -17,15 +17,15 @@
   </mat-form-field>
 
   <!-- Point Value Input -->
-  <form class="pointValueForm" [formGroup]="addPointForm"  (ngSubmit)=onSubmit(addPointForm.value)>
+  <form class="pointValueForm" [formGroup]="addPointForm" (ngSubmit)=onSubmit(addPointForm.value)>
     <mat-form-field class="pointValueInput">
       <mat-label>Enter Point Value (Numeric)</mat-label>
-      <input matInput #pointValue id="points" type="text"
-       formControlName="points" (keyup)="this.questionService.onHandlePoints($event)" value="{{points}}" required>
-      </mat-form-field>
-      <app-validation-messages [control]="addPointForm.get('points')"></app-validation-messages>
+      <input matInput #pointValue id="points" type="text" formControlName="points"
+        (keyup)="this.questionService.onHandlePoints($event)" value="{{points}}" required>
+    </mat-form-field>
+    <app-validation-messages [control]="addPointForm.get('points')"></app-validation-messages>
 
-      <!-- This button will not display: click is simulated in helping validate the form -->
+    <!-- This button will not display: click is simulated in helping validate the form -->
     <button class="simulatedButton" id="validatePoints" type="submit"></button>
   </form>
 
@@ -40,7 +40,7 @@
     <app-create-short-answer *ngSwitchCase="'Short Answer'"></app-create-short-answer>
     <app-create-multiple-choice *ngSwitchCase="'Multiple Choice'"></app-create-multiple-choice>
     <app-create-true-false *ngSwitchCase="'True False'"></app-create-true-false>
-    <app-create-upload *ngSwitchCase="'Upload'" ></app-create-upload>
+    <app-create-upload *ngSwitchCase="'Upload'"></app-create-upload>
   </div>
 </mat-card>
 <br>
