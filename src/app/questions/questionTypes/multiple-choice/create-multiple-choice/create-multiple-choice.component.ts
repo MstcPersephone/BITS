@@ -12,6 +12,7 @@ import { ValidationService } from 'src/app/services/validation.service';
 })
 export class CreateMultipleChoiceComponent implements OnInit {
   createMultipleChoiceForm;
+  isValid; // stores the validation set in the question service
   showCancelButton = false;
 
   constructor(
@@ -34,10 +35,10 @@ export class CreateMultipleChoiceComponent implements OnInit {
 
   clickAdd() {
     // // If the child form is loaded, calls validation on the child form when add button is clicked
-    // if (this.questionService.showCreateMatch) {
-    //   document.getElementById('validateExactMatches').click();
-    //   this.isValid = this.questionService.exactMatchIsValid;
-    // }
+    if (this.questionService.showCreateOption) {
+      document.getElementById('validateOption').click();
+      this.isValid = this.questionService.optionIsValid;
+    }
     // // sets the form to remain as visible
     this.questionService.showCreateMatch = true;
     // // sets the cancel button to visible
@@ -46,32 +47,32 @@ export class CreateMultipleChoiceComponent implements OnInit {
 
   clickCancel() {
     // Hides the form and the cancel button
-    // restores previous validity on the exact match to allow saving on submit
-    // const matches = this.questionService.getMatches();
-    // if (matches.length > 0) {
-    //   this.questionService.showCreateMatch = false;
-    // }
+    // restores previous validity on the option to allow saving on submit
+    const options = this.questionService.getOptions();
+    if (options.length > 0) {
+      this.questionService.showCreateOption = false;
+    }
     this.showCancelButton = false;
-    // this.questionService.exactMatchIsValid = this.isValid;
+    this.questionService.optionIsValid = this.isValid;
   }
 
   // Id is null at this point because it is generated on the backend.
   onSubmit(multipleChoiceData) {
-    // Initializes a new Short Answer question to be saved
+    // Initializes a new Mutiple Choice question to be saved
     const multipleChoiceQuestion: MultipleChoice = new MultipleChoice();
 
     // Calls validation on parent form controls when submit button is clicked
     this.questionService.handleCreateQuestionFormValidation(multipleChoiceData);
 
     // If the child form is loaded, calls validation on the child form when submit button is clicked
-    // if (this.questionService.showCreateMatch) {
-    //   document.getElementById('validateExactMatches').click();
-    // }
+    if (this.questionService.showCreateOption) {
+      document.getElementById('validateOption').click();
+    }
 
     console.log('Points are valid', this.questionService.pointsIsValid);
     console.log('Categoriess are valid', this.questionService.categoriesIsValid);
-    console.log('Sort Answer form is valid', this.createMultipleChoiceForm.valid);
-    // console.log('Exact Match form is valid', this.questionService.exactMatchIsValid);
+    console.log('Multiple Choice form is valid', this.createMultipleChoiceForm.valid);
+    console.log('Option form is valid', this.questionService.optionIsValid);
 
     // Calls validation on the current form when submit button is clicked
     if (!this.createMultipleChoiceForm.valid) {
@@ -83,7 +84,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
 
     // If all input of parent and child forms is valid, data will be passed to question service for saving
     if (this.createMultipleChoiceForm.valid && this.questionService.pointsIsValid
-      && this.questionService.categoriesIsValid) {
+      && this.questionService.categoriesIsValid && this.questionService.optionIsValid) {
       multipleChoiceQuestion._id = null;
       multipleChoiceQuestion.questionText = multipleChoiceData.questionText;
       multipleChoiceQuestion.options = this.questionService.getOptions();
@@ -94,7 +95,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
       multipleChoiceQuestion.assessmentIds = null;
 
       // Sends the data to the quesiton service to handle passing data for saving in database
-      // this.questionService.saveQuestion(multipleChoiceQuestion);
+      this.questionService.saveQuestion(multipleChoiceQuestion);
 
       // For testing, we can remove later.
       console.log(multipleChoiceQuestion);

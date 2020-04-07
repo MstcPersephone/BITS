@@ -33,7 +33,7 @@ export class EditShortAnswerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.question);
+    // console.log(this.question);
     this.editShortAnswerForm.get('questionText').setValue(this.question.questionText);
     // Pass the attachments off to the attachment service to be managed.
     if (this.question.hasAttachments) {

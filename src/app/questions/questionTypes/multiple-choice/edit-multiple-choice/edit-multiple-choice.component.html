@@ -13,22 +13,34 @@
   <app-attachment [attachmentsLoaded]="question.hasAttachments"></app-attachment>
 
   <!-- Container that displays the question's currently existing options -->
-  <h3>Edit question options</h3>
   <mat-card class="currentOptionsSection">
+    <h3>Edit Question Options</h3>
+    <br>
 
-    <!-- Add Option button; used to display the Create Option form below -->
-    <button class="addOption" mat-raised-button type="button"
-     (click)="this.questionService.toggleCreateOption()">
-      Add New Option<mat-icon>&nbsp;add</mat-icon>
-    </button>
+    <!-- Call to Edit Option; displays the options currently attached to the question -->
+    <app-edit-option *ngFor="let option of this.questionService.asMultipleChoice(question).options; Index as i" [option]="option"></app-edit-option>
 
     <!-- Call to Create Option; displays when Add New Option button is selected -->
     <app-create-option *ngIf="this.questionService.showCreateOption" [isEditMode]="true"></app-create-option>
 
-    <!-- Call to Edit Option; displays the options currently attached to the question -->
-    <app-edit-option *ngFor="let option of this.questionService.asMultipleChoice(question).options; Index as i" [option]="option"></app-edit-option>
+    <div class="buttonContainer">
+      <div class="buttonContainer">
+        <!-- Cancel Button : If clicked will close the add acceptable answer form -->
+        <button class="closeAddOption" *ngIf="this.showCancelButton" mat-raised-button (click)="this.clickCancel()">
+          Cancel<mat-icon>&nbsp;close</mat-icon>
+        </button>
+        <!-- Add Option button; used to display the Create Option form above -->
+        <button class="addOption" mat-raised-button type="button" (click)="this.clickAdd()">
+          Add Option<mat-icon>&nbsp;add</mat-icon>
+        </button>
+      </div>
+    </div>
   </mat-card>
 
-  <!-- Submit Button -->
-  <button class="mt-20 saveButton" mat-raised-button type="submit">Update Question&nbsp;<mat-icon>save</mat-icon></button>
+  <!-- Submit Button : calls validation on all forms controllers when clicked -->
+  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+
+  <!-- Cancel Button : Cancels the save and send user back to question list -->
+  <button class="mt-20 cancelOption" mat-raised-button [routerLink]="['/question/list']">
+    Cancel&nbsp;<mat-icon>cancel</mat-icon></button>
 </form>

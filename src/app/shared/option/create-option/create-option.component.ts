@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Option } from '../../../models/shared/option.model';
 import { QuestionService } from 'src/app/services/question.service';
 import { ValidationService } from 'src/app/services/validation.service';
+import { Option } from '../../../models/shared/option.model';
 
 @Component({
   selector: 'app-create-option',

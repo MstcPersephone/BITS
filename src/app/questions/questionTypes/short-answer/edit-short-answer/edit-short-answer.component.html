@@ -27,17 +27,12 @@
     <app-edit-exact-match *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; Index as i"
       [exactMatch]="exactMatch"></app-edit-exact-match>
 
-    <!-- Add Option button; used to display the Create Option form below -->
-    <!-- <button class="addOption" mat-raised-button type="button" (click)="this.questionService.toggleCreateMatch()">
-      Add New Acceptable Answer<mat-icon>&nbsp;add</mat-icon>
-    </button> -->
-
     <!-- Call to Create Exact Match; displays when Add New Acceptable Answer button is selected -->
     <app-create-exact-match *ngIf="this.questionService.showCreateMatch" [isEditMode]="true"></app-create-exact-match>
 
     <div class="buttonContainer">
       <!-- Cancel Button : If clicked will close the add acceptable answer form -->
-      <button *ngIf="this.showCancelButton" mat-raised-button color="warn" (click)="this.clickCancel()">
+      <button *ngIf="this.showCancelButton" mat-raised-button color="accent" (click)="this.clickCancel()">
         Cancel<mat-icon>&nbsp;remove_circle_outline</mat-icon>
       </button>
       <!-- Add Option button; used to display the Create Option form above -->
