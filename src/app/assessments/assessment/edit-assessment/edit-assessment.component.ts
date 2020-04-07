@@ -18,6 +18,15 @@ import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 })
 export class EditAssessmentComponent implements OnInit {
   isEditMode: boolean;
+  public categories: Category[] = [];
+  private categorySubscription: Subscription;
+  private originalOrganizedQuestions = {};
+  public organizedQuestions = {};
+  private questionSubscription: Subscription;
+  public assessmentQuestions = [];
+  private assessmentQuestionsSubscription: Subscription;
+  public questionIds = [];
+
   assessment: Assessment;
   assessmentSubscription: Subscription;
   updateAssessmentForm;
@@ -40,6 +49,25 @@ export class EditAssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
+    // gets the call to api end point to collect all categories from database
+    this.questionService.getAllCategories();
+    this.categorySubscription = this.questionService.getCategoriesListener()
+      .subscribe((categoriesArray: Category[]) => {
+        this.categories = categoriesArray;
+      });
+    // gets the call to api end point to collect all questions from database
+    this.questionService.getAllQuestions();
+    // subsribe to observer to get question array changes
+    this.questionSubscription = this.questionService.getQuestionsUpdatedListener()
+      .subscribe((questionsArray: any) => {
+
+        // Create two copies of the questions
+        // organizedQuestions is the array that displays
+        // originalOrganizedQuestions is used to refresh the filtered lists
+        this.originalOrganizedQuestions = JSON.parse(JSON.stringify(questionsArray));
+        this.organizedQuestions = JSON.parse(JSON.stringify(questionsArray));
+      });
+
     // Sets up an assessment listener to get a new assessment
     // Gets the assessment based on the passed in id
     // id is passed through the URL
@@ -49,7 +77,54 @@ export class EditAssessmentComponent implements OnInit {
         this.assessment = assessment;
         this.updateAssessmentForm.get('name').setValue(this.assessment.name);
         this.updateAssessmentForm.get('description').setValue(this.assessment.description);
+        console.log('QUESTIONIDS', assessment.questionIds);
+        this.assessmentService.getQuestionsByIds(assessment.questionIds);
       });
+    this.assessmentQuestionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
+      .subscribe((questionsArray) => {
+        console.log('QUESTIONS ARRAY', questionsArray);
+        this.assessmentQuestions = questionsArray;
+      });
+  }
+
+  dropToAssessment(event: any) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      const question = event.item.data;
+      let canMove = true;
+
+      // Check to see if question is already in assessmentQuestions
+      this.assessmentQuestions.forEach((q) => {
+        if (question._id === q._id) {
+          canMove = false;
+        }
+      });
+      if (canMove) {
+        transferArrayItem(event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex);
+      } else {
+        this.helperService.openSnackBar('Question is already added to assessment', 'OK', 'error-dialog', 5000);
+      }
+    }
+  }
+
+  dropToQuestionList(event: any) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+                        event.container.data,
+                        event.previousIndex,
+                        event.currentIndex);
+      this.refreshFilteredQuestions();
+    }
+  }
+
+  refreshFilteredQuestions() {
+    this.organizedQuestions = JSON.parse(JSON.stringify(this.originalOrganizedQuestions));
   }
 
   onSubmit(assessmentData) {

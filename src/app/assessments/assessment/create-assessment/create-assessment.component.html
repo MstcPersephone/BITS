@@ -53,10 +53,10 @@
       </div>
 
       <!-- Flexbox containing the Question List elements -->
-      <section class="addQuestionsFlexbox">
+      <section class="addQuestionsFlexbox" cdkDropListGroup>
 
-        <!-- Questions Drag/Drop List Group -->
-        <div class="addQuestionsFlexItem" cdkDropListGroup>
+        <!-- FILTERED QUESTIONS -->
+        <div class="addQuestionsFlexItem">
           <!-- Key = Category for Questions -->
           <!-- Value = List of Questions for that Category -->
           <div *ngFor="let questions of organizedQuestions | keyvalue">
@@ -78,6 +78,8 @@
             </div>
           </div>
         </div>
+
+        <!-- ASSESSMENT QUESTIONS -->
         <div class="addQuestionsFlexItem">
           <h2>Assessment Questions</h2>
 
