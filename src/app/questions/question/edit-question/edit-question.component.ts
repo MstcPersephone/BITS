@@ -35,10 +35,17 @@ export class EditQuestionComponent implements OnInit {
     // Gets the question based on the passed in id
     // id is passed through the URL
     this.questionSubscription = this.questionService.getQuestionUpdatedListener()
+<<<<<<< HEAD
       .subscribe((question: Question) => {
         this.question = question;
         this.editPointForm.get('points').setValue(this.question.points);
       });
+=======
+    .subscribe((question: Question) => {
+      this.question = question;
+      this.editPointForm.get('points').setValue(this.question.points);
+    });
+>>>>>>> master
     this.questionService.getQuestionById(this.route.snapshot.params.questionId);
   }
 
