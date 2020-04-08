@@ -12,6 +12,7 @@ import { ValidationService } from 'src/app/services/validation.service';
 })
 export class CreateCheckboxComponent implements OnInit {
   createCheckboxForm;
+  isValid; // stores the validation set in the question service
   showCancelButton = false;
 
   constructor(
@@ -34,25 +35,25 @@ export class CreateCheckboxComponent implements OnInit {
 
   clickAdd() {
     // // If the child form is loaded, calls validation on the child form when add button is clicked
-    // if (this.questionService.showCreateMatch) {
-    //   document.getElementById('validateExactMatches').click();
-    //   this.isValid = this.questionService.exactMatchIsValid;
-    // }
+    if (this.questionService.showCreateOption) {
+      document.getElementById('validateOption').click();
+      this.isValid = this.questionService.optionIsValid;
+    }
     // // sets the form to remain as visible
-    this.questionService.showCreateMatch = true;
+    this.questionService.showCreateOption = true;
     // // sets the cancel button to visible
     this.showCancelButton = true;
   }
 
   clickCancel() {
     // Hides the form and the cancel button
-    // restores previous validity on the exact match to allow saving on submit
-    // const matches = this.questionService.getMatches();
-    // if (matches.length > 0) {
-    //   this.questionService.showCreateMatch = false;
-    // }
+    // restores previous validity on the option to allow saving on submit
+    const options = this.questionService.getOptions();
+    if (options.length > 0) {
+      this.questionService.showCreateOption = false;
+    }
     this.showCancelButton = false;
-    // this.questionService.exactMatchIsValid = this.isValid;
+    this.questionService.optionIsValid = this.isValid;
   }
 
   // Id is null at this point because it is generated on the backend.
@@ -64,13 +65,13 @@ export class CreateCheckboxComponent implements OnInit {
     this.questionService.handleCreateQuestionFormValidation(checkboxQuestion);
 
     // If the child form is loaded, calls validation on the child form when submit button is clicked
-    // if (this.questionService.showCreateMatch) {
-    //   document.getElementById('validateCBOption').click();
-    // }
+    if (this.questionService.showCreateOption) {
+      document.getElementById('validateOption').click();
+    }
 
     console.log('Points are valid', this.questionService.pointsIsValid);
-    console.log('Categoriess are valid', this.questionService.categoriesIsValid);
-    console.log('Sort Answer form is valid', this.createCheckboxForm.valid);
+    console.log('Categories are valid', this.questionService.categoriesIsValid);
+    console.log('Checkbox form is valid', this.createCheckboxForm.valid);
     console.log('Option form is valid', this.questionService.optionIsValid);
 
     // Calls validation on the current form when submit button is clicked
@@ -83,7 +84,7 @@ export class CreateCheckboxComponent implements OnInit {
 
     // If all input of parent and child forms is valid, data will be passed to question service for saving
     if (this.createCheckboxForm.valid && this.questionService.pointsIsValid
-      && this.questionService.categoriesIsValid) {
+      && this.questionService.categoriesIsValid  && this.questionService.optionIsValid) {
       checkboxQuestion._id = null;
       checkboxQuestion.questionText = checkboxData.questionText;
       checkboxQuestion.options = this.questionService.getOptions();

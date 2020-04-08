@@ -33,12 +33,12 @@ export class EditExactMatchComponent implements OnInit {
 
     // This sets validation of the current exact match in the question service
     if (!this.editExactMatchForm.valid) {
-      this.questionService.setExactMatchInvalid();
+      this.questionService.setEditExactMatchInvalid();
       (Object as any).values(this.editExactMatchForm.controls).forEach(control => {
         control.markAsTouched();
       });
     } else {
-      this.questionService.setExactMatchIsValid();
+      this.questionService.setEditExactMatchIsValid();
     }
 
     // Initializes the exact match to be updated

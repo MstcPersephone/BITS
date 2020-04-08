@@ -45,7 +45,7 @@ export class EditMultipleChoiceComponent implements OnInit {
   clickAdd() {
     // If the child form is loaded, calls validation on the child form when add button is clicked
     if (this.questionService.showCreateOption) {
-      document.getElementById('validateMCOption').click();
+      document.getElementById('validateOption').click();
       this.isValid = this.questionService.optionIsValid;
     }
     // sets the form to remain as visible
@@ -73,20 +73,15 @@ export class EditMultipleChoiceComponent implements OnInit {
     // Calls validation on parent form controls when submit button is clicked
     this.questionService.handleEditQuestionFormValidation(updatedMultipleChoiceQuestion);
 
-    // ***** HOT FIX NEEDED TODO: Not reading validation on new item and allowing saving.
-    // If the child form is loaded, calls validation on the child form when submit button is clicked
-    // if (this.questionService.showCreateOption) {
-    //   document.getElementById('validateMCOption').click();
-    // }
-    // If the child form is loaded, calls validation on the child form when submit button is clicked
-    // Initialize question service optionIsValid to true there was nothing added
+    // If the child create form is loaded, calls validation on the child form when submit button is clicked
     if (this.questionService.showCreateOption) {
-      // Then run validation to reset it
-      document.getElementById('validateMCOption').click();
+      document.getElementById('validateOption').click();
     } else {
+      // Sets question service optionIsValid to true if the create option form was never opened
       this.questionService.optionIsValid = true;
     }
 
+    // Calls validation on the edit child form when submit button is clicked
     const options = this.questionService.getOptions();
     if (options.length > 0) {
       const optionElements = Array.from(document.getElementsByClassName('simulatedButtonMCClass'));
@@ -127,7 +122,7 @@ export class EditMultipleChoiceComponent implements OnInit {
       this.showCancelButton = false;
 
       // Sends the data to the quesiton service to handle passing data for updating in database
-      // this.questionService.updateQuestionById(updatedMultipleChoiceQuestion);
+      this.questionService.updateQuestionById(updatedMultipleChoiceQuestion);
 
       // For testing, we can remove later.
       console.log('Question to save', updatedMultipleChoiceQuestion);

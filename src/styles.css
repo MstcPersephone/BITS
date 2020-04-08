@@ -224,7 +224,8 @@ mat-spinner {
 }
 
 /* Styles applied to the simulated buttons, meant to be hidden. */
-.simulatedButton, .simulatedButtonMCClass, .simulatedButtonCBClass {
+.simulatedButton, .simulatedButtonMCClass,
+.simulatedButtonCBClass, .simulatedButtonSAClass {
   display: none;
 }
 

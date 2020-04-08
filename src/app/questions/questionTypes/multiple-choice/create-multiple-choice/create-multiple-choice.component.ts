@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AttachmentService } from 'src/app/services/attachment.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MultipleChoice } from 'src/app/models/question-types/multiple-choice.model';
 import { QuestionService } from 'src/app/services/question.service';
+import { AttachmentService } from 'src/app/services/attachment.service';
 import { ValidationService } from 'src/app/services/validation.service';
 
 @Component({
@@ -36,7 +36,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
   clickAdd() {
     // // If the child form is loaded, calls validation on the child form when add button is clicked
     if (this.questionService.showCreateOption) {
-      document.getElementById('validateMCOption').click();
+      document.getElementById('validateOption').click();
       this.isValid = this.questionService.optionIsValid;
     }
     // // sets the form to remain as visible
@@ -66,11 +66,11 @@ export class CreateMultipleChoiceComponent implements OnInit {
 
     // If the child form is loaded, calls validation on the child form when submit button is clicked
     if (this.questionService.showCreateOption) {
-      document.getElementById('validateMCOption').click();
+      document.getElementById('validateOption').click();
     }
 
     console.log('Points are valid', this.questionService.pointsIsValid);
-    console.log('Categoriess are valid', this.questionService.categoriesIsValid);
+    console.log('Categories are valid', this.questionService.categoriesIsValid);
     console.log('Multiple Choice form is valid', this.createMultipleChoiceForm.valid);
     console.log('Option form is valid', this.questionService.optionIsValid);
 
