@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
 import { ValidationService } from 'src/app/services/validation.service';
 import { Option } from '../../../models/shared/option.model';
+import { Question } from 'src/app/models/question.interface';
 
 @Component({
   selector: 'app-create-option',
@@ -12,6 +13,7 @@ import { Option } from '../../../models/shared/option.model';
 export class CreateOptionComponent implements OnInit {
   // whether or not the user is editing a question
   @Input() isEditMode: boolean;
+  @Input() question: Question;
   // Form object.
   createOptionForm;
 
@@ -56,6 +58,7 @@ export class CreateOptionComponent implements OnInit {
 
       // For testing, we can remove later.
       console.log(option);
+      console.log(this.question);
 
       // Resets the form values.
       this.createOptionForm.reset();

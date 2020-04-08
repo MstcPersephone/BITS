@@ -65,7 +65,7 @@ export class CreateCheckboxComponent implements OnInit {
 
     // If the child form is loaded, calls validation on the child form when submit button is clicked
     // if (this.questionService.showCreateMatch) {
-    //   document.getElementById('validateExactMatches').click();
+    //   document.getElementById('validateCBOption').click();
     // }
 
     console.log('Points are valid', this.questionService.pointsIsValid);

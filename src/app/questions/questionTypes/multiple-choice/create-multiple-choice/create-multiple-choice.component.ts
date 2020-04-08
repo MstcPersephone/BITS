@@ -36,7 +36,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
   clickAdd() {
     // // If the child form is loaded, calls validation on the child form when add button is clicked
     if (this.questionService.showCreateOption) {
-      document.getElementById('validateOption').click();
+      document.getElementById('validateMCOption').click();
       this.isValid = this.questionService.optionIsValid;
     }
     // // sets the form to remain as visible
@@ -66,7 +66,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
 
     // If the child form is loaded, calls validation on the child form when submit button is clicked
     if (this.questionService.showCreateOption) {
-      document.getElementById('validateOption').click();
+      document.getElementById('validateMCOption').click();
     }
 
     console.log('Points are valid', this.questionService.pointsIsValid);
