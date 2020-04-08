@@ -128,7 +128,8 @@
 
             <mat-grid-tile [colspan]="8" [rowspan]="1">
               <mat-grid-tile-header>
-                <h5>Acceptable Answers</h5>
+                <h5 *ngIf="this.questionService.asShortAnswer(question).isCaseSensitive">Acceptable Answers (Case Sensitive)</h5>
+                <h5 *ngIf="!this.questionService.asShortAnswer(question).isCaseSensitive">Acceptable Answers</h5>
               </mat-grid-tile-header>
             </mat-grid-tile>
 
