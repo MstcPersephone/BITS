@@ -27,6 +27,7 @@ export class ViewUploadComponent implements OnInit {
 
   onSubmit() {
     this.question.submittedAnswer = this.attachmentService.getStudentAnswers();
+    this.attachmentService.clearStudentAnswers();
     this.assessmentService.submitAnswer(this.question);
   }
 }

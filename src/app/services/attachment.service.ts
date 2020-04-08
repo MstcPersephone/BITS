@@ -17,6 +17,10 @@ export class AttachmentService {
 
   constructor() { }
 
+  clearStudentAnswers() {
+    this.studentAnswers = [];
+  }
+
   getAttachmentFileNames(attachmentArrayName: string) {
     let fileNames: string;
     if (attachmentArrayName === 'attachments') {

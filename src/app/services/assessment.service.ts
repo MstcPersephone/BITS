@@ -10,15 +10,16 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragE
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material';
+import { QuestionType } from '../enums/questionType.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AssessmentService {
   // MOCK DATA
-  public mockQuestionIds: string[] = ['5e50ba9499062123580d5245', '5e512dc2f614c627f0443d18',
-    '5e53dfa22849a450c49e1fd7', '5e603f2f2a61154b480ffafd', '5e6166f40a31644b543fc210', '5e6167ef0a31644b543fc218',
-    '5e62b546cdf5ff1b5c73d457'];
+  public mockQuestionIds: string[] = [
+    '5e84ce31e673382f84b77954'
+  ];
 
   // ********************************* //
   // ****  ASSESSMENT PROPERTIES  **** //
@@ -95,8 +96,25 @@ export class AssessmentService {
   }
 
   // TODO Handle submit question button
+  // Used for now until we have the engine code written
   submitAnswer(question: Question) {
+    switch (question.questionType) {
+      case QuestionType.Upload:
+        this.checkUploadAnswer(question);
+        break;
+      default:
+        break;
+    }
+  }
+
+  // Makes a call to the back end to extract (if necessary), store, and compare file contents
+  // Returns an object that contains a true/false result
+  checkUploadAnswer(question: Question) {
     console.log(question);
+    this.http.post<{message: string, result: boolean}>('http://localhost:3000/api/assessment/checkUpload', question)
+      .subscribe((responseData) => {
+        console.log(responseData);
+      });
   }
 
   // *************************************************** //
@@ -331,7 +349,7 @@ export class AssessmentService {
           // Done loading. Remove the loading spinner
           this.helperService.isLoading = false;
           console.log(responseData.message);
-          console.log(responseData.questions);
+          console.log(this.questions);
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');
