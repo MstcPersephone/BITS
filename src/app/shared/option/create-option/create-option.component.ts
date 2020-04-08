@@ -52,7 +52,11 @@ export class CreateOptionComponent implements OnInit {
       option._id = null;
       option.questionId = null;
       option.optionText = optionData.optionText;
-      option.isAnswer = optionData.isAnswer;
+      if (optionData.isAnswer === null) {
+        option.isAnswer = false;
+      } else {
+        option.isAnswer = optionData.isAnswer;
+      }
       option.optionIsSelected = false;
 
       // Adds current option to the options array in the service.

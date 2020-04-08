@@ -77,6 +77,15 @@ export class EditMultipleChoiceComponent implements OnInit {
       document.getElementById('validateMCOption').click();
     }
 
+    // // If the child form is loaded, calls validation on the child form when submit button is clicked
+    // if (this.questionService.showCreateOption) {
+    //   // browser.Document.GetElementById('MCOptions').InvokeMember('click');
+    //      const optionElements = document.getElementsByClassName('MCOptions');
+    //      optionElements.forEach((o) => {
+    //         o.click();
+    //       });
+    // }
+
     const options = this.questionService.getOptions();
     options.forEach(option => {
       document.getElementById('validateMCOptionEdit').click();
