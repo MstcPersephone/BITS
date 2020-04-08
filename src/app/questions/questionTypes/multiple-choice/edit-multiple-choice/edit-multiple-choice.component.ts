@@ -80,6 +80,7 @@ export class EditMultipleChoiceComponent implements OnInit {
     const options = this.questionService.getOptions();
     options.forEach(option => {
       document.getElementById('validateMCOptionEdit').click();
+      console.log(option);
     });
 
     console.log('Points are valid', this.questionService.pointsIsValid);
@@ -112,7 +113,7 @@ export class EditMultipleChoiceComponent implements OnInit {
       this.showCancelButton = false;
 
       // Sends the data to the quesiton service to handle passing data for updating in database
-      this.questionService.updateQuestionById(updatedMultipleChoiceQuestion);
+      // this.questionService.updateQuestionById(updatedMultipleChoiceQuestion);
 
       // For testing, we can remove later.
       console.log('Question to save', updatedMultipleChoiceQuestion);

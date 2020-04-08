@@ -18,7 +18,8 @@
     <br>
 
     <!-- Call to Edit Option; displays the options currently attached to the question -->
-    <app-edit-option *ngFor="let option of this.questionService.asMultipleChoice(question).options; Index as i" [option]="option"></app-edit-option>
+    <app-edit-option *ngFor="let option of this.questionService.asMultipleChoice(question).options; Index as i"
+    [option]="option"></app-edit-option>
 
     <!-- Call to Create Option; displays when Add New Option button is selected -->
     <app-create-option *ngIf="this.questionService.showCreateOption" [isEditMode]="true"></app-create-option>

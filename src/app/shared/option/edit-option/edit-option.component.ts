@@ -23,8 +23,8 @@ export class EditOptionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.editOptionForm.setValue({ optionText: String(this.option.optionText) });
-    this.editOptionForm.setValue({ isAnswer: String(this.option.isAnswer) });
+    this.editOptionForm.get('optionText').setValue(this.option.optionText);
+    this.editOptionForm.get('isAnswer').setValue(this.option.isAnswer);
   }
 
   // Id is null at this point because it is generated on the backend.
