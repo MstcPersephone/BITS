@@ -4,7 +4,8 @@
   <!-- Question Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Question Text</mat-label>
-    <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}" required>
+    <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}"
+      required>
   </mat-form-field>
   <app-validation-messages [control]="editShortAnswerForm.get('questionText')"></app-validation-messages>
 
@@ -13,27 +14,43 @@
   <br>
 
   <!-- Answer Case Sensitivity checkbox -->
-  <mat-checkbox
-   class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">
+  <mat-checkbox class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">
     Is student answer case sensitive?
   </mat-checkbox>
 
   <!-- Container that displays the question's currently existing options -->
-  <h3>Edit acceptable answers</h3>
   <mat-card class="currentOptionsSection">
+    <h3>Edit Acceptable Answers</h3>
+    <br>
+
+    <!-- Call to Edit Exact Match; displays the acceptable answers currently attached to the question -->
+    <app-edit-exact-match *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; Index as i"
+      [exactMatch]="exactMatch"></app-edit-exact-match>
+
     <!-- Add Option button; used to display the Create Option form below -->
-    <button class="addOption" mat-raised-button type="button"
-     (click)="this.questionService.toggleCreateMatch()">
+    <!-- <button class="addOption" mat-raised-button type="button" (click)="this.questionService.toggleCreateMatch()">
       Add New Acceptable Answer<mat-icon>&nbsp;add</mat-icon>
-    </button>
+    </button> -->
 
     <!-- Call to Create Exact Match; displays when Add New Acceptable Answer button is selected -->
     <app-create-exact-match *ngIf="this.questionService.showCreateMatch" [isEditMode]="true"></app-create-exact-match>
 
-    <!-- Call to Edit Exact Match; displays the acceptable answers currently attached to the question -->
-    <app-edit-exact-match *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; Index as i" [exactMatch]="exactMatch"></app-edit-exact-match>
+    <div class="buttonContainer">
+      <!-- Cancel Button : If clicked will close the add acceptable answer form -->
+      <button class="cancelOption" mat-raised-button type="button" *ngIf="this.showCancelButton" (click)="this.clickCancel()">
+        Cancel<mat-icon>&nbsp;close</mat-icon>
+      </button>
+      <!-- Add Option button; used to display the Create Option form above -->
+      <button class="addOption" mat-raised-button type="button" (click)="this.clickAdd()">
+        Add<mat-icon>&nbsp;add</mat-icon>
+      </button>
+    </div>
   </mat-card>
 
-  <!-- Submit Button -->
-  <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+  <!-- Submit Button : calls validation on all forms controllers when clicked -->
+  <button class="saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+
+  <!-- Cancel Button : Cancels the save and send user back to question list -->
+  <button class="cancelOption" mat-raised-button type="button" [routerLink]="['/question/list']">Cancel&nbsp;<mat-icon>close
+    </mat-icon></button>
 </form>

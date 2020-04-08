@@ -1,3 +1,9 @@
+/* Importing global styles. */
+@import "../../../styles.css";
+
 /* Importing shared styles from Create Option */
 @import "../../shared/option/create-option/create-option.component.css";
 
+form{
+  margin: 0;
+}

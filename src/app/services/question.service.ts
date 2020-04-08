@@ -15,6 +15,7 @@ import { Category } from '../models/shared/category.model';
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material';
+import { ok } from 'assert';
 
 @Injectable({
   providedIn: 'root',
@@ -34,18 +35,20 @@ export class QuestionService {
   private category: Category;
   private categories: Category[] = [];
   public selectedCategories: Category[] = [];
+  private categoryUpdated = new Subject<Category>();
   private categoriesUpdated = new Subject<Category[]>();
+  private selectedCategoriesUpdated = new Subject<Category[]>();
   private categoriesLoaded = false;
   private showHideCreateCategory = false;
 
   // Exact match array and subject.
-  private exactMatches: ExactMatch[] = [];
+  public exactMatches: ExactMatch[] = [];
   private exactMatchesUpdated = new Subject<ExactMatch[]>();
   private hasMatches = false;
   public showCreateMatch = false;
 
   // Options array and subject.
-  private options: Option[] = [];
+  public options: Option[] = [];
   private optionsUpdated = new Subject<Option[]>();
   private hasOptions = false;
   public showCreateOption = false;
@@ -58,7 +61,11 @@ export class QuestionService {
   private question: Question;
   private questionUpdated = new Subject<Question>();
 
+  // forms
   private categoryForm;
+  public pointsIsValid;
+  public categoriesIsValid;
+  public exactMatchIsValid;
 
   constructor(
     private http: HttpClient,
@@ -115,10 +122,18 @@ export class QuestionService {
       });
   }
 
+  getCategoryListener() {
+    return this.categoryUpdated.asObservable();
+  }
+
   // Returns the category subject as observable.
   // Used to subscribe to changes in categories array.
   getCategoriesListener() {
     return this.categoriesUpdated.asObservable();
+  }
+
+  getSelectedCategoriesListener() {
+    return this.selectedCategoriesUpdated.asObservable();
   }
 
   // Returns whether the categories loaded to a list.
@@ -288,10 +303,45 @@ export class QuestionService {
   // This function is called by save question button click
   // This function will simulate a button click on the categories and points
   // The simulated clicks will rerun validation on parent level forms of question
-  handleParentQuestionFormValidation() {
-    console.log('I am here, now what?');
+  handleCreateQuestionFormValidation(question: Question) {
+
     document.getElementById('validatePoints').click();
     document.getElementById('validateCategories').click();
+    console.log('ok, buttons clicked and errors showing, now what?');
+  }
+
+  // This function is called by save question button click
+  // This function will simulate a button click on the categories and points
+  // The simulated clicks will rerun validation on parent level forms of question
+  handleEditQuestionFormValidation(question: Question) {
+
+    document.getElementById('validatePointsEdited').click();
+    document.getElementById('validateCategories').click();
+    console.log('ok, buttons clicked and errors showing, now what?');
+  }
+
+  setPointsIsValid() {
+    this.pointsIsValid = true;
+  }
+
+  setPointsInvalid() {
+    this.pointsIsValid = false;
+  }
+
+  setCategoriesIsValid() {
+    this.categoriesIsValid = true;
+  }
+
+  setCategoriesInvalid() {
+    this.categoriesIsValid = false;
+  }
+
+  setExactMatchIsValid() {
+    this.exactMatchIsValid = true;
+  }
+
+  setExactMatchInvalid() {
+    this.exactMatchIsValid = false;
   }
 
   // ******************************************** //
@@ -403,7 +453,7 @@ export class QuestionService {
             setTimeout(() => {
               console.log(responseData);
               // Displays a message informing that the question deletion has been successful.
-              this.helperService.openSnackBar('Question Deletion Successful.', 'Close', 'success-dialog', 5000);
+              this.helperService.openSnackBar('Question Deletion.', 'Close', 'success-dialog', 5000);
               this.helperService.isLoading = false;
               this.helperService.refreshComponent('question/list');
             }, 2000);
@@ -448,6 +498,16 @@ export class QuestionService {
       });
   }
 
+  getCategoryById(categoryId: string) {
+    this.helperService.isLoading = true;
+    this.http.get<{ message: string, category: Category }>('http://localhost:3000/api/category/' + categoryId)
+      .subscribe((categoryData) => {
+        this.category = categoryData.category[0];
+        this.categoryUpdated.next(this.category);
+        this.helperService.isLoading = false;
+      });
+  }
+
   // Gets a question by an id
   getQuestionById(questionId: string) {
     this.http
@@ -460,6 +520,8 @@ export class QuestionService {
         this.question = questionData.question[0];
         // Add the selected categories to the array
         this.selectedCategories = this.question.categories;
+
+        this.selectedCategoriesUpdated.next(this.selectedCategories);
 
         // Add the points to the variable that manages it
         this.enteredPoints = this.question.points;
@@ -560,10 +622,10 @@ export class QuestionService {
             dialogRef.afterClosed().subscribe(result => {
               if (result) {
                 this.resetQuestionForm();
-                this.router.navigate(['/question/create']);
+                this.helperService.refreshComponent('question/create');
               } else {
                 this.resetQuestionForm();
-                this.router.navigate(['/question/list']);
+                this.helperService.refreshComponent('question/list');
               }
             });
 
@@ -581,6 +643,24 @@ export class QuestionService {
         error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
+  }
+
+  updateCategoryById(category: Category) {
+    this.helperService.isLoading = true;
+    this.http.post<{ message: string, updatedCategory: Category }>('http://localhost:3000/api/category/update', category)
+      .subscribe(
+        responseData => {
+          this.helperService.openSnackBar('Category Name: ' + category.name + ' updated successfully', 'Close', 'success-dialog');
+          setTimeout(() => {
+            this.helperService.isLoading = false;
+            this.router.navigate(['/category']);
+          }, 2000);
+        },
+        error => {
+          // log error message from server
+          console.log('%c' + error.error.message, 'color: red;');
+        }
+      );
   }
 
   // Makes a call to the server to update a question based on its id

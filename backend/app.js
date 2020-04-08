@@ -213,7 +213,7 @@ app.get("/api/assessment/:id", (request, response, next) => {
 });
 
 // ******************************************************** //
-// ***************   GET: CATEGORY BY ID  ***************** //
+// ***************   GET: ALL CATEGORIES  ***************** //
 // ******************************************************** //
 app.get("/api/categories", (request, response, next) => {
 
@@ -227,8 +227,8 @@ app.get("/api/categories", (request, response, next) => {
     });
 
     // Logs message and questions array to the backend for debugging.
-    console.log("Categories Fetched Successfully.")
-    console.log(categories);
+    // console.log("Categories Fetched Successfully.")
+    // console.log(categories);
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.
@@ -239,6 +239,26 @@ app.get("/api/categories", (request, response, next) => {
       categories: categories
     })
   });
+});
+
+// ********************************************************** //
+// ******   GET: CATEGORY BY ID ******* //
+// ********************************************************** //
+app.get("/api/category/:id", (request, response, next) => {
+  categoryCollection.find({ _id: request.params.id }).then((category, error) => {
+    response.status(200).json({
+      message: request.params.id + ' Category fetched successfully!',
+      category: category
+    });
+    console.log(category);
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        category: null
+      })
+    })
 });
 
 // ********************************************************** //
@@ -255,12 +275,11 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   }
 
   // Performs the search
-  questionCollection.find({ _id: objectIds }, (error, questions) => {
+  questionCollection.find({ _id: {$in: objectIds} }, (error, questions) => {
     if (error) {
       console.log(error.message);
     }
     else {
-      console.log(questions);
       // Send a successful response message and an array of questions to work with.
       response.status(200).json({
         message: 'Question Fetched Successfully!',
@@ -624,7 +643,27 @@ app.post("/api/assessment/update/", (request, response, next) => {
   });
 });
 
+app.post("/api/category/update", (request, response, next) => {
+  const requestedUpdate = request.body;
 
+  mongoose.connection.db.collection('categories').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString())}, { $set: {name: requestedUpdate.name }}, function (error, updatedCategory) {
+    updateQuestionCategories(requestedUpdate);
+    // Send a successful response message and an array of categories to work with.
+    response.status(200).json({
+      message: updatedCategory.name + ' updated successfully!',
+      updatedCategory: updatedCategory
+    });
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a categories array (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      updatedCategory: updatedCategory
+    })
+  });
+});
 
 // ******************************************************** //
 // ***********   UPDATE QUESTION COLLECTION   ************* //
@@ -643,7 +682,7 @@ app.post("/api/question/update/", (request, response, next) => {
   // passes the data to the database to update a specific question by id
   mongoose.connection.db.collection('questions').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedQuestion) {
 
-    // Send a successful response message and an array of categories to work with.
+    // Send a successful response message.
     response.status(200).json({
       message: 'updatedQuestion Fetched Successfully!',
       updatedQuestion: updatedQuestion
@@ -655,7 +694,7 @@ app.post("/api/question/update/", (request, response, next) => {
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.
-    // Includes what was pulled for a categories array (if anything)
+    // Includes what was pulled for a question array (if anything)
     console.log(error.message);
     response.status(400).json({
       message: error.message,
@@ -678,6 +717,11 @@ function deleteById(name, query, callBack) {
   mongoose.connection.db.collection(name, function(error, collection) {
     collection.deleteOne(query).then(callBack);
   });
+}
+
+// Updates all questions that have the updated category with the updated name
+function updateQuestionCategories(updatedCategory) {
+  mongoose.connection.db.collection('questions').updateMany({categories: {$elemMatch: {_id: mongoose.Types.ObjectId(updatedCategory._id)}}}, {$set: {"categories.$.name": updatedCategory.name }});
 }
 
 // Exports the contstants and all of the middlewares attached to it.

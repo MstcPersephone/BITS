@@ -20,6 +20,7 @@ export class ListExactMatchComponent implements OnInit {
       this.matchSubscription = this.questionService.getMatchesListener()
       .subscribe((matchesArray: ExactMatch[]) => {
         this.exactMatches = matchesArray;
+        console.log('list matches', this.exactMatches);
       });
   }
 

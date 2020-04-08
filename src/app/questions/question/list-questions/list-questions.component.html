@@ -15,30 +15,40 @@
       </mat-expansion-panel-header>
       <mat-card *ngFor="let question of category.value">
         <mat-grid-list [cols]="16" gutterSize="5px" rowHeight="30px">
+          <!-- Tiles utilize space as follows: -->
+          <!-- QT = Question Text Header -->
+          <!-- DI = Delete Icon -->
+          <!-- EI = Edit Icon -->
+          <!-- [QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT] [DI] [EI] -->
+          <!-- [                        QT h3 object                            ] -->
 
-          <mat-grid-tile [colspan]="8" [rowspan]="1">
+          <mat-grid-tile [colspan]="14" [rowspan]="1">
             <mat-grid-tile-header>
               <h5>Question Text</h5>
             </mat-grid-tile-header>
           </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="6" [rowspan]="1">
-          </mat-grid-tile>
 
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
+          <mat-grid-tile class="iconContainer" [colspan]="1" [rowspan]="1">
             <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question)">delete</mat-icon>
           </mat-grid-tile>
 
 
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
+          <mat-grid-tile class="iconContainer" [colspan]="1" [rowspan]="1">
             <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
           </mat-grid-tile>
           </mat-grid-list>
 
-        <h3 class="questionSubHeaderContent">{{ question.questionText }}</h3>
+        <h3 class="questionTextContent">{{ question.questionText }}</h3>
 
         <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
+          <!-- Tiles utilize space as follows: -->
+          <!-- QT = Question Type -->
+          <!-- PV = Point Value -->
+          <!-- AT = Attachments -->
+          <!-- [QT][QT] [PV][PV] [AT][AT][AT][AT] -->
+          <!-- [QT][QT] [PV][PV] [AT][AT][AT][AT] -->
+          <!-- (second row is the space devoted to the actual content, not header) -->
 
           <mat-grid-tile [colspan]="8" [rowspan]="1">
           </mat-grid-tile>
@@ -61,19 +71,6 @@
             </mat-grid-tile-header>
           </mat-grid-tile>
 
-          <!-- <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <section class="questionButtonContainer">
-              <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question._id)">
-                delete</mat-icon>
-            </section>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <section class="questionButtonContainer">
-              <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
-            </section>
-          </mat-grid-tile> -->
-
           <mat-grid-tile [colspan]="2" [rowspan]="1">
             <p> {{ question.questionType }} </p>
           </mat-grid-tile>
@@ -82,14 +79,16 @@
             <p> {{ question.points }} </p>
           </mat-grid-tile>
 
-          <mat-grid-tile class="optionListContainer" [colspan]="4" [rowspan]="1">
-            <div *ngIf="question.hasAttachments === true">
+          <mat-grid-tile class="attachmentContainer" [colspan]="4" [rowspan]="1">
+            <div class="attachmentsContent" *ngIf="question.hasAttachments === true">
               <div *ngFor="let attachment of question.attachments">
-                <button mat-raised-button
-                  (click)="this.attachmentService.downloadAttachment(attachment)">{{attachment.name}}</button>
+                <button class="uploadAnswer" mat-raised-button
+                  (click)="this.attachmentService.downloadAttachment(attachment)">
+                  {{attachment.name}} &nbsp;<mat-icon>cloud_download</mat-icon>
+                </button>
               </div>
             </div>
-            <div *ngIf="question.hasAttachments === false">
+            <div class="attachmentsContent" *ngIf="question.hasAttachments === false">
               <p>N/A</p>
             </div>
           </mat-grid-tile>
@@ -101,20 +100,18 @@
 
           <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
 
-            <mat-grid-tile [colspan]="4" [rowspan]="1">
+            <mat-grid-tile [colspan]="8" [rowspan]="1">
               <mat-grid-tile-header>
                 <h5>Selectable Options</h5>
               </mat-grid-tile-header>
             </mat-grid-tile>
 
-            <mat-grid-tile [colspan]="4" [rowspan]="1">
-            </mat-grid-tile>
 
           </mat-grid-list>
           <div class="optionListContainer" *ngIf="this.questionService.asCheckbox(question).options.length > 0">
 
             <div *ngFor="let option of this.questionService.asCheckbox(question).options; let i = index">
-              <div [ngClass]="option.isAnswer ? 'correct' : '' ">
+              <div class="optionContainer" [ngClass]="option.isAnswer ? 'correct' : '' ">
                 <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
                 <span class="optionListItem">{{option.optionText}}</span>
               </div>
@@ -129,20 +126,18 @@
 
           <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
 
-            <mat-grid-tile [colspan]="4" [rowspan]="1">
+            <mat-grid-tile [colspan]="8" [rowspan]="1">
               <mat-grid-tile-header>
-                <h5>Acceptable Answers</h5>
+                <h5 *ngIf="this.questionService.asShortAnswer(question).isCaseSensitive">Acceptable Answers (Case Sensitive)</h5>
+                <h5 *ngIf="!this.questionService.asShortAnswer(question).isCaseSensitive">Acceptable Answers</h5>
               </mat-grid-tile-header>
-            </mat-grid-tile>
-
-            <mat-grid-tile [colspan]="4" [rowspan]="1">
             </mat-grid-tile>
 
           </mat-grid-list>
           <div class="matchListContainer" *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
 
             <div *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; let i = index">
-              <div class="correct">
+              <div class="optionContainer correct">
                 <mat-icon class="isAnswerIcon">check_circle</mat-icon>
                 <span class="matchListItem">{{exactMatch.matchText}}</span>
               </div>
@@ -153,32 +148,33 @@
 
         <!-- If True False displays the answer -->
         <div *ngIf="question.questionType === 'True False'">
+          <br>
+          <br>
+
 
           <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
 
-            <mat-grid-tile [colspan]="4" [rowspan]="1">
+            <mat-grid-tile [colspan]="8" [rowspan]="1">
               <mat-grid-tile-header>
                 <h5>Correct Answer</h5>
               </mat-grid-tile-header>
             </mat-grid-tile>
 
-            <mat-grid-tile [colspan]="4" [rowspan]="1">
-            </mat-grid-tile>
-
           </mat-grid-list>
-          <section class="trueFalseContainer">
-          <!-- If True/False, show answer -->
-          <mat-chip-list>
-            <mat-chip class="isTrueFalseAnswerIcon isTrue" *ngIf="this.questionService.asTrueFalse(question).answer"
-              [selectable]="false" [selected]="false">
-              True
-            </mat-chip>
-            <mat-chip class="isTrueFalseAnswerIcon isFalse" *ngIf="!this.questionService.asTrueFalse(question).answer"
-              [selectable]="false" [selected]="false">
-              False
-            </mat-chip>
-          </mat-chip-list>
-        </section>
+
+
+          <div class="optionListContainer">
+            <div>
+              <div class="optionContainer correct" *ngIf="this.questionService.asTrueFalse(question).answer">
+                <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+                <span class="optionListItem">True</span>
+              </div>
+              <div class="optionContainer correct" *ngIf="!this.questionService.asTrueFalse(question).answer">
+                <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+                <span class="optionListItem">False</span>
+              </div>
+            </div>
+          </div>
         </div>
 
 

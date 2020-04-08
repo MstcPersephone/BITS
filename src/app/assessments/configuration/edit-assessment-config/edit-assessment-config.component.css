@@ -1,5 +1,2 @@
-/* Hides the button to save configurations
-   The button click is now simulated in the save assessment of assessment service*/
-.addConfiguration {
-  display: none;
-}
+/* Importing shared styles from create-assessment. */
+@import "../create-assessment-config/create-assessment-config.component.css";

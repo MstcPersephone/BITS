@@ -136,7 +136,7 @@ mat-icon,
 }
 
 /* Styles applied to the Save button */
-button.saveButton {
+button.saveButton, button.cancelOption {
   background-color: #82142D;
   color: #ffffff;
   margin-top: 40px;
@@ -185,15 +185,18 @@ div.correct, mat-list-item.correct, .success-dialog{
   color: rgba(0,0,0,0);
 }
 
-/* Styles applied to any "alert" options or dialogs */
-mat-list-item.alert, .alert-dialog {
-  background-color: #fcb618;
-  color: black;
+/* Styles applied to any "alert" options or dialogs and cancel options */
+mat-list-item.alert, .alert-dialog, .cancelOption {
+  background-color: #fcb618 !important;
+  color: black !important;
 }
 
 /* Styles applied to any "error" options or dialogs */
 mat-list-item.error, .error-dialog {
   background-color: #82142D;
+  color: white;
+}
+mat-list-item.error button, .error-dialog button{
   color: white;
 }
 
@@ -209,4 +212,31 @@ mat-list-item.error, .error-dialog {
 /* Styles applied to the "Loading" spinner */
 mat-spinner {
   margin: 150px auto;
+}
+
+/* Styles applied to error messages, such as validation errors. */
+.error{
+  font-weight: bold;
+  border-radius: 15px;
+  color: red;
+  margin-top: -1em;
+  margin-bottom: 25px;
+}
+
+/* Styles applied to the simulated buttons, meant to be hidden. */
+.simulatedButton {
+  display: none;
+}
+
+/* Styles applied to the button containers and it's content. */
+div.buttonContainer{
+  display: flex;
+  flex-direction: row;
+}
+div.buttonContainer button{
+  margin: auto;
+  margin-right: 0;
+}
+div.buttonContainer button:nth-of-type(2){
+  margin-left: 15px;
 }

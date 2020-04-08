@@ -1,1 +1,4 @@
+/* Importing global styles. */
+@import "../../../styles.css";
+
 @import "../../shared/option/edit-option/edit-option.component.css";

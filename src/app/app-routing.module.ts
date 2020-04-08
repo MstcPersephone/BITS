@@ -20,6 +20,7 @@ import { EditStudentComponent } from './student/edit-student/edit-student.compon
 import { ListStudentComponent } from './student/list-student/list-student.component';
 import { ViewStudentComponent } from './student/view-student/view-student.component';
 import { AssessmentEngineComponent } from './assessment-engine/assessment-engine.component';
+import { EditCategoryComponent } from './shared/category/edit-category/edit-category.component';
 
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'assessment/view/:assessmentId', component: ViewAssessmentComponent },
   { path: 'assessment/take/:assessmentId', component: AssessmentEngineComponent },
   { path: 'category', component: ManageCategoryComponent },
+  { path: 'category/edit/:categoryId', component: EditCategoryComponent },
   { path: 'match/create', component: CreateExactMatchComponent },
   { path: 'option/create', component: CreateOptionComponent },
   { path: 'question/create', component: CreateQuestionComponent },
