@@ -67,6 +67,8 @@ export class QuestionService {
   public categoriesIsValid;
   public exactMatchIsValid;
   public optionIsValid;
+  public editOptionIsValid;
+  public editOptionInvalid = false;
 
   constructor(
     private http: HttpClient,
@@ -351,6 +353,15 @@ export class QuestionService {
 
   setOptionInvalid() {
     this.optionIsValid = false;
+  }
+
+  setEditOptionIsValid() {
+    this.editOptionIsValid = true;
+  }
+
+  setEditOptionInvalid() {
+    // this.editOptionIsValid = false;
+    this.editOptionInvalid = true;
   }
 
   // ******************************************** //

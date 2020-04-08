@@ -5,6 +5,7 @@ import { QuestionService } from 'src/app/services/question.service';
 import { MultipleChoice } from 'src/app/models/question-types/multiple-choice.model';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { ValidationService } from 'src/app/services/validation.service';
+import { browser } from 'protractor';
 
 @Component({
   selector: 'app-edit-multiple-choice',
@@ -44,7 +45,7 @@ export class EditMultipleChoiceComponent implements OnInit {
   clickAdd() {
     // If the child form is loaded, calls validation on the child form when add button is clicked
     if (this.questionService.showCreateOption) {
-      document.getElementById('validateMCOptionEdit').click();
+      document.getElementById('validateMCOption').click();
       this.isValid = this.questionService.optionIsValid;
     }
     // sets the form to remain as visible
@@ -72,30 +73,33 @@ export class EditMultipleChoiceComponent implements OnInit {
     // Calls validation on parent form controls when submit button is clicked
     this.questionService.handleEditQuestionFormValidation(updatedMultipleChoiceQuestion);
 
+    // ***** HOT FIX NEEDED TODO: Not reading validation on new item and allowing saving.
     // If the child form is loaded, calls validation on the child form when submit button is clicked
+    // if (this.questionService.showCreateOption) {
+    //   document.getElementById('validateMCOption').click();
+    // }
+    // If the child form is loaded, calls validation on the child form when submit button is clicked
+    // Initialize question service optionIsValid to true there was nothing added
     if (this.questionService.showCreateOption) {
+      // Then run validation to reset it
       document.getElementById('validateMCOption').click();
+    } else {
+      this.questionService.optionIsValid = true;
     }
 
-    // // If the child form is loaded, calls validation on the child form when submit button is clicked
-    // if (this.questionService.showCreateOption) {
-    //   // browser.Document.GetElementById('MCOptions').InvokeMember('click');
-    //      const optionElements = document.getElementsByClassName('MCOptions');
-    //      optionElements.forEach((o) => {
-    //         o.click();
-    //       });
-    // }
-
     const options = this.questionService.getOptions();
-    options.forEach(option => {
-      document.getElementById('validateMCOptionEdit').click();
-      console.log(option);
-    });
+    if (options.length > 0) {
+      const optionElements = Array.from(document.getElementsByClassName('simulatedButtonMCClass'));
+      optionElements.forEach((o) => {
+        (o as HTMLButtonElement).click();
+      });
+    }
 
     console.log('Points are valid', this.questionService.pointsIsValid);
     console.log('Categoriess are valid', this.questionService.categoriesIsValid);
     console.log('Sort Answer form is valid', this.editMultipleChoiceForm.valid);
-    console.log('Option form is valid', this.questionService.optionIsValid);
+    console.log('Create Option form is valid', this.questionService.optionIsValid);
+    console.log('Edit Option has an invalid input', this.questionService.editOptionInvalid);
 
     // Calls validation on the current form when submit button is clicked
     if (!this.editMultipleChoiceForm.valid) {
@@ -107,7 +111,8 @@ export class EditMultipleChoiceComponent implements OnInit {
 
     // If all input of parent and child forms is valid, data will be passed to question service for saving
     if (this.editMultipleChoiceForm.valid && this.questionService.pointsIsValid
-      && this.questionService.categoriesIsValid && this.questionService.optionIsValid) {
+      && this.questionService.categoriesIsValid && this.questionService.optionIsValid
+      && !this.questionService.editOptionInvalid) {
       updatedMultipleChoiceQuestion._id = this.question._id;
       updatedMultipleChoiceQuestion.questionText = formData.questionText === '' ? this.question.questionText : formData.questionText;
       updatedMultipleChoiceQuestion.options = this.questionService.getOptions();

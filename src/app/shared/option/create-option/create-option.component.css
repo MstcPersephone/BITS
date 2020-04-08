@@ -15,9 +15,3 @@ form {
 mat-card, mat-form-field, mat-checkbox{
   display: block;
 }
-
-/* Hides the button to save options
-The button click is now simulated in the handleCreateQuestionFormValidation of question service*/
-.simulatedButton {
-  display: none;
-}

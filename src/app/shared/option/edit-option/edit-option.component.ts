@@ -31,12 +31,12 @@ export class EditOptionComponent implements OnInit {
   onSubmit(formData) {
     // This sets validation of the current option in the question service
     if (!this.editOptionForm.valid) {
-      this.questionService.setOptionInvalid();
+      this.questionService.setEditOptionInvalid();
       (Object as any).values(this.editOptionForm.controls).forEach(control => {
         control.markAsTouched();
       });
     } else {
-      this.questionService.setOptionIsValid();
+      this.questionService.setEditOptionIsValid();
     }
 
     // Initializes the option to be updated
