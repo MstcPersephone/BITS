@@ -15,6 +15,7 @@ export class FooterComponent implements OnInit {
   ngOnInit() {
   }
 
+  // The method to start an assessment
   startAssessment() {
     document.getElementById('validateStudentForm').click();
     this.assessmentEngineService.assessmentStarted = true;

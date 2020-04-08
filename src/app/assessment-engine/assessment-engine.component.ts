@@ -8,7 +8,8 @@ import { AssessmentEngineService } from '../services/assessment-engine.service';
   styleUrls: ['./assessment-engine.component.css']
 })
 export class AssessmentEngineComponent implements OnInit {
-answerForm;
+// The answer form to hold the student's submission
+  answerForm;
   constructor(
     public assessmentEngineService: AssessmentEngineService,
     private formBuilder: FormBuilder) {
