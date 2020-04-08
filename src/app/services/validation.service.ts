@@ -39,10 +39,12 @@ export class ValidationService {
   // ensures that value is not an empty string
   // if the value does not pass validation, the property is assigned true, else null
   static invalidWhiteSpaceOnly(control) {
-    if (!control.value.match(/^\s*$/)) {
-      return null;
-    } else {
-      return { invalidWhiteSpaceOnly: true };
+    if (control.touched) {
+      if (!control.value.match(/^\s*$/)) {
+        return null;
+      } else {
+        return { invalidWhiteSpaceOnly: true };
+      }
     }
   }
 }

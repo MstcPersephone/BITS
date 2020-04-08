@@ -4,7 +4,7 @@
     <!-- Option Text Input -->
     <mat-form-field appearance="standard">
       <mat-label>Enter New Option</mat-label>
-      <input matInput id="optionText" type="text" formControlName="optionText">
+      <input matInput id="optionText" #formcontrol type="text" formControlName="optionText">
     </mat-form-field>
     <app-validation-messages [control]="createOptionForm.get('optionText')"></app-validation-messages>
 

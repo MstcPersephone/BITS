@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, NgForm } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
 import { ValidationService } from 'src/app/services/validation.service';
 import { Option } from '../../../models/shared/option.model';
 import { Question } from 'src/app/models/question.interface';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-create-option',
@@ -28,6 +29,7 @@ export class CreateOptionComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   // Id is null at this point because it is generated on the backend.
@@ -56,12 +58,15 @@ export class CreateOptionComponent implements OnInit {
       // Adds current option to the options array in the service.
       this.questionService.createOption(option);
 
+      this.createOptionForm.reset();
+
       // For testing, we can remove later.
       console.log(option);
-      console.log(this.question);
-
-      // Resets the form values.
-      this.createOptionForm.reset();
     }
+    // (Object as any).values(this.createOptionForm.controls).forEach(control => {
+    //   control.markAsUntouched();
+    //   control.markAsPristine();
+    // });
+
   }
 }

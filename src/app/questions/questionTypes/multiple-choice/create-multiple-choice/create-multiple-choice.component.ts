@@ -40,7 +40,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
       this.isValid = this.questionService.optionIsValid;
     }
     // // sets the form to remain as visible
-    this.questionService.showCreateMatch = true;
+    this.questionService.showCreateOption = true;
     // // sets the cancel button to visible
     this.showCancelButton = true;
   }
