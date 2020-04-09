@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { TrueFalse } from 'src/app/models/question-types/true-false.model';
 import { QuestionService } from 'src/app/services/question.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
@@ -46,16 +46,14 @@ export class CreateTrueFalseComponent implements OnInit {
     // Initializes a new True False question to be saved
     const trueFalseQuestion: TrueFalse = new TrueFalse();
 
-    // Calls validation on parent form controls
-    // If the parent forms are invalid, submit is not allowed
-    // Marks all input as touched to show errors so user knows what requires valid input
+    // Calls validation on parent form controls when submit button is clicked
     this.questionService.handleCreateQuestionFormValidation(trueFalseQuestion);
+
     // console.log('Points are valid', this.questionService.pointsIsValid);
     // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
     // console.log('True False From is valid', this.createTrueFalseForm.valid);
 
-    // If the createTrueFalseForm is invalid, submit is not allowed
-    // Marks all input as touched to show errors so user knows what requires valid input
+    // Calls validation on the current form when submit button is clicked
     if (!this.createTrueFalseForm.valid) {
       // Runs all validation on the createTrueFalse form controls
       (Object as any).values(this.createTrueFalseForm.controls).forEach(control => {

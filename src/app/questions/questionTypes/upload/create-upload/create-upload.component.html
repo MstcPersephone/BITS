@@ -5,6 +5,8 @@
     <mat-label>Enter Question Text</mat-label>
     <input matInput id="questionText" type="text" formControlName="questionText">
   </mat-form-field>
+  <app-validation-messages [control]="createUploadForm.get('questionText')"></app-validation-messages>
+
 
   <!-- Attachment Component for uploading files -->
   <app-attachment></app-attachment>
