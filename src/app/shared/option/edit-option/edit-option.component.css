@@ -1,5 +1,6 @@
 /* Importing shared styles from List Option */
 @import "../list-option/list-option.component.css";
+@import "../../../../styles.css";
 
 /* Styles applied to the Edit Option container*/
 .editOptionContainer, .editMatchContainer{

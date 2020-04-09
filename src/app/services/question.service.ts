@@ -61,11 +61,16 @@ export class QuestionService {
   private question: Question;
   private questionUpdated = new Subject<Question>();
 
-  // forms
+  // forms and form validation
   private categoryForm;
   public pointsIsValid;
   public categoriesIsValid;
   public exactMatchIsValid;
+  public editExactMatchIsValid;
+  public editExactMatchInvalid = false;
+  public optionIsValid;
+  public editOptionIsValid;
+  public editOptionInvalid = false;
 
   constructor(
     private http: HttpClient,
@@ -317,31 +322,66 @@ export class QuestionService {
 
     document.getElementById('validatePointsEdited').click();
     document.getElementById('validateCategories').click();
-    console.log('ok, buttons clicked and errors showing, now what?');
   }
 
+  // Sets the points form to valid
   setPointsIsValid() {
     this.pointsIsValid = true;
   }
 
+  // Sets the points form to invalid
   setPointsInvalid() {
     this.pointsIsValid = false;
   }
 
+  // Sets the categories form to valid
   setCategoriesIsValid() {
     this.categoriesIsValid = true;
   }
 
+   // Sets the categories form to invalid
   setCategoriesInvalid() {
     this.categoriesIsValid = false;
   }
 
+   // Sets the create exact form to valid
   setExactMatchIsValid() {
     this.exactMatchIsValid = true;
   }
 
+  // Sets the create exact form to invalid
   setExactMatchInvalid() {
     this.exactMatchIsValid = false;
+  }
+
+  // Sets the edit exact form to valid
+  setEditExactMatchIsValid() {
+    this.editExactMatchIsValid = true;
+  }
+
+  // Sets the edit exact form to invalid
+  setEditExactMatchInvalid() {
+    this.editExactMatchInvalid = true;
+  }
+
+  // Sets the create option form to valid
+  setOptionIsValid() {
+    this.optionIsValid = true;
+  }
+
+  // Sets the create option form to invalid
+  setOptionInvalid() {
+    this.optionIsValid = false;
+  }
+
+  // Sets the edit option form to valid
+  setEditOptionIsValid() {
+    this.editOptionIsValid = true;
+  }
+
+  // Sets the edit option form to invalid
+  setEditOptionInvalid() {
+    this.editOptionInvalid = true;
   }
 
   // ******************************************** //

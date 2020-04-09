@@ -1,18 +1,18 @@
-<mat-card>
+
   <form [formGroup]="createOptionForm" (ngSubmit)="onSubmit(createOptionForm.value)">
 
     <!-- Option Text Input -->
     <mat-form-field appearance="standard">
       <mat-label>Enter New Option</mat-label>
-      <input matInput id="optionText" type="text" formControlName="optionText">
+      <input matInput id="optionText" #formcontrol type="text" formControlName="optionText">
     </mat-form-field>
+    <app-validation-messages [control]="createOptionForm.get('optionText')"></app-validation-messages>
 
     <!-- Is Answer Checkbox -->
     <mat-checkbox formControlName="isAnswer">Is this a correct answer?</mat-checkbox>
 
-    <!-- Submit Button -->
-    <button class="addOption" mat-raised-button type="submit">Add Option<mat-icon>&nbsp;add</mat-icon></button>
+    <!-- This button will not display: click is simulated in helping validate the form and save value -->
+    <button class="simulatedButton" type="submit" id="validateOption"></button>
+    <!-- <button class="simulatedButton" type="submit" id="validateCBOptiononEdit"></button>  -->
   </form>
-  <app-list-option *ngIf="!isEditMode"></app-list-option>
-</mat-card>
-<br>
+

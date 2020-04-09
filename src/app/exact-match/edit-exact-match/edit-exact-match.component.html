@@ -6,9 +6,7 @@
   </mat-form-field>
   <app-validation-messages [control]="editExactMatchForm.get('matchText')"></app-validation-messages>
 
-  <!-- This button will not display: click is simulated in helping validate the form and save value -->
-  <button class="simulatedButton" id="validateEditMatches" (click)="onSubmit(editExactMatchForm.value)"></button>
-
-  <!-- Submit Button -->
-  <!-- <button *ngIf="editExactMatchForm.dirty" class="addOption" mat-raised-button type="submit">Save Changes to Answer<mat-icon>&nbsp;save</mat-icon></button> -->
+  <!-- This button will not display: click is simulated in helping validate the form and save value
+       Uses a class rather than id to run through an array of exact matches -->
+  <button class="simulatedButtonSAClass" type="submit"></button>
 </form>
