@@ -113,9 +113,7 @@ export class ValidationService {
         return response;
       } else {
         response.result = false;
-        response.message = 'You must have at least '
-          + minCorrectAnswers
-          + ' correct answers for this question. If there is more than one correct answer, consider switching to a Checkbox question';
+        response.message = 'You must have at least ' + minCorrectAnswers + ' correct answers for this question. If there is more than one correct answer, consider switching to a Multiple Choice question';
         return response;
       }
     }
