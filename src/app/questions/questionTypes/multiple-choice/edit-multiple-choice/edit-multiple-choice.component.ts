@@ -2,10 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Question } from 'src/app/models/question.interface';
 import { FormBuilder, Validators } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
-import { MultipleChoice } from 'src/app/models/question-types/multiple-choice.model';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { ValidationService } from 'src/app/services/validation.service';
-import { browser } from 'protractor';
+import { MultipleChoice } from 'src/app/models/question-types/multiple-choice.model';
 
 @Component({
   selector: 'app-edit-multiple-choice',
@@ -17,6 +16,7 @@ export class EditMultipleChoiceComponent implements OnInit {
   isValid; // stores the validation set in the question service
   showCancelButton = false;
   editMultipleChoiceForm;
+
   constructor(
     public questionService: QuestionService,
     private formBuilder: FormBuilder,
@@ -91,14 +91,14 @@ export class EditMultipleChoiceComponent implements OnInit {
     }
 
     console.log('Points are valid', this.questionService.pointsIsValid);
-    console.log('Categoriess are valid', this.questionService.categoriesIsValid);
-    console.log('Sort Answer form is valid', this.editMultipleChoiceForm.valid);
+    console.log('Categories are valid', this.questionService.categoriesIsValid);
+    console.log('Multiple Choice form is valid', this.editMultipleChoiceForm.valid);
     console.log('Create Option form is valid', this.questionService.optionIsValid);
     console.log('Edit Option has an invalid input', this.questionService.editOptionInvalid);
 
     // Calls validation on the current form when submit button is clicked
     if (!this.editMultipleChoiceForm.valid) {
-      // Runs all validation on the createShortAnswerForm form controls
+      // Runs all validation on the createMultipleChoiceForm form controls
       (Object as any).values(this.editMultipleChoiceForm.controls).forEach(control => {
         control.markAsTouched();
       });
