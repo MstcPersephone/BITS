@@ -9,14 +9,14 @@ import { AssessmentService } from 'src/app/services/assessment.service';
   styleUrls: ['./view-true-false.component.css']
 })
 export class ViewTrueFalseComponent implements OnInit {
-answerTrueFalseForm;
+answerForm;
 @Input() question: TrueFalse;
 
   constructor(
     private assessmentService: AssessmentService,
     private formBuilder: FormBuilder
   ) {
-    this.answerTrueFalseForm = this.formBuilder.group({});
+    this.answerForm = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
