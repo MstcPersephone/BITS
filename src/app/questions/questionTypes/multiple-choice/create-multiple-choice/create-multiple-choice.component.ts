@@ -69,10 +69,10 @@ export class CreateMultipleChoiceComponent implements OnInit {
       document.getElementById('validateOption').click();
     }
 
-    console.log('Points are valid', this.questionService.pointsIsValid);
-    console.log('Categories are valid', this.questionService.categoriesIsValid);
-    console.log('Multiple Choice form is valid', this.createMultipleChoiceForm.valid);
-    console.log('Option form is valid', this.questionService.optionIsValid);
+    // console.log('Points are valid', this.questionService.pointsIsValid);
+    // console.log('Categories are valid', this.questionService.categoriesIsValid);
+    // console.log('Multiple Choice form is valid', this.createMultipleChoiceForm.valid);
+    // console.log('Option form is valid', this.questionService.optionIsValid);
 
     // Calls validation on the current form when submit button is clicked
     if (!this.createMultipleChoiceForm.valid) {
@@ -98,7 +98,7 @@ export class CreateMultipleChoiceComponent implements OnInit {
       this.questionService.saveQuestion(multipleChoiceQuestion);
 
       // For testing, we can remove later.
-      console.log(multipleChoiceQuestion);
+      // console.log(multipleChoiceQuestion);
     }
   }
 }
