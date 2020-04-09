@@ -4,6 +4,8 @@ import { Checkbox } from 'src/app/models/question-types/checkbox.model';
 import { QuestionService } from 'src/app/services/question.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { ValidationService } from 'src/app/services/validation.service';
+import { HelperService } from 'src/app/services/helper.service';
+import { Question } from 'src/app/models/question.interface';
 
 @Component({
   selector: 'app-create-checkbox',
@@ -18,7 +20,8 @@ export class CreateCheckboxComponent implements OnInit {
   constructor(
     public attachmentService: AttachmentService,
     private formBuilder: FormBuilder,
-    public questionService: QuestionService
+    public questionService: QuestionService,
+    private helperService: HelperService
   ) {
     this.createCheckboxForm = this.formBuilder.group({
       questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
@@ -95,8 +98,17 @@ export class CreateCheckboxComponent implements OnInit {
       checkboxQuestion.duration = 0;
       checkboxQuestion.assessmentIds = null;
 
-      // Sends the data to the quesiton service to handle passing data for saving in database
-      // this.questionService.saveQuestion(checkboxQuestion);
+      // Do a final check on options to make sure min requirements are met
+      const response = ValidationService.validatePossibleAnswers(checkboxQuestion as Question);
+
+      // If options are good, save the question
+      // Else, throw a snackbar and stay on the page
+      if (response.result) {
+        // Sends the data to the quesiton service to handle passing data for saving in database
+        this.questionService.saveQuestion(checkboxQuestion);
+      } else {
+        this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
+      }
 
       // For testing, we can remove later.
       console.log(checkboxQuestion);

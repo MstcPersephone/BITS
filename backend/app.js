@@ -356,6 +356,17 @@ app.get("/api/questions", (request, response, next) => {
         }
       });
 
+      // Sort questions by date
+      for (var category in organizedQuestions) {
+        if (Object.prototype.hasOwnProperty.call(organizedQuestions, category)) {
+            organizedQuestions[category].sort((a, b) => {
+              a = new Date(a.createdOn);
+              b = new Date(a.createdOn);
+              return a > b ? -1 : a < b ? 1 : 0;
+            })
+        }
+      }
+
       // Send back success message.
       response.status(200).json({
         message: 'Question Fetched Successfully!',

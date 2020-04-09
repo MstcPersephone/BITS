@@ -5,6 +5,7 @@ import { QuestionService } from 'src/app/services/question.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { ValidationService } from 'src/app/services/validation.service';
 import { Checkbox } from 'src/app/models/question-types/checkbox.model';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-edit-checkbox',
@@ -20,7 +21,8 @@ export class EditCheckboxComponent implements OnInit {
   constructor(
     public questionService: QuestionService,
     private formBuilder: FormBuilder,
-    public attachmentService: AttachmentService
+    public attachmentService: AttachmentService,
+    private helperService: HelperService
   ) {
     this.editCheckboxForm = this.formBuilder.group({
       questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
@@ -121,8 +123,17 @@ export class EditCheckboxComponent implements OnInit {
       this.questionService.showCreateOption = false;
       this.showCancelButton = false;
 
-      // Sends the data to the quesiton service to handle passing data for updating in database
-      // this.questionService.updateQuestionById(updatedCheckboxQuestion);
+      // Do a final check on options to make sure min requirements are met
+      const response = ValidationService.validatePossibleAnswers(updatedCheckboxQuestion as Question);
+
+      // If options are good, save the question
+      // Else, throw a snackbar and stay on the page
+      if (response.result) {
+        // Sends the data to the quesiton service to handle passing data for updating in database
+        this.questionService.updateQuestionById(updatedCheckboxQuestion);
+      } else {
+        this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
+      }
 
       // For testing, we can remove later
       console.log('Question to save', updatedCheckboxQuestion);
