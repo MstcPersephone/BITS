@@ -27,8 +27,9 @@ export class CreateExactMatchComponent implements OnInit {
   ngOnInit() {
   }
 
+ // Id is null at this point because it is generated on the backend.
   onSubmit(exactMatchData) {
-
+    // This sets validation of the current exact match in the question service
     if (!this.createExactMatchForm.valid) {
       this.questionService.setExactMatchInvalid();
       (Object as any).values(this.createExactMatchForm.controls).forEach(control => {
@@ -38,21 +39,23 @@ export class CreateExactMatchComponent implements OnInit {
       this.questionService.setExactMatchIsValid();
     }
 
+    // Initializes a new exact match
     const exactMatch: ExactMatch = new ExactMatch();
 
+    // If the new exact match to create is valid
     if (this.questionService.exactMatchIsValid) {
       exactMatch._id = null;
       exactMatch.questionId = null;
       exactMatch.matchText = exactMatchData.matchText;
 
-      // Adds option to the options array in the service.
+      // Adds exact match to the exact match array in the service.
       this.questionService.createExactMatch(exactMatch);
-
-      // Resets the form values.
-      this.createExactMatchForm.reset();
 
       // For testing, we can remove later.
       console.log(exactMatch);
+
+      // Resets the form values.
+      this.createExactMatchForm.reset();
     }
   }
 }

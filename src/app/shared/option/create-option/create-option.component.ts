@@ -1,8 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { Option } from '../../../models/shared/option.model';
+import { FormBuilder, Validators, NgForm } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
-import { Subscription } from 'rxjs';
+import { ValidationService } from 'src/app/services/validation.service';
+import { Option } from '../../../models/shared/option.model';
+import { Question } from 'src/app/models/question.interface';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-create-option',
@@ -12,45 +14,63 @@ import { Subscription } from 'rxjs';
 export class CreateOptionComponent implements OnInit {
   // whether or not the user is editing a question
   @Input() isEditMode: boolean;
+  @Input() question: Question;
   // Form object.
   createOptionForm;
 
   constructor(
     private formBuilder: FormBuilder,
-    private questionService: QuestionService
-  ) {
+    private questionService: QuestionService) {
     // Creates an object to hold form values.
     this.createOptionForm = this.formBuilder.group({
-      optionText: '',
+      optionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
       isAnswer: false
     });
   }
 
   ngOnInit() {
+
   }
 
   // Id is null at this point because it is generated on the backend.
   onSubmit(optionData) {
+    // This sets validation of the current option in the question service
+    if (!this.createOptionForm.valid) {
+      this.questionService.setOptionInvalid();
+      (Object as any).values(this.createOptionForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    } else {
+      this.questionService.setOptionIsValid();
+    }
+
+    // Initializes a new option
     const option: Option = new Option();
-    option._id = null;
-    option.questionId = null;
-    option.optionText =  optionData.optionText;
-    option.isAnswer = optionData.isAnswer;
-    option.optionIsSelected = false;
 
-    // Adds option to the options array in the service.
-    this.questionService.createOption(option);
+    // If the new option to create is valid
+    if (this.questionService.optionIsValid) {
+      option._id = null;
+      option.questionId = null;
+      option.optionText = optionData.optionText;
+      if (optionData.isAnswer === null) {
+        option.isAnswer = false;
+      } else {
+        option.isAnswer = optionData.isAnswer;
+      }
+      option.optionIsSelected = false;
 
-    // For testing, we can remove later.
-    console.log(option);
+      // Adds current option to the options array in the service.
+      this.questionService.createOption(option);
 
-    // Resets the form values.
-    this.createOptionForm.reset();
+      this.createOptionForm.reset();
 
-    // Recreate the formBuilder for another option to be added.
-    this.createOptionForm = this.formBuilder.group({
-      optionText: '',
-      isAnswer: false
-    });
+      // For testing, we can remove later.
+      console.log(option);
+    }
+    // (Object as any).values(this.createOptionForm.controls).forEach(control => {
+    //   control.markAsUntouched();
+    //   control.markAsPristine();
+    // });
+
   }
 }

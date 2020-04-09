@@ -86,7 +86,7 @@ export class CreateShortAnswerComponent implements OnInit {
       });
     }
 
-    // If all input of parent and child forms is valid, data will be passed to question service for saving
+    // If all input of parent and child forms are valid, data will be passed to question service for saving
     if (this.createShortAnswerForm.valid && this.questionService.pointsIsValid
       && this.questionService.categoriesIsValid && this.questionService.exactMatchIsValid) {
       shortAnswerQuestion._id = null;
