@@ -361,7 +361,7 @@ app.get("/api/questions", (request, response, next) => {
         if (Object.prototype.hasOwnProperty.call(organizedQuestions, category)) {
             organizedQuestions[category].sort((a, b) => {
               a = new Date(a.createdOn);
-              b = new Date(a.createdOn);
+              b = new Date(b.createdOn);
               return a > b ? -1 : a < b ? 1 : 0;
             })
         }

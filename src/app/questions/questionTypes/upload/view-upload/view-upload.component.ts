@@ -23,6 +23,7 @@ export class ViewUploadComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    console.log('QUESTION', this.question);
   }
 
   onSubmit() {
