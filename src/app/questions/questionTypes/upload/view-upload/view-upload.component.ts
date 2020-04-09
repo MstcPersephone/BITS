@@ -10,7 +10,7 @@ import { AttachmentService } from 'src/app/services/attachment.service';
   styleUrls: ['./view-upload.component.css']
 })
 export class ViewUploadComponent implements OnInit {
-  answerUploadForm;
+  answerForm;
   @Input() question: Upload;
 
   constructor(
@@ -18,7 +18,7 @@ export class ViewUploadComponent implements OnInit {
     public attachmentService: AttachmentService,
     private formBuilder: FormBuilder
   ) {
-    this.answerUploadForm = this.formBuilder.group({
+    this.answerForm = this.formBuilder.group({
       });
    }
 
@@ -27,6 +27,7 @@ export class ViewUploadComponent implements OnInit {
 
   onSubmit() {
     this.question.submittedAnswer = this.attachmentService.getStudentAnswers();
+    this.attachmentService.clearStudentAnswers();
     this.assessmentService.submitAnswer(this.question);
   }
 }

@@ -4,6 +4,8 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { HelperService } from './helper.service';
 import { Student } from '../models/student.model';
+import { Question } from '../models/question.interface';
+import { Assessment } from '../models/assessment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +15,23 @@ export class AssessmentEngineService {
   // Students previous scores array and subject.
   public previousScores: any[];
   private previousScoresUpdated = new Subject<any[]>();
+  public assessmentStarted = false;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private helperService: HelperService, ) { }
+
+  // ********************************************** //
+  // *********  ASSESSMENT: SCORING   ********* //
+  // ********************************************** //
+    checkAnswer(question: Question) {
+      console.log(question);
+    }
+
+    checkAssessment(assessment: Assessment) {
+      console.log(assessment);
+    }
 
   // ********************************************** //
   // *********  STUDENT: PREVIOUS SCORES  ********* //

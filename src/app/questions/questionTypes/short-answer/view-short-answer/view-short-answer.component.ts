@@ -9,7 +9,7 @@ import { AssessmentService } from 'src/app/services/assessment.service';
   styleUrls: ['./view-short-answer.component.css']
 })
 export class ViewShortAnswerComponent implements OnInit {
-answerShortAnswerForm;
+answerForm;
 
 @Input() question: ShortAnswer;
 
@@ -17,7 +17,7 @@ answerShortAnswerForm;
     private assessmentService: AssessmentService,
     private formBuilder: FormBuilder
   ) {
-    this.answerShortAnswerForm = this.formBuilder.group({
+    this.answerForm = this.formBuilder.group({
       studentAnswer: ''
     });
    }

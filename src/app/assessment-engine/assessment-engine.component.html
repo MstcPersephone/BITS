@@ -1,0 +1,8 @@
+<!-- Create student form which hides on submit -->
+<app-create-student *ngIf="!this.assessmentEngineService.assessmentStarted"></app-create-student>
+<!-- The form used for the student answer -->
+<form [formGroup]="answerForm" (ngSubmit)="onSubmit(answerForm.value)">
+<!-- The view for once the assessment engine is started -->
+<app-view-question *ngIf="this.assessmentEngineService.assessmentStarted"></app-view-question>
+<app-footer></app-footer>
+</form>
