@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 import { QuestionService } from 'src/app/services/question.service';
+import { QuestionType } from '../enums/questionType.enum';
+import { Checkbox } from '../models/question-types/checkbox.model';
+import { MultipleChoice } from '../models/question-types/multiple-choice.model';
+import { Question } from '../models/question.interface';
+import { ValidationResponse } from '../shared/validation-response.model';
+import { ResourceLoader } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +50,73 @@ export class ValidationService {
         return null;
       } else {
         return { invalidWhiteSpaceOnly: true };
+      }
+    }
+  }
+
+  static validatePossibleAnswers(question: Question): ValidationResponse {
+    // These variables are set based on question type
+    let minOptionsLength;
+    let minCorrectAnswers;
+    let q;
+
+    // The response object that will be returned within this function
+    const response = new ValidationResponse();
+​
+    // Set variables based on multiple choice
+    if (question.questionType === QuestionType.MultipleChoice) {
+      minOptionsLength = 2;
+      minCorrectAnswers = 1;
+      q = question as MultipleChoice;
+    }
+​
+    // Set variables based on checkbox
+    if (question.questionType === QuestionType.CheckBox) {
+      minOptionsLength = 3;
+      minCorrectAnswers = 2;
+      q = question as Checkbox;
+    }
+​
+    // Make sure that there are enough total options
+    if (q.options.length < minOptionsLength) {
+      response.result = false;
+      response.message = 'You must include at least ' + minOptionsLength + ' total answer options in the question';
+      return response;
+    }
+​
+    // Check to see how many correct answers there are
+    let correctAnswers = 0;
+    q.options.forEach((o) => {
+      if (o.isAnswer) {
+        correctAnswers++;
+      }
+    });
+​
+    // If multiple choice, correctAnswers must equal 1
+    if (q.questionType === QuestionType.MultipleChoice) {
+      if (correctAnswers === minCorrectAnswers) {
+        response.result = true;
+        response.message = 'Valid';
+        return response;
+      } else {
+        response.result = false;
+        response.message = 'You must have only have one correct answer for a Multiple Choice question';
+        return response;
+      }
+    }
+​
+    // If checkbox, correctAnswers must be at least minimum
+    if (q.questionType === QuestionType.CheckBox) {
+      if (correctAnswers >= minCorrectAnswers) {
+        response.result = true;
+        response.message = 'Valid';
+        return response;
+      } else {
+        response.result = false;
+        response.message = 'You must have at least '
+          + minCorrectAnswers
+          + ' correct answers for this question. If there is more than one correct answer, consider switching to a Checkbox question';
+        return response;
       }
     }
   }

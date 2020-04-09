@@ -4,6 +4,9 @@ import { MultipleChoice } from 'src/app/models/question-types/multiple-choice.mo
 import { QuestionService } from 'src/app/services/question.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { ValidationService } from 'src/app/services/validation.service';
+import { ValidationResponse } from '../../../../shared/validation-response.model';
+import { Question } from 'src/app/models/question.interface';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-create-multiple-choice',
@@ -18,7 +21,8 @@ export class CreateMultipleChoiceComponent implements OnInit {
   constructor(
     public attachmentService: AttachmentService,
     private formBuilder: FormBuilder,
-    public questionService: QuestionService
+    public questionService: QuestionService,
+    private helperService: HelperService
   ) {
     this.createMultipleChoiceForm = this.formBuilder.group({
       questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
@@ -94,8 +98,17 @@ export class CreateMultipleChoiceComponent implements OnInit {
       multipleChoiceQuestion.duration = 0;
       multipleChoiceQuestion.assessmentIds = null;
 
-      // Sends the data to the quesiton service to handle passing data for saving in database
-      this.questionService.saveQuestion(multipleChoiceQuestion);
+      // Do a final check on options to make sure min requirements are met
+      const response = ValidationService.validatePossibleAnswers(multipleChoiceQuestion as Question);
+
+      // If options are good, save the question
+      // Else, throw a snackbar and stay on the page
+      if (response.result) {
+        // Sends the data to the quesiton service to handle passing data for saving in database
+        this.questionService.saveQuestion(multipleChoiceQuestion);
+      } else {
+        this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
+      }
 
       // For testing, we can remove later.
       console.log(multipleChoiceQuestion);
