@@ -1,13 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { FormBuilder, Validators } from '@angular/forms';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { QuestionService } from 'src/app/services/question.service';
 import { AssessmentService } from 'src/app/services/assessment.service';
+import { ValidationService } from '../../../services/validation.service';
 import { HelperService } from '../../../services/helper.service';
-import { Subscription } from 'rxjs';
 import { Category } from 'src/app/models/shared/category.model';
 import { Question } from 'src/app/models/question.interface';
 import { Assessment } from 'src/app/models/assessment.model';
-import { FormBuilder, FormArray } from '@angular/forms';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 
 @Component({
@@ -35,8 +36,8 @@ export class CreateAssessmentComponent implements OnInit {
     public helperService: HelperService,
     private formBuilder: FormBuilder) {
       this.createAssessmentForm = this.formBuilder.group({
-        name: '',
-        description: ''
+        name: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
+        description: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]]
       });
       this.selectCategoryForm = this.formBuilder.group({
       categories: '',
