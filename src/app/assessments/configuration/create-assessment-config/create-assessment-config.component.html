@@ -31,18 +31,20 @@
   <div *ngIf="this.assessmentService.isTimed === true">
     <mat-form-field appearance="standard">
     <mat-label>Time Limit (minutes)</mat-label>
-    <input matInput #maxTimeValue id="wrongStreak" type="text"
+    <input matInput #maxTimeValue id="maxTime" type="text"
        formControlName="maxTime" (change)="this.assessmentService.onHandleMaxTime($event)" value="{{maxTime}}">
   </mat-form-field>
+  <app-validation-messages [control]="createConfigurationForm.get('maxTime')"></app-validation-messages>
   <br>
   </div>
 
   <!-- The wrong streak with number ticker -->
   <mat-form-field appearance="standard">
     <mat-label>Number of consecutive incorrect answers before ending assessment</mat-label>
-    <input matInput #wrongSteakValue id="wrongStreak" type="number"
+    <input matInput #wrongSteakValue id="wrongStreak" type="text"
        formControlName="wrongStreak" (change)="this.assessmentService.onHandleWrongStreak($event)" value="{{wrongStreak}}">
   </mat-form-field>
+  <app-validation-messages [control]="createConfigurationForm.get('wrongStreak')"></app-validation-messages>
   <br>
 
   <!-- Setting the minumum passing score percentage -->

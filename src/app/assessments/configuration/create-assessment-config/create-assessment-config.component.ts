@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 import { AssessmentService } from 'src/app/services/assessment.service';
 import { QuestionService } from 'src/app/services/question.service';
+import { ValidationService } from '../../../services/validation.service';
+
 import { Subscription } from 'rxjs';
 
 
@@ -26,14 +28,15 @@ export class CreateAssessmentConfigComponent implements OnInit {
     this.createConfigurationForm = this.formBuilder.group({
       isRandom: false,
       isTimed: false,
-      maxTime: 0,
+      maxTime: [0, [ValidationService.numberValidator]],
       minimumScore: 75,
-      wrongStreak: 0
+      wrongStreak: [0, [ValidationService.numberValidator]]
     });
   }
 
   ngOnInit() {
-
+    this.maxTime = 0;
+    this.wrongStreak = 0;
   }
 
   formatMinScoreLabel(value: number) {

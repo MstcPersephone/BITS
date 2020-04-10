@@ -35,11 +35,13 @@ export class ValidationService {
   // called from the component.ts where the formbuilder is created
   // validation for whole numeric value only
   // if the value does not pass validation, the property is assigned true, else null
-  static pointsValidator(control) {
-    if (control.value.match(/^(0|[1-9][0-9]*)$/)) {
-      return null;
-    } else {
-      return { invalidPoints: true };
+  static numberValidator(control) {
+    if (control.touched) {
+      if (control.value.match(/^(0|[1-9][0-9]*)$/)) {
+        return null;
+      } else {
+        return { invalidPoints: true };
+      }
     }
   }
 
@@ -64,28 +66,28 @@ export class ValidationService {
 
     // The response object that will be returned within this function
     const response = new ValidationResponse();
-​
+
     // Set variables based on multiple choice
     if (question.questionType === QuestionType.MultipleChoice) {
       minOptionsLength = 2;
       minCorrectAnswers = 1;
       q = question as MultipleChoice;
     }
-​
+
     // Set variables based on checkbox
     if (question.questionType === QuestionType.CheckBox) {
       minOptionsLength = 3;
       minCorrectAnswers = 2;
       q = question as Checkbox;
     }
-​
+
     // Make sure that there are enough total options
     if (q.options.length < minOptionsLength) {
       response.result = false;
       response.message = 'You must include at least ' + minOptionsLength + ' total answer options in the question';
       return response;
     }
-​
+
     // Check to see how many correct answers there are
     let correctAnswers = 0;
     q.options.forEach((o) => {
@@ -93,7 +95,7 @@ export class ValidationService {
         correctAnswers++;
       }
     });
-​
+
     // If multiple choice, correctAnswers must equal 1
     if (q.questionType === QuestionType.MultipleChoice) {
       if (correctAnswers === minCorrectAnswers) {
@@ -106,7 +108,7 @@ export class ValidationService {
         return response;
       }
     }
-​
+
     // If checkbox, correctAnswers must be at least minimum
     if (q.questionType === QuestionType.CheckBox) {
       if (correctAnswers >= minCorrectAnswers) {
@@ -116,7 +118,7 @@ export class ValidationService {
       } else {
         response.result = false;
         response.message = 'You must have at least ' + minCorrectAnswers +
-        ' correct answers for this question.  If there is only one correct answer, consider switching to a Multiple Choice question';
+          ' correct answers for this question.  If there is only one correct answer, consider switching to a Multiple Choice question';
         return response;
       }
     }
@@ -133,7 +135,7 @@ export class ValidationService {
     if (assessment.questionIds.length < minQuestionsLength) {
       response.result = false;
       response.message = 'You must include at least ' + minQuestionsLength +
-      ' question(s) to save an assessment, otherwise select Finish Later.';
+        ' question(s) to save an assessment, otherwise select Finish Later.';
       return response;
     } else {
       response.result = true;
