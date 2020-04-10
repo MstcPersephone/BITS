@@ -4,6 +4,8 @@ import { QuestionType } from '../enums/questionType.enum';
 import { Checkbox } from '../models/question-types/checkbox.model';
 import { MultipleChoice } from '../models/question-types/multiple-choice.model';
 import { Question } from '../models/question.interface';
+import { Assessment } from '../models/assessment.model';
+
 import { ValidationResponse } from '../shared/validation-response.model';
 import { ResourceLoader } from '@angular/compiler';
 
@@ -113,9 +115,30 @@ export class ValidationService {
         return response;
       } else {
         response.result = false;
-        response.message = 'You must have at least ' + minCorrectAnswers + ' correct answers for this question. If there is only one correct answer, consider switching to a Multiple Choice question';
+        response.message = 'You must have at least ' + minCorrectAnswers +
+        ' correct answers for this question.  If there is only one correct answer, consider switching to a Multiple Choice question';
         return response;
       }
+    }
+  }
+
+  static validateMinimumQuestions(assessment: Assessment): ValidationResponse {
+    // These variables are set based on question type
+    const minQuestionsLength = 1;
+
+    // The response object that will be returned within this function
+    const response = new ValidationResponse();
+
+    // Make sure that there are enough total options
+    if (assessment.questionIds.length < minQuestionsLength) {
+      response.result = false;
+      response.message = 'You must include at least ' + minQuestionsLength +
+      ' question(s) to save an assessment, otherwise select Finish Later.';
+      return response;
+    } else {
+      response.result = true;
+      response.message = 'Valid';
+      return response;
     }
   }
 }

@@ -29,17 +29,18 @@ export class CreateAssessmentComponent implements OnInit {
   selectCategoryForm;
   createAssessmentForm;
   config;
+  status;
 
   constructor(
     public questionService: QuestionService,
     public assessmentService: AssessmentService,
     public helperService: HelperService,
     private formBuilder: FormBuilder) {
-      this.createAssessmentForm = this.formBuilder.group({
-        name: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
-        description: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]]
-      });
-      this.selectCategoryForm = this.formBuilder.group({
+    this.createAssessmentForm = this.formBuilder.group({
+      name: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
+      description: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]]
+    });
+    this.selectCategoryForm = this.formBuilder.group({
       categories: '',
     });
   }
@@ -101,9 +102,9 @@ export class CreateAssessmentComponent implements OnInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
       this.refreshFilteredQuestions();
     }
   }
@@ -119,12 +120,40 @@ export class CreateAssessmentComponent implements OnInit {
       }
     });
     const assessment: Assessment = new Assessment();
-    assessment._id = null;
-    assessment.name = assessmentData.name;
-    assessment.description = assessmentData.description;
-    assessment.questionIds = this.questionIds;
-    assessment.config = new AssessmentConfig();
-    this.assessmentService.saveAssessment(assessment);
+
+    // Calls validation on the current form when submit button is clicked
+    if (!this.createAssessmentForm.valid) {
+      // Runs all validation on the createShortAnswerForm form controls
+      (Object as any).values(this.createAssessmentForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
+
+    // If all input of parent and child forms is valid, data will be passed to question service for saving
+    if (this.createAssessmentForm.valid) {
+      assessment._id = null;
+      assessment.name = assessmentData.name;
+      assessment.description = assessmentData.description;
+      assessment.questionIds = this.questionIds;
+      assessment.config = new AssessmentConfig();
+
+      const status = this.assessmentService.getStatus();
+      // console.log('status', this.assessmentService.getStatus());
+
+      // If a question is selected, allow the Save Button to be clicked
+      // Else, throw a snackbar and stay on the page
+      if (status === 'Complete') {
+        const response = ValidationService.validateMinimumQuestions(assessment);
+        if (response.result) {
+          // Sends the data to the quesiton service to handle passing data for saving in database
+          this.assessmentService.saveAssessment(assessment);
+        } else {
+          this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
+        }
+      } else {
+        this.assessmentService.saveAssessment(assessment);
+      }
+    }
   }
 }
 
