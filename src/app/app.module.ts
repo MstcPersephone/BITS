@@ -76,6 +76,8 @@ import { EditAssessmentConfigComponent } from './assessments/configuration/edit-
 import { ValidationMessagesComponent } from './shared/validation-messages/validation-messages.component';
 import { FooterComponent } from './assessment-engine/footer/footer.component';
 import { AssessmentEngineComponent } from './assessment-engine/assessment-engine.component';
+import { LoginViewComponent } from './src/app/login/login-view/login-view.component';
+import { LoginCreateComponent } from './login-create/login-create.component';
 
 
 @NgModule({
@@ -128,7 +130,9 @@ import { AssessmentEngineComponent } from './assessment-engine/assessment-engine
     EditAssessmentConfigComponent,
     ValidationMessagesComponent,
     FooterComponent,
-    AssessmentEngineComponent
+    AssessmentEngineComponent,
+    LoginViewComponent,
+    LoginCreateComponent
   ],
   imports: [
     BrowserModule,
