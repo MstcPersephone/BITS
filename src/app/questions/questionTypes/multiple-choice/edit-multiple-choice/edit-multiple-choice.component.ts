@@ -123,15 +123,24 @@ export class EditMultipleChoiceComponent implements OnInit {
       this.showCancelButton = false;
 
       // Do a final check on options to make sure min requirements are met
-      const response = ValidationService.validatePossibleAnswers(updatedMultipleChoiceQuestion as Question);
+      const possibleAnswersResponse = ValidationService.validatePossibleAnswers(updatedMultipleChoiceQuestion as Question);
+
+      // Do a final check on attachments to make sure they exist and are valid files
+      const attachmentResponse = ValidationService.validateAttachments(updatedMultipleChoiceQuestion as Question);
 
       // If options are good, save the question
       // Else, throw a snackbar and stay on the page
-      if (response.result) {
+      if (possibleAnswersResponse.result && attachmentResponse.result) {
         // Sends the data to the quesiton service to handle passing data for updating in database
         this.questionService.updateQuestionById(updatedMultipleChoiceQuestion);
       } else {
-        this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
+        if (!possibleAnswersResponse.result) {
+          this.helperService.openSnackBar(possibleAnswersResponse.message, 'OK', 'error-dialog', undefined);
+        }
+
+        if (!attachmentResponse) {
+          this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
+        }
       }
 
       // For testing, we can remove later.

@@ -95,8 +95,15 @@ export class EditTrueFalseComponent implements OnInit {
       updatedTrueFalseQuestion.duration = 0;
       updatedTrueFalseQuestion.assessmentIds = null;
 
-      // Sends the data to the quesiton service to handle passing data for saving in database
-      this.questionService.updateQuestionById(updatedTrueFalseQuestion);
+      // Do a final check on attachments to make sure they exist and are valid files
+      const attachmentResponse = ValidationService.validateAttachments(updatedTrueFalseQuestion as Question);
+
+      if (attachmentResponse.result) {
+        // Sends the data to the quesiton service to handle passing data for saving in database
+        this.questionService.updateQuestionById(updatedTrueFalseQuestion);
+      } else {
+        this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
+      }
 
       // For testing, we can remove later.
       // console.log('Question to save', updatedTrueFalseQuestion);

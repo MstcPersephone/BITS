@@ -129,12 +129,21 @@ export class EditShortAnswerComponent implements OnInit {
       updatedShortAnswerQuestion.duration = 0;
       updatedShortAnswerQuestion.assessmentIds = null;
 
-      // Resets both current form and cancel button to not visible
-      this.questionService.showCreateMatch = false;
-      this.showCancelButton = false;
+      // Do a final check on attachments to make sure they exist and are valid files
+      const attachmentResponse = ValidationService.validateAttachments(updatedShortAnswerQuestion as Question);
 
-      // Sends the data to the quesiton service to handle passing data for updating in database
-      this.questionService.updateQuestionById(updatedShortAnswerQuestion);
+      if (attachmentResponse.result) {
+
+        // Sends the data to the quesiton service to handle passing data for updating in database
+        this.questionService.updateQuestionById(updatedShortAnswerQuestion);
+
+        // Resets both current form and cancel button to not visible
+        this.questionService.showCreateMatch = false;
+        this.showCancelButton = false;
+
+      } else {
+        this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
+      }
 
       // For testing, we can remove later.
       console.log('Question to save', updatedShortAnswerQuestion);

@@ -18,6 +18,18 @@ export class AttachmentService {
 
   constructor() { }
 
+  attachmentsExist() {
+    return this.attachments.length !== 0;
+  }
+
+  correctAnswersExist() {
+    return this.correctAnswers.length !== 0;
+  }
+
+  studentAnswersExist() {
+    return this.studentAnswers.length !== 0;
+  }
+
   // Check to see if the file is an image
   checkForImageFileType(fileType: string): boolean {
     return Constants.imageFileTypes.includes(fileType);

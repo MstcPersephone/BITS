@@ -99,15 +99,25 @@ export class CreateCheckboxComponent implements OnInit {
       checkboxQuestion.assessmentIds = null;
 
       // Do a final check on options to make sure min requirements are met
-      const response = ValidationService.validatePossibleAnswers(checkboxQuestion as Question);
+      const possibleAnswersResponse = ValidationService.validatePossibleAnswers(checkboxQuestion as Question);
+
+      // Do a final check on attachments to make sure they exist and are valid files
+      const attachmentResponse = ValidationService.validateAttachments(checkboxQuestion as Question);
 
       // If options are good, save the question
       // Else, throw a snackbar and stay on the page
-      if (response.result) {
+      if (possibleAnswersResponse.result && attachmentResponse.result) {
         // Sends the data to the quesiton service to handle passing data for saving in database
         this.questionService.saveQuestion(checkboxQuestion);
       } else {
-        this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
+
+        if (!possibleAnswersResponse.result) {
+          this.helperService.openSnackBar(possibleAnswersResponse.message, 'OK', 'error-dialog', undefined);
+        }
+
+        if (!attachmentResponse.result) {
+          this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
+        }
       }
 
       // For testing, we can remove later.
