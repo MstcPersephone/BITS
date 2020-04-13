@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Attachment } from '../models/shared/attachment.model';
+import { Constants } from '../shared/constants';
+import { UploadType } from '../enums/uploadType.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,6 @@ export class AttachmentService {
   attachments: Attachment[] = [];
   attachmentsFileNames: string;
   hasAttachments = false;
-  hasAttachmentFileNames = false;
 
   correctAnswers: Attachment[] = [];
 
@@ -17,35 +18,20 @@ export class AttachmentService {
 
   constructor() { }
 
-  clearStudentAnswers() {
-    this.studentAnswers = [];
+  // Check to see if the file is an image
+  checkForImageFileType(fileType: string): boolean {
+    return Constants.imageFileTypes.includes(fileType);
   }
 
-  getAttachmentFileNames(attachmentArrayName: string) {
-    let fileNames: string;
-    if (attachmentArrayName === 'attachments') {
-      this.attachments.forEach((a, index) => {
+  openImageInNewTab(attachment: Attachment) {
+    const image = new Image();
+    image.src = attachment.content;
+    const w = window.open('');
+    w.document.write(image.outerHTML);
+  }
 
-        // If there is only one file uploaded,
-        // display that file name.
-        if (this.attachments.length === 1) {
-          fileNames = a.name;
-        } else {
-          // build comma separated list of file names
-
-          // consts to build the string
-          const name = a.name;
-          const commaAndSpace = ', ';
-
-          // unless it's the first file name in the list,
-          // add a space after the preceeding comma
-          fileNames += index === this.attachments.length - 1 ?
-            a.name : a.name + commaAndSpace;
-        }
-      });
-
-      return fileNames;
-    }
+  clearStudentAnswers() {
+    this.studentAnswers = [];
   }
 
   // Gets attachments array
@@ -68,14 +54,29 @@ export class AttachmentService {
     return this.attachmentsFileNames;
   }
 
-  // Adds attachments to a question
-  addAttachments(attachments: Attachment[]) {
-
-  }
-
   // Remove attachment from question
-  removeAttachment(attachmentId: number) {
-
+  removeAttachment(a: Attachment, uploadType: string) {
+    let index: number;
+    switch (uploadType) {
+      case UploadType.StudentAnswer:
+        // Get the index of the attachment
+        index = this.studentAnswers.indexOf(a);
+        // Student uploaded answer files.
+        this.studentAnswers.splice(index, 1);
+        break;
+      case UploadType.CorrectAnswer:
+        index = this.correctAnswers.indexOf(a);
+        // Instructor uploaded correct answer files
+        this.correctAnswers.splice(index, 1);
+        break;
+      // Also currently the default behavior
+      case UploadType.Attachment:
+      default:
+        index = this.attachments.indexOf(a);
+        // Instructor uploaded attachment to accompany a quesiton
+        this.attachments.splice(index, 1);
+        break;
+    }
   }
 
   hasAttachmentsChanged() {
@@ -91,55 +92,52 @@ export class AttachmentService {
   // Convert file content to binary string.
   uploadFiles($event: Event, uploadType: string) {
 
-      // Convert the uploaded files into an array of files to loop through.
-      const files = Array.from(($event.target as HTMLInputElement).files);
+    // Convert the uploaded files into an array of files to loop through.
+    const files = Array.from(($event.target as HTMLInputElement).files);
 
-      // Convert each file into an attachment.
-      files.forEach((f: File) => {
+    // Convert each file into an attachment.
+    files.forEach((f: File) => {
 
-        // Create and set values of attachment.
-        const attachment = new Attachment();
-        attachment._id = null;
-        attachment.name = f.name;
-        attachment.fileSize = f.size;
-        attachment.fileType = f.type;
+      // Create and set values of attachment.
+      const attachment = new Attachment();
+      attachment._id = null;
+      attachment.name = f.name;
+      attachment.fileSize = f.size;
+      attachment.fileType = f.type;
 
-        // FileReader to convert file content into a binary string.
-        const reader = new FileReader();
+      // FileReader to convert file content into a binary string.
+      const reader = new FileReader();
 
-        // When the reader loads (is done processing) store the results in attachment.
-        reader.onload = () => {
-          // The binary string of the file
-          console.log(reader.result);
+      // When the reader loads (is done processing) store the results in attachment.
+      reader.onload = () => {
+        // The binary string of the file
+        console.log(reader.result);
 
-          // This triggers an HTML element that shows file names
-          // see attachment.component.html
-          this.hasAttachmentFileNames = true;
+        // Assigning binary string to attachment content property
+        attachment.content = reader.result;
 
-          // Assigning binary string to attachment content property
-          attachment.content = reader.result;
+        switch (uploadType) {
+          case UploadType.StudentAnswer:
+            // Student uploaded answer files.
+            this.studentAnswers.push(attachment);
+            break;
+          case UploadType.CorrectAnswer:
+            // Instructor uploaded correct answer files
+            this.correctAnswers.push(attachment);
+            break;
+          case UploadType.Attachment:
+          default:
+            // Instructor uploaded attachment to accompany a quesiton
+            this.attachments.push(attachment);
+            break;
+        }
 
-          switch (uploadType) {
-            case 'studentAnswer':
-                // Student uploaded answer files.
-                this.studentAnswers.push(attachment);
-                break;
-            case 'correctAnswer':
-                // Instructor uploaded correct answer files
-                this.correctAnswers.push(attachment);
-                break;
-            default:
-              // Instructor uploaded attachment to accompany a quesiton
-              this.attachments.push(attachment);
-              break;
-          }
+        console.log(attachment.content);
+      };
 
-          console.log(attachment.content);
-        };
-
-        // Start up the reader and tell it to convert the file to binary string.
-        reader.readAsDataURL(f);
-      });
+      // Start up the reader and tell it to convert the file to binary string.
+      reader.readAsDataURL(f);
+    });
   }
 
   downloadAttachment(attachment: Attachment) {
@@ -171,11 +169,11 @@ export class AttachmentService {
 
     // set the bytes of the buffer to the correct values
     for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
+      ia[i] = byteString.charCodeAt(i);
     }
 
     // write the ArrayBuffer to a blob, and you're done
-    const blob = new Blob([ab], {type: mimeString});
+    const blob = new Blob([ab], { type: mimeString });
 
     return blob;
   }

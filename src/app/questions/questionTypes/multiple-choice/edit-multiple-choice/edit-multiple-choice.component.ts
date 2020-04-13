@@ -37,7 +37,6 @@ export class EditMultipleChoiceComponent implements OnInit {
     if (this.question.hasAttachments) {
       this.attachmentService.attachments = this.question.attachments;
       this.attachmentService.hasAttachments = true;
-      this.attachmentService.hasAttachmentFileNames = true;
     } else {
       this.attachmentService.attachments = [];
     }
