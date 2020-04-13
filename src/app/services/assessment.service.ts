@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HelperService } from './helper.service';
+import { ValidationService } from './validation.service';
 import { Assessment } from '../models/assessment.model';
 import { Category } from 'src/app/models/shared/category.model';
 import { AssessmentConfig } from 'src/app/models/assessment-config.model';
@@ -361,6 +362,11 @@ export class AssessmentService {
     const completeAssessment: any = assessment;
     completeAssessment.config = this.assessmentConfig;
     completeAssessment.status = this.status;
+
+    const response = ValidationService.validateMaxWrongStreak(completeAssessment);
+
+    if (response.result) {
+
     console.log('Complete Assessment', completeAssessment);
 
     this.http.post<{ message: string, assesment: Assessment }>('http://localhost:3000/api/assessment/save', completeAssessment)
@@ -372,11 +378,13 @@ export class AssessmentService {
           console.log(responseData.assesment);
           this.resetConfigurationForm();
           this.router.navigate(['/assessment/list']);
-
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
+      } else {
+        this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
+      }
   }
 
   // Makes a call to the server to update a question based on its id

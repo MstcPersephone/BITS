@@ -5,6 +5,7 @@ import { Checkbox } from '../models/question-types/checkbox.model';
 import { MultipleChoice } from '../models/question-types/multiple-choice.model';
 import { Question } from '../models/question.interface';
 import { Assessment } from '../models/assessment.model';
+import { AssessmentConfig } from '../models/assessment-config.model';
 
 import { ValidationResponse } from '../shared/validation-response.model';
 import { ResourceLoader } from '@angular/compiler';
@@ -136,6 +137,29 @@ export class ValidationService {
       response.result = false;
       response.message = 'You must include at least ' + minQuestionsLength +
         ' question(s) to save an assessment, otherwise select Finish Later.';
+      return response;
+    } else {
+      response.result = true;
+      response.message = 'Valid';
+      return response;
+    }
+  }
+
+  static validateMaxWrongStreak(assessment: Assessment): ValidationResponse {
+    // converts minimum score to true percent
+    const minPercent = Number(assessment.config.minimumScore / 100);
+    // assumes all points the same and finds the max wrong streak based upon min score percent.
+    const maxWrong = Math.floor(Number(assessment.questionIds.length * minPercent));
+    console.log('maxWrong', maxWrong);
+
+    // The response object that will be returned within this function
+    const response = new ValidationResponse();
+
+    // Make sure that there are enough total options
+    if (assessment.config.wrongStreak > maxWrong) {
+      response.result = false;
+      response.message = 'You maximum number of consecutive wrong answers cannot exceed ' + maxWrong  +
+      ' based upon minimum passing score.';
       return response;
     } else {
       response.result = true;
