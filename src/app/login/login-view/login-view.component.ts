@@ -14,7 +14,7 @@ export class LoginViewComponent implements OnInit {
   ngOnInit() {
   }
 
-  onLogin() {
-    console.log();
+  onLogin(formData) {
+    console.log(formData);
   }
 }
