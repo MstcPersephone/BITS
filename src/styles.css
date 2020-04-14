@@ -131,7 +131,8 @@ input[type="reset"],
 input[type="submit"],
 .iconButton,
 mat-icon,
-.mat-row:hover {
+.mat-row:hover,
+.homePageButtonClicker{
   cursor: pointer;
 }
 
