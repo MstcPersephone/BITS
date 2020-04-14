@@ -128,11 +128,18 @@ export class EditAssessmentComponent implements OnInit {
   }
 
   onSubmit(assessmentData) {
+
+    // Reset questionIds after validation (once validation in place)
+    this.questionIds = [];
+    this.assessmentQuestions.forEach((q) => {
+      this.questionIds.push(q._id);
+    });
+
     const updatedAssessment: Assessment = new Assessment();
     updatedAssessment._id = this.assessment._id;
     updatedAssessment.name = assessmentData.name;
     updatedAssessment.description = assessmentData.description;
-    updatedAssessment.questionIds = null;  // TODO: Add questions to edit
+    updatedAssessment.questionIds = this.questionIds;
     updatedAssessment.config = new AssessmentConfig();
     this.assessmentService.updateAssessmentById(updatedAssessment);
   }

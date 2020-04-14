@@ -6,6 +6,8 @@ import { MultipleChoice } from '../models/question-types/multiple-choice.model';
 import { Question } from '../models/question.interface';
 import { ValidationResponse } from '../shared/validation-response.model';
 import { ResourceLoader } from '@angular/compiler';
+import { Attachment } from '../models/shared/attachment.model';
+import { Upload } from '../models/question-types/upload.model';
 
 @Injectable({
   providedIn: 'root'
@@ -117,5 +119,37 @@ export class ValidationService {
         return response;
       }
     }
+  }
+
+  static validateAttachments(question: Question): ValidationResponse {
+    const response = new ValidationResponse();
+    if (question.hasAttachments) {
+      if (question.attachments.length !== 0) {
+        response.message = 'Attachments are uploaded and validated';
+        response.result = true;
+      } else {
+        response.message = 'You must have at least one attachment uploaded. If you do not want an attachment tied to this question, unselect the checkbox indicating that there are attachments';
+        response.result = false;
+      }
+    } else {
+      response.message = 'This question has no attachments';
+      response.result = true;
+    }
+
+    return response;
+  }
+
+  static validateCorrectAnswer(question: Upload): ValidationResponse {
+    const response = new ValidationResponse();
+
+    if (question.correctAnswer.length !== 0) {
+      response.message = 'Correct Answers are uploaded and validated';
+      response.result = true;
+    } else {
+      response.message = 'You must include at least one file as the correct answer. If the answer to this question is not a file, please select a different type of question.';
+      response.result = false;
+    }
+
+    return response;
   }
 }

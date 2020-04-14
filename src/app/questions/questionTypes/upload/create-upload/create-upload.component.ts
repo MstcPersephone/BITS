@@ -4,6 +4,8 @@ import { Upload } from 'src/app/models/question-types/upload.model';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { QuestionService } from 'src/app/services/question.service';
 import { ValidationService } from 'src/app/services/validation.service';
+import { Question } from 'src/app/models/question.interface';
+import { HelperService } from 'src/app/services/helper.service';
 
 
 @Component({
@@ -16,7 +18,8 @@ export class CreateUploadComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public attachmentService: AttachmentService,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    private helperService: HelperService
   ) {
     this.createUploadForm = this.formBuilder.group({
       questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]]
@@ -60,7 +63,22 @@ export class CreateUploadComponent implements OnInit {
       uploadQuestion.submittedAnswer = null;
       uploadQuestion.assessmentIds = null;
 
-      this.questionService.saveQuestion(uploadQuestion);
+      // Do a final check on attachments to make sure they exist and are valid files
+      const attachmentResponse = ValidationService.validateAttachments(uploadQuestion as Question);
+
+      const uploadAnswerResponse = ValidationService.validateCorrectAnswer(uploadQuestion);
+
+      if (attachmentResponse.result && uploadAnswerResponse.result) {
+        this.questionService.saveQuestion(uploadQuestion);
+      } else {
+        if (!attachmentResponse.result) {
+          this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
+        }
+
+        if (!uploadAnswerResponse.result) {
+          this.helperService.openSnackBar(uploadAnswerResponse.message, 'OK', 'error-dialog', undefined);
+        }
+      }
     }
   }
 }

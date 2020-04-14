@@ -1,0 +1,123 @@
+<br>
+<!-- The main home page display -->
+<mat-card class="homePageCard">
+  <h1 class="mat-display-1">Home</h1>
+
+  <mat-grid-list [cols]='4' gutterSize='40px' rowHeight="150px">
+
+    <!-- The Start Assessment button -->
+    <mat-grid-tile [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['']">
+        <mat-icon>play_circle_outline</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['']">
+            <p>Start Assessment</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <!-- The Student button -->
+    <mat-grid-tile [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['']">
+        <mat-icon>portrait</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['']">
+            <p>Student</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <!-- The Manage Categories button -->
+    <mat-grid-tile [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/category']">
+        <mat-icon>subject</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/category']">
+            <p>Manage Categories</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <!-- The Create New User button -->
+    <mat-grid-tile [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['']">
+        <mat-icon>group_add</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['']">
+            <p>Create New User</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <!-- The Create Question button -->
+    <mat-grid-tile [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/question/create']">
+        <mat-icon>library_add</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/question/create']">
+            <p>Create Question</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <!-- The View Questions button -->
+    <mat-grid-tile [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/question/list']">
+        <mat-icon>library_books</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/question/list']">
+            <p>View Questions</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <!-- The Create Assessment button -->
+    <mat-grid-tile [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/assessment/create']">
+        <mat-icon>description</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/assessment/create']">
+            <p>Create Assessment</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <!-- The View Assessments button -->
+    <mat-grid-tile [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/assessment/list']">
+        <mat-icon>file_copy</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/assessment/list']">
+            <p>View Assessments</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+  </mat-grid-list>
+  <br>
+</mat-card>
+<br>

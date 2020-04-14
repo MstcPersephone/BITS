@@ -1,0 +1,53 @@
+/* Importing global styles */
+@import '../../styles.css';
+
+/* Styles applied to the main page body */
+.homePageCard{
+  width: 85%;
+}
+
+/* Styles applied to containers used as a flex box */
+.flexContainer{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Styles applied to the main button container. */
+.homePageButtonContainer{
+  background-color: #82142D;
+  border-radius: 10px;
+  width: 150px;
+}
+
+/* Styles applied to the footer container of the button. */
+.homePageButtonFooterContainer{
+  width: 100%;
+}
+.homePageButtonFooterContent p{
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  white-space: nowrap;
+}
+.homePageButtonFooterContent{
+  width: 150px;
+}
+
+/* Styles applied to the button icons. */
+mat-grid-tile mat-icon{
+  color: white;
+  font-size: 100px;
+  width:100px;
+  height:100px;
+  padding-top: 10px;
+  padding-bottom: 40px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+/* Styles applied to the tile footer. */
+mat-grid-tile-footer{
+  background: none !important;
+}
