@@ -32,7 +32,7 @@ export class HelperService {
   }
 
   // Opens a snack bar for displaying a quick message to the user.
-  openSnackBar(message: string, action: string, classString: string, upTime: number = 5000) {
+  openSnackBar(message: string, action: string, classString: string, upTime: number = undefined) {
     this.snackBar.open(message, action, {
       duration: upTime,
       panelClass: classString

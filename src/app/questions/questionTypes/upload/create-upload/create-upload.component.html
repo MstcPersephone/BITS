@@ -19,6 +19,15 @@
       Upload Correct Answer &nbsp;<mat-icon>cloud_upload</mat-icon>
   </button>
 
+  <!-- Lists the correct answers -->
+  <div *ngFor="let a of this.attachmentService.getCorrectAnswers()" class="thumbnail">
+    <button mat-mini-fab type="button" (click)="this.attachmentService.removeAttachment(a, 'correctAnswer')">
+      <mat-icon>close</mat-icon>
+    </button>
+      <img *ngIf="this.attachmentService.checkForImageFileType(a.fileType)" [src]="a.content" (click)="this.attachmentService.openImageInNewTab(a)" />
+      <p>{{ a.name }}</p>
+  </div>
+
   <!-- Submit Button -->
   <button class="saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
 </form>

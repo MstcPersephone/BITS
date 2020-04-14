@@ -4,6 +4,8 @@ import { ShortAnswer } from 'src/app/models/question-types/short-answer.model';
 import { QuestionService } from 'src/app/services/question.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { ValidationService } from 'src/app/services/validation.service';
+import { Question } from 'src/app/models/question.interface';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-create-short-answer',
@@ -20,7 +22,8 @@ export class CreateShortAnswerComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public questionService: QuestionService,
-    public attachmentService: AttachmentService
+    public attachmentService: AttachmentService,
+    private helperService: HelperService
   ) {
     this.createShortAnswerForm = this.formBuilder.group({
       questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
@@ -99,12 +102,20 @@ export class CreateShortAnswerComponent implements OnInit {
       shortAnswerQuestion.isCaseSensitive = this.questionService.isCaseSensitive;
       shortAnswerQuestion.duration = 0;
 
-      // Sends the data to the quesiton service to handle passing data for saving in database
-      this.questionService.saveQuestion(shortAnswerQuestion);
+      // Do a final check on attachments to make sure they exist and are valid files
+      const attachmentResponse = ValidationService.validateAttachments(shortAnswerQuestion as Question);
 
-      // Resets both current form and cancel button to not visible
-      this.questionService.showCreateMatch = false;
-      this.showCancelButton = false;
+      if (attachmentResponse.result) {
+        // Sends the data to the quesiton service to handle passing data for saving in database
+        this.questionService.saveQuestion(shortAnswerQuestion);
+
+        // Resets both current form and cancel button to not visible
+        this.questionService.showCreateMatch = false;
+        this.showCancelButton = false;
+
+      } else {
+        this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
+      }
 
       // For testing, we can remove later.
       // console.log('Question to save', shortAnswerQuestion);
