@@ -1,1 +1,20 @@
-<p>login-create works!</p>
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
+    <mat-form-field>
+      <input matInput name="username" ngModel type="text" placeholder="Username" #usernameInput="ngModel" required>
+      <mat-error *ngIf="usernameInput.invalid">Please enter a valid username.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel" required>
+      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="password" name="password2" ngModel matInput placeholder="Password" #password2Input="ngModel" required>
+      <mat-error *ngIf="password2Input.invalid">Please enter a valid password.</mat-error>
+    </mat-form-field>
+    <mat-checkbox class="mt-20">Is admin?
+    </mat-checkbox>
+    <button mat-raised-button color="accent" type="submit">Signup</button>
+  </form>
+</mat-card>

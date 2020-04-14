@@ -9,6 +9,8 @@ import { User } from '../models/user.model';
 })
 export class LoginEngineService {
 
+  public isAdmin = false;
+
   constructor(
     private http: HttpClient,
     private router: Router ) { }
