@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Location } from '@angular/common';
 import { HelperService } from './helper.service';
 import { ValidationService } from './validation.service';
 import { Assessment } from '../models/assessment.model';
@@ -35,8 +36,6 @@ export class AssessmentService {
 
   // status
   private status: any;
-
-  private currentAssessmentId = null;
 
   // *********************************************** //
   // ****  ASSESSMENT CONFIGURATION PROPERTIES  **** //
@@ -79,7 +78,8 @@ export class AssessmentService {
     private http: HttpClient,
     private router: Router,
     private helperService: HelperService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private location: Location) { }
 
   // ******************************************************** //
   // ***************  ASSESSMENT FUNCTIONS  ***************** //
@@ -91,6 +91,12 @@ export class AssessmentService {
 
   getAssessmentsUpdateListener() {
     return this.assessmentsUpdated.asObservable();
+  }
+
+  // A function to allow a user to return to an assessment view after viewing a single question from table
+  returnToAssessment() {
+    this.showBackButton = false;
+    this.location.back();
   }
 
   // ******************************************************** //
@@ -255,25 +261,6 @@ export class AssessmentService {
   // ******************************************************** //
   getAssessmentQuestionsUpdatedListener() {
     return this.assessmentQuestionsUpdated.asObservable();
-  }
-
-  // Returns the user to the current assessment detail view, resets the showBackButton to false
-  returnToCurrentAssessment() {
-    // resets the showBackButton to false
-    this.showBackButton = false;
-    // returns the user to the current assessment the question belongs to.
-    this.router.navigate(['/assessment/view', this.currentAssessmentId]);
-  }
-
-  // Takes the user to the single question view and displays the button to return to assessment
-  viewCurrentQuestion(questionId, assesmentId) {
-    console.log('Question Id', questionId);
-    // stores the current assessment id for later use
-    this.currentAssessmentId = assesmentId;
-    // displays the button to return to the current assessment
-    this.showBackButton = true;
-    // takes the user to the single question view passing the current question id
-    this.router.navigate(['/question/view', questionId]);
   }
 
   // ******************************************************** //

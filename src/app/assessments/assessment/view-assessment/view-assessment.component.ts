@@ -59,7 +59,9 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
   }
 
   selectRow(questionId) {
-
-    this.assessmentService.viewCurrentQuestion(questionId, this.assessment._id);
+    // sets the return button to show on a single question view
+    this.assessmentService.showBackButton = true;
+    // takes the user to the single question view passing the current question id
+    this.router.navigate(['/question/view', questionId]);
   }
 }

@@ -12,3 +12,12 @@
         <mat-icon>done_outline</mat-icon></button>
 
 
+  <br>
+
+  <div *ngIf="this.assessmentService.showBackButton === true">
+    <!-- Return to Assessment Button : Resets showBackButton to false and returns to the current assessment view -->
+    <button class="cancelOption" mat-raised-button (click)="this.assessmentService.returnToAssessment()">
+      Return to Assessment</button>
+  </div>
+
+

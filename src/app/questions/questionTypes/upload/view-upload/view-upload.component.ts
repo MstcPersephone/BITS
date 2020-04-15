@@ -14,7 +14,7 @@ export class ViewUploadComponent implements OnInit {
   @Input() question: Upload;
 
   constructor(
-    private assessmentService: AssessmentService,
+    public assessmentService: AssessmentService,
     public attachmentService: AttachmentService,
     private formBuilder: FormBuilder
   ) {
