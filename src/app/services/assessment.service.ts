@@ -107,16 +107,6 @@ export class AssessmentService {
     }
   }
 
-  // Makes a call to the back end to extract (if necessary), store, and compare file contents
-  // Returns an object that contains a true/false result
-  checkUploadAnswer(question: Question) {
-    console.log(question);
-    this.http.post<{message: string, result: boolean}>('http://localhost:3000/api/assessment/checkUpload', question)
-      .subscribe((responseData) => {
-        console.log(responseData);
-      });
-  }
-
   // *************************************************** //
   // *********  ASSESSMENT: STATUS FUNCTIONS  ********** //
   // *************************************************** //
