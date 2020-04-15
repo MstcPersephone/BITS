@@ -45,4 +45,11 @@ export class HelperService {
        this.router.navigate([path]);
     });
   }
+
+  // generic function to reroute a component by passing in the desired path
+  refreshComponentById(path: string, id: any) {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+       this.router.navigate([path, id]);
+    });
+  }
 }

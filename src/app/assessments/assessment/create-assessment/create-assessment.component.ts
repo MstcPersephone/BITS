@@ -64,13 +64,6 @@ export class CreateAssessmentComponent implements OnInit {
         this.originalOrganizedQuestions = JSON.parse(JSON.stringify(questionsArray));
         this.organizedQuestions = JSON.parse(JSON.stringify(questionsArray));
       });
-
-    this.assessmentService.getQuestionsByIds(['5e66b1d326d9b22a70aa1c5c']);
-    this.assessmentQuestionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
-      .subscribe((questionsArray: Question[]) => {
-        this.assessmentQuestions = questionsArray;
-        console.log(this.assessmentQuestions);
-      });
   }
 
   dropToAssessment(event: any) {

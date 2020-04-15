@@ -374,9 +374,11 @@ export class AssessmentService {
     completeAssessment.config = this.assessmentConfig;
     completeAssessment.status = this.status;
 
-    const response = ValidationService.validateMaxWrongStreak(completeAssessment);
+    const wrongStreakResponse = ValidationService.validateMaxWrongStreak(completeAssessment);
 
-    if (response.result) {
+    const maxTimeResponse = ValidationService.validateMaxTime(completeAssessment.config.maxTime);
+
+    if (wrongStreakResponse.result && maxTimeResponse.result) {
 
       console.log('Complete Assessment', completeAssessment);
 
@@ -393,8 +395,10 @@ export class AssessmentService {
           error => {
             console.log('%c' + error.error.message, 'color: red;');
           });
-    } else {
-      this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
+    } else if (!wrongStreakResponse.result) {
+      this.helperService.openSnackBar(wrongStreakResponse.message, 'OK', 'error-dialog', undefined);
+    } else if (!maxTimeResponse.result) {
+      this.helperService.openSnackBar(maxTimeResponse.message, 'OK', 'error-dialog', undefined);
     }
   }
 
@@ -407,9 +411,11 @@ export class AssessmentService {
     assessment.status = this.status;
     console.log('Updated Assessment', assessment);
 
-    const response = ValidationService.validateMaxWrongStreak(assessment);
+    const wrongStreakResponse = ValidationService.validateMaxWrongStreak(assessment);
 
-    if (response.result) {
+    const maxTimeResponse = ValidationService.validateMaxTime(assessment.config.maxTime);
+
+    if (wrongStreakResponse.result && maxTimeResponse.result) {
       this.http.post<{ message: string, updatedAssessment: Assessment }>('http://localhost:3000/api/assessment/update', assessment)
         .subscribe(
           responseData => {
@@ -418,8 +424,8 @@ export class AssessmentService {
             this.helperService.openSnackBar(assessment.name + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
 
             setTimeout(() => {
-              // this.helperService.refreshComponent('/assessment/view, updatedAssessment._id');
-              this.router.navigate(['/assessment/view', assessment._id]);
+              this.helperService.refreshComponentById('assessment/view', assessment._id);
+              // this.router.navigate(['/assessment/view', assessment._id]);
               // reset the isLoading spinner
               this.helperService.isLoading = false;
             }, 2000);
@@ -432,8 +438,11 @@ export class AssessmentService {
             // log error message from server
             console.log('%c' + error.error.message, 'color: red;');
           });
-    } else {
-      this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
+    } else if (!wrongStreakResponse.result) {
+      this.helperService.openSnackBar(wrongStreakResponse.message, 'OK', 'error-dialog', undefined);
+      this.helperService.isLoading = false;
+    } else if (!maxTimeResponse.result) {
+      this.helperService.openSnackBar(maxTimeResponse.message, 'OK', 'error-dialog', undefined);
       this.helperService.isLoading = false;
     }
   }
