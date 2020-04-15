@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { HelperService } from './helper.service';
 import { Student } from '../models/student.model';
@@ -12,6 +12,8 @@ import { MultipleChoice } from '../models/question-types/multiple-choice.model';
 import { ShortAnswer } from '../models/question-types/short-answer.model';
 import { TrueFalse } from '../models/question-types/true-false.model';
 import { Upload } from '../models/question-types/upload.model';
+import { AssessmentService } from './assessment.service';
+import { TakenAssessment } from '../models/taken-assessment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +23,27 @@ export class AssessmentEngineService {
   // Students previous scores array and subject.
   public previousScores: any[];
   private previousScoresUpdated = new Subject<any[]>();
+
+  // Keeping track of the assessment
   public assessmentStarted = false;
+  private assessment: Assessment;
+  private questions: Question[];
+  private wrongAnswerStreak = 0;
+  private isWrongStreak = false;
+  private maxWrongStreak = 0;
+  private isTimed = false;
+  private assessmentQuestionsSubscription: Subscription;
+
+  // Keeping track of questions
+  private currentQuestion: Question;
+  private currentQuestionIndex = 0;
+  private currentQuestionUpdated = new Subject<Question>();
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private helperService: HelperService) { }
+    private helperService: HelperService,
+    private assessmentService: AssessmentService) { }
 
   // ********************************************** //
   // *********  ASSESSMENT: SCORING   ********* //
@@ -127,6 +144,15 @@ export class AssessmentEngineService {
       console.log(assessment);
     }
 
+    submitAssessment() {
+      // Loop through remaining question and mark them as wrong
+      // Create a new TakenAssessment object
+      // Provide the properties based on values within this service
+      // Make a call to save the results to TakenAssessment database
+      // (will be an update as the record should already exist from getting the URL)
+      // Navigate user to login page
+    }
+
   // ********************************************** //
   // *********  STUDENT: PREVIOUS SCORES  ********* //
   // ********************************************** //
@@ -138,6 +164,10 @@ export class AssessmentEngineService {
 
   getpreviousScoresUpdatedListener() {
     return this.previousScoresUpdated.asObservable();
+  }
+
+  getCurrentQuestionUpdatedListener() {
+    return this.currentQuestionUpdated.asObservable();
   }
 
   saveStudent(student: Student) {
@@ -157,5 +187,139 @@ export class AssessmentEngineService {
         error => {
           console.log('%c' + error.error.message, 'color: red;');
         });
+  }
+
+
+
+  prepareAssessment(assessment: Assessment) {
+
+    this.assessment = assessment;
+    this.assessmentService.getQuestionsByIds(assessment.questionIds);
+    this.assessmentQuestionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
+      .subscribe((questionsArray: Question[]) => {
+        this.questions = questionsArray;
+      });
+
+    // Put config into its own variable
+    const config = assessment.config;
+
+    // Get timer ready to start if necessary
+    if (config.isTimed) {
+      // Starting timer with setTimeout to make sure it starts last
+      setTimeout(() => {
+        this.startTimer(config.maxTime);
+      }, 0);
+    }
+
+    // Randomize questions if needed
+    if (config.isRandom) {
+      this.questions = this.randomizeQuestions(this.questions);
+    }
+
+    // Set up and trigger wrong streak if needed
+    if (config.wrongStreak > 0 ) {
+      this.isWrongStreak = true;
+      this.maxWrongStreak = config.wrongStreak;
+    }
+
+    this.startAssessment(this.questions, this.assessment);
+
+  }
+
+  randomizeQuestions(questions) {
+    let currentIndex = questions.length;
+    let tempValue: number;
+    let randomIndex: number;
+
+    // While there are remaining questions left to randomize
+    while (currentIndex !== 0) {
+      // Pick a random question
+      randomIndex = Math.floor(Math.random() * currentIndex);
+
+      currentIndex -= 1;
+
+      // Assign current question to temp variable
+      tempValue = questions[currentIndex];
+
+      // Swap random question with current question
+      questions[currentIndex] = questions[randomIndex];
+      questions[randomIndex] = tempValue;
+    }
+
+    return questions;
+  }
+
+  startAssessment(questions: Question[], assessment: Assessment) {
+    this.currentQuestion = questions[0];
+    this.assessmentStarted = true;
+  }
+
+  acceptAnswer(question: Question) {
+
+    // Mark the question as being answered by the student
+    question.isAnswered = true;
+
+    // Check to see if the answer is correct
+    const isCorrect = this.checkAnswer(question);
+
+    // If the answer is correct
+    if (isCorrect) {
+
+      // Mark the question as having a correct answer
+      question.isAnsweredCorrectly = true;
+
+      // If the answer is wrong
+    } else {
+      // Mark the question object as having the wrong answer
+      question.isAnsweredCorrectly = false;
+    }
+
+    // Update the submitted question in the array so it can be saved when submitting
+    this.questions[this.currentQuestionIndex] = question;
+
+    // Check to see if there are more questions
+    if (this.hasQuestionsRemaining()) {
+
+      // Reset wrong streak
+      if (this.isWrongStreak && isCorrect) {
+        this.wrongAnswerStreak = 0;
+
+        // Or increase wrong streak
+      } else if (this.isWrongStreak && !isCorrect) {
+        this.wrongAnswerStreak++;
+
+        // Check to see if max wrong streak is reached
+        if (this.wrongAnswerStreak === this.maxWrongStreak) {
+          this.submitAssessment();
+
+          // stop the rest of the function execution
+          return;
+        }
+      }
+
+      // Go to next question
+      this.goToNextQuestion();
+
+      // Else, there are no more questions, and the assessment needs to submit
+    } else {
+      this.submitAssessment();
+    }
+  }
+
+  // Updates the current question and notifies subscribers
+  goToNextQuestion() {
+    const newQuestionIndex = this.currentQuestionIndex + 1;
+    this.currentQuestion = this.questions[newQuestionIndex];
+    this.currentQuestionIndex = newQuestionIndex;
+    this.currentQuestionUpdated.next(this.currentQuestion);
+  }
+
+  // Returns whether there are more questions to be answered
+  hasQuestionsRemaining() {
+    return this.questions.length !== this.currentQuestionIndex + 1 ? true : false;
+  }
+
+  startTimer(duration: number) {
+    // timer logic
   }
 }
