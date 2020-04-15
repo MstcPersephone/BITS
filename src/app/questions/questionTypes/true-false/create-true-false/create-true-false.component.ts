@@ -6,6 +6,7 @@ import { AttachmentService } from 'src/app/services/attachment.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { ValidationService } from 'src/app/services/validation.service';
 import { QuestionType } from 'src/app/enums/questionType.enum';
+import { Question } from 'src/app/models/question.interface';
 
 
 @Component({
@@ -73,8 +74,15 @@ export class CreateTrueFalseComponent implements OnInit {
       trueFalseQuestion.duration = 0;
       trueFalseQuestion.assessmentIds = null;
 
-      // Sends the data to the quesiton service to handle passing data for saving in database
-      this.questionService.saveQuestion(trueFalseQuestion);
+      // Do a final check on attachments to make sure they exist and are valid files
+      const attachmentResponse = ValidationService.validateAttachments(trueFalseQuestion as Question);
+
+      if (attachmentResponse.result) {
+        // Sends the data to the quesiton service to handle passing data for saving in database
+        this.questionService.saveQuestion(trueFalseQuestion);
+      } else {
+        this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
+      }
 
       // For testing, we can remove later.
       // console.log('Question to save', trueFalseQuestion);

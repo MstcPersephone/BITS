@@ -102,15 +102,15 @@ export class QuestionService {
   }
 
   // Removes an option from the list based on its index
-  deleteCategory(i) {
-    console.log('%c Deleting Category', 'color: red');
-    this.categories.splice(i, 1);
-    console.table(this.categories);
-    this.categoriesUpdated.next([...this.categories]);
+  // deleteCategory(i) {
+  //   console.log('%c Deleting Category', 'color: red');
+  //   this.categories.splice(i, 1);
+  //   console.table(this.categories);
+  //   this.categoriesUpdated.next([...this.categories]);
 
-    // Open snackbar to display message stating that the option has been removed.
-    this.helperService.openSnackBar('Category Deleted.', 'Close', 'success-dialog', 5000);
-  }
+  //   // Open snackbar to display message stating that the option has been removed.
+  //   this.helperService.openSnackBar('Category Deleted.', 'Close', 'success-dialog', 5000);
+  // }
 
   // Gets all categories from the database.
   getAllCategories() {
