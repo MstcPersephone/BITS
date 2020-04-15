@@ -40,15 +40,14 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
     this.assessmentSubscription = this.assessmentService.getAssessmentUpdateListener()
       .subscribe((assessment: Assessment) => {
         this.assessment = assessment;
-        console.log('Assessment by Id', this.assessment);
+        // console.log('Assessment by Id', this.assessment);
         if (this.assessmentService.questionIds !== null) {
         this.assessmentService.getQuestionsByIds(this.assessmentService.questionIds);
         }
         this.questionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
           .subscribe((questionsArray: any) => {
             this.dataSource.data = questionsArray;
-            console.table(this.dataSource.data);
-
+            // console.table(this.dataSource.data);
             this.dataSource.sort = this.sort;
           });
       });

@@ -1,5 +1,8 @@
+<!-- The spinner object, displayed when the application is loading the questions -->
+<mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
+
 <br>
-<mat-card>
+<mat-card  *ngIf="!this.helperService.isLoading">
   <!-- Page Header -->
   <h1 class="mat-display-1">Create an Assessment</h1>
 
