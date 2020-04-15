@@ -1,11 +1,11 @@
 <p>{{ question.questionText }}</p>
 
-  <mat-checkbox
-  *ngFor="let option of question.options; index as i;"
-  [value]="option.optionIsSelected"
-  [checked]="option.optionIsSelected"
-  (change)="onChangeOption($event, i)">{{ option.optionText }}</mat-checkbox>
+<mat-checkbox *ngFor="let option of question.options; index as i;" [value]="option.optionIsSelected"
+  [checked]="option.optionIsSelected" (change)="onChangeOption($event, i)">{{ option.optionText }}</mat-checkbox>
 
-
-
-
+<br>
+<div *ngIf="this.assessmentService.showBackButton === true">
+  <!-- Return to Assessment Button : Resets showBackButton to false and returns to the current assessment view -->
+  <button class="cancelOption" mat-raised-button (click)="this.assessmentService.returnToCurrentAssessment()">Return to Assessment&nbsp;<mat-icon>close
+    </mat-icon></button>
+</div>

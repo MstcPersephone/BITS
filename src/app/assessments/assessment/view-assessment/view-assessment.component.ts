@@ -57,4 +57,9 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
+
+  selectRow(questionId) {
+
+    this.assessmentService.viewCurrentQuestion(questionId, this.assessment._id);
+  }
 }

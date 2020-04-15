@@ -36,6 +36,8 @@ export class AssessmentService {
   // status
   private status: any;
 
+  private currentAssessmentId = null;
+
   // *********************************************** //
   // ****  ASSESSMENT CONFIGURATION PROPERTIES  **** //
   // *********************************************** //
@@ -70,6 +72,8 @@ export class AssessmentService {
   public questions: Question[] = [];
   private currentQuestion: Question;
   private assessmentQuestionsUpdated = new Subject<Question[]>();
+  public showBackButton = false; // used to show the back button on instructors view of single question
+  private currentQuestionId = null;
 
   constructor(
     private http: HttpClient,
@@ -251,6 +255,25 @@ export class AssessmentService {
   // ******************************************************** //
   getAssessmentQuestionsUpdatedListener() {
     return this.assessmentQuestionsUpdated.asObservable();
+  }
+
+  // Returns the user to the current assessment detail view, resets the showBackButton to false
+  returnToCurrentAssessment() {
+    // resets the showBackButton to false
+    this.showBackButton = false;
+    // returns the user to the current assessment the question belongs to.
+    this.router.navigate(['/assessment/view', this.currentAssessmentId]);
+  }
+
+  // Takes the user to the single question view and displays the button to return to assessment
+  viewCurrentQuestion(questionId, assesmentId) {
+    console.log('Question Id', questionId);
+    // stores the current assessment id for later use
+    this.currentAssessmentId = assesmentId;
+    // displays the button to return to the current assessment
+    this.showBackButton = true;
+    // takes the user to the single question view passing the current question id
+    this.router.navigate(['/question/view', questionId]);
   }
 
   // ******************************************************** //
