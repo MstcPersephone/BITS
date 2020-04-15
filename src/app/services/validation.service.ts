@@ -137,8 +137,8 @@ export class ValidationService {
     // Make sure that there are enough total options
     if (assessment.questionIds.length < minQuestionsLength) {
       response.result = false;
-      response.message = 'You must include at least ' + minQuestionsLength +
-        ' question(s) to save an assessment, otherwise select Finish Later.';
+      response.message = 'You must include at least ' + minQuestionsLength + ' question to save an assessment. ' +
+      ' You may choose Finish Later.';
       return response;
     } else {
       response.result = true;
@@ -148,20 +148,15 @@ export class ValidationService {
   }
 
   static validateMaxWrongStreak(assessment: Assessment): ValidationResponse {
-    // converts minimum score to true percent
-    const minPercent = Number(assessment.config.minimumScore / 100);
-    // assumes all points the same and finds the max wrong streak based upon min score percent.
-    const maxWrong = Math.floor(Number(assessment.questionIds.length * minPercent));
-    console.log('maxWrong', maxWrong);
 
     // The response object that will be returned within this function
     const response = new ValidationResponse();
 
-    // Make sure that there are enough total options
-    if (assessment.config.wrongStreak > maxWrong) {
+    // Ensures that the wrong streak number is not greater than the number of questions that exist on an assessment
+    if (assessment.config.wrongStreak > assessment.questionIds.length) {
       response.result = false;
-      response.message = 'You maximum number of consecutive wrong answers cannot exceed ' + maxWrong  +
-      ' based upon minimum passing score.';
+      response.message = 'You currently have ' + assessment.questionIds.length +  ' questions. ' +
+       ' Your consective number of incorrect answers cannot exceed this amount.';
       return response;
     } else {
       response.result = true;
