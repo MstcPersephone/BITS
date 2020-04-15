@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { LoginEngineService } from '../../services/login.service';
 
 @Component({
   selector: 'app-login-view',
@@ -8,8 +9,13 @@ import { FormBuilder } from '@angular/forms';
 })
 export class LoginViewComponent implements OnInit {
   isLoading = false;
-
-  constructor() { }
+  loginForm;
+  constructor(
+    private formBuilder: FormBuilder,
+    public loginService: LoginEngineService
+  ) {
+    this.loginForm = this.formBuilder.group({});
+   }
 
   ngOnInit() {
   }

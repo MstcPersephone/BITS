@@ -1,6 +1,6 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm.value)" *ngIf="!isLoading">
     <mat-form-field>
       <input matInput name="username" ngModel type="text" placeholder="Username" #usernameInput="ngModel" required>
       <mat-error *ngIf="usernameInput.invalid">Please enter a valid username.</mat-error>

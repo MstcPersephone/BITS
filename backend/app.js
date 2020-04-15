@@ -22,6 +22,8 @@ const uploadArchiveModel = uploadModels.archive;
 const questionFactory = require("./providers/questionFactory");
 const checkUploadAnswer = require("./file-engine/check-upload-answer");
 
+const userRoutes = require("./routes/user");
+
 // ******************************************************** //
 // ***********   DATABASE COLLECTION OBJECTS   ************ //
 // ******************************************************** //
@@ -93,9 +95,6 @@ app.post("/api/assessment/checkUpload", (request, response, next) => {
   });
 });
 
-// *************************************************************** //
-// ******   DELETE: SAVE QUESTION TO ARCHIVED COLLECTION   ****** //
-// *************************************************************** //
 // *********************************************************** //
 // ******   ARCHIVE: ASSESSMENT FROM ASSESSMENT COLLECTION *** //
 // *********************************************************** //
@@ -754,6 +753,8 @@ function deleteById(name, query, callBack) {
 function updateQuestionCategories(updatedCategory) {
   mongoose.connection.db.collection('questions').updateMany({categories: {$elemMatch: {_id: mongoose.Types.ObjectId(updatedCategory._id)}}}, {$set: {"categories.$.name": updatedCategory.name }});
 }
+
+app.use("/api/user", userRoutes);
 
 // Exports the contstants and all of the middlewares attached to it.
 module.exports = app;
