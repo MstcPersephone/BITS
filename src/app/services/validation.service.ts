@@ -27,6 +27,7 @@ export class ValidationService {
       required: 'Required',
       invalidPoints: 'Must be numeric value', // whole numeric only allowed
       invalidWhiteSpaceOnly: 'Must have valid input', // no empty strings allowed
+      invalidMaxTime: 'Must set a valid value in minutes', // no empty strings allowed
       invalidPassword:
         'Invalid password. Password must be at least 6 characters long, and contain a number.',
       minlength: `Minimum length ${validatorValue.requiredLength}`  // validates the string length
@@ -157,6 +158,23 @@ export class ValidationService {
       response.result = false;
       response.message = 'You currently have ' + assessment.questionIds.length +  ' questions. ' +
        ' Your consective number of incorrect answers cannot exceed this amount.';
+      return response;
+    } else {
+      response.result = true;
+      response.message = 'Valid';
+      return response;
+    }
+  }
+
+  static validateMaxTime(time: number): ValidationResponse {
+
+    // The response object that will be returned within this function
+    const response = new ValidationResponse();
+
+    // Ensures that the wrong streak number is not greater than the number of questions that exist on an assessment
+    if (time === 0) {
+      response.result = false;
+      response.message = 'If you check this as a timed assessment you must add an appropriate maximum minute value.';
       return response;
     } else {
       response.result = true;

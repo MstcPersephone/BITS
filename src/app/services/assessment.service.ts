@@ -369,8 +369,6 @@ export class AssessmentService {
   }
 
   saveAssessment(assessment: Assessment) {
-    // isLoading is used to add a spinner
-    this.helperService.isLoading = true;
     document.getElementById('saveConfigurations').click();
     const completeAssessment: any = assessment;
     completeAssessment.config = this.assessmentConfig;
@@ -391,14 +389,12 @@ export class AssessmentService {
             console.log(responseData.assesment);
             this.resetConfigurationForm();
             this.router.navigate(['/assessment/list']);
-            this.helperService.isLoading = false;
           },
           error => {
             console.log('%c' + error.error.message, 'color: red;');
           });
     } else {
       this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
-      this.helperService.isLoading = false;
     }
   }
 

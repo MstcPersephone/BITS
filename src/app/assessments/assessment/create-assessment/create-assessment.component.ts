@@ -138,7 +138,6 @@ export class CreateAssessmentComponent implements OnInit {
       assessment.config = new AssessmentConfig();
 
       const status = this.assessmentService.getStatus();
-      // console.log('status', this.assessmentService.getStatus());
 
       // If a question is selected, allow the Save Button to be clicked
       // Else, throw a snackbar and stay on the page

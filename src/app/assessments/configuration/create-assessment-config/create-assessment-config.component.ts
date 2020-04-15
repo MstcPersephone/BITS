@@ -4,6 +4,7 @@ import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 import { AssessmentService } from 'src/app/services/assessment.service';
 import { QuestionService } from 'src/app/services/question.service';
 import { ValidationService } from '../../../services/validation.service';
+import { HelperService } from '../../../services/helper.service';
 
 import { Subscription } from 'rxjs';
 
@@ -24,7 +25,8 @@ export class CreateAssessmentConfigComponent implements OnInit {
   constructor(
     public questionService: QuestionService,
     public assessmentService: AssessmentService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    public helperService: HelperService) {
     this.createConfigurationForm = this.formBuilder.group({
       isRandom: false,
       isTimed: false,
@@ -51,6 +53,28 @@ export class CreateAssessmentConfigComponent implements OnInit {
     config.maxTime = this.assessmentService.getMaxTime();
     config.wrongStreak = this.assessmentService.getWrongStreak();
     config.minimumScore = configurationdata.minimumScore;
+
+    // Calls validation on the current form when submit button is clicked
+    if (!this.createConfigurationForm.valid) {
+      // Runs all validation on the createShortAnswerForm form controls
+      (Object as any).values(this.createConfigurationForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
+
+    if (config.isTimed) {
+      const response = ValidationService.validateMaxTime(config.maxTime);
+
+      if (response.result) {
+        // Sends the data to the quesiton service to handle passing data for saving in database
+        this.assessmentService.createAssessmentConfiguration(config);
+      } else {
+        this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
+      }
+    }
+
+    if (!config.isTimed) {
     this.assessmentService.createAssessmentConfiguration(config);
+    }
   }
 }
