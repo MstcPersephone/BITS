@@ -30,9 +30,9 @@ export class CreateAssessmentConfigComponent implements OnInit {
     this.createConfigurationForm = this.formBuilder.group({
       isRandom: false,
       isTimed: false,
-      maxTime: [0, [ValidationService.numberValidator]],
+      maxTime: 0,
       minimumScore: 75,
-      wrongStreak: [0, [ValidationService.numberValidator]]
+      wrongStreak: 0
     });
   }
 

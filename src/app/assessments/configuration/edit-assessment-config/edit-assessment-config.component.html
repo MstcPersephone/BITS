@@ -36,7 +36,6 @@
     <input matInput #maxTimeValue id="maxTime" type="number"
        formControlName="maxTime" (change)="this.assessmentService.onHandleMaxTime($event)">
   </mat-form-field>
-  <app-validation-messages [control]="updateConfigurationForm.get('maxTime')"></app-validation-messages>
   <br>
   </div>
 
@@ -46,7 +45,6 @@
     <input matInput #wrongSteakValue id="wrongStreak" type="number"
        formControlName="wrongStreak" (change)="this.assessmentService.onHandleWrongStreak($event)">
   </mat-form-field>
-  <app-validation-messages [control]="updateConfigurationForm.get('wrongStreak')"></app-validation-messages>
   <br>
 
   <!-- Setting the minumum passing score percentage -->

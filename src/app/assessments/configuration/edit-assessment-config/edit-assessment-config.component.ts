@@ -28,9 +28,9 @@ export class EditAssessmentConfigComponent implements OnInit {
     this.updateConfigurationForm = this.formBuilder.group({
       isRandom: '',
       isTimed: '',
-      maxTime: [0, [ValidationService.numberValidator]],
+      maxTime: 0,
       minimumScore: '',
-      wrongStreak: [0, [ValidationService.numberValidator]]
+      wrongStreak: 0
     });
   }
 
