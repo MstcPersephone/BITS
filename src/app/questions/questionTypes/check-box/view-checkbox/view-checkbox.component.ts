@@ -19,6 +19,7 @@ export class ViewCheckboxComponent implements OnInit {
     // We still want to create the form and use angular forms
     // to handle the submit function
     this.answerForm = this.formBuilder.group({});
+
   }
 
   ngOnInit(): void {
