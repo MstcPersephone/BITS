@@ -343,7 +343,7 @@ export class AssessmentEngineService {
     // completeAssessment.status = this.status;
     console.log('Taken Assessment', takenAssessment);
 
-    this.http.post<{ message: string, takenAssesment: TakenAssessment }>('http://localhost:3000/api/assessment/taken', takenAssessment)
+    this.http.post<{ message: string, takenAssesmentId: string }>('http://localhost:3000/api/assessment/taken', takenAssessment)
       .subscribe(
         responseData => {
           // tslint:disable-next-line: max-line-length
@@ -351,7 +351,7 @@ export class AssessmentEngineService {
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData);
-          this.takenAssessmentId = responseData.takenAssesment._id;
+          this.takenAssessmentId = responseData.takenAssesmentId;
           this.takenAssessmentIdUpdated.next(this.takenAssessmentId);
           // this.resetConfigurationForm();
           // this.router.navigate(['/assessment/list']);
