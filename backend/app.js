@@ -33,6 +33,7 @@ const studentCollection = require("./models/student");
 const questionCollection = questionCollections.questions;
 const archiveCollection = questionCollections.archive;
 const takenAssessmentCollection = require("./models/taken-assessment");
+const Constants = require("./providers/constants");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -226,6 +227,28 @@ app.get("/api/assessment/:id", (request, response, next) => {
       response.status(400).json({
         message: error.message,
         assessment: null
+      })
+    })
+});
+
+// ******************************************************** //
+// *********   GET: SINGLE TAKEN ASSESSMENT BY ID    ************ //
+// ******************************************************** //
+app.get("/api/assessment/take/:id", (request, response, next) => {
+  console.log(request.params.id);
+  takenAssessmentCollection.find({ _id: request.params.id }).then((takenAssessment, error) => {
+    response.status(200).json({
+      message: request.params.id + ' Assessment fetched successfully!',
+      takenAssessment: takenAssessment
+    });
+    // TODO: [PER-98] Remove the console logs before pushing to production.
+    console.log(takenAssessment);
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        takenAssessment: null
       })
     })
 });
@@ -631,7 +654,7 @@ app.post("/api/student/save", (request, response, next) => {
 // *********************************************************************** //
 // ******   SAVE: TAKEN ASSESSMENT TO TAKEN ASSESSMENT COLLECTION   ****** //
 // *********************************************************************** //
-app.post("/api/assessment/taken", (request, response, next) => {
+app.post("/api/assessment/generate", (request, response, next) => {
 
   // Request.body is the taken assessment that is passed through.
   const takenAssessment = request.body;

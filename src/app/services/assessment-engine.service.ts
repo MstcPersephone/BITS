@@ -27,6 +27,7 @@ export class AssessmentEngineService {
   // Keeping track of the assessment
   public assessmentStarted = false;
   private assessment: Assessment;
+  private assessmentUpdated = new Subject<Assessment>();
   private questions: Question[];
   private wrongAnswerStreak = 0;
   private isWrongStreak = false;
@@ -34,13 +35,14 @@ export class AssessmentEngineService {
   private isTimed = false;
   private assessmentQuestionsSubscription: Subscription;
 
+  private takenAssessment: TakenAssessment;
   // Keeping track of taken assessment
   private takenAssessmentUpdated = new Subject<TakenAssessment>();
   private takenAssessmentId: string;
   private takenAssessmentIdUpdated = new Subject<string>();
 
   // Keeping track of questions
-  private currentQuestion: Question;
+  public currentQuestion: Question;
   private currentQuestionIndex = 0;
   private currentQuestionUpdated = new Subject<Question>();
 
@@ -53,6 +55,10 @@ export class AssessmentEngineService {
     // MOVE
     getTakenAssessmentIdUpdateListener() {
       return this.takenAssessmentIdUpdated.asObservable();
+    }
+
+    getAssessmentUpdateListener() {
+      return this.assessmentUpdated.asObservable();
     }
 
   // ********************************************** //
@@ -102,6 +108,7 @@ export class AssessmentEngineService {
 
     checkShortAnswer(question: ShortAnswer) {
 
+      //TODO: add space checks for validation
       let isCorrect = false;
       const exactMatches = [];
 
@@ -161,6 +168,7 @@ export class AssessmentEngineService {
       // Make a call to save the results to TakenAssessment database
       // (will be an update as the record should already exist from getting the URL)
       // Navigate user to login page
+      // Some way to reset the values within this service
     }
 
   // ********************************************** //
@@ -178,6 +186,32 @@ export class AssessmentEngineService {
 
   getCurrentQuestionUpdatedListener() {
     return this.currentQuestionUpdated.asObservable();
+  }
+
+  // Gets an assessment by an id
+  getTakenAssessmentById(takeAssessmentId: string) {
+    this.helperService.isLoading = true;
+    this.http
+      .get<{ message: string, takenAssessment: TakenAssessment }>(
+        'http://localhost:3000/api/assessment/take/' + takeAssessmentId
+      )
+      .subscribe((assessmentData) => {
+
+        console.log(assessmentData);
+
+        this.takenAssessment = assessmentData.takenAssessment[0];
+        // // mongoose always returns an array with find()
+        // grabbing the first (and only) assessment in array
+        this.assessment = this.takenAssessment.assessment;
+
+        // Subscribers get a copy of the assessment.
+        this.assessmentUpdated.next(this.assessment);
+
+        this.takenAssessmentUpdated.next(this.takenAssessment);
+
+        // Done loading. Remove the loading spinner
+        this.helperService.isLoading = false;
+      });
   }
 
   saveStudent(student: Student) {
@@ -202,38 +236,38 @@ export class AssessmentEngineService {
 
 
   prepareAssessment(assessment: Assessment) {
-
     this.assessment = assessment;
     this.assessmentService.getQuestionsByIds(assessment.questionIds);
     this.assessmentQuestionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
       .subscribe((questionsArray: Question[]) => {
         this.questions = questionsArray;
+        console.log('QUESTIONS', this.questions);
+
+        // The rest of the prep work is dependent on getting these questions
+        // Put config into its own variable
+        const config = assessment.config;
+
+        // Get timer ready to start if necessary
+        if (config.isTimed) {
+          // Starting timer with setTimeout to make sure it starts last
+          setTimeout(() => {
+            this.startTimer(config.maxTime);
+          }, 0);
+        }
+
+        // Randomize questions if needed
+        if (config.isRandom) {
+          this.questions = this.randomizeQuestions(this.questions);
+        }
+
+        // Set up and trigger wrong streak if needed
+        if (config.wrongStreak > 0 ) {
+          this.isWrongStreak = true;
+          this.maxWrongStreak = config.wrongStreak;
+        }
+
+        this.startAssessment(this.questions, this.assessment);
       });
-
-    // Put config into its own variable
-    const config = assessment.config;
-
-    // Get timer ready to start if necessary
-    if (config.isTimed) {
-      // Starting timer with setTimeout to make sure it starts last
-      setTimeout(() => {
-        this.startTimer(config.maxTime);
-      }, 0);
-    }
-
-    // Randomize questions if needed
-    if (config.isRandom) {
-      this.questions = this.randomizeQuestions(this.questions);
-    }
-
-    // Set up and trigger wrong streak if needed
-    if (config.wrongStreak > 0 ) {
-      this.isWrongStreak = true;
-      this.maxWrongStreak = config.wrongStreak;
-    }
-
-    this.startAssessment(this.questions, this.assessment);
-
   }
 
   randomizeQuestions(questions) {
@@ -264,7 +298,9 @@ export class AssessmentEngineService {
     this.assessmentStarted = true;
   }
 
-  acceptAnswer(question: Question) {
+  acceptAnswer() {
+
+    const question = this.currentQuestion;
 
     // Mark the question as being answered by the student
     question.isAnswered = true;
@@ -343,7 +379,7 @@ export class AssessmentEngineService {
     // completeAssessment.status = this.status;
     console.log('Taken Assessment', takenAssessment);
 
-    this.http.post<{ message: string, takenAssessmentId: string }>('http://localhost:3000/api/assessment/taken', takenAssessment)
+    this.http.post<{ message: string, takenAssessmentId: string }>('http://localhost:3000/api/assessment/generate', takenAssessment)
       .subscribe(
         responseData => {
           // tslint:disable-next-line: max-line-length

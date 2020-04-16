@@ -35,7 +35,7 @@ const routes: Routes = [
   { path: 'assessment/edit/:assessmentId', component: EditAssessmentComponent },
   { path: 'assessment/list', component: AssessmentListComponent },
   { path: 'assessment/view/:assessmentId', component: ViewAssessmentComponent },
-  { path: 'assessment/take/:assessmentId', component: AssessmentEngineComponent },
+  { path: 'assessment/take/:takenAssessmentId', component: AssessmentEngineComponent },
   { path: 'category', component: ManageCategoryComponent },
   { path: 'category/edit/:categoryId', component: EditCategoryComponent },
   { path: 'match/create', component: CreateExactMatchComponent },

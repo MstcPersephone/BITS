@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,10 +14,10 @@ import { Question } from 'src/app/models/question.interface';
   styleUrls: ['./view-question.component.css']
 })
 export class ViewQuestionComponent implements OnInit {
+  @Input() currentQuestion: Question;
   question: Question;
   questionSubscription: Subscription;
   questions: Question[];
-  currentQuestion: Question;
   questionTypes = [];
   private questionsSubscription: Subscription;
   constructor(
@@ -43,8 +43,15 @@ export class ViewQuestionComponent implements OnInit {
     this.questionSubscription = this.questionService.getQuestionUpdatedListener()
     .subscribe((question: Question) => {
       this.currentQuestion = question;
+
+      console.log(this.currentQuestion);
     });
-    this.questionService.getQuestionById(this.route.snapshot.params.questionId);
+
+    const questionId = this.route.snapshot.params.questionId;
+
+    if (questionId !== undefined) {
+      this.questionService.getQuestionById(this.route.snapshot.params.questionId);
+    }
   }
 
 }
