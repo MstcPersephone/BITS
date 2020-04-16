@@ -25,7 +25,7 @@ export class CreateQuestionComponent implements OnInit {
               public helperService: HelperService) {
     // Creates an object to hold form values.
     this.addPointForm = this.formBuilder.group({
-      points: ['', [Validators.required, ValidationService.pointsValidator]]
+      points: ['', [Validators.required, ValidationService.numberValidator]]
     });
   }
 

@@ -6,6 +6,7 @@ import { Category } from '../shared/category.model';
 
 // Checkbox question that allows more than one correct answer.
 export class Checkbox implements Question {
+  // tslint:disable-next-line: variable-name
   _id: string;
   categories: Category [];
   questionText: string;

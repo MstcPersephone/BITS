@@ -5,3 +5,12 @@
   <input matInput type="text" id="studentAnswer" formControlName="studentAnswer">
 </mat-form-field>
 
+<br>
+
+<div *ngIf="this.assessmentService.showBackButton === true">
+  <!-- Return to Assessment Button : Resets showBackButton to false and returns to the current assessment view -->
+  <button class="cancelOption" mat-raised-button (click)="this.assessmentService.returnToAssessment()">
+    Return to Assessment</button>
+</div>
+
+

@@ -107,10 +107,16 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns; Index as i"
-    [routerLink]="['/question/view', row._id]"></tr>
+    (click)="selectRow(row._id)"></tr>
 
     </table>
   </mat-card>
 
+  <br>
+
+    <!-- Cancel Button : Cancels the save and send user back to question list -->
+  <button class="cancelOption" mat-raised-button [routerLink]="['/assessment/list']">Return to List</button>
+
 </mat-card>
 <br>
+

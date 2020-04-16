@@ -13,7 +13,7 @@ export class ViewMultipleChoiceComponent implements OnInit {
   @Input() question: MultipleChoice;
 
   constructor(
-    private assessmentService: AssessmentService,
+    public assessmentService: AssessmentService,
     private formBuilder: FormBuilder
   ) {
     // Although there are no fields,

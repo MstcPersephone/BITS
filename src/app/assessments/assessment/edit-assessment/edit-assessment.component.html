@@ -15,12 +15,14 @@
       <mat-label class="assessmentNameHeader">Assessment Name</mat-label>
       <input matInput id="name" type="text" formControlName="name" value="{{ assessment.name }}">
     </mat-form-field>
+    <app-validation-messages [control]="updateAssessmentForm.get('name')"></app-validation-messages>
 
     <!-- The assessment Description Input -->
     <mat-form-field appearance="standard">
       <mat-label>Assessment Description</mat-label>
       <input matInput id="description" type="text" formControlName="description" value="{{ assessment.description }}">
     </mat-form-field>
+    <app-validation-messages [control]="updateAssessmentForm.get('description')"></app-validation-messages>
 
     <!-- Configuration Expansion Panel -->
     <mat-expansion-panel>

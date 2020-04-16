@@ -13,7 +13,7 @@ answerForm;
 @Input() question: TrueFalse;
 
   constructor(
-    private assessmentService: AssessmentService,
+    public assessmentService: AssessmentService,
     private formBuilder: FormBuilder
   ) {
     this.answerForm = this.formBuilder.group({});

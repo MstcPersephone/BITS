@@ -14,7 +14,7 @@ answerForm;
 @Input() question: ShortAnswer;
 
   constructor(
-    private assessmentService: AssessmentService,
+    public assessmentService: AssessmentService,
     private formBuilder: FormBuilder
   ) {
     this.answerForm = this.formBuilder.group({

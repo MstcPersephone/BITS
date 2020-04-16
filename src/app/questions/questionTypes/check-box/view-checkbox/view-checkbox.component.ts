@@ -12,7 +12,7 @@ export class ViewCheckboxComponent implements OnInit {
   answerForm;
   @Input() question: Checkbox;
   constructor(
-    private assessmentService: AssessmentService,
+    public assessmentService: AssessmentService,
     private formBuilder: FormBuilder
   ) {
     // Although there are no fields,
