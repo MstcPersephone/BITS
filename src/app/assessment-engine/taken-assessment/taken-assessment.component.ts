@@ -18,7 +18,10 @@ import { Question } from '../../models/question.interface';
 export class TakenAssessmentComponent implements OnInit {
   generateAssessmentUrlForm;
   private assessmentSubscription: Subscription;
+  private takenAssessmentIdSubscription: Subscription;
   public assessmentList: Assessment[] = [];
+  takenAssessmentId;
+  selectedAssessment: any;
 
 
   constructor(
@@ -36,12 +39,16 @@ export class TakenAssessmentComponent implements OnInit {
       .subscribe((assessmentArray: Assessment[]) => {
         this.assessmentList = assessmentArray;
       });
+    this.takenAssessmentIdSubscription = this.assessmentEngineService.getTakenAssessmentIdUpdateListener()
+      .subscribe((takenAssessmentId: string) => {
+        this.takenAssessmentId = takenAssessmentId;
+      });
   }
 
   onSubmit(takenAssessmentData) {
     const takenAssessment: TakenAssessment = new TakenAssessment();
     takenAssessment._id = null;
-    takenAssessment.assessment = takenAssessmentData.assessment;
+    takenAssessment.assessment = this.selectedAssessment;
     takenAssessment.questions = null;
     takenAssessment.score = null;
     takenAssessment.student = null;

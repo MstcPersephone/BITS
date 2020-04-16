@@ -34,6 +34,11 @@ export class AssessmentEngineService {
   private isTimed = false;
   private assessmentQuestionsSubscription: Subscription;
 
+  // Keeping track of taken assessment
+  private takenAssessmentUpdated = new Subject<TakenAssessment>();
+  private takenAssessmentId: string;
+  private takenAssessmentIdUpdated = new Subject<string>();
+
   // Keeping track of questions
   private currentQuestion: Question;
   private currentQuestionIndex = 0;
@@ -44,6 +49,11 @@ export class AssessmentEngineService {
     private router: Router,
     private helperService: HelperService,
     private assessmentService: AssessmentService) { }
+
+    // MOVE
+    getTakenAssessmentIdUpdateListener() {
+      return this.takenAssessmentIdUpdated.asObservable();
+    }
 
   // ********************************************** //
   // *********  ASSESSMENT: SCORING   ********* //
@@ -328,25 +338,27 @@ export class AssessmentEngineService {
   // ******************************************************** //
 
   saveTakenAssessment(takenAssessment: TakenAssessment) {
-    // document.getElementById('saveConfigurations').click();
     // const completeAssessment: any = assessment;
     // completeAssessment.config = this.assessmentConfig;
     // completeAssessment.status = this.status;
-    // console.log('Complete Assessment', completeAssessment);
+    console.log('Taken Assessment', takenAssessment);
 
-    // this.http.post<{ message: string, assesment: Assessment }>('http://localhost:3000/api/assessment/save', completeAssessment)
-    //   .subscribe(
-    //     responseData => {
-    //       this.helperService.openSnackBar(completeAssessment.name + ' Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
-    //       console.log('%c' + responseData.message, 'color: green;');
-    //       console.log('%c Database Object:', 'color: orange;');
-    //       console.log(responseData.assesment);
-    //       this.resetConfigurationForm();
-    //       this.router.navigate(['/assessment/list']);
+    this.http.post<{ message: string, takenAssesment: TakenAssessment }>('http://localhost:3000/api/assessment/taken', takenAssessment)
+      .subscribe(
+        responseData => {
+          // tslint:disable-next-line: max-line-length
+          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Taken Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData);
+          this.takenAssessmentId = responseData.takenAssesment._id;
+          this.takenAssessmentIdUpdated.next(this.takenAssessmentId);
+          // this.resetConfigurationForm();
+          // this.router.navigate(['/assessment/list']);
 
-    //     },
-    //     error => {
-    //       console.log('%c' + error.error.message, 'color: red;');
-    //     });
+        },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
   }
 }
