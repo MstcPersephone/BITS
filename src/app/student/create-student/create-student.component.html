@@ -9,11 +9,23 @@
 
   <form [formGroup]="createStudentForm" (ngSubmit)="onSubmit(createStudentForm.value)">
 
+      <mat-checkbox
+      id="hasStudentId"
+      [checked]="this.hasStudentId"
+      class="mt-20"
+      (change)="this.hasStudentIdChanged()"
+      formControlName="hasStudentId">
+      Do you have a student Id?
+      </mat-checkbox>
+
+
     <!-- Student Input -->
-    <mat-form-field appearance="standard">
+    <mat-form-field appearance="standard" *ngIf="this.hasStudentId">
       <mat-label color="primary" class="label-header">Enter student ID</mat-label>
       <input matInput id="studentId" type="text" formControlName="studentId" required>
     </mat-form-field>
+
+    <br />
 
     <!-- Campus Location Dropdown -->
     <mat-form-field class="questionTypeInput">
@@ -23,6 +35,7 @@
         <mat-option value="Wisconsin Rapids">Wisconsin Rapids</mat-option>
       </mat-select>
     </mat-form-field>
+
     <br />
 
     <!-- First Name Input -->

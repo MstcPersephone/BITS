@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MultipleChoice } from 'src/app/models/question-types/multiple-choice.model';
 import { FormBuilder } from '@angular/forms';
-import { AssessmentService } from 'src/app/services/assessment.service';
+import { AssessmentEngineService } from 'src/app/services/assessment-engine.service';
 
 @Component({
   selector: 'app-view-multiple-choice',
@@ -13,7 +13,7 @@ export class ViewMultipleChoiceComponent implements OnInit {
   @Input() question: MultipleChoice;
 
   constructor(
-    public assessmentService: AssessmentService,
+    public assessmentEngineService: AssessmentEngineService,
     private formBuilder: FormBuilder
   ) {
     // Although there are no fields,
@@ -34,6 +34,6 @@ export class ViewMultipleChoiceComponent implements OnInit {
   }
 
   onSubmit() {
-    this.assessmentService.submitAnswer(this.question);
+    this.assessmentEngineService.checkAnswer(this.question);
   }
 }

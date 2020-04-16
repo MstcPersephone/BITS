@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Checkbox } from 'src/app/models/question-types/checkbox.model';
 import { FormBuilder } from '@angular/forms';
-import { AssessmentService } from 'src/app/services/assessment.service';
+import { AssessmentEngineService } from 'src/app/services/assessment-engine.service';
 
 @Component({
   selector: 'app-view-checkbox',
@@ -12,7 +12,7 @@ export class ViewCheckboxComponent implements OnInit {
   answerForm;
   @Input() question: Checkbox;
   constructor(
-    public assessmentService: AssessmentService,
+    public assessmentEngineService: AssessmentEngineService,
     private formBuilder: FormBuilder
   ) {
     // Although there are no fields,
@@ -30,6 +30,6 @@ export class ViewCheckboxComponent implements OnInit {
   }
 
   onSubmit() {
-    this.assessmentService.submitAnswer(this.question);
+    this.assessmentEngineService.checkAnswer(this.question);
   }
 }

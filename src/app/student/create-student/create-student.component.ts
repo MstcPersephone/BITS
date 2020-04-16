@@ -11,6 +11,8 @@ import { HelperService } from '../../services/helper.service';
 })
 export class CreateStudentComponent implements OnInit {
   createStudentForm;
+  hasStudentId = false;
+  showstudentId = false;
   maxDate: Date;
   minDate: Date;
   startDate: Date;
@@ -21,6 +23,7 @@ export class CreateStudentComponent implements OnInit {
     public helperService: HelperService,
     private formBuilder: FormBuilder) {
     this.createStudentForm = this.formBuilder.group({
+      hasStudentId: false,
       studentId: '',
       firstName: '',
       lastName: '',
@@ -43,10 +46,21 @@ export class CreateStudentComponent implements OnInit {
     console.log('Campus', this.campusLocationSelected);
   }
 
+  hasStudentIdChanged() {
+    this.hasStudentId = !this.hasStudentId;
+    return this.hasStudentId;
+  }
+
   onSubmit(studentData) {
     const student: Student = new Student();
     student._id = null;
-    student.studentId = studentData.studentId;
+    student.hasStudentId = studentData.hasStudentId;
+    if (this.hasStudentId) {
+      student.studentId = studentData.studentId;
+    } else {
+
+    }
+
     student.firstName = studentData.firstName;
     student.lastName = studentData.lastName;
     student.dateOfBirth = studentData.dateOfBirth;
