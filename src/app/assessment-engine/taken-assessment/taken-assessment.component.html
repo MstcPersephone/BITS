@@ -1,4 +1,6 @@
 <mat-card>
+<!-- Page Header -->
+<h1 class="mat-display-1">Generate Url to Take an Assessment</h1>
 
   <form [formGroup]="generateAssessmentForm" (ngSubmit)="onSubmit(generateAssessmentForm.value)">
 
@@ -11,9 +13,12 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <br>
 
     <!-- Submit Button -->
-    <button class="closeAddOption" mat-raised-button type="submit">Generate Assessment Url</button>
+    <button class="mt-20 saveButton" mat-raised-button type="submit">Generate Assessment Url</button>
   </form>
+  <br>
 
 </mat-card>
+
