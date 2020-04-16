@@ -658,7 +658,7 @@ app.post("/api/assessment/taken", (request, response, next) => {
 
   // Saves the assessment object to the database.
   // Returns either 200 success or 400 error
-  takenAssessmentToSaveModel.save().then(() => {
+  takenAssessmentToSaveModel.save().then((takenAssessment) => {
 
     // Log success message and saved object.
     console.log(takenAssessment.assessment.name + ' Assessment Created Successfully');
@@ -675,7 +675,7 @@ app.post("/api/assessment/taken", (request, response, next) => {
       console.log(error.message);
       response.status(400).json({
         message: error.message,
-        takenAssessment: takenAssessment
+        takenAssessmentId: takenAssessment._id
       })
     });
 });
