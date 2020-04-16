@@ -1,0 +1,19 @@
+<mat-card>
+
+  <form [formGroup]="generateAssessmentForm" (ngSubmit)="onSubmit(generateAssessmentForm.value)">
+
+    <mat-form-field>
+      <mat-label>Select an Assessment</mat-label>
+      <!-- This is where the assessment is selected -->
+      <mat-select #categorySelect formControlName="assessmentList" required>
+        <mat-option *ngFor="let assessment of assessmentList; index as i" [value]="assessment">
+          {{assessment.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Submit Button -->
+    <button class="closeAddOption" mat-raised-button type="submit">Generate Assessment Url</button>
+  </form>
+
+</mat-card>

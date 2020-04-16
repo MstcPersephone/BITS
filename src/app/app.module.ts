@@ -77,6 +77,7 @@ import { ValidationMessagesComponent } from './shared/validation-messages/valida
 import { FooterComponent } from './assessment-engine/footer/footer.component';
 import { AssessmentEngineComponent } from './assessment-engine/assessment-engine.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { TakenAssessmentComponent } from './assessment-engine/taken-assessment/taken-assessment.component';
 
 
 @NgModule({
@@ -130,7 +131,8 @@ import { HomepageComponent } from './homepage/homepage.component';
     ValidationMessagesComponent,
     FooterComponent,
     AssessmentEngineComponent,
-    HomepageComponent
+    HomepageComponent,
+    TakenAssessmentComponent
   ],
   imports: [
     BrowserModule,

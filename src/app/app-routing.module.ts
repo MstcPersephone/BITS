@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { HomepageComponent } from './homepage/homepage.component';
+
+import { EditCategoryComponent } from './shared/category/edit-category/edit-category.component';
+
 import { AssessmentListComponent } from './assessments/assessment/assessment-list/assessment-list.component';
 import { CreateAssessmentComponent} from './assessments/assessment/create-assessment/create-assessment.component';
 import { EditAssessmentComponent } from './assessments/assessment/edit-assessment/edit-assessment.component';
@@ -19,9 +23,10 @@ import { CreateStudentComponent } from './student/create-student/create-student.
 import { EditStudentComponent } from './student/edit-student/edit-student.component';
 import { ListStudentComponent } from './student/list-student/list-student.component';
 import { ViewStudentComponent } from './student/view-student/view-student.component';
+
 import { AssessmentEngineComponent } from './assessment-engine/assessment-engine.component';
-import { EditCategoryComponent } from './shared/category/edit-category/edit-category.component';
-import { HomepageComponent } from './homepage/homepage.component';
+import { TakenAssessmentComponent } from './assessment-engine/taken-assessment/taken-assessment.component';
+
 
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
@@ -43,6 +48,7 @@ const routes: Routes = [
   { path: 'student/edit', component: EditStudentComponent },
   { path: 'student/list', component: ListStudentComponent },
   { path: 'student/view', component: ViewStudentComponent },
+  { path: 'assessment/generate', component: TakenAssessmentComponent },
   { path: 'home', component: HomepageComponent }
 ];
 
