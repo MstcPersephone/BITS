@@ -33,7 +33,7 @@
   <div *ngIf="this.assessmentService.isTimed === true">
     <mat-form-field appearance="standard">
     <mat-label>Time Limit (minutes)</mat-label>
-    <input matInput #maxTimeValue id="maxTime" type="text"
+    <input matInput #maxTimeValue id="maxTime" type="number"
        formControlName="maxTime" (change)="this.assessmentService.onHandleMaxTime($event)">
   </mat-form-field>
   <br>

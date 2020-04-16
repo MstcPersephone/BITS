@@ -1,10 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { Assessment } from 'src/app/models/assessment.model';
 import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 import { AssessmentService } from 'src/app/services/assessment.service';
 import { QuestionService } from 'src/app/services/question.service';
-import { Subscription } from 'rxjs';
-import { Assessment } from 'src/app/models/assessment.model';
+import { ValidationService } from '../../../services/validation.service';
+
 
 @Component({
   selector: 'app-edit-assessment-config',
@@ -26,9 +28,9 @@ export class EditAssessmentConfigComponent implements OnInit {
     this.updateConfigurationForm = this.formBuilder.group({
       isRandom: '',
       isTimed: '',
-      maxTime: '',
+      maxTime: 0,
       minimumScore: '',
-      wrongStreak: ''
+      wrongStreak: 0
     });
   }
 
@@ -58,6 +60,14 @@ export class EditAssessmentConfigComponent implements OnInit {
     config.maxTime = this.assessmentService.getMaxTime();
     config.wrongStreak = this.assessmentService.getWrongStreak();
     config.minimumScore = configurationdata.minimumScore;
+
+    // Calls validation on the current form when submit button is clicked
+    if (!this.updateConfigurationForm.valid) {
+      // Runs all validation on the updateConfigurationForm form controls
+      (Object as any).values(this.updateConfigurationForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
     this.assessmentService.createAssessmentConfiguration(config);
   }
 }

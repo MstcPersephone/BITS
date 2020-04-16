@@ -1,3 +1,4 @@
+
 <br>
 <mat-card>
   <!-- Page Header -->
@@ -11,12 +12,14 @@
       <mat-label class="assessmentNameHeader">Assessment Name</mat-label>
       <input matInput id="name" type="text" formControlName="name">
     </mat-form-field>
+    <app-validation-messages [control]="createAssessmentForm.get('name')"></app-validation-messages>
 
     <!-- The assessment Description Input -->
     <mat-form-field appearance="standard">
       <mat-label>Assessment Description</mat-label>
       <input matInput id="description" type="text" formControlName="description">
     </mat-form-field>
+    <app-validation-messages [control]="createAssessmentForm.get('description')"></app-validation-messages>
 
     <!-- Configuration Expansion Panel -->
     <mat-expansion-panel>
