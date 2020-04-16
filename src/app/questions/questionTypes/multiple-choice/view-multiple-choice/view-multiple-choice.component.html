@@ -7,4 +7,12 @@
   (change)="onChangeOption($event, i)">{{ option.optionText }}</mat-radio-button>
 </mat-radio-group>
 
+<br>
+
+<div *ngIf="this.assessmentService.showBackButton === true">
+  <!-- Return to Assessment Button : Resets showBackButton to false and returns to the current assessment view -->
+  <button class="cancelOption" mat-raised-button (click)="this.assessmentService.returnToAssessment()">
+    Return to Assessment</button>
+</div>
+
 

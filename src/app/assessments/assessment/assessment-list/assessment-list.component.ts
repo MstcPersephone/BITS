@@ -32,7 +32,7 @@ export class AssessmentListComponent implements OnInit, AfterViewInit {
     this.assessmentsSubscription = this.assessmentService.getAssessmentsUpdateListener()
       .subscribe((assessmentArray: any) => {
         this.dataSource.data = assessmentArray;
-        console.table(this.dataSource.data);
+        // console.table(this.dataSource.data);
         this.dataSource.sort = this.sort;
       });
   }

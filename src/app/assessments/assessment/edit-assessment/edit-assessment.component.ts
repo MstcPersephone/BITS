@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { QuestionService } from 'src/app/services/question.service';
-import { AssessmentService } from 'src/app/services/assessment.service';
-import { HelperService } from '../../../services/helper.service';
 import { Subscription } from 'rxjs';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Category } from 'src/app/models/shared/category.model';
 import { Question } from 'src/app/models/question.interface';
 import { Assessment } from 'src/app/models/assessment.model';
-import { FormBuilder, FormArray } from '@angular/forms';
+import { QuestionService } from 'src/app/services/question.service';
+import { AssessmentService } from 'src/app/services/assessment.service';
+import { HelperService } from '../../../services/helper.service';
+import { ValidationService } from '../../../services/validation.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 
@@ -39,11 +40,11 @@ export class EditAssessmentComponent implements OnInit {
     public assessmentService: AssessmentService,
     public helperService: HelperService,
     private formBuilder: FormBuilder) {
-      this.updateAssessmentForm = this.formBuilder.group({
-        name: '',
-        description: ''
-      });
-      this.selectCategoryForm = this.formBuilder.group({
+    this.updateAssessmentForm = this.formBuilder.group({
+      name: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
+      description: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]]
+    });
+    this.selectCategoryForm = this.formBuilder.group({
       categories: '',
     });
   }
@@ -116,9 +117,9 @@ export class EditAssessmentComponent implements OnInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
       this.refreshFilteredQuestions();
     }
   }
@@ -136,12 +137,39 @@ export class EditAssessmentComponent implements OnInit {
     });
 
     const updatedAssessment: Assessment = new Assessment();
-    updatedAssessment._id = this.assessment._id;
-    updatedAssessment.name = assessmentData.name;
-    updatedAssessment.description = assessmentData.description;
-    updatedAssessment.questionIds = this.questionIds;
-    updatedAssessment.config = new AssessmentConfig();
-    this.assessmentService.updateAssessmentById(updatedAssessment);
+
+    // Calls validation on the current form when submit button is clicked
+    if (!this.updateAssessmentForm.valid) {
+      // Runs all validation on the createShortAnswerForm form controls
+      (Object as any).values(this.updateAssessmentForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
+
+    // If all input of parent and child forms is valid, data will be passed to question service for saving
+    if (this.updateAssessmentForm.valid) {
+      updatedAssessment._id = this.assessment._id;
+      updatedAssessment.name = assessmentData.name;
+      updatedAssessment.description = assessmentData.description;
+      updatedAssessment.questionIds = this.questionIds;
+      updatedAssessment.config = new AssessmentConfig();
+
+      const status = this.assessmentService.getStatus();
+      // console.log('status', this.assessmentService.getStatus());
+
+      // If a question is selected, allow the Save Button to be clicked
+      // Else, throw a snackbar and stay on the page
+      if (status === 'Complete') {
+        const response = ValidationService.validateMinimumQuestions(updatedAssessment);
+        if (response.result) {
+          this.assessmentService.updateAssessmentById(updatedAssessment);
+        } else {
+          this.helperService.openSnackBar(response.message, 'OK', 'error-dialog', undefined);
+        }
+      } else {
+        this.assessmentService.updateAssessmentById(updatedAssessment);
+      }
+    }
   }
 
 }

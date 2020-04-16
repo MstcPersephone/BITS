@@ -40,15 +40,14 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
     this.assessmentSubscription = this.assessmentService.getAssessmentUpdateListener()
       .subscribe((assessment: Assessment) => {
         this.assessment = assessment;
-        console.log('Assessment by Id', this.assessment);
+        // console.log('Assessment by Id', this.assessment);
         if (this.assessmentService.questionIds !== null) {
         this.assessmentService.getQuestionsByIds(this.assessmentService.questionIds);
         }
         this.questionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
           .subscribe((questionsArray: any) => {
             this.dataSource.data = questionsArray;
-            console.table(this.dataSource.data);
-
+            // console.table(this.dataSource.data);
             this.dataSource.sort = this.sort;
           });
       });
@@ -56,5 +55,12 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  selectRow(questionId) {
+    // sets the return button to show on a single question view
+    this.assessmentService.showBackButton = true;
+    // takes the user to the single question view passing the current question id
+    this.router.navigate(['/question/view', questionId]);
   }
 }

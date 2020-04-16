@@ -26,7 +26,7 @@ export class EditQuestionComponent implements OnInit {
   ) {
     // Creates an object to hold form values.
     this.editPointForm = this.formBuilder.group({
-      points: ['', [Validators.required, ValidationService.pointsValidator]]
+      points: ['', [Validators.required, ValidationService.numberValidator]]
     });
   }
 
