@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { AssessmentService } from 'src/app/services/assessment.service';
+import { AssessmentEngineService } from 'src/app/services/assessment-engine.service';
 import { TakenAssessment } from '../../models/taken-assessment.model';
 import { Assessment } from '../../models/assessment.model';
+import { Student } from '../../models/student.model';
+import { Question } from '../../models/question.interface';
+
 
 
 @Component({
@@ -12,15 +16,16 @@ import { Assessment } from '../../models/assessment.model';
   styleUrls: ['./taken-assessment.component.css']
 })
 export class TakenAssessmentComponent implements OnInit {
-  generateAssessmentForm;
+  generateAssessmentUrlForm;
   private assessmentSubscription: Subscription;
   public assessmentList: Assessment[] = [];
 
 
   constructor(
     private assessmentService: AssessmentService,
+    private assessmentEngineService: AssessmentEngineService,
     private formBuilder: FormBuilder) {
-    this.generateAssessmentForm = this.formBuilder.group({
+    this.generateAssessmentUrlForm = this.formBuilder.group({
       assessmentList: ''
     });
   }
@@ -33,8 +38,15 @@ export class TakenAssessmentComponent implements OnInit {
       });
   }
 
-  onSubmit() {
-
+  onSubmit(takenAssessmentData) {
+    const takenAssessment: TakenAssessment = new TakenAssessment();
+    takenAssessment._id = null;
+    takenAssessment.assessment = takenAssessmentData.assessment;
+    takenAssessment.questions = null;
+    takenAssessment.score = null;
+    takenAssessment.student = null;
+    takenAssessment.studentPassed = null;
+    this.assessmentEngineService.saveTakenAssessment(takenAssessment);
   }
 
 }

@@ -6,6 +6,7 @@ import { HelperService } from './helper.service';
 import { Student } from '../models/student.model';
 import { Question } from '../models/question.interface';
 import { Assessment } from '../models/assessment.model';
+import { TakenAssessment } from '../models/taken-assessment.model';
 import { QuestionType } from '../enums/questionType.enum';
 import { Checkbox } from '../models/question-types/checkbox.model';
 import { MultipleChoice } from '../models/question-types/multiple-choice.model';
@@ -13,7 +14,6 @@ import { ShortAnswer } from '../models/question-types/short-answer.model';
 import { TrueFalse } from '../models/question-types/true-false.model';
 import { Upload } from '../models/question-types/upload.model';
 import { AssessmentService } from './assessment.service';
-import { TakenAssessment } from '../models/taken-assessment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -321,5 +321,32 @@ export class AssessmentEngineService {
 
   startTimer(duration: number) {
     // timer logic
+  }
+
+  // ******************************************************** //
+  // ***************  API CALLS TO BACKEND  ***************** //
+  // ******************************************************** //
+
+  saveTakenAssessment(takenAssessment: TakenAssessment) {
+    // document.getElementById('saveConfigurations').click();
+    // const completeAssessment: any = assessment;
+    // completeAssessment.config = this.assessmentConfig;
+    // completeAssessment.status = this.status;
+    // console.log('Complete Assessment', completeAssessment);
+
+    // this.http.post<{ message: string, assesment: Assessment }>('http://localhost:3000/api/assessment/save', completeAssessment)
+    //   .subscribe(
+    //     responseData => {
+    //       this.helperService.openSnackBar(completeAssessment.name + ' Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
+    //       console.log('%c' + responseData.message, 'color: green;');
+    //       console.log('%c Database Object:', 'color: orange;');
+    //       console.log(responseData.assesment);
+    //       this.resetConfigurationForm();
+    //       this.router.navigate(['/assessment/list']);
+
+    //     },
+    //     error => {
+    //       console.log('%c' + error.error.message, 'color: red;');
+    //     });
   }
 }
