@@ -24,7 +24,7 @@ import { EditStudentComponent } from './student/edit-student/edit-student.compon
 import { ListStudentComponent } from './student/list-student/list-student.component';
 import { ViewStudentComponent } from './student/view-student/view-student.component';
 
-import { AssessmentEngineComponent } from './assessment-engine/assessment-engine.component';
+import { AssessmentEngineComponent } from './assessment-engine/assessment-engine/assessment-engine.component';
 import { TakenAssessmentComponent } from './assessment-engine/taken-assessment/taken-assessment.component';
 
 

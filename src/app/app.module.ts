@@ -75,7 +75,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 import { EditAssessmentConfigComponent } from './assessments/configuration/edit-assessment-config/edit-assessment-config.component';
 import { ValidationMessagesComponent } from './shared/validation-messages/validation-messages.component';
 import { FooterComponent } from './assessment-engine/footer/footer.component';
-import { AssessmentEngineComponent } from './assessment-engine/assessment-engine.component';
+import { AssessmentEngineComponent } from './assessment-engine/assessment-engine/assessment-engine.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { TakenAssessmentComponent } from './assessment-engine/taken-assessment/taken-assessment.component';
 
