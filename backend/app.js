@@ -668,7 +668,7 @@ app.post("/api/assessment/taken", (request, response, next) => {
     // Will probably use for logging later.
     response.status(200).json({
       message: 'Assessment saved successfully!',
-      takenAssessment: takenAssessment
+      takenAssessmentId: takenAssessment._id
     });
   },
     error => {
