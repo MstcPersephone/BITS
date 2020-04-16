@@ -95,18 +95,6 @@ export class AssessmentService {
   submitAssessment(assessment: Assessment) {
   }
 
-  // TODO Handle submit question button
-  // Used for now until we have the engine code written
-  submitAnswer(question: Question) {
-    switch (question.questionType) {
-      case QuestionType.Upload:
-        this.checkUploadAnswer(question);
-        break;
-      default:
-        break;
-    }
-  }
-
   // *************************************************** //
   // *********  ASSESSMENT: STATUS FUNCTIONS  ********** //
   // *************************************************** //
