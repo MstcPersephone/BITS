@@ -13,7 +13,7 @@
       <input type="password" name="password2" matInput placeholder="Password" formControlName="password2"  required>
 
     </mat-form-field>
-    <mat-checkbox class="mt-20">Is admin?
+    <mat-checkbox class="mt-20" name="isAdmin" formControlName="isAdmin" [checked]="true">Is admin?
     </mat-checkbox>
     <button mat-raised-button color="accent" type="submit">Signup</button>
   </form>

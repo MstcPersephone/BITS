@@ -20,7 +20,7 @@ export class LoginCreateComponent implements OnInit {
         username: '',
         password1: '',
         password2: '',
-        isAdmin: false
+        isAdmin: ''
       });
      }
 

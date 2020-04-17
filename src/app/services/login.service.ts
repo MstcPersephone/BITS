@@ -17,7 +17,6 @@ export class LoginEngineService {
     private router: Router ) { }
 
   createUser(user: User) {
-    // const user: User = {username, password, isAdmin};
     console.log(user);
     this.http.post('http://localhost:3000/api/user/create', user)
     .subscribe(response => {
