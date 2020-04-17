@@ -46,6 +46,9 @@ export class AssessmentEngineService {
   private currentQuestionIndex = 0;
   private currentQuestionUpdated = new Subject<Question>();
 
+  // Keeping track of students
+  private studentFormIsValid = false;
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -108,7 +111,7 @@ export class AssessmentEngineService {
 
     checkShortAnswer(question: ShortAnswer) {
 
-      //TODO: add space checks for validation
+      // TODO: add space checks for validation
       let isCorrect = false;
       const exactMatches = [];
 
@@ -170,6 +173,18 @@ export class AssessmentEngineService {
       // Navigate user to login page
       // Some way to reset the values within this service
     }
+
+  // ********************************************** //
+  // *********  STUDENT: FORM VALIDATION  ********* //
+  // ********************************************** //
+
+  setStudentFormIsValid(isValid: boolean) {
+    this.studentFormIsValid = isValid;
+  }
+
+  getStudentFormIsValid() {
+    return this.studentFormIsValid;
+  }
 
   // ********************************************** //
   // *********  STUDENT: PREVIOUS SCORES  ********* //

@@ -33,10 +33,18 @@ export class FooterComponent implements OnInit {
 
   // The method to start an assessment
   startAssessment() {
+    // simulates a button click to run student form validation.
     document.getElementById('validateStudentForm').click();
+
+    // gets a stored value for whether the student form is valid
+    const studentFormIsValid = this.assessmentEngineService.getStudentFormIsValid();
+
+    // If the student form has passed validation, start the assessment
+    if (studentFormIsValid) {
     this.assessmentEngineService.assessmentStarted = true;
     console.log('Assessment started');
     this.assessmentEngineService.prepareAssessment(this.assessment);
+    }
   }
 
   acceptAnswer() {

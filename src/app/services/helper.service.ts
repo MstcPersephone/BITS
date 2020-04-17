@@ -82,7 +82,7 @@ export class HelperService {
     const firstName = student.firstName;
     const lastName = student.lastName;
     const dob = this.convertBirthdateToNumbers(student.dateOfBirth);
-    const studentId = student.studentId;
+    const studentId = '11111111';
 
     const uniqueId = [firstName, lastName, dob, studentId].join('_');
 

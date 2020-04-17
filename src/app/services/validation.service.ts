@@ -243,4 +243,23 @@ export class ValidationService {
 
     return response;
   }
+
+  static validateStudentId(mstcId: string): ValidationResponse {
+    const response = new ValidationResponse();
+
+    if (!mstcId.match(/^(0|[1-9][0-9]*)$/)) {
+      response.message = 'Must provide the 8 digit numeric student Id assigned by MSTC';
+      response.result = false;
+    } else if (mstcId.length !== 8) {
+      // tslint:disable-next-line: max-line-length
+      response.message = 'Student Id is exactly 8 digits. If you are unsure of your student Id check with your advisor.';
+      response.result = false;
+    } else {
+      response.result = true;
+      response.message = 'Valid';
+      return response;
+    }
+
+    return response;
+  }
 }
