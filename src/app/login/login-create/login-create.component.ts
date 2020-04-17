@@ -28,13 +28,16 @@ export class LoginCreateComponent implements OnInit {
   }
 
   onSignup(formData) {
+    // Check that the passwords match and create new user if they do
     if (formData.password1 === formData.password2) {
+
     const user = new User();
     user.username = formData.username;
     user.password = formData.password1;
     user.isAdmin = formData.isAdmin;
 
     this.loginService.createUser(user);
+
     } else {
       alert('Passwords don\'t match, please try again');
     }
