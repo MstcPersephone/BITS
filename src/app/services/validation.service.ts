@@ -166,13 +166,13 @@ export class ValidationService {
     }
   }
 
-  static validateMaxTime(time: number): ValidationResponse {
+  static validateMaxTime(config: AssessmentConfig): ValidationResponse {
 
     // The response object that will be returned within this function
     const response = new ValidationResponse();
 
     // Ensures that the wrong streak number is not greater than the number of questions that exist on an assessment
-    if (time === 0) {
+    if (config.isTimed && config.maxTime === 0) {
       response.result = false;
       response.message = 'If you check this as a timed assessment you must add an appropriate maximum minute value.';
       return response;
