@@ -9,7 +9,7 @@
   <mat-form-field class="questionTypeInput">
     <mat-label>Select Question Type</mat-label>
     <!-- Calls onQuestionTypeSelected in ts file -->
-    <mat-select #questionTypeSelect (selectionChange)="onQuestionTypeSelected($event)" required>
+    <mat-select #questionTypeSelect (selectionChange)="onQuestionTypeSelected($event)">
       <!-- This element loops over the question types and adds them as options -->
       <mat-option *ngFor="let questionType of questionTypes" [value]="questionType.key">{{ questionType.value }}
       </mat-option>
@@ -21,7 +21,7 @@
     <mat-form-field class="pointValueInput">
       <mat-label>Enter Point Value (Numeric)</mat-label>
       <input matInput #pointValue id="points" type="text" formControlName="points"
-        (keyup)="this.questionService.onHandlePoints($event)" value="{{points}}" required>
+        (keyup)="this.questionService.onHandlePoints($event)" value="{{points}}">
     </mat-form-field>
     <app-validation-messages [control]="addPointForm.get('points')"></app-validation-messages>
 

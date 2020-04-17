@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, AsyncValidator } from '@angular/forms';
 import { Student } from '../../models/student.model';
 import { AssessmentEngineService } from '../../services/assessment-engine.service';
 import { HelperService } from '../../services/helper.service';
@@ -25,7 +25,7 @@ export class CreateStudentComponent implements OnInit {
     private formBuilder: FormBuilder) {
     this.createStudentForm = this.formBuilder.group({
       hasStudentId: false,
-      studentId: ['', [Validators.required, ValidationService.numberValidator]],
+      studentId: ['', [Validators.required], [ValidationService.numberValidator]],
       firstName: ['', [Validators.required, ValidationService.alphaValidator]],
       lastName: ['', [Validators.required, ValidationService.alphaValidator]],
       dateOfBirth: ['', [Validators.required, ValidationService.dateValidator]],

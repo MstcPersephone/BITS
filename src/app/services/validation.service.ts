@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { QuestionService } from 'src/app/services/question.service';
 import { QuestionType } from '../enums/questionType.enum';
 import { Checkbox } from '../models/question-types/checkbox.model';
 import { MultipleChoice } from '../models/question-types/multiple-choice.model';
@@ -17,7 +16,7 @@ import { Upload } from '../models/question-types/upload.model';
 })
 export class ValidationService {
 
-  constructor(private questionService: QuestionService) { }
+  constructor() { }
 
   // called from the validation-messages component
   // the errorMessages property is passed along with the propertyName
@@ -25,6 +24,7 @@ export class ValidationService {
   static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
     const config = {
       required: 'Required',
+      // pattern: 'Must be numeric value',
       invalidDate: 'Must be valid date D/M/YYYY', // whole numeric only allowed
       invalidNumbers: 'Must be numeric value', // whole numeric only allowed
       invalidAlpha: 'Must be a valid name', // alpha and spaces only
@@ -41,6 +41,10 @@ export class ValidationService {
   // validation for whole numeric value only
   // if the value does not pass validation, the property is assigned true, else null
   static dateValidator(control) {
+    if (control.value !== null || control.value !== undefined) {
+      control.markAsTouched();
+    }
+
     if (control.touched) {
       if (control.value.match(/^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$/)) {
         return null;
@@ -80,6 +84,12 @@ export class ValidationService {
   // ensures that value is not an empty string
   // if the value does not pass validation, the property is assigned true, else null
   static invalidWhiteSpaceOnly(control) {
+   //  debugger;
+
+    if (control.value !==  '') {
+      control.markAsTouched();
+    }
+
     if (control.touched) {
       if (!control.value.match(/^\s*$/)) {
         return null;
@@ -166,7 +176,7 @@ export class ValidationService {
     if (assessment.questionIds.length < minQuestionsLength) {
       response.result = false;
       response.message = 'You must include at least ' + minQuestionsLength + ' question to save an assessment. ' +
-      ' You may choose Finish Later.';
+        ' You may choose Finish Later.';
       return response;
     } else {
       response.result = true;
@@ -183,8 +193,8 @@ export class ValidationService {
     // Ensures that the wrong streak number is not greater than the number of questions that exist on an assessment
     if (assessment.config.wrongStreak > assessment.questionIds.length) {
       response.result = false;
-      response.message = 'You currently have ' + assessment.questionIds.length +  ' questions. ' +
-       ' Your consective number of incorrect answers cannot exceed this amount.';
+      response.message = 'You currently have ' + assessment.questionIds.length + ' questions. ' +
+        ' Your consective number of incorrect answers cannot exceed this amount.';
       return response;
     } else {
       response.result = true;
