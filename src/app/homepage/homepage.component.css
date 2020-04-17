@@ -18,7 +18,7 @@
 .homePageButtonContainer{
   background-color: #82142D;
   border-radius: 10px;
-  width: 150px;
+  width: 160px;
 }
 
 /* Styles applied to the footer container of the button. */
@@ -32,7 +32,7 @@
   white-space: nowrap;
 }
 .homePageButtonFooterContent{
-  width: 150px;
+  width: 160px;
 }
 
 /* Styles applied to the button icons. */
