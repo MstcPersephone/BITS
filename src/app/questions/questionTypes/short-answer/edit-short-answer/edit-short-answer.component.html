@@ -4,8 +4,7 @@
   <!-- Question Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Question Text</mat-label>
-    <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}"
-      required>
+    <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}">
   </mat-form-field>
   <app-validation-messages [control]="editShortAnswerForm.get('questionText')"></app-validation-messages>
 
