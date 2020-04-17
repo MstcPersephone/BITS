@@ -14,6 +14,7 @@ export class ViewMultipleChoiceComponent implements OnInit {
   @Input() question: MultipleChoice;
 
   constructor(
+    public assessmentService: AssessmentService,
     private assessmentEngineService: AssessmentEngineService,
     private formBuilder: FormBuilder
   ) {

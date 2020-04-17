@@ -14,6 +14,7 @@ answerForm;
 @Input() question: TrueFalse;
 
   constructor(
+    public assessmentService: AssessmentService,
     private assessmentEngineService: AssessmentEngineService,
     private formBuilder: FormBuilder
   ) {
