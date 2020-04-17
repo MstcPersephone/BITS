@@ -22,6 +22,7 @@ import { ViewStudentComponent } from './student/view-student/view-student.compon
 import { AssessmentEngineComponent } from './assessment-engine/assessment-engine.component';
 import { EditCategoryComponent } from './shared/category/edit-category/edit-category.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { LoginCreateComponent } from './login/login-create/login-create.component';
 
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
@@ -43,7 +44,8 @@ const routes: Routes = [
   { path: 'student/edit', component: EditStudentComponent },
   { path: 'student/list', component: ListStudentComponent },
   { path: 'student/view', component: ViewStudentComponent },
-  { path: 'home', component: HomepageComponent }
+  { path: 'home', component: HomepageComponent },
+  { path: 'user/create', component: LoginCreateComponent}
 ];
 
 @NgModule({

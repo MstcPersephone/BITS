@@ -16,10 +16,10 @@ export class LoginEngineService {
     private http: HttpClient,
     private router: Router ) { }
 
-  createUser(username: string, password: string, isAdmin: boolean) {
-    const authData: AuthData = {username, password};
-
-    this.http.post('http://localhost:300/api/user/signup', authData)
+  createUser(user: User) {
+    // const user: User = {username, password, isAdmin};
+    console.log(user);
+    this.http.post('http://localhost:3000/api/user/create', user)
     .subscribe(response => {
       console.log(response);
     });
