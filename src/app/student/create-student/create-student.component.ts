@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Student } from '../../models/student.model';
 import { AssessmentEngineService } from '../../services/assessment-engine.service';
 import { HelperService } from '../../services/helper.service';
+import { ValidationService } from '../../services/validation.service';
 
 @Component({
   selector: 'app-create-student',
@@ -24,11 +25,11 @@ export class CreateStudentComponent implements OnInit {
     private formBuilder: FormBuilder) {
     this.createStudentForm = this.formBuilder.group({
       hasStudentId: false,
-      studentId: '',
-      firstName: '',
-      lastName: '',
-      dateOfBirth: '',
-      campusLocation: ''
+      studentId: ['', [Validators.required, ValidationService.numberValidator]],
+      firstName: ['', [Validators.required, ValidationService.alphaValidator]],
+      lastName: ['', [Validators.required, ValidationService.alphaValidator]],
+      dateOfBirth: ['', [Validators.required, ValidationService.dateValidator]],
+      campusLocation: ['', [Validators.required]]
     });
     const currentYear = new Date().getFullYear();
     this.minDate = new Date(currentYear - 100, 0, 0);

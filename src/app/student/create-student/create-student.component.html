@@ -24,17 +24,19 @@
       <mat-label color="primary" class="label-header">Enter student ID</mat-label>
       <input matInput id="studentId" type="text" formControlName="studentId" required>
     </mat-form-field>
+    <app-validation-messages [control]="createStudentForm.get('studentId')"></app-validation-messages>
 
-    <br />
 
     <!-- Campus Location Dropdown -->
     <mat-form-field class="questionTypeInput">
       <mat-label>Select Campus Location</mat-label>
-      <mat-select (selectionChange)="onCampusLocationSelected($event)">
+      <mat-select (selectionChange)="onCampusLocationSelected($event)" formControlName="campusLocation">
         <mat-option value="Stevens Point">Stevens Point</mat-option>
         <mat-option value="Wisconsin Rapids">Wisconsin Rapids</mat-option>
       </mat-select>
     </mat-form-field>
+    <app-validation-messages [control]="createStudentForm.get('campusLocation')"></app-validation-messages>
+
 
     <br />
 
@@ -43,12 +45,16 @@
       <mat-label color="primary" class="label-header">Enter first name</mat-label>
       <input matInput id="firstName" type="text" formControlName="firstName" required>
     </mat-form-field>
+    <app-validation-messages [control]="createStudentForm.get('firstName')"></app-validation-messages>
+
 
     <!-- Last Name Input -->
     <mat-form-field appearance="standard">
       <mat-label color="primary" class="label-header">Enter last name</mat-label>
       <input matInput id="lastName" type="text" formControlName="lastName" required>
     </mat-form-field>
+    <app-validation-messages [control]="createStudentForm.get('lastName')"></app-validation-messages>
+
     <br />
 
     <mat-form-field class="date" appearance="standard">
@@ -58,6 +64,8 @@
       <mat-datepicker-toggle matSuffix [for]="picker" startView="year"></mat-datepicker-toggle>
       <mat-datepicker #picker startView="multi-year"  [startAt]="startDate"></mat-datepicker>
     </mat-form-field>
+    <app-validation-messages [control]="createStudentForm.get('dateOfBirth')"></app-validation-messages>
+
 
 
   <!-- Submit Button -->
