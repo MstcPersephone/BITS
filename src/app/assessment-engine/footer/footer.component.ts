@@ -33,7 +33,7 @@ export class FooterComponent implements OnInit {
 
   // The method to start an assessment
   startAssessment() {
-    // document.getElementById('validateStudentForm').click();
+    document.getElementById('validateStudentForm').click();
     this.assessmentEngineService.assessmentStarted = true;
     console.log('Assessment started');
     this.assessmentEngineService.prepareAssessment(this.assessment);

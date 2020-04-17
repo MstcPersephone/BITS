@@ -25,7 +25,6 @@ export class ValidationService {
     const config = {
       required: 'Required',
       // pattern: 'Must be numeric value',
-      invalidDate: 'Must be valid date D/M/YYYY', // whole numeric only allowed
       invalidNumbers: 'Must be numeric value', // whole numeric only allowed
       invalidAlpha: 'Must be a valid name', // alpha and spaces only
       invalidWhiteSpaceOnly: 'Must have valid input', // no empty strings allowed
@@ -40,24 +39,11 @@ export class ValidationService {
   // called from the component.ts where the formbuilder is created
   // validation for whole numeric value only
   // if the value does not pass validation, the property is assigned true, else null
-  static dateValidator(control) {
-    if (control.value !== null || control.value !== undefined) {
+  static numberValidator(control) {
+    if (control.value !==  '') {
       control.markAsTouched();
     }
 
-    if (control.touched) {
-      if (control.value.match(/^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$/)) {
-        return null;
-      } else {
-        return { invalidDate: true };
-      }
-    }
-  }
-
-  // called from the component.ts where the formbuilder is created
-  // validation for whole numeric value only
-  // if the value does not pass validation, the property is assigned true, else null
-  static numberValidator(control) {
     if (control.touched) {
       if (control.value.match(/^(0|[1-9][0-9]*)$/)) {
         return null;
@@ -71,8 +57,12 @@ export class ValidationService {
   // ensures that value is alpha and spaces only
   // if the value does not pass validation, the property is assigned true, else null
   static alphaValidator(control) {
+    if (control.value !==  '') {
+      control.markAsTouched();
+    }
+
     if (control.touched) {
-      if (!control.value.match(/^[a-zA-Z\s]*$/)) {
+      if (control.value.match(/^[a-zA-Z ]*$/)) {
         return null;
       } else {
         return { invalidAlpha: true };

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { QuestionType } from '../enums/questionType.enum';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { Student } from '../models/student.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -9,8 +10,9 @@ import { Router } from '@angular/router';
 export class HelperService {
   public isLoading = false;
 
-  constructor(private snackBar: MatSnackBar,
-              private router: Router) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private router: Router) { }
 
   // Converts the QuestionType enum to an array of objects
   // key is the enum name and value is its text value
@@ -21,7 +23,7 @@ export class HelperService {
     const questionTypeArray = [];
 
     questionTypeKeys.forEach((questionTypeKey, index) => {
-      questionTypeArray.push({key: questionTypeKey, value: questionTypeValues[index]});
+      questionTypeArray.push({ key: questionTypeKey, value: questionTypeValues[index] });
     });
     return questionTypeArray;
   }
@@ -42,14 +44,48 @@ export class HelperService {
   // generic function to reroute a component by passing in the desired path
   refreshComponent(path: string) {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-       this.router.navigate([path]);
+      this.router.navigate([path]);
     });
   }
 
   // generic function to reroute a component by passing in the desired path
   refreshComponentById(path: string, id: any) {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-       this.router.navigate([path, id]);
+      this.router.navigate([path, id]);
     });
+  }
+
+  convertBirthdateToNumbers(birthdate) {
+
+    // Put date string into Date object
+    const unFormattedDate = new Date(birthdate);
+
+    // Add zeros to the beginning of month or date if needed
+    const monthNumbers = this.addZeroIfNeeded(unFormattedDate.getMonth() + 1);
+    const dayNumbers = this.addZeroIfNeeded(unFormattedDate.getDate());
+    const yearNumbers = unFormattedDate.getFullYear();
+
+    // Return just the numbers
+    return monthNumbers + dayNumbers + yearNumbers;
+  }
+
+  // Add a 0 to the beginning of the day or month if needed
+  // This is not currently needed with the date picker being used,
+  // but if there were new functions in the future that accepted the date
+  // in a text input it would be necessary
+  addZeroIfNeeded(n) {
+    return (n < 10) ? '0' + n : n;
+  }
+
+  generateUniqueStudentId(student: Student) {
+
+    const firstName = student.firstName;
+    const lastName = student.lastName;
+    const dob = this.convertBirthdateToNumbers(student.dateOfBirth);
+    const studentId = student.studentId;
+
+    const uniqueId = [firstName, lastName, dob, studentId].join('_');
+
+    return uniqueId;
   }
 }
