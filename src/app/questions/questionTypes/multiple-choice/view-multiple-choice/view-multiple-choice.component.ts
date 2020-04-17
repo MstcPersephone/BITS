@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MultipleChoice } from 'src/app/models/question-types/multiple-choice.model';
 import { FormBuilder } from '@angular/forms';
+import { AssessmentService } from 'src/app/services/assessment.service';
 import { AssessmentEngineService } from 'src/app/services/assessment-engine.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class ViewMultipleChoiceComponent implements OnInit {
   @Input() question: MultipleChoice;
 
   constructor(
-    public assessmentEngineService: AssessmentEngineService,
+    public assessmentService: AssessmentService,
+    private assessmentEngineService: AssessmentEngineService,
     private formBuilder: FormBuilder
   ) {
     // Although there are no fields,

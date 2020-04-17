@@ -4,6 +4,10 @@ const Constants = {
   },
   Encoding: {
     UTF_8: 'utf-8'
+  },
+  EmailTestResults: {
+    WisconsinRapids: '',
+    StevensPoint: ''
   }
 }
 

@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Upload } from 'src/app/models/question-types/upload.model';
 import { FormBuilder } from '@angular/forms';
-import { AssessmentEngineService } from 'src/app/services/assessment-engine.service';
 import { AttachmentService } from 'src/app/services/attachment.service';
+import { AssessmentService } from 'src/app/services/assessment.service';
+import { AssessmentEngineService } from 'src/app/services/assessment-engine.service';
 
 @Component({
   selector: 'app-view-upload',
@@ -14,7 +15,8 @@ export class ViewUploadComponent implements OnInit {
   @Input() question: Upload;
 
   constructor(
-    public assessmentEngineService: AssessmentEngineService,
+    public assessmentService: AssessmentService,
+    private assessmentEngineService: AssessmentEngineService,
     public attachmentService: AttachmentService,
     private formBuilder: FormBuilder
   ) {

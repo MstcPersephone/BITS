@@ -32,6 +32,8 @@ const archiveAssessmentCollection = require("./models/assessment-archive");
 const studentCollection = require("./models/student");
 const questionCollection = questionCollections.questions;
 const archiveCollection = questionCollections.archive;
+const takenAssessmentCollection = require("./models/taken-assessment");
+const Constants = require("./providers/constants");
 
 // Import Express.js package to build API endpoints
 const express = require("express");
@@ -93,9 +95,6 @@ app.post("/api/assessment/checkUpload", (request, response, next) => {
   });
 });
 
-// *************************************************************** //
-// ******   DELETE: SAVE QUESTION TO ARCHIVED COLLECTION   ****** //
-// *************************************************************** //
 // *********************************************************** //
 // ******   ARCHIVE: ASSESSMENT FROM ASSESSMENT COLLECTION *** //
 // *********************************************************** //
@@ -228,6 +227,28 @@ app.get("/api/assessment/:id", (request, response, next) => {
       response.status(400).json({
         message: error.message,
         assessment: null
+      })
+    })
+});
+
+// ******************************************************** //
+// *********   GET: SINGLE TAKEN ASSESSMENT BY ID    ************ //
+// ******************************************************** //
+app.get("/api/assessment/take/:id", (request, response, next) => {
+  console.log(request.params.id);
+  takenAssessmentCollection.find({ _id: request.params.id }).then((takenAssessment, error) => {
+    response.status(200).json({
+      message: request.params.id + ' Assessment fetched successfully!',
+      takenAssessment: takenAssessment
+    });
+    // TODO: [PER-98] Remove the console logs before pushing to production.
+    console.log(takenAssessment);
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        takenAssessment: null
       })
     })
 });
@@ -626,6 +647,58 @@ app.post("/api/student/save", (request, response, next) => {
       response.status(400).json({
         message: error.message,
         student: student
+      })
+    });
+});
+
+// *********************************************************************** //
+// ******   SAVE: TAKEN ASSESSMENT TO TAKEN ASSESSMENT COLLECTION   ****** //
+// *********************************************************************** //
+app.post("/api/assessment/generate", (request, response, next) => {
+
+  // Request.body is the taken assessment that is passed through.
+  const takenAssessment = request.body;
+
+  // Generate unique Id for taken assessment.
+  const takenAssessmentId = mongoose.Types.ObjectId();
+
+  // assigns the unique id to the taken assessment.
+  takenAssessment._id = takenAssessmentId;
+  console.log('Taken Assessment:', takenAssessment)
+
+  // taken assessment mapped object from front to back end.
+  const takenAssessmentToSaveModel = new takenAssessmentCollection({
+    id: takenAssessmentId,
+    assessment: takenAssessment.assessment,
+    student: takenAssessment.student,
+    questions: takenAssessment.questions,
+    score: takenAssessment.score,
+    studentPassed: takenAssessment.studentPassed,
+    createdOn: Date.now()
+  });
+
+  console.log('Backend Taken Assessment Presave', takenAssessmentToSaveModel);
+
+  // Saves the assessment object to the database.
+  // Returns either 200 success or 400 error
+  takenAssessmentToSaveModel.save().then((takenAssessment) => {
+
+    // Log success message and saved object.
+    console.log(takenAssessment.assessment.name + ' Assessment Created Successfully');
+    console.log('Saved taken assessment', takenAssessmentToSaveModel);
+
+    // Send success message back to front end.
+    // Will probably use for logging later.
+    response.status(200).json({
+      message: 'Assessment saved successfully!',
+      takenAssessmentId: takenAssessment._id
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        takenAssessmentId: takenAssessment._id
       })
     });
 });
