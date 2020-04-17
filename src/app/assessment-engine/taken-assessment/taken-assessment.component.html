@@ -1,0 +1,30 @@
+<mat-card>
+<!-- Page Header -->
+<h1 class="mat-display-1">Generate Url to Take an Assessment</h1>
+
+  <form [formGroup]="generateAssessmentUrlForm" (ngSubmit)="onSubmit(generateAssessmentUrlForm.value)">
+
+    <mat-form-field>
+      <mat-label>Select an Assessment</mat-label>
+      <!-- This is where the assessment is selected -->
+      <mat-select #categorySelect formControlName="assessmentList" [(value)]="selectedAssessment" required>
+        <mat-option *ngFor="let assessment of assessmentList; index as i" [value]="assessment">
+          {{assessment.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+
+    <!-- Submit Button -->
+    <button class="mt-20 saveButton" mat-raised-button type="submit">Generate Assessment Url</button>
+  </form>
+  <br>
+
+  <div>
+    <a *ngIf="this.takenAssessmentId !== undefined" [routerLink]="['/assessment/take', this.takenAssessmentId]">
+      Start Assessment
+    </a>
+  </div>
+
+</mat-card>
+
