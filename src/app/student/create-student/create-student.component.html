@@ -1,29 +1,31 @@
 <h3>Take your BITS Assessment</h3>
 
 <p>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+  aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 </p>
 <mat-card>
 
-<h4>Add Student Information</h4>
+  <h4>Add Student Information</h4>
 
   <form [formGroup]="createStudentForm" (ngSubmit)="onSubmit(createStudentForm.value)">
 
-      <mat-checkbox
-      id="hasStudentId"
-      [checked]="this.hasStudentId"
-      class="mt-20"
-      (change)="this.hasStudentIdChanged()"
+    <mat-checkbox id="hasStudentId" [checked]="this.hasStudentId" class="mt-20" (change)="this.hasStudentIdChanged()"
       formControlName="hasStudentId">
       Do you have a student Id?
-      </mat-checkbox>
+    </mat-checkbox>
 
 
     <!-- Student Input -->
-    <mat-form-field appearance="standard" *ngIf="this.hasStudentId">
-      <mat-label color="primary" class="label-header">Enter student ID</mat-label>
-      <input matInput id="studentId" type="text" formControlName="studentId">
-    </mat-form-field>
+    <div *ngIf="this.hasStudentId">
+      <mat-form-field appearance="standard">
+        <mat-label color="primary" class="label-header">Change Student ID</mat-label>
+        <input matInput id="studentId" type="text" formControlName="studentId">
+      </mat-form-field>
+      <app-validation-messages [control]="createStudentForm.get('studentId')"></app-validation-messages>
+    </div>
 
     <br>
 
@@ -59,19 +61,17 @@
 
     <mat-form-field class="date" appearance="standard">
       <mat-label color="primary" class="label-header">Choose date of birth</mat-label>
-      <input matInput id="dateOfBirth" [matDatepicker]="picker" formControlName="dateOfBirth"
-      [min]="minDate" [max]="maxDate" readonly="readonly">
+      <input matInput id="dateOfBirth" [matDatepicker]="picker" formControlName="dateOfBirth" [min]="minDate"
+        [max]="maxDate" readonly="readonly">
       <mat-datepicker-toggle matSuffix [for]="picker" startView="year"></mat-datepicker-toggle>
-      <mat-datepicker #picker startView="multi-year"  [startAt]="startDate"></mat-datepicker>
+      <mat-datepicker #picker startView="multi-year" [startAt]="startDate"></mat-datepicker>
     </mat-form-field>
     <app-validation-messages [control]="createStudentForm.get('dateOfBirth')"></app-validation-messages>
 
 
 
-  <!-- Submit Button -->
-  <!-- This button will not display: click is simulated in helping validate the form -->
-  <button class="simulatedButton" id="validateStudentForm" type="submit"></button>
-</form>
+    <!-- Submit Button -->
+    <!-- This button will not display: click is simulated in helping validate the form -->
+    <button class="simulatedButton" id="validateStudentForm" type="submit"></button>
+  </form>
 </mat-card>
-
-
