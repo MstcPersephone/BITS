@@ -11,10 +11,15 @@ import { AuthData } from '../models/auth-data.model';
 export class LoginEngineService {
   private token: string;
   public isAdmin = false;
+  private authStatusListener = new Subject<boolean>();
 
   constructor(
     private http: HttpClient,
     private router: Router ) { }
+
+  getAuthStatusListener() {
+    return this.authStatusListener.asObservable();
+  }
 
   getToken() {
     return this.token;
@@ -34,6 +39,7 @@ export class LoginEngineService {
     .subscribe(response => {
       const token = response.token;
       this.token = token;
+      this.authStatusListener.next(true);
     });
   }
 

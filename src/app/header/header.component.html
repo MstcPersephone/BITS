@@ -3,11 +3,14 @@
   <mat-toolbar-row><button color="accent" mat-raised-button [matMenuTriggerFor]="menu">Menu</button></mat-toolbar-row>
   <mat-menu class="nav" #menu="matMenu">
     <button mat-menu-item><a routerLink="/home">Home</a></button>
-    <button mat-menu-item><a routerLink="/category">Manage Category</a></button>
-    <button mat-menu-item><a routerLink="/question/list">View Questions</a></button>
-    <button mat-menu-item><a routerLink="/question/create">Create Question</a></button>
-    <button mat-menu-item><a routerLink="/assessment/create">Create Assessment</a></button>
-    <button mat-menu-item><a routerLink="/assessment/list">View Assessments</a></button>
-    <button mat-menu-item><a [routerLink]="['/assessment/take', '5e8ce30398758f44cc922614']">Take Assessments</a></button>
+    <button mat-menu-item *ngIf="!userIsAuthenticated"><a routerLink="/user/create">Sign up</a></button>
+    <button mat-menu-item *ngIf="!userIsAuthenticated"><a routerLink="/login">Login</a></button>
+    <button mat-menu-item *ngIf="userIsAuthenticated"><a routerLink="/category">Manage Category</a></button>
+    <button mat-menu-item *ngIf="userIsAuthenticated"><a routerLink="/question/list">View Questions</a></button>
+    <button mat-menu-item *ngIf="userIsAuthenticated"><a routerLink="/question/create">Create Question</a></button>
+    <button mat-menu-item *ngIf="userIsAuthenticated"><a routerLink="/assessment/create">Create Assessment</a></button>
+    <button mat-menu-item *ngIf="userIsAuthenticated"><a routerLink="/assessment/list">View Assessments</a></button>
+    <button mat-menu-item *ngIf="userIsAuthenticated"><a [routerLink]="['/assessment/take', '5e8ce30398758f44cc922614']">Take Assessments</a></button>
+    <button mat-menu-item *ngIf="userIsAuthenticated">Logout</button>
   </mat-menu>
 </mat-toolbar>
