@@ -23,7 +23,7 @@ const questionFactory = require("./providers/questionFactory");
 const checkUploadAnswer = require("./file-engine/check-upload-answer");
 
 const userRoutes = require("./routes/user");
-const checkAuth = require("../middlewares/check-auth");
+const checkAuth = require("../backend/middleware/check-auth");
 
 // ******************************************************** //
 // ***********   DATABASE COLLECTION OBJECTS   ************ //
