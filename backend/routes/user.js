@@ -5,6 +5,7 @@ const User = require("../models/user");
 
 const router = express.Router();
 
+// The middleware to create a new user login
 router.post("/create", (request, response, next) => {
   bcrypt.hash(request.body.password, 10).then(hash => {
     const user = new User({
@@ -28,7 +29,10 @@ router.post("/create", (request, response, next) => {
   });
 });
 
+// The middleware to login a user
 router.post("/login", (request, response, next) => {
+  let fetchedUser;
+  // Find the username in the database
   User.findOne({ username: request.body.username })
     .then(user => {
       if (!user) {
@@ -36,6 +40,7 @@ router.post("/login", (request, response, next) => {
           message: "Username not found."
         });
       }
+      fetchedUser = user;
       // Compare the user entered password with password in database
      return bcrypt.compare(request.body.password, user.password);
     })
@@ -45,11 +50,14 @@ router.post("/login", (request, response, next) => {
           message: "Password does not match."
       });
     }
-
-    const token = jwt.sign({ username: user.username, userId: user._id },
+    // Create the token used to login - expires in 4 hours
+    const token = jwt.sign({ username: fetchedUser.username, userId: fetchedUser._id },
       'secret_this_should_be_longer_replace_before_publication',
       { expiresIn: "4h" }
       );
+      response.status(200).json({
+        token: token
+      });
     })
     .catch(err => {
       return response.status(401).json({

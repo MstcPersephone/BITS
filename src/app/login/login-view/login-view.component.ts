@@ -14,7 +14,10 @@ export class LoginViewComponent implements OnInit {
     private formBuilder: FormBuilder,
     public loginService: LoginEngineService
   ) {
-    this.loginForm = this.formBuilder.group({});
+    this.loginForm = this.formBuilder.group({
+      username: '',
+      password: ''
+    });
    }
 
   ngOnInit() {
@@ -22,5 +25,6 @@ export class LoginViewComponent implements OnInit {
 
   onLogin(formData) {
     console.log(formData);
+    this.loginService.loginUser(formData.username, formData.password);
   }
 }

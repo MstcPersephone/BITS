@@ -24,4 +24,12 @@ export class LoginEngineService {
     });
   }
 
+  loginUser(username: string, password: string) {
+    const authUser: AuthData = {username, password};
+    this.http.post('http://localhost:3000/api/user/login', authUser)
+    .subscribe(response => {
+      console.log(response);
+    });
+  }
+
 }
