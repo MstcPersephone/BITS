@@ -1,8 +1,3 @@
-<!-- Displays the amount of options added to the question -->
-<p class="optionCount" *ngIf="this.questionService.getHasOptions()">
-  {{ options.length }} {{ options.length > 1 ? "options" : "option" }} added to the question.
-</p>
-
 <!-- List of created options for question -->
 <div class="optionList" >
   <mat-card class="optionListContainer">

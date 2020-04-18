@@ -493,7 +493,7 @@ export class QuestionService {
             setTimeout(() => {
               console.log(responseData);
               // Displays a message informing that the question deletion has been successful.
-              this.helperService.openSnackBar('Question Deletion.', 'Close', 'success-dialog', 5000);
+              this.helperService.openSnackBar('Question Deleted.', 'Close', 'success-dialog', 5000);
               this.helperService.isLoading = false;
               this.helperService.refreshComponent('question/list');
             }, 2000);
@@ -501,9 +501,6 @@ export class QuestionService {
             error => {
               console.log('%c' + error.error.message, 'color: red;');
             });
-      } else {
-        // Displays a message informing that the question deletion has been cancelled.
-        this.helperService.openSnackBar('Cancelled Deletion.', 'Close', 'alert-dialog', 5000);
       }
     });
   }

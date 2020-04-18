@@ -186,10 +186,15 @@ div.correct, mat-list-item.correct, .success-dialog{
   color: rgba(0,0,0,0);
 }
 
-/* Styles applied to any "alert" options or dialogs and cancel options */
-mat-list-item.alert, .alert-dialog, .cancelOption {
+/* Styles applied to any "alert" options or dialogs, cancel options, and Return To buttons */
+mat-list-item.alert, .alert-dialog, .cancelOption, .returnButton {
   background-color: #fcb618 !important;
   color: black !important;
+}
+
+/* Styles applied to the Return To buttons */
+.returnButton{
+  margin-left: auto;
 }
 
 /* Styles applied to any "error" options or dialogs */
