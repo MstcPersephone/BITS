@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
@@ -79,6 +79,7 @@ import { AssessmentEngineComponent } from './assessment-engine/assessment-engine
 import { LoginViewComponent } from './login/login-view/login-view.component';
 import { LoginCreateComponent } from './login/login-create/login-create.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { AuthInterceptor } from './login/auth-interceptor';
 
 
 @NgModule({
@@ -155,7 +156,8 @@ import { HomepageComponent } from './homepage/homepage.component';
     QuestionService,
     HelperService,
     ValidationService,
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
