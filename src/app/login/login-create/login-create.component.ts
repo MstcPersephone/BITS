@@ -34,7 +34,7 @@ export class LoginCreateComponent implements OnInit {
     const user = new User();
     user.username = formData.username;
     user.password = formData.password1;
-    user.isAdmin = formData.isAdmin;
+    user.isAdmin = false;
 
     this.loginService.createUser(user);
 
