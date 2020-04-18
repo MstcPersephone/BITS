@@ -26,15 +26,12 @@ export class CreateStudentComponent implements OnInit {
     private formBuilder: FormBuilder) {
     this.createStudentForm = this.formBuilder.group({
       hasStudentId: '',
-      studentId: ['11111111', {
-        validators: [ValidationService.studentIdLength, ValidationService.numberValidator],
-        updateOn: 'blur'}],
+      studentId: ['11111111', [ValidationService.studentIdLength, ValidationService.numberValidator]],
       firstName: ['', [Validators.required, ValidationService.alphaValidator]],
       lastName: ['', [Validators.required, ValidationService.alphaValidator]],
       dateOfBirth: ['', [Validators.required]],
       campusLocation: ['', [Validators.required]]
-    },
-    {updateOn: 'submit'});
+    });
     const currentYear = new Date().getFullYear();
     this.minDate = new Date(currentYear - 100, 0, 0);
     this.maxDate = new Date(currentYear - 16, 0, 0);
