@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 import { AssessmentService } from 'src/app/services/assessment.service';
 import { QuestionService } from 'src/app/services/question.service';
+import { ValidationService } from '../../../services/validation.service';
+import { HelperService } from '../../../services/helper.service';
+
 import { Subscription } from 'rxjs';
 
 
@@ -22,7 +25,8 @@ export class CreateAssessmentConfigComponent implements OnInit {
   constructor(
     public questionService: QuestionService,
     public assessmentService: AssessmentService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    public helperService: HelperService) {
     this.createConfigurationForm = this.formBuilder.group({
       isRandom: false,
       isTimed: false,
@@ -33,7 +37,8 @@ export class CreateAssessmentConfigComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.maxTime = 0;
+    this.wrongStreak = 0;
   }
 
   formatMinScoreLabel(value: number) {
@@ -48,6 +53,15 @@ export class CreateAssessmentConfigComponent implements OnInit {
     config.maxTime = this.assessmentService.getMaxTime();
     config.wrongStreak = this.assessmentService.getWrongStreak();
     config.minimumScore = configurationdata.minimumScore;
+
+    // Calls validation on the current form when submit button is clicked
+    if (!this.createConfigurationForm.valid) {
+      // Runs all validation on the createConfigurationForm form controls
+      (Object as any).values(this.createConfigurationForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
+
     this.assessmentService.createAssessmentConfiguration(config);
   }
 }

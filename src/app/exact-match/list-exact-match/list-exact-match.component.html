@@ -1,9 +1,4 @@
 <br>
-<!-- List of created exact match answers for question -->
-<p class="matchCount" *ngIf="this.questionService.getHasMatches()">
-  {{ exactMatches.length }} {{ exactMatches.length > 1 ? "exactMatches" : "exactMatch" }} added to the question.
-</p>
-
   <mat-card class="matchListContainer">
     <mat-list *ngIf="exactMatches.length > 0">
       <div *ngFor="let exactMatch of exactMatches; let i = index">

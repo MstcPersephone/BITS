@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AssessmentEngineService } from '../services/assessment-engine.service';
+import { AssessmentEngineService } from '../../services/assessment-engine.service';
 
 @Component({
   selector: 'app-assessment-engine',

@@ -1,0 +1,16 @@
+/* Importing shared task styles */
+@import "../../_taskStyles/viewStyles.css";
+
+/* Adjusting the display of the button container to display the buttons on the left. */
+div.buttonContainer button{
+  margin: auto;
+  margin-left: 0;
+  margin-right: 15px;
+}
+
+/* Coloring the Check Answer button a gross color. */
+/* The button is used for testing, and it will be more obvious when we're removing these buttons later.*/
+button.checkAnswerButton{
+  background-color: springgreen;
+  color: black;
+}

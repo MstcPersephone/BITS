@@ -75,11 +75,13 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 import { EditAssessmentConfigComponent } from './assessments/configuration/edit-assessment-config/edit-assessment-config.component';
 import { ValidationMessagesComponent } from './shared/validation-messages/validation-messages.component';
 import { FooterComponent } from './assessment-engine/footer/footer.component';
-import { AssessmentEngineComponent } from './assessment-engine/assessment-engine.component';
+import { AssessmentEngineComponent } from './assessment-engine/assessment-engine/assessment-engine.component';
 import { LoginViewComponent } from './login/login-view/login-view.component';
 import { LoginCreateComponent } from './login/login-create/login-create.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { AuthInterceptor } from './login/auth-interceptor';
+
+import { TakenAssessmentComponent } from './assessment-engine/taken-assessment/taken-assessment.component';
 
 
 @NgModule({
@@ -135,7 +137,8 @@ import { AuthInterceptor } from './login/auth-interceptor';
     AssessmentEngineComponent,
     LoginViewComponent,
     LoginCreateComponent,
-    HomepageComponent
+    HomepageComponent,
+    TakenAssessmentComponent
   ],
   imports: [
     BrowserModule,

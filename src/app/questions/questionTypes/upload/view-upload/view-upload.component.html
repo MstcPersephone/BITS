@@ -1,14 +1,26 @@
-<p>{{ question.questionText }}</p>
+<h3>{{ question.questionText }}</h3>
+<br>
+<br>
 
+<h3>Please upload the answer to this question:</h3>
+<input class="hidden" hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event, 'studentAnswer')" />
+<br>
+<div class="buttonContainer">
+  <button type="button" (click)="uploader.click()" mat-raised-button color="accent" class="mt-20">
+    Upload File &nbsp;<mat-icon>cloud_upload</mat-icon>
+  </button>
+  <button class="checkAnswerButton" type="button" (click)="onSubmit()" mat-raised-button color="accent">
+    Check Answer &nbsp;<mat-icon>done_outline</mat-icon>
+  </button>
+</div>
 
-      <label>Upload the answer to this question</label>
-      <br>
-      <input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event, 'studentAnswer')" />
-      <br>
-      <button type="button" (click)="uploader.click()" mat-raised-button color="accent" class="mt-20">Upload File &nbsp;
-      <mat-icon>cloud_upload</mat-icon></button>
-      <br>
-      <button type="button" (click)="onSubmit()" mat-raised-button color="accent" class="mt-20">Check Answer &nbsp;
-        <mat-icon>done_outline</mat-icon></button>
+  <br>
+
+  <div class="returnSection" *ngIf="this.assessmentService.showBackButton === true">
+    <!-- Return to Assessment Button : Resets showBackButton to false and returns to the current assessment view -->
+    <button class="returnButton" mat-raised-button (click)="this.assessmentService.returnToAssessment()">
+      Return to Assessment
+    </button>
+  </div>
 
 
