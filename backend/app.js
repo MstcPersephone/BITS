@@ -440,11 +440,13 @@ app.get("/api/question/:id", (request, response, next) => {
 // ********************************************** //
 // *********   GET: STUDENT BY ID    ************ //
 // ********************************************** //
+// Used on front end to ensure a student does not already exist before saving to student collection.
 app.get("/api/student/:id", (request, response, next) => {
-  studentCollection.find({ _id: request.params.id }).then((student, error) => {
+  // search datebase for student by Id, findOne will return null if not found
+  studentCollection.findOne({ _id: request.params.id }).then((student, error) => {
     response.status(200).json({
       message: request.params.id + ' Student fetched successfully!',
-      assessment: student
+      student: student
     });
     // TODO: [PER-98] Remove the console logs before pushing to production.
     console.log(student);

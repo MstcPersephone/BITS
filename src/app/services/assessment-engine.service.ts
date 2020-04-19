@@ -232,199 +232,197 @@ export class AssessmentEngineService {
 
 
 
-prepareAssessment(assessment: Assessment) {
-  this.assessment = assessment;
-  this.assessmentService.getQuestionsByIds(assessment.questionIds);
-  this.assessmentQuestionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
-    .subscribe((questionsArray: Question[]) => {
-      this.questions = questionsArray;
-      console.log('QUESTIONS', this.questions);
+  prepareAssessment(assessment: Assessment) {
+    this.assessment = assessment;
+    this.assessmentService.getQuestionsByIds(assessment.questionIds);
+    this.assessmentQuestionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
+      .subscribe((questionsArray: Question[]) => {
+        this.questions = questionsArray;
+        console.log('QUESTIONS', this.questions);
 
-      // The rest of the prep work is dependent on getting these questions
-      // Put config into its own variable
-      const config = assessment.config;
+        // The rest of the prep work is dependent on getting these questions
+        // Put config into its own variable
+        const config = assessment.config;
 
-      // Get timer ready to start if necessary
-      if (config.isTimed) {
-        // Starting timer with setTimeout to make sure it starts last
-        setTimeout(() => {
-          this.startTimer(config.maxTime);
-        }, 0);
-      }
+        // Get timer ready to start if necessary
+        if (config.isTimed) {
+          // Starting timer with setTimeout to make sure it starts last
+          setTimeout(() => {
+            this.startTimer(config.maxTime);
+          }, 0);
+        }
 
-      // Randomize questions if needed
-      if (config.isRandom) {
-        this.questions = this.randomizeQuestions(this.questions);
-      }
+        // Randomize questions if needed
+        if (config.isRandom) {
+          this.questions = this.randomizeQuestions(this.questions);
+        }
 
-      // Set up and trigger wrong streak if needed
-      if (config.wrongStreak > 0) {
-        this.isWrongStreak = true;
-        this.maxWrongStreak = config.wrongStreak;
-      }
+        // Set up and trigger wrong streak if needed
+        if (config.wrongStreak > 0) {
+          this.isWrongStreak = true;
+          this.maxWrongStreak = config.wrongStreak;
+        }
 
-      this.startAssessment(this.questions, this.assessment);
-    });
-}
-
-randomizeQuestions(questions) {
-  let currentIndex = questions.length;
-  let tempValue: number;
-  let randomIndex: number;
-
-  // While there are remaining questions left to randomize
-  while (currentIndex !== 0) {
-    // Pick a random question
-    randomIndex = Math.floor(Math.random() * currentIndex);
-
-    currentIndex -= 1;
-
-    // Assign current question to temp variable
-    tempValue = questions[currentIndex];
-
-    // Swap random question with current question
-    questions[currentIndex] = questions[randomIndex];
-    questions[randomIndex] = tempValue;
+        this.startAssessment(this.questions, this.assessment);
+      });
   }
 
-  return questions;
-}
+  randomizeQuestions(questions) {
+    let currentIndex = questions.length;
+    let tempValue: number;
+    let randomIndex: number;
 
-startAssessment(questions: Question[], assessment: Assessment) {
-  this.currentQuestion = questions[0];
-  this.assessmentStarted = true;
-}
+    // While there are remaining questions left to randomize
+    while (currentIndex !== 0) {
+      // Pick a random question
+      randomIndex = Math.floor(Math.random() * currentIndex);
 
-acceptAnswer() {
+      currentIndex -= 1;
 
-  const question = this.currentQuestion;
+      // Assign current question to temp variable
+      tempValue = questions[currentIndex];
 
-  // Mark the question as being answered by the student
-  question.isAnswered = true;
-
-  // Check to see if the answer is correct
-  const isCorrect = this.checkAnswer(question);
-
-  // If the answer is correct
-  if (isCorrect) {
-
-    // Mark the question as having a correct answer
-    question.isAnsweredCorrectly = true;
-
-    // If the answer is wrong
-  } else {
-    // Mark the question object as having the wrong answer
-    question.isAnsweredCorrectly = false;
-  }
-
-  // Update the submitted question in the array so it can be saved when submitting
-  this.questions[this.currentQuestionIndex] = question;
-
-  // Check to see if there are more questions
-  if (this.hasQuestionsRemaining()) {
-
-    // Reset wrong streak
-    if (this.isWrongStreak && isCorrect) {
-      this.wrongAnswerStreak = 0;
-
-      // Or increase wrong streak
-    } else if (this.isWrongStreak && !isCorrect) {
-      this.wrongAnswerStreak++;
-
-      // Check to see if max wrong streak is reached
-      if (this.wrongAnswerStreak === this.maxWrongStreak) {
-        this.submitAssessment();
-
-        // stop the rest of the function execution
-        return;
-      }
+      // Swap random question with current question
+      questions[currentIndex] = questions[randomIndex];
+      questions[randomIndex] = tempValue;
     }
 
-    // Go to next question
-    this.goToNextQuestion();
-
-    // Else, there are no more questions, and the assessment needs to submit
-  } else {
-    this.submitAssessment();
+    return questions;
   }
-}
 
-// Updates the current question and notifies subscribers
-goToNextQuestion() {
-  const newQuestionIndex = this.currentQuestionIndex + 1;
-  this.currentQuestion = this.questions[newQuestionIndex];
-  this.currentQuestionIndex = newQuestionIndex;
-  this.currentQuestionUpdated.next(this.currentQuestion);
-}
+  startAssessment(questions: Question[], assessment: Assessment) {
+    this.currentQuestion = questions[0];
+    this.assessmentStarted = true;
+  }
 
-// Returns whether there are more questions to be answered
-hasQuestionsRemaining() {
-  return this.questions.length !== this.currentQuestionIndex + 1 ? true : false;
-}
+  acceptAnswer() {
 
-startTimer(duration: number) {
-  // timer logic
-}
+    const question = this.currentQuestion;
 
-// ******************************************************** //
-// ***************  API CALLS TO BACKEND  ***************** //
-// ******************************************************** //
+    // Mark the question as being answered by the student
+    question.isAnswered = true;
 
-// ************************************************* //
-// ***************  SAVE: STUDENT  ***************** //
-// ************************************************* //
-saveStudent(student: Student) {
+    // Check to see if the answer is correct
+    const isCorrect = this.checkAnswer(question);
 
-  console.log('Student', student);
+    // If the answer is correct
+    if (isCorrect) {
 
-  // // this.helperService.isLoading = true;
-  // this.http.get<{ message: string, student: Student }>(
-  //   'http://localhost:3000/api/student/' + student._id
-  // ).subscribe((assessmentData) => {
+      // Mark the question as having a correct answer
+      question.isAnsweredCorrectly = true;
 
-  //   console.log(assessmentData);
-  // });
+      // If the answer is wrong
+    } else {
+      // Mark the question object as having the wrong answer
+      question.isAnsweredCorrectly = false;
+    }
 
-  this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/student/save', student)
-.subscribe(
-  responseData => {
-    // tslint:disable-next-line: max-line-length
-    this.helperService.openSnackBar(student.studentId + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
-    console.log('%c' + responseData.message, 'color: green;');
-    console.log('%c Database Object:', 'color: orange;');
-    console.log(responseData.student);
-    // this.router.navigate(['/assessment/list']);
-  },
-  error => {
-    console.log('%c' + error.error.message, 'color: red;');
-  });
-}
+    // Update the submitted question in the array so it can be saved when submitting
+    this.questions[this.currentQuestionIndex] = question;
 
-// ********************************************************** //
-// ***************  SAVE: TAKEN ASSESSMENT  ***************** //
-// ********************************************************** //
-saveTakenAssessment(takenAssessment: TakenAssessment) {
-  // const completeAssessment: any = assessment;
-  // completeAssessment.config = this.assessmentConfig;
-  // completeAssessment.status = this.status;
-  console.log('Taken Assessment', takenAssessment);
+    // Check to see if there are more questions
+    if (this.hasQuestionsRemaining()) {
 
-  this.http.post<{ message: string, takenAssessmentId: string }>('http://localhost:3000/api/assessment/generate', takenAssessment)
-    .subscribe(
-      responseData => {
-        // tslint:disable-next-line: max-line-length
-        this.helperService.openSnackBar(takenAssessment.assessment.name + ' Taken Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
-        console.log('%c' + responseData.message, 'color: green;');
-        console.log('%c Database Object:', 'color: orange;');
-        console.log(responseData);
-        this.takenAssessmentId = responseData.takenAssessmentId;
-        this.takenAssessmentIdUpdated.next(this.takenAssessmentId);
-        // this.resetConfigurationForm();
-        // this.router.navigate(['/assessment/list']);
+      // Reset wrong streak
+      if (this.isWrongStreak && isCorrect) {
+        this.wrongAnswerStreak = 0;
 
-      },
-      error => {
-        console.log('%c' + error.error.message, 'color: red;');
-      });
-}
+        // Or increase wrong streak
+      } else if (this.isWrongStreak && !isCorrect) {
+        this.wrongAnswerStreak++;
+
+        // Check to see if max wrong streak is reached
+        if (this.wrongAnswerStreak === this.maxWrongStreak) {
+          this.submitAssessment();
+
+          // stop the rest of the function execution
+          return;
+        }
+      }
+
+      // Go to next question
+      this.goToNextQuestion();
+
+      // Else, there are no more questions, and the assessment needs to submit
+    } else {
+      this.submitAssessment();
+    }
+  }
+
+  // Updates the current question and notifies subscribers
+  goToNextQuestion() {
+    const newQuestionIndex = this.currentQuestionIndex + 1;
+    this.currentQuestion = this.questions[newQuestionIndex];
+    this.currentQuestionIndex = newQuestionIndex;
+    this.currentQuestionUpdated.next(this.currentQuestion);
+  }
+
+  // Returns whether there are more questions to be answered
+  hasQuestionsRemaining() {
+    return this.questions.length !== this.currentQuestionIndex + 1 ? true : false;
+  }
+
+  startTimer(duration: number) {
+    // timer logic
+  }
+
+  // ******************************************************** //
+  // ***************  API CALLS TO BACKEND  ***************** //
+  // ******************************************************** //
+
+  // ************************************************* //
+  // ***************  SAVE: STUDENT  ***************** //
+  // ************************************************* //
+  saveStudent(student: Student) {
+    // first looks to see if student already exists in the database.
+    this.http.get<{ message: string, student: Student }>(
+      'http://localhost:3000/api/student/' + student._id
+    ).subscribe((studentData) => {
+
+      // If student already exists do nothing, otherwise, pass the student
+      // with API call to backend to add student to database
+      if (studentData.student === null) {
+        this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/student/save', student)
+          .subscribe(
+            responseData => {
+              // tslint:disable-next-line: max-line-length
+              this.helperService.openSnackBar(student._id + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
+              console.log('%c' + responseData.message, 'color: green;');
+              console.log('%c Database Object:', 'color: orange;');
+              console.log(responseData.student);
+            },
+            error => {
+              console.log('%c' + error.error.message, 'color: red;');
+            });
+      }
+    });
+  }
+
+  // ********************************************************** //
+  // ***************  SAVE: TAKEN ASSESSMENT  ***************** //
+  // ********************************************************** //
+  saveTakenAssessment(takenAssessment: TakenAssessment) {
+    // const completeAssessment: any = assessment;
+    // completeAssessment.config = this.assessmentConfig;
+    // completeAssessment.status = this.status;
+    console.log('Taken Assessment', takenAssessment);
+
+    this.http.post<{ message: string, takenAssessmentId: string }>('http://localhost:3000/api/assessment/generate', takenAssessment)
+      .subscribe(
+        responseData => {
+          // tslint:disable-next-line: max-line-length
+          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Taken Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData);
+          this.takenAssessmentId = responseData.takenAssessmentId;
+          this.takenAssessmentIdUpdated.next(this.takenAssessmentId);
+          // this.resetConfigurationForm();
+          // this.router.navigate(['/assessment/list']);
+
+        },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
 }
