@@ -69,6 +69,15 @@ export class HelperService {
     return monthNumbers + dayNumbers + yearNumbers;
   }
 
+  convertName(name) {
+
+    // Put date string into Date object
+    const convertedName = name.replace(/\s/g, '');
+
+    // Return just the numbers
+    return convertedName.toLowerCase();
+  }
+
   // Add a 0 to the beginning of the day or month if needed
   // This is not currently needed with the date picker being used,
   // but if there were new functions in the future that accepted the date
@@ -79,8 +88,8 @@ export class HelperService {
 
   generateUniqueStudentId(student: Student) {
 
-    const firstName = student.firstName.toLowerCase();
-    const lastName = student.lastName.toLowerCase();
+    const firstName = this.convertName(student.firstName);
+    const lastName = this.convertName(student.lastName);
     const dob = this.convertBirthdateToNumbers(student.dateOfBirth);
     const studentId = student.studentId;
 
