@@ -84,7 +84,7 @@ export class ValidationService {
       control.markAsTouched();
     }
 
-      // if the value does not pass validation, the property is assigned true, else null
+    // if the value does not pass validation, the property is assigned true, else null
     if (control.touched) {
       if (control.value.match(/^(0|[1-9][0-9]*)$/)) {
         return null;

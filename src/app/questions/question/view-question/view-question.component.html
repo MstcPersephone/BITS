@@ -1,5 +1,6 @@
+<br>
 <mat-card>
-  <h3>Question</h3>
+  <h1 class="mat-display-1">Question</h1>
   <div *ngIf="currentQuestion != null" [ngSwitch]="currentQuestion.questionType">
     <app-view-checkbox *ngSwitchCase="'Checkbox'" [question]="currentQuestion"></app-view-checkbox>
     <app-view-multiple-choice *ngSwitchCase="'Multiple Choice'" [question]="currentQuestion"></app-view-multiple-choice>

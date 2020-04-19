@@ -354,7 +354,8 @@ export class AssessmentService {
 
     const wrongStreakResponse = ValidationService.validateMaxWrongStreak(completeAssessment);
 
-    const maxTimeResponse = ValidationService.validateMaxTime(completeAssessment.config.maxTime);
+    const maxTimeResponse = ValidationService.validateMaxTime(completeAssessment.config);
+
 
     if (wrongStreakResponse.result && maxTimeResponse.result) {
 
@@ -391,7 +392,7 @@ export class AssessmentService {
 
     const wrongStreakResponse = ValidationService.validateMaxWrongStreak(assessment);
 
-    const maxTimeResponse = ValidationService.validateMaxTime(assessment.config.maxTime);
+    const maxTimeResponse = ValidationService.validateMaxTime(assessment.config);
 
     if (wrongStreakResponse.result && maxTimeResponse.result) {
       this.http.post<{ message: string, updatedAssessment: Assessment }>('http://localhost:3000/api/assessment/update', assessment)
