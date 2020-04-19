@@ -26,7 +26,7 @@ export class CreateStudentComponent implements OnInit {
     private formBuilder: FormBuilder) {
     this.createStudentForm = this.formBuilder.group({
       hasStudentId: '',
-      studentId: ['11111111', [ValidationService.studentIdLength, ValidationService.numberValidator]],
+      studentId: ['11111111', [ValidationService.studentIdLength, ValidationService.numberValidator]],
       firstName: ['', [Validators.required, ValidationService.alphaValidator]],
       lastName: ['', [Validators.required, ValidationService.alphaValidator]],
       dateOfBirth: ['', [Validators.required]],
@@ -57,9 +57,6 @@ export class CreateStudentComponent implements OnInit {
   onSubmit(studentData) {
     const student: Student = new Student();
 
-
-
-    student.hasStudentId = studentData.hasStudentId;
     student.studentId = studentData.studentId;
     student.firstName = studentData.firstName;
     student.lastName = studentData.lastName;
@@ -71,26 +68,21 @@ export class CreateStudentComponent implements OnInit {
 
     // Calls validation on the current form when submit button is clicked
     if (!this.createStudentForm.valid) {
-      // Runs all validation on the createShortAnswerForm form controls
+      // Marks all controls as touched so error messages may populate
       (Object as any).values(this.createStudentForm.controls).forEach(control => {
         control.markAsTouched();
       });
     }
 
     if (this.createStudentForm.valid) {
-      if (!this.hasStudentId) {
-        // sets the validation in the service to let engine know whether ok to start
-        this.assessmentEngineService.setStudentFormIsValid(true);
-        console.log('Valid?', this.createStudentForm.valid);
+      // sets the validation in the service, if true assessment may start
+      this.assessmentEngineService.setStudentFormIsValid(true);
 
-        // Sends the data to the service to handle passing data for saving in database
-        // this.assessmentEngineService.saveStudent(student);
-        console.log('Simulate Save', student);
-      }
+      // Sends the data to the service to handle passing data for saving in database
+      this.assessmentEngineService.saveStudent(student);
     } else {
-      // sets the validation in the service to let engine know whether ok to start
+      // sets the validation in the service, if false errors must be corrected before assessment may start
       this.assessmentEngineService.setStudentFormIsValid(false);
-      console.log('Valid?', this.createStudentForm.valid);
     }
   }
 }

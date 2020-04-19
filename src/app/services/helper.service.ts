@@ -79,8 +79,8 @@ export class HelperService {
 
   generateUniqueStudentId(student: Student) {
 
-    const firstName = student.firstName;
-    const lastName = student.lastName;
+    const firstName = student.firstName.toLowerCase();
+    const lastName = student.lastName.toLowerCase();
     const dob = this.convertBirthdateToNumbers(student.dateOfBirth);
     const studentId = student.studentId;
 

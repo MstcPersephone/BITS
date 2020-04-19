@@ -58,12 +58,14 @@ export class ValidationService {
 
   // called from the component.ts where the formbuilder is created
   // ensures that value is alpha and spaces only
-  // if the value does not pass validation, the property is assigned true, else null
   static alphaValidator(control) {
+
+    // This stops validation error messages from populating on load.
     if (control.value !== '') {
       control.markAsTouched();
     }
 
+    // if the value does not pass validation, the property is assigned true, else null
     if (control.touched) {
       if (control.value.match(/^[a-zA-Z ]*$/)) {
         return null;
@@ -75,12 +77,14 @@ export class ValidationService {
 
   // called from the component.ts where the formbuilder is created
   // validation for whole numeric value only
-  // if the value does not pass validation, the property is assigned true, else null
   static numberValidator(control) {
+
+    // This stops validation error messages from populating on load.
     if (control.value !== '') {
       control.markAsTouched();
     }
 
+      // if the value does not pass validation, the property is assigned true, else null
     if (control.touched) {
       if (control.value.match(/^(0|[1-9][0-9]*)$/)) {
         return null;
@@ -92,13 +96,14 @@ export class ValidationService {
 
   // called from the component.ts where the formbuilder is created
   // validation for length of the studentId
-  // if the value does not pass validation, the property is assigned true, else null
   static studentIdLength(control) {
-    // if (control.value !== '') {
-    //   control.markAsTouched();
-    // }
-    control.markAsTouched();
 
+    // This stops validation error messages from populating on load.
+    if (control.value !== '') {
+      control.markAsTouched();
+    }
+
+    // if the value does not pass validation, the property is assigned true, else null
     if (control.touched) {
       if (control.value.length !== 8) {
         return { invalidStudentIdLength: true };
@@ -110,14 +115,14 @@ export class ValidationService {
 
   // called from the component.ts where the formbuilder is created
   // ensures that value is not an empty string
-  // if the value does not pass validation, the property is assigned true, else null
   static invalidWhiteSpaceOnly(control) {
-    //  debugger;
 
+    // This stops validation error messages from populating on load.
     if (control.value !== '') {
       control.markAsTouched();
     }
 
+    // if the value does not pass validation, the property is assigned true, else null
     if (control.touched) {
       if (!control.value.match(/^\s*$/)) {
         return null;
