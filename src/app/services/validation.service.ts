@@ -172,13 +172,13 @@ export class ValidationService {
   }
 
   // Validation to ensure a value from timer is selected if checked as timed assessment
-  static validateMaxTime(time: number): ValidationResponse {
+  static validateMaxTime(config: AssessmentConfig): ValidationResponse {
 
     // The response object that will be returned within this function
     const response = new ValidationResponse();
 
     // Ensures that the max time is not still 0
-    if (time === 0) {
+    if (config.isTimed && config.maxTime === 0) {
       response.result = false;
       response.message = 'If you check this as a timed assessment you must add an appropriate maximum minute value.';
       return response;
