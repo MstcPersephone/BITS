@@ -11,6 +11,7 @@ import { AuthData } from '../models/auth-data.model';
 export class LoginEngineService {
   private token: string;
   public isAdmin = false;
+  private isAuthenticated = false;
   private authStatusListener = new Subject<boolean>();
 
   constructor(
@@ -19,6 +20,10 @@ export class LoginEngineService {
 
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
+  }
+
+  getIsAuth() {
+    return this.isAuthenticated;
   }
 
   getToken() {
@@ -39,8 +44,17 @@ export class LoginEngineService {
     .subscribe(response => {
       const token = response.token;
       this.token = token;
-      this.authStatusListener.next(true);
+
+      if (token) {
+        this.isAuthenticated = true;
+        this.authStatusListener.next(true);
+       }
     });
   }
 
+  logout() {
+    this.token = null;
+    this.isAuthenticated = false;
+    this.authStatusListener.next(false);
+  }
 }

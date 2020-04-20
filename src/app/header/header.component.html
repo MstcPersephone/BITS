@@ -11,7 +11,7 @@
     <button mat-menu-item *ngIf="userIsAuthenticated" (click)="this.helperService.refreshComponent('/assessment/create')"><a>Create Assessment</a></button>
     <button mat-menu-item *ngIf="userIsAuthenticated" (click)="this.helperService.refreshComponent('/assessment/list')"><a>View Assessments</a></button>
     <button mat-menu-item *ngIf="userIsAuthenticated"><a [routerLink]="['/assessment/take', '5e8ce30398758f44cc922614']">Take Assessments</a></button>
-    <button mat-menu-item *ngIf="userIsAuthenticated">Logout</button>
+    <button mat-menu-item *ngIf="userIsAuthenticated" (click)="onLogout()">Logout</button>
   </mat-menu>
 
   <!-- <mat-menu class="nav" #menu="matMenu">
