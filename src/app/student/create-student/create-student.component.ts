@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Student } from '../../models/student.model';
 import { AssessmentEngineService } from '../../services/assessment-engine.service';
 import { HelperService } from '../../services/helper.service';
 import { ValidationService } from '../../services/validation.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-create-student',
@@ -26,7 +27,6 @@ export class CreateStudentComponent implements OnInit {
     private formBuilder: FormBuilder) {
     this.createStudentForm = this.formBuilder.group({
       hasStudentId: '',
-      studentId: ['11111111', [ValidationService.studentIdLength, ValidationService.numberValidator]],
       firstName: ['', [Validators.required, ValidationService.alphaValidator]],
       lastName: ['', [Validators.required, ValidationService.alphaValidator]],
       dateOfBirth: ['', [Validators.required]],
@@ -51,13 +51,18 @@ export class CreateStudentComponent implements OnInit {
   // Sets the value when the checkbox is clicked
   hasStudentIdChanged() {
     this.hasStudentId = !this.hasStudentId;
+    if (this.hasStudentId) {
+      // tslint:disable-next-line: max-line-length
+      this.createStudentForm.addControl( 'studentId', new FormControl('', [ValidationService.studentIdLength, ValidationService.numberValidator]));
+    } else {
+      this.createStudentForm.removeControl('studentId');
+    }
     return this.hasStudentId;
   }
 
   onSubmit(studentData) {
     const student: Student = new Student();
-
-    student.studentId = studentData.studentId;
+    student.studentId = this.hasStudentId ? studentData.studentId : '11111111';
     student.firstName = studentData.firstName;
     student.lastName = studentData.lastName;
     student.dateOfBirth = studentData.dateOfBirth;
@@ -80,9 +85,12 @@ export class CreateStudentComponent implements OnInit {
 
       // Sends the data to the service to handle passing data for saving in database
       this.assessmentEngineService.saveStudent(student);
+      console.log(this.createStudentForm.valid);
+      // console.log(student);
     } else {
       // sets the validation in the service, if false errors must be corrected before assessment may start
       this.assessmentEngineService.setStudentFormIsValid(false);
+      // console.log(this.createStudentForm.valid);
     }
   }
 }

@@ -72,7 +72,7 @@ export class HelperService {
   convertName(name) {
 
     // Put date string into Date object
-    const convertedName = name.replace(/\s/g, '');
+    const convertedName = name.replace(/-|\s/g, '');
 
     // Return just the numbers
     return convertedName.toLowerCase();

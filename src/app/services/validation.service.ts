@@ -67,7 +67,7 @@ export class ValidationService {
 
     // if the value does not pass validation, the property is assigned true, else null
     if (control.touched) {
-      if (control.value.match(/^[a-zA-Z ]*$/)) {
+      if (control.value.match(/^[\-a-zA-Z ]*$/)) {
         return null;
       } else {
         return { invalidAlpha: true };
