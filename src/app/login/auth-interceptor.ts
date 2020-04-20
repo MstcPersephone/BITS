@@ -6,6 +6,7 @@ import { LoginEngineService } from '../services/login.service';
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private loginService: LoginEngineService) {}
 
+  // Intercept function to check token status before outgoing requests
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     const authToken = this.loginService.getToken();
     const authRequest = request.clone({
