@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { QuestionService } from 'src/app/services/question.service';
 import { QuestionType } from '../enums/questionType.enum';
 import { Checkbox } from '../models/question-types/checkbox.model';
 import { MultipleChoice } from '../models/question-types/multiple-choice.model';
@@ -17,42 +16,113 @@ import { Upload } from '../models/question-types/upload.model';
 })
 export class ValidationService {
 
-  constructor(private questionService: QuestionService) { }
+  constructor() { }
 
   // called from the validation-messages component
   // the errorMessages property is passed along with the propertyName
   // this attaches the error message to be passed back to the form field
   static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
     const config = {
-      required: 'Required',
-      invalidPoints: 'Must be numeric value', // whole numeric only allowed
-      invalidWhiteSpaceOnly: 'Must have valid input', // no empty strings allowed
-      invalidMaxTime: 'Must set a valid value in minutes', // no empty strings allowed
+      // alpha and spaces only (custom validation)
+      invalidAlpha:
+        'Must be a valid name',
+
+      // whole numeric only allowed (custom validation)
+      invalidNumbers:
+        'Must be numeric value',
+
+      // The password regex pattern allowed (this is a anguluar built in validation)
       invalidPassword:
         'Invalid password. Password must be at least 6 characters long, and contain a number.',
-      minlength: `Minimum length ${validatorValue.requiredLength}`  // validates the string length
+
+      // The required length of the student Id (custom validation)
+      invalidStudentIdLength:
+        'Student Id requires 8 digits. If you are unsure of your student Id check with your advisor.',
+
+      // no empty strings allowed (custom validation)
+      invalidWhiteSpaceOnly:
+        'Must have valid input',
+
+      // validates the string length (this is a anguluar built in validation)
+      minlength:
+        'Minimum length ${validatorValue.requiredLength}',
+
+      // required input (this is a anguluar built in validation)
+      required:
+        'Required'
+
     };
 
     return config[validatorName];
   }
 
   // called from the component.ts where the formbuilder is created
+  // ensures that value is alpha and spaces only
+  static alphaValidator(control) {
+
+    // This stops validation error messages from populating on load.
+    if (control.value !== '') {
+      control.markAsTouched();
+    }
+
+    // if the value does not pass validation, the property is assigned true, else null
+    if (control.touched) {
+      if (control.value.match(/^[\-a-zA-Z ]*$/)) {
+        return null;
+      } else {
+        return { invalidAlpha: true };
+      }
+    }
+  }
+
+  // called from the component.ts where the formbuilder is created
   // validation for whole numeric value only
-  // if the value does not pass validation, the property is assigned true, else null
   static numberValidator(control) {
+
+    // This stops validation error messages from populating on load.
+    if (control.value !== '') {
+      control.markAsTouched();
+    }
+
+    // if the value does not pass validation, the property is assigned true, else null
     if (control.touched) {
       if (control.value.match(/^(0|[1-9][0-9]*)$/)) {
         return null;
       } else {
-        return { invalidPoints: true };
+        return { invalidNumbers: true };
+      }
+    }
+  }
+
+  // called from the component.ts where the formbuilder is created
+  // validation for length of the studentId
+  static studentIdLength(control) {
+
+    // This stops validation error messages from populating on load.
+    if (control.value !== '') {
+      control.markAsTouched();
+    }
+
+    // if the value does not pass validation, the property is assigned true, else null
+    if (control.touched) {
+      if (control.value.length !== 8) {
+        return { invalidStudentIdLength: true };
+      } else {
+        return null;
       }
     }
   }
 
   // called from the component.ts where the formbuilder is created
   // ensures that value is not an empty string
-  // if the value does not pass validation, the property is assigned true, else null
   static invalidWhiteSpaceOnly(control) {
+
+    // This stops validation error messages from populating on load.
+    if (control.value !== '') {
+      control.markAsTouched();
+    }
+
+    // if the value does not pass validation, the property is assigned true, else null
     if (control.touched) {
       if (!control.value.match(/^\s*$/)) {
         return null;
@@ -62,6 +132,104 @@ export class ValidationService {
     }
   }
 
+  // ************************************************************************ //
+  // ****  Validators that populate a snack bar message on submit click  **** //
+  // ************************************************************************ //
+  // Validation to ensure an attachment is included if has attachment is checked
+  static validateAttachments(question: Question): ValidationResponse {
+    const response = new ValidationResponse();
+    if (question.hasAttachments) {
+      if (question.attachments.length !== 0) {
+        response.message = 'Attachments are uploaded and validated';
+        response.result = true;
+      } else {
+        // tslint:disable-next-line: max-line-length
+        response.message = 'You must have at least one attachment uploaded. If you do not want an attachment tied to this question, unselect the checkbox indicating that there are attachments';
+        response.result = false;
+      }
+    } else {
+      response.message = 'This question has no attachments';
+      response.result = true;
+    }
+
+    return response;
+  }
+
+  // Validation to ensure a correct answer is attached to the question
+  static validateCorrectAnswer(question: Upload): ValidationResponse {
+    const response = new ValidationResponse();
+
+    if (question.correctAnswer.length !== 0) {
+      response.message = 'Correct Answers are uploaded and validated';
+      response.result = true;
+    } else {
+      // tslint:disable-next-line: max-line-length
+      response.message = 'You must include at least one file as the correct answer. If the answer to this question is not a file, please select a different type of question.';
+      response.result = false;
+    }
+
+    return response;
+  }
+
+  // Validation to ensure a value from timer is selected if checked as timed assessment
+  static validateMaxTime(config: AssessmentConfig): ValidationResponse {
+
+    // The response object that will be returned within this function
+    const response = new ValidationResponse();
+
+    // Ensures that the max time is not still 0
+    if (config.isTimed && config.maxTime === 0) {
+      response.result = false;
+      response.message = 'If you check this as a timed assessment you must add an appropriate maximum minute value.';
+      return response;
+    } else {
+      response.result = true;
+      response.message = 'Valid';
+      return response;
+    }
+  }
+
+  // Validation to ensure the wrong streak selection of assessment does not exceed number of available questions
+  static validateMaxWrongStreak(assessment: Assessment): ValidationResponse {
+
+    // The response object that will be returned within this function
+    const response = new ValidationResponse();
+
+    // Ensures that the wrong streak number is not greater than the number of questions that exist on an assessment
+    if (assessment.config.wrongStreak > assessment.questionIds.length) {
+      response.result = false;
+      response.message = 'You currently have ' + assessment.questionIds.length + ' questions. ' +
+        ' Your consective number of incorrect answers cannot exceed this amount.';
+      return response;
+    } else {
+      response.result = true;
+      response.message = 'Valid';
+      return response;
+    }
+  }
+
+  // Validation to ensure a question is selected before setting assessment status to complete
+  static validateMinimumQuestions(assessment: Assessment): ValidationResponse {
+    // These variables are set based on question type
+    const minQuestionsLength = 1;
+
+    // The response object that will be returned within this function
+    const response = new ValidationResponse();
+
+    // Make sure that there are enough total options
+    if (assessment.questionIds.length < minQuestionsLength) {
+      response.result = false;
+      response.message = 'You must include at least ' + minQuestionsLength + ' question to save an assessment. ' +
+        ' You may choose Finish Later.';
+      return response;
+    } else {
+      response.result = true;
+      response.message = 'Valid';
+      return response;
+    }
+  }
+
+  // Validation for number of possible answers that must be selected based upon question type
   static validatePossibleAnswers(question: Question): ValidationResponse {
     // These variables are set based on question type
     let minOptionsLength;
@@ -126,94 +294,5 @@ export class ValidationService {
         return response;
       }
     }
-  }
-
-  static validateMinimumQuestions(assessment: Assessment): ValidationResponse {
-    // These variables are set based on question type
-    const minQuestionsLength = 1;
-
-    // The response object that will be returned within this function
-    const response = new ValidationResponse();
-
-    // Make sure that there are enough total options
-    if (assessment.questionIds.length < minQuestionsLength) {
-      response.result = false;
-      response.message = 'You must include at least ' + minQuestionsLength + ' question to save an assessment. ' +
-      ' You may choose Finish Later.';
-      return response;
-    } else {
-      response.result = true;
-      response.message = 'Valid';
-      return response;
-    }
-  }
-
-  static validateMaxWrongStreak(assessment: Assessment): ValidationResponse {
-
-    // The response object that will be returned within this function
-    const response = new ValidationResponse();
-
-    // Ensures that the wrong streak number is not greater than the number of questions that exist on an assessment
-    if (assessment.config.wrongStreak > assessment.questionIds.length) {
-      response.result = false;
-      response.message = 'You currently have ' + assessment.questionIds.length +  ' questions. ' +
-       ' Your consective number of incorrect answers cannot exceed this amount.';
-      return response;
-    } else {
-      response.result = true;
-      response.message = 'Valid';
-      return response;
-    }
-  }
-
-  static validateMaxTime(config: AssessmentConfig): ValidationResponse {
-
-    // The response object that will be returned within this function
-    const response = new ValidationResponse();
-
-    // Ensures that the wrong streak number is not greater than the number of questions that exist on an assessment
-    if (config.isTimed && config.maxTime === 0) {
-      response.result = false;
-      response.message = 'If you check this as a timed assessment you must add an appropriate maximum minute value.';
-      return response;
-    } else {
-      response.result = true;
-      response.message = 'Valid';
-      return response;
-    }
-  }
-
-  static validateAttachments(question: Question): ValidationResponse {
-    const response = new ValidationResponse();
-    if (question.hasAttachments) {
-      if (question.attachments.length !== 0) {
-        response.message = 'Attachments are uploaded and validated';
-        response.result = true;
-      } else {
-        // tslint:disable-next-line: max-line-length
-        response.message = 'You must have at least one attachment uploaded. If you do not want an attachment tied to this question, unselect the checkbox indicating that there are attachments';
-        response.result = false;
-      }
-    } else {
-      response.message = 'This question has no attachments';
-      response.result = true;
-    }
-
-    return response;
-  }
-
-  static validateCorrectAnswer(question: Upload): ValidationResponse {
-    const response = new ValidationResponse();
-
-    if (question.correctAnswer.length !== 0) {
-      response.message = 'Correct Answers are uploaded and validated';
-      response.result = true;
-    } else {
-      // tslint:disable-next-line: max-line-length
-      response.message = 'You must include at least one file as the correct answer. If the answer to this question is not a file, please select a different type of question.';
-      response.result = false;
-    }
-
-    return response;
   }
 }

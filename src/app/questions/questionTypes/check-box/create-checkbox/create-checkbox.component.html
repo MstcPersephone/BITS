@@ -3,7 +3,7 @@
   <!-- Question Name Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Enter Question Text</mat-label>
-    <input matInput id="questionText" type="text" formControlName="questionText" required>
+    <input matInput id="questionText" type="text" formControlName="questionText">
   </mat-form-field>
   <app-validation-messages [control]="createCheckboxForm.get('questionText')"></app-validation-messages>
 

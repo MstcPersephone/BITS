@@ -437,6 +437,29 @@ app.get("/api/question/:id", (request, response, next) => {
     })
 });
 
+// ********************************************** //
+// *********   GET: STUDENT BY ID    ************ //
+// ********************************************** //
+// Used on front end to ensure a student does not already exist before saving to student collection.
+app.get("/api/student/:id", (request, response, next) => {
+  // search datebase for student by Id, findOne will return null if not found
+  studentCollection.findOne({ _id: request.params.id }).then((student, error) => {
+    response.status(200).json({
+      message: request.params.id + ' Student fetched successfully!',
+      student: student
+    });
+    // TODO: [PER-98] Remove the console logs before pushing to production.
+    console.log(student);
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        student: null
+      })
+    })
+});
+
 // *********************************************************** //
 // ******   SAVE: ASSESSMENT TO ASSESSMENT COLLECTION   ****** //
 // *********************************************************** //
@@ -605,16 +628,13 @@ app.post("/api/student/save", (request, response, next) => {
   // Request.body is the student that is passed through.
   const student = request.body;
 
-  // Generate unique Id for student.
-  const studentId = mongoose.Types.ObjectId();
+  console.log('Student:', student);
 
-  // assigns the unique id to the student.
-  student._id = studentId;
-  console.log('Student:', student)
+  // const existingStudent = studentCollection.find({ _id: { $exists: true } });
 
   // student mapped object from front to back end.
   const studentToSaveModel = new studentCollection({
-    id: studentId,
+    _id: student._id,
     studentId: student.studentId,
     firstName: student.firstName,
     lastName: student.lastName,

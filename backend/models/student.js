@@ -5,6 +5,10 @@ const scoreSchema = require('./score');
 
 // Create Student Schema (blueprint)
 const studentSchema = mongoose.Schema({
+  _id: {
+    type: String,
+    required: true
+  },
   studentId: {
     type: String,
     required: true
