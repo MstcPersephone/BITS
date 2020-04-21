@@ -437,29 +437,6 @@ app.get("/api/question/:id", (request, response, next) => {
     })
 });
 
-// ********************************************** //
-// *********   GET: STUDENT BY ID    ************ //
-// ********************************************** //
-// Used on front end to ensure a student does not already exist before saving to student collection.
-app.get("/api/student/:uniqueStudentIdentifier", (request, response, next) => {
-  // search datebase for student by Id, findOne will return null if not found
-  studentCollection.findOne({ uniqueStudentIdentifier: request.params.uniqueStudentIdentifier }).then((student, error) => {
-    response.status(200).json({
-      message: request.params.uniqueStudentIdentifier + ' Student fetched successfully!',
-      student: student
-    });
-    // TODO: [PER-98] Remove the console logs before pushing to production.
-    console.log(student);
-  },
-    error => {
-      console.log(error.message);
-      response.status(400).json({
-        message: error.message,
-        student: null
-      })
-    })
-});
-
 // *********************************************************** //
 // ******   SAVE: ASSESSMENT TO ASSESSMENT COLLECTION   ****** //
 // *********************************************************** //
@@ -661,7 +638,7 @@ app.post("/api/student/save", (request, response, next) => {
           // Will probably use for logging later.
           response.status(200).json({
             message: 'Student saved successfully!',
-            student: studentToSaveModel
+            student: studentToSaveModel // The new student record to be passed back to front end
           });
         },
           error => {
@@ -675,15 +652,16 @@ app.post("/api/student/save", (request, response, next) => {
         // If student already exists, simply return the student for attaching to taken assessment.
         response.status(200).json({
           message: 'Student found successfully!',
-          student: studentFound // returns the student found in the database.
+          student: studentFound // Returns the student found in the database.
         });
       }
     });
 });
 
-// *********************************************************************** //
-// ******   SAVE: TAKEN ASSESSMENT TO TAKEN ASSESSMENT COLLECTION   ****** //
-// *********************************************************************** //
+// *************************************************************************** //
+// ******   GENERATE: TAKEN ASSESSMENT IN TAKEN ASSESSMENT COLLECTION   ****** //
+// *************************************************************************** //
+// This will create the Taken Assessment record with only an assessment attached
 app.post("/api/assessment/generate", (request, response, next) => {
 
   // Request.body is the taken assessment that is passed through.
@@ -721,7 +699,7 @@ app.post("/api/assessment/generate", (request, response, next) => {
     // Will probably use for logging later.
     response.status(200).json({
       message: 'Assessment saved successfully!',
-      takenAssessmentId: takenAssessment._id
+      takenAssessmentId: takenAssessment._id // Returns the id for generating an assessment url on front end
     });
   },
     error => {
@@ -777,6 +755,9 @@ app.post("/api/assessment/update/", (request, response, next) => {
   });
 });
 
+// ******************************************************** //
+// ***********   UPDATE CATEGORY COLLECTION   ************* //
+// ******************************************************** //
 app.post("/api/category/update", (request, response, next) => {
   const requestedUpdate = request.body;
 
@@ -833,6 +814,51 @@ app.post("/api/question/update/", (request, response, next) => {
     response.status(400).json({
       message: error.message,
       updatedQuestion: updatedQuestion
+    })
+  });
+});
+
+// ******************************************************** //
+// ********   UPDATE TAKEN ASSESSMENT COLLECTION   ******** //
+// ******************************************************** //
+app.post("/api/assessment/updateTaken", (request, response, next) => {
+
+  // Gets the assessment passed from the front end
+  // Stores data for updating backend properties
+  const requestedUpdate = request.body;
+
+
+  // Stores the updated taken assessment data
+  const update = {
+    id: requestedUpdate._id,
+    assessment: requestedUpdate.assessment,
+    student: requestedUpdate.student,
+    questions: requestedUpdate.questions,
+    score: requestedUpdate.score,
+    studentPassed: requestedUpdate.studentPassed,
+    createdOn: requestedUpdate.createdOn
+  };
+
+  // passes the data to the database to update a specific assessment by id
+  mongoose.connection.db.collection('takenAssessments').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedTakenAssessment) {
+
+    // Send a successful response message
+    response.status(200).json({
+      message: 'updatedAssessment Fetched Successfully!',
+      updatedAssessment: updatedTakenAssessment
+    });
+
+    // Logs message and assessment array to the backend for debugging.
+    console.log("updatedQuestion Fetched Successfully.")
+    console.log(updatedTakenAssessment);
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a categories array (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      updatedAssessment: updatedTakenAssessment
     })
   });
 });

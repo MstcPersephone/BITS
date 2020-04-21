@@ -57,6 +57,21 @@ export class AssessmentEngineService {
     private helperService: HelperService,
     private assessmentService: AssessmentService) { }
 
+  // **************************************** //
+  // *********  ASSESSMENT OBJECTS  ********* //
+  // **************************************** //
+  getAssessmentUpdateListener() {
+    return this.assessmentUpdated.asObservable();
+  }
+
+  getTakenAssessmentIdUpdateListener() {
+    return this.takenAssessmentIdUpdated.asObservable();
+  }
+
+  getTakenAssessmentUpdateListener() {
+    return this.takenAssessmentUpdated.asObservable();
+  }
+
   // ********************************************** //
   // *********  ASSESSMENT: SCORING   ********* //
   // ********************************************** //
@@ -204,48 +219,6 @@ export class AssessmentEngineService {
     return this.currentQuestionUpdated.asObservable();
   }
 
-  // ********************************************* //
-  // *********  TAKEN ASSESSMENT OBJECT  ********* //
-  // ********************************************* //
-
-  getTakenAssessmentIdUpdateListener() {
-    return this.takenAssessmentIdUpdated.asObservable();
-  }
-
-  getAssessmentUpdateListener() {
-    return this.assessmentUpdated.asObservable();
-  }
-
-
-  // Gets an assessment by an id
-  getTakenAssessmentById(takeAssessmentId: string) {
-    this.helperService.isLoading = true;
-    this.http
-      .get<{ message: string, takenAssessment: TakenAssessment }>(
-        'http://localhost:3000/api/assessment/take/' + takeAssessmentId
-      )
-      .subscribe((assessmentData) => {
-
-        console.log(assessmentData);
-
-        this.takenAssessment = assessmentData.takenAssessment[0];
-        // // mongoose always returns an array with find()
-        // grabbing the first (and only) assessment in array
-        this.assessment = this.takenAssessment.assessment;
-
-        // Subscribers get a copy of the assessment.
-        this.assessmentUpdated.next(this.assessment);
-
-        this.takenAssessmentUpdated.next(this.takenAssessment);
-
-        // Done loading. Remove the loading spinner
-        this.helperService.isLoading = false;
-      });
-  }
-
-
-
-
   prepareAssessment(assessment: Assessment) {
     this.assessment = assessment;
     this.assessmentService.getQuestionsByIds(assessment.questionIds);
@@ -385,6 +358,34 @@ export class AssessmentEngineService {
   // ******************************************************** //
 
   // ************************************************* //
+  // *********  GET: TAKEN ASSESSMENT BY ID   ******** //
+  // ************************************************* //
+  getTakenAssessmentById(takeAssessmentId: string) {
+    this.helperService.isLoading = true;
+    this.http
+      .get<{ message: string, takenAssessment: TakenAssessment }>(
+        'http://localhost:3000/api/assessment/take/' + takeAssessmentId
+      )
+      .subscribe((assessmentData) => {
+
+        console.log(assessmentData);
+
+        this.takenAssessment = assessmentData.takenAssessment[0];
+        // // mongoose always returns an array with find()
+        // grabbing the first (and only) assessment in array
+        this.assessment = this.takenAssessment.assessment;
+
+        // Subscribers get a copy of the assessment.
+        this.assessmentUpdated.next(this.assessment);
+
+        this.takenAssessmentUpdated.next(this.takenAssessment);
+
+        // Done loading. Remove the loading spinner
+        this.helperService.isLoading = false;
+      });
+  }
+
+  // ************************************************* //
   // ***************  SAVE: STUDENT  ***************** //
   // ************************************************* //
   saveStudent(student: Student) {
@@ -411,26 +412,49 @@ export class AssessmentEngineService {
   // ***************  SAVE: TAKEN ASSESSMENT  ***************** //
   // ********************************************************** //
   saveTakenAssessment(takenAssessment: TakenAssessment) {
-    // const completeAssessment: any = assessment;
-    // completeAssessment.config = this.assessmentConfig;
-    // completeAssessment.status = this.status;
     console.log('Taken Assessment', takenAssessment);
-
+    // API call to backend to create a taken assessment record to pass assessment engine data to
     this.http.post<{ message: string, takenAssessmentId: string }>('http://localhost:3000/api/assessment/generate', takenAssessment)
       .subscribe(
         responseData => {
           // tslint:disable-next-line: max-line-length
-          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Taken Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
+          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData);
+          // The taken assessment id to be used to generate url
           this.takenAssessmentId = responseData.takenAssessmentId;
           this.takenAssessmentIdUpdated.next(this.takenAssessmentId);
-          // this.resetConfigurationForm();
-          // this.router.navigate(['/assessment/list']);
-
         },
         error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
+  // ********************************************************** //
+  // **************  UPDATE: TAKEN ASSESSMENT  **************** //
+  // ********************************************************** //
+  updateTakenAssessment(takenAssessment: TakenAssessment) {
+    // isLoading is used to add a spinner
+    this.helperService.isLoading = true;
+
+    console.log('Updated Taken Assessment', takenAssessment);
+
+    // tslint:disable-next-line: max-line-length
+    this.http.post<{ message: string, updatedTakenAssessment: TakenAssessment }>('http://localhost:3000/api/assessment/updateTaken', takenAssessment)
+      .subscribe(
+        responseData => {
+          // Success message at the bottom of the screen
+          // console log information about the response for debugging
+          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
+          this.helperService.isLoading = false;
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.updatedTakenAssessment);
+          console.table(responseData.updatedTakenAssessment);
+        },
+        error => {
+          // log error message from server
           console.log('%c' + error.error.message, 'color: red;');
         });
   }
