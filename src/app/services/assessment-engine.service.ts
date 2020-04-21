@@ -35,8 +35,8 @@ export class AssessmentEngineService {
   private isTimed = false;
   private assessmentQuestionsSubscription: Subscription;
 
-  private takenAssessment: TakenAssessment;
   // Keeping track of taken assessment
+  private takenAssessment: TakenAssessment;
   private takenAssessmentUpdated = new Subject<TakenAssessment>();
   private takenAssessmentId: string;
   private takenAssessmentIdUpdated = new Subject<string>();
@@ -48,21 +48,14 @@ export class AssessmentEngineService {
 
   // Keeping track of students
   private studentFormIsValid = false;
+  private currentStudent: Student;
+  private currentStudentUpdated = new Subject<Student>();
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private helperService: HelperService,
     private assessmentService: AssessmentService) { }
-
-  // MOVE
-  getTakenAssessmentIdUpdateListener() {
-    return this.takenAssessmentIdUpdated.asObservable();
-  }
-
-  getAssessmentUpdateListener() {
-    return this.assessmentUpdated.asObservable();
-  }
 
   // ********************************************** //
   // *********  ASSESSMENT: SCORING   ********* //
@@ -175,6 +168,14 @@ export class AssessmentEngineService {
   }
 
   // ********************************************** //
+  // **************  STUDENT OBJECT  ************** //
+  // ********************************************** //
+
+  getCurrentStudentUpdateListener() {
+    return this.currentStudentUpdated.asObservable();
+  }
+
+  // ********************************************** //
   // *********  STUDENT: FORM VALIDATION  ********* //
   // ********************************************** //
 
@@ -202,6 +203,19 @@ export class AssessmentEngineService {
   getCurrentQuestionUpdatedListener() {
     return this.currentQuestionUpdated.asObservable();
   }
+
+  // ********************************************* //
+  // *********  TAKEN ASSESSMENT OBJECT  ********* //
+  // ********************************************* //
+
+  getTakenAssessmentIdUpdateListener() {
+    return this.takenAssessmentIdUpdated.asObservable();
+  }
+
+  getAssessmentUpdateListener() {
+    return this.assessmentUpdated.asObservable();
+  }
+
 
   // Gets an assessment by an id
   getTakenAssessmentById(takeAssessmentId: string) {
@@ -384,6 +398,9 @@ export class AssessmentEngineService {
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.student);
+          console.log(responseData.student._id);
+          this.currentStudent = responseData.student;
+          this.currentStudentUpdated.next(this.currentStudent);
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');

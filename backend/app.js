@@ -661,24 +661,21 @@ app.post("/api/student/save", (request, response, next) => {
           // Will probably use for logging later.
           response.status(200).json({
             message: 'Student saved successfully!',
-            student: student
+            student: studentToSaveModel
           });
         },
           error => {
             console.log(error.message);
             response.status(400).json({
               message: error.message,
-              student: student
+              student: Object
             })
           });
       } else {
-        // Request.body is the student that is passed through.
-        const student = request.body;
-
         // If student already exists, simply return the student for attaching to taken assessment.
         response.status(200).json({
           message: 'Student found successfully!',
-          student: student
+          student: studentFound // returns the student found in the database.
         });
       }
     });
