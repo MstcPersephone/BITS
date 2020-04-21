@@ -115,31 +115,31 @@ app.post("/api/assessment/delete", (request, response, next) => {
   console.log(assessmentToArchive);
   // Save the archive model to the archive assessment collection
   assessmentToArchive.save().then(() => {
-  // get the id of the original assessment to find and delete from assessment collection
-  const objectId = mongoose.Types.ObjectId(assessment._id);
-  console.log(objectId);
-  // pass the original assessment to the delete function
-  deleteById('assessments', {_id: objectId}, function (resp, error) {
-    if (error) {
-      console.log(error);
+    // get the id of the original assessment to find and delete from assessment collection
+    const objectId = mongoose.Types.ObjectId(assessment._id);
+    console.log(objectId);
+    // pass the original assessment to the delete function
+    deleteById('assessments', { _id: objectId }, function (resp, error) {
+      if (error) {
+        console.log(error);
+        response.status(400).json({
+          message: error.message
+        })
+      }
+      else {
+        console.log("");
+        response.status(200).json({
+          message: 'assessment archived successfully!'
+        });
+      }
+    });
+  },
+    error => {
+      console.log(error.message);
       response.status(400).json({
         message: error.message
       })
-    }
-    else {
-      console.log("");
-      response.status(200).json({
-        message: 'assessment archived successfully!'
     });
-    }
-  });
-},
-  error => {
-    console.log(error.message);
-    response.status(400).json({
-      message: error.message
-    })
-  });
 });
 
 // *********************************************************** //
@@ -163,10 +163,10 @@ app.post("/api/question/delete", (request, response, next) => {
   // Attach points to the question before archiving.
   questionObjectToArchive.points = question.points;
 
-// Save question to archive collection, delete from questions collection and return success or error message
+  // Save question to archive collection, delete from questions collection and return success or error message
   questionObjectToArchive.save().then(() => {
     const objectId = mongoose.Types.ObjectId(questionObjectToArchive._id);
-    deleteById('questions', {_id: objectId}, function (resp, error) {
+    deleteById('questions', { _id: objectId }, function (resp, error) {
       if (error) {
         console.log(error);
         response.status(400).json({
@@ -177,7 +177,7 @@ app.post("/api/question/delete", (request, response, next) => {
       else {
         response.status(200).json({
           message: 'Question archived successfully!'
-      });
+        });
       }
     });
   },
@@ -311,12 +311,12 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   const objectIds = [];
   // Turns the string ids into ObjectIds
   if (questionIds !== null && questionIds !== undefined) {
-  questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
-  console.log(objectIds);
+    questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
+    console.log(objectIds);
   }
 
   // Performs the search
-  questionCollection.find({ _id: {$in: objectIds} }, (error, questions) => {
+  questionCollection.find({ _id: { $in: objectIds } }, (error, questions) => {
     if (error) {
       console.log(error.message);
     }
@@ -380,11 +380,11 @@ app.get("/api/questions", (request, response, next) => {
       // Sort questions by date
       for (var category in organizedQuestions) {
         if (Object.prototype.hasOwnProperty.call(organizedQuestions, category)) {
-            organizedQuestions[category].sort((a, b) => {
-              a = new Date(a.createdOn);
-              b = new Date(b.createdOn);
-              return a > b ? -1 : a < b ? 1 : 0;
-            })
+          organizedQuestions[category].sort((a, b) => {
+            a = new Date(a.createdOn);
+            b = new Date(b.createdOn);
+            return a > b ? -1 : a < b ? 1 : 0;
+          })
         }
       }
 
@@ -433,29 +433,6 @@ app.get("/api/question/:id", (request, response, next) => {
       response.status(400).json({
         message: error.message,
         question: null
-      })
-    })
-});
-
-// ********************************************** //
-// *********   GET: STUDENT BY ID    ************ //
-// ********************************************** //
-// Used on front end to ensure a student does not already exist before saving to student collection.
-app.get("/api/student/:id", (request, response, next) => {
-  // search datebase for student by Id, findOne will return null if not found
-  studentCollection.findOne({ _id: request.params.id }).then((student, error) => {
-    response.status(200).json({
-      message: request.params.id + ' Student fetched successfully!',
-      student: student
-    });
-    // TODO: [PER-98] Remove the console logs before pushing to production.
-    console.log(student);
-  },
-    error => {
-      console.log(error.message);
-      response.status(400).json({
-        message: error.message,
-        student: null
       })
     })
 });
@@ -625,55 +602,66 @@ app.post("/api/question/save", (request, response, next) => {
 // ***************************************************** //
 app.post("/api/student/save", (request, response, next) => {
 
-  // Request.body is the student that is passed through.
-  const student = request.body;
+  // First check to validate if student already exists using uniqueStudentIdentifier
+  studentCollection.findOne({ uniqueStudentIdentifier: request.body.uniqueStudentIdentifier })
+    .then(studentFound => {
+      // If the student doesn't currently exist, then pass to database to be saved
+      if (studentFound === null) {
+        // Request.body is the student that is passed through.
+        const student = request.body;
+        console.log('Student:', student);
 
-  console.log('Student:', student);
+        // student mapped object from front to back end.
+        const studentToSaveModel = new studentCollection({
+          uniqueStudentIdentifier: student.uniqueStudentIdentifier,
+          studentId: student.studentId,
+          firstName: student.firstName,
+          lastName: student.lastName,
+          dateOfBirth: student.dateOfBirth,
+          campusLocation: student.campusLocation,
+          lastAssessmentDate: student.lastAssessmentDate,
+          previousScores: student.previousScores,
+          createdOn: Date.now()
+        });
 
-  // const existingStudent = studentCollection.find({ _id: { $exists: true } });
+        console.log('Backend Student Presave', studentToSaveModel);
 
-  // student mapped object from front to back end.
-  const studentToSaveModel = new studentCollection({
-    _id: student._id,
-    studentId: student.studentId,
-    firstName: student.firstName,
-    lastName: student.lastName,
-    dateOfBirth: student.dateOfBirth,
-    campusLocation: student.campusLocation,
-    lastAssessmentDate: student.lastAssessmentDate,
-    previousScores: student.previousScores,
-    createdOn: Date.now()
-  });
+        // Saves the student object to the database.
+        // Returns either 200 success or 400 error
+        studentToSaveModel.save().then(() => {
 
-  console.log('Backend Student Presave', studentToSaveModel);
+          // Log success message and saved object.
+          console.log(student.studentId + ' Created Successfully');
+          console.log('Saved Student', studentToSaveModel);
 
-  // Saves the student object to the database.
-  // Returns either 200 success or 400 error
-  studentToSaveModel.save().then(() => {
-
-    // Log success message and saved object.
-    console.log(student.studentId + ' Created Successfully');
-    console.log('Saved Student', studentToSaveModel);
-
-    // Send success message back to front end.
-    // Will probably use for logging later.
-    response.status(200).json({
-      message: 'Assessment saved successfully!',
-      student: student
-    });
-  },
-    error => {
-      console.log(error.message);
-      response.status(400).json({
-        message: error.message,
-        student: student
-      })
+          // Send success message back to front end return for attaching to taken assessment.
+          // Will probably use for logging later.
+          response.status(200).json({
+            message: 'Student saved successfully!',
+            student: studentToSaveModel // The new student record to be passed back to front end
+          });
+        },
+          error => {
+            console.log(error.message);
+            response.status(400).json({
+              message: error.message,
+              student: Object
+            })
+          });
+      } else {
+        // If student already exists, simply return the student for attaching to taken assessment.
+        response.status(200).json({
+          message: 'Student found successfully!',
+          student: studentFound // Returns the student found in the database.
+        });
+      }
     });
 });
 
-// *********************************************************************** //
-// ******   SAVE: TAKEN ASSESSMENT TO TAKEN ASSESSMENT COLLECTION   ****** //
-// *********************************************************************** //
+// *************************************************************************** //
+// ******   GENERATE: TAKEN ASSESSMENT IN TAKEN ASSESSMENT COLLECTION   ****** //
+// *************************************************************************** //
+// This will create the Taken Assessment record with only an assessment attached
 app.post("/api/assessment/generate", (request, response, next) => {
 
   // Request.body is the taken assessment that is passed through.
@@ -711,7 +699,7 @@ app.post("/api/assessment/generate", (request, response, next) => {
     // Will probably use for logging later.
     response.status(200).json({
       message: 'Assessment saved successfully!',
-      takenAssessmentId: takenAssessment._id
+      takenAssessmentId: takenAssessment._id // Returns the id for generating an assessment url on front end
     });
   },
     error => {
@@ -767,10 +755,13 @@ app.post("/api/assessment/update/", (request, response, next) => {
   });
 });
 
+// ******************************************************** //
+// ***********   UPDATE CATEGORY COLLECTION   ************* //
+// ******************************************************** //
 app.post("/api/category/update", (request, response, next) => {
   const requestedUpdate = request.body;
 
-  mongoose.connection.db.collection('categories').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString())}, { $set: {name: requestedUpdate.name }}, function (error, updatedCategory) {
+  mongoose.connection.db.collection('categories').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: { name: requestedUpdate.name } }, function (error, updatedCategory) {
     updateQuestionCategories(requestedUpdate);
     // Send a successful response message and an array of categories to work with.
     response.status(200).json({
@@ -827,6 +818,51 @@ app.post("/api/question/update/", (request, response, next) => {
   });
 });
 
+// ******************************************************** //
+// ********   UPDATE TAKEN ASSESSMENT COLLECTION   ******** //
+// ******************************************************** //
+app.post("/api/assessment/updateTaken", (request, response, next) => {
+
+  // Gets the assessment passed from the front end
+  // Stores data for updating backend properties
+  const requestedUpdate = request.body;
+
+
+  // Stores the updated taken assessment data
+  const update = {
+    id: requestedUpdate._id,
+    assessment: requestedUpdate.assessment,
+    student: requestedUpdate.student,
+    questions: requestedUpdate.questions,
+    score: requestedUpdate.score,
+    studentPassed: requestedUpdate.studentPassed,
+    createdOn: requestedUpdate.createdOn
+  };
+
+  // passes the data to the database to update a specific assessment by id
+  mongoose.connection.db.collection('takenAssessments').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedTakenAssessment) {
+
+    // Send a successful response message
+    response.status(200).json({
+      message: 'updatedAssessment Fetched Successfully!',
+      updatedAssessment: updatedTakenAssessment
+    });
+
+    // Logs message and assessment array to the backend for debugging.
+    console.log("updatedQuestion Fetched Successfully.")
+    console.log(updatedTakenAssessment);
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a categories array (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      updatedAssessment: updatedTakenAssessment
+    })
+  });
+});
+
 // *********************************************************** //
 // *********   GET: COLLECTION BY GENERIC FUNCTION   ********* //
 // *********************************************************** //
@@ -838,14 +874,14 @@ function find(name, query, callBack) {
 }
 
 function deleteById(name, query, callBack) {
-  mongoose.connection.db.collection(name, function(error, collection) {
+  mongoose.connection.db.collection(name, function (error, collection) {
     collection.deleteOne(query).then(callBack);
   });
 }
 
 // Updates all questions that have the updated category with the updated name
 function updateQuestionCategories(updatedCategory) {
-  mongoose.connection.db.collection('questions').updateMany({categories: {$elemMatch: {_id: mongoose.Types.ObjectId(updatedCategory._id)}}}, {$set: {"categories.$.name": updatedCategory.name }});
+  mongoose.connection.db.collection('questions').updateMany({ categories: { $elemMatch: { _id: mongoose.Types.ObjectId(updatedCategory._id) } } }, { $set: { "categories.$.name": updatedCategory.name } });
 }
 
 // Exports the contstants and all of the middlewares attached to it.

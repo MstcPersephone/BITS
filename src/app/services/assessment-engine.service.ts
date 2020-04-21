@@ -35,8 +35,8 @@ export class AssessmentEngineService {
   private isTimed = false;
   private assessmentQuestionsSubscription: Subscription;
 
-  private takenAssessment: TakenAssessment;
   // Keeping track of taken assessment
+  private takenAssessment: TakenAssessment;
   private takenAssessmentUpdated = new Subject<TakenAssessment>();
   private takenAssessmentId: string;
   private takenAssessmentIdUpdated = new Subject<string>();
@@ -48,6 +48,8 @@ export class AssessmentEngineService {
 
   // Keeping track of students
   private studentFormIsValid = false;
+  private currentStudent: Student;
+  private currentStudentUpdated = new Subject<Student>();
 
   constructor(
     private http: HttpClient,
@@ -55,13 +57,19 @@ export class AssessmentEngineService {
     private helperService: HelperService,
     private assessmentService: AssessmentService) { }
 
-  // MOVE
+  // **************************************** //
+  // *********  ASSESSMENT OBJECTS  ********* //
+  // **************************************** //
+  getAssessmentUpdateListener() {
+    return this.assessmentUpdated.asObservable();
+  }
+
   getTakenAssessmentIdUpdateListener() {
     return this.takenAssessmentIdUpdated.asObservable();
   }
 
-  getAssessmentUpdateListener() {
-    return this.assessmentUpdated.asObservable();
+  getTakenAssessmentUpdateListener() {
+    return this.takenAssessmentUpdated.asObservable();
   }
 
   // ********************************************** //
@@ -175,6 +183,14 @@ export class AssessmentEngineService {
   }
 
   // ********************************************** //
+  // **************  STUDENT OBJECT  ************** //
+  // ********************************************** //
+
+  getCurrentStudentUpdateListener() {
+    return this.currentStudentUpdated.asObservable();
+  }
+
+  // ********************************************** //
   // *********  STUDENT: FORM VALIDATION  ********* //
   // ********************************************** //
 
@@ -202,35 +218,6 @@ export class AssessmentEngineService {
   getCurrentQuestionUpdatedListener() {
     return this.currentQuestionUpdated.asObservable();
   }
-
-  // Gets an assessment by an id
-  getTakenAssessmentById(takeAssessmentId: string) {
-    this.helperService.isLoading = true;
-    this.http
-      .get<{ message: string, takenAssessment: TakenAssessment }>(
-        'http://localhost:3000/api/assessment/take/' + takeAssessmentId
-      )
-      .subscribe((assessmentData) => {
-
-        console.log(assessmentData);
-
-        this.takenAssessment = assessmentData.takenAssessment[0];
-        // // mongoose always returns an array with find()
-        // grabbing the first (and only) assessment in array
-        this.assessment = this.takenAssessment.assessment;
-
-        // Subscribers get a copy of the assessment.
-        this.assessmentUpdated.next(this.assessment);
-
-        this.takenAssessmentUpdated.next(this.takenAssessment);
-
-        // Done loading. Remove the loading spinner
-        this.helperService.isLoading = false;
-      });
-  }
-
-
-
 
   prepareAssessment(assessment: Assessment) {
     this.assessment = assessment;
@@ -371,57 +358,103 @@ export class AssessmentEngineService {
   // ******************************************************** //
 
   // ************************************************* //
+  // *********  GET: TAKEN ASSESSMENT BY ID   ******** //
+  // ************************************************* //
+  getTakenAssessmentById(takeAssessmentId: string) {
+    this.helperService.isLoading = true;
+    this.http
+      .get<{ message: string, takenAssessment: TakenAssessment }>(
+        'http://localhost:3000/api/assessment/take/' + takeAssessmentId
+      )
+      .subscribe((assessmentData) => {
+
+        console.log(assessmentData);
+
+        this.takenAssessment = assessmentData.takenAssessment[0];
+        // // mongoose always returns an array with find()
+        // grabbing the first (and only) assessment in array
+        this.assessment = this.takenAssessment.assessment;
+
+        // Subscribers get a copy of the assessment.
+        this.assessmentUpdated.next(this.assessment);
+
+        this.takenAssessmentUpdated.next(this.takenAssessment);
+
+        // Done loading. Remove the loading spinner
+        this.helperService.isLoading = false;
+      });
+  }
+
+  // ************************************************* //
   // ***************  SAVE: STUDENT  ***************** //
   // ************************************************* //
   saveStudent(student: Student) {
-    // first looks to see if student already exists in the database.
-    this.http.get<{ message: string, student: Student }>(
-      'http://localhost:3000/api/student/' + student._id
-    ).subscribe((studentData) => {
 
-      // If student already exists do nothing, otherwise, pass the student
-      // with API call to backend to add student to database
-      if (studentData.student === null) {
-        this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/student/save', student)
-          .subscribe(
-            responseData => {
-              // tslint:disable-next-line: max-line-length
-              this.helperService.openSnackBar(student._id + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
-              console.log('%c' + responseData.message, 'color: green;');
-              console.log('%c Database Object:', 'color: orange;');
-              console.log(responseData.student);
-            },
-            error => {
-              console.log('%c' + error.error.message, 'color: red;');
-            });
-      }
-    });
+    // API call to backend to add student to database
+    this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/student/save', student)
+      .subscribe(
+        responseData => {
+          // tslint:disable-next-line: max-line-length
+          this.helperService.openSnackBar(student.uniqueStudentIdentifier + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.student);
+          console.log(responseData.student._id);
+          this.currentStudent = responseData.student;
+          this.currentStudentUpdated.next(this.currentStudent);
+        },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
   }
 
   // ********************************************************** //
   // ***************  SAVE: TAKEN ASSESSMENT  ***************** //
   // ********************************************************** //
   saveTakenAssessment(takenAssessment: TakenAssessment) {
-    // const completeAssessment: any = assessment;
-    // completeAssessment.config = this.assessmentConfig;
-    // completeAssessment.status = this.status;
     console.log('Taken Assessment', takenAssessment);
-
+    // API call to backend to create a taken assessment record to pass assessment engine data to
     this.http.post<{ message: string, takenAssessmentId: string }>('http://localhost:3000/api/assessment/generate', takenAssessment)
       .subscribe(
         responseData => {
           // tslint:disable-next-line: max-line-length
-          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Taken Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
+          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData);
+          // The taken assessment id to be used to generate url
           this.takenAssessmentId = responseData.takenAssessmentId;
           this.takenAssessmentIdUpdated.next(this.takenAssessmentId);
-          // this.resetConfigurationForm();
-          // this.router.navigate(['/assessment/list']);
-
         },
         error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
+  // ********************************************************** //
+  // **************  UPDATE: TAKEN ASSESSMENT  **************** //
+  // ********************************************************** //
+  updateTakenAssessment(takenAssessment: TakenAssessment) {
+    // isLoading is used to add a spinner
+    this.helperService.isLoading = true;
+
+    console.log('Updated Taken Assessment', takenAssessment);
+
+    // tslint:disable-next-line: max-line-length
+    this.http.post<{ message: string, updatedTakenAssessment: TakenAssessment }>('http://localhost:3000/api/assessment/updateTaken', takenAssessment)
+      .subscribe(
+        responseData => {
+          // Success message at the bottom of the screen
+          // console log information about the response for debugging
+          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
+          this.helperService.isLoading = false;
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.updatedTakenAssessment);
+          console.table(responseData.updatedTakenAssessment);
+        },
+        error => {
+          // log error message from server
           console.log('%c' + error.error.message, 'color: red;');
         });
   }
