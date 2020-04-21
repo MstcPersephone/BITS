@@ -17,6 +17,7 @@ export class LoginEngineService {
   private isAuthenticated = false;
   // Subject to update the authentication status
   private authStatusListener = new Subject<boolean>();
+  private tokenTimer: any;
 
   constructor(
     private http: HttpClient,
@@ -50,13 +51,18 @@ export class LoginEngineService {
   loginUser(username: string, password: string) {
     // Pass username and password values to the backend
     const authUser: AuthData = {username, password};
-    this.http.post<{token: string}>('http://localhost:3000/api/user/login', authUser)
+    this.http.post<{token: string, expiresIn: number, isAdmin: boolean}>('http://localhost:3000/api/user/login', authUser)
     .subscribe(response => {
       // Grab token from response and store in the service
       const token = response.token;
       this.token = token;
       // If token exists, change authorization status and reroute to homepage
       if (token) {
+        const expiresInDuration = response.expiresIn;
+        this.tokenTimer = setTimeout(() => {
+          this.logout();
+        }, expiresInDuration * 1000);
+        this.isAdmin = response.isAdmin;
         this.isAuthenticated = true;
         this.authStatusListener.next(true);
         this.router.navigate(['/home']);
@@ -69,6 +75,7 @@ export class LoginEngineService {
     this.token = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
-    this.router.navigate(['/']);
+    clearTimeout(this.tokenTimer);
+    this.router.navigate(['/login']);
   }
 }

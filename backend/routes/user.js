@@ -53,10 +53,12 @@ router.post("/login", (request, response, next) => {
     // Create the token used to login - expires in 4 hours
     const token = jwt.sign({ username: fetchedUser.username, userId: fetchedUser._id },
       'secret_this_should_be_longer_replace_before_publication',
-      { expiresIn: "4h" }
+      { expiresIn: "2h" }
       );
       response.status(200).json({
-        token: token
+        token: token,
+        expiresIn: 7200,
+        isAdmin: fetchedUser.isAdmin
       });
     })
     .catch(err => {
