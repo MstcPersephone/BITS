@@ -62,6 +62,7 @@ export class CreateStudentComponent implements OnInit {
 
   onSubmit(studentData) {
     const student: Student = new Student();
+    student._id = null;
     student.studentId = this.hasStudentId ? studentData.studentId : '11111111';
     student.firstName = studentData.firstName;
     student.lastName = studentData.lastName;
@@ -69,7 +70,7 @@ export class CreateStudentComponent implements OnInit {
     student.campusLocation = this.campusLocationSelected;
     student.lastAssessmentDate = new Date(Date.now());
     student.previousScores = this.assessmentEngineService.getPreviousScores();
-    student._id = this.helperService.generateUniqueStudentId(student);
+    student.uniqueStudentIdentifier = this.helperService.generateUniqueStudentId(student);
 
     // Calls validation on the current form when submit button is clicked
     if (!this.createStudentForm.valid) {

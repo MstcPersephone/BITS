@@ -374,28 +374,20 @@ export class AssessmentEngineService {
   // ***************  SAVE: STUDENT  ***************** //
   // ************************************************* //
   saveStudent(student: Student) {
-    // first looks to see if student already exists in the database.
-    this.http.get<{ message: string, student: Student }>(
-      'http://localhost:3000/api/student/' + student._id
-    ).subscribe((studentData) => {
 
-      // If student already exists do nothing, otherwise, pass the student
-      // with API call to backend to add student to database
-      if (studentData.student === null) {
-        this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/student/save', student)
-          .subscribe(
-            responseData => {
-              // tslint:disable-next-line: max-line-length
-              this.helperService.openSnackBar(student._id + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
-              console.log('%c' + responseData.message, 'color: green;');
-              console.log('%c Database Object:', 'color: orange;');
-              console.log(responseData.student);
-            },
-            error => {
-              console.log('%c' + error.error.message, 'color: red;');
-            });
-      }
-    });
+    // API call to backend to add student to database
+    this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/student/save', student)
+      .subscribe(
+        responseData => {
+          // tslint:disable-next-line: max-line-length
+          this.helperService.openSnackBar(student.uniqueStudentIdentifier + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.student);
+        },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
   }
 
   // ********************************************************** //
