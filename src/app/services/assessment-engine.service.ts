@@ -14,6 +14,7 @@ import { ShortAnswer } from '../models/question-types/short-answer.model';
 import { TrueFalse } from '../models/question-types/true-false.model';
 import { Upload } from '../models/question-types/upload.model';
 import { AssessmentService } from './assessment.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

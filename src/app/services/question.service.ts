@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material';
 import { ok } from 'assert';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -520,7 +521,7 @@ export class QuestionService {
     this.helperService.isLoading = true;
     this.http
       .get<{ message: string, questions: any }>(
-        'http://localhost:3000/api/questions'
+        environment.apiUrl + 'questions'
       )
       .subscribe((questionData) => {
         console.log(questionData);
