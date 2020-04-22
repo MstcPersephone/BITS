@@ -319,8 +319,7 @@ export class QuestionService {
   // This function is called by save question button click
   // This function will simulate a button click on the categories and points
   // The simulated clicks will rerun validation on parent level forms of question
-  handleEditQuestionFormValidation(question: Question) {
-
+  handleEditQuestionFormValidation() {
     document.getElementById('validatePointsEdited').click();
     document.getElementById('validateCategories').click();
   }

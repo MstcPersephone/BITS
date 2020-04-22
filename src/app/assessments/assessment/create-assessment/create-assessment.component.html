@@ -46,7 +46,7 @@
           <mat-form-field>
             <mat-label>Question Category</mat-label>
             <mat-select #categorySelect formControlName="categories"
-              (selectionChange)="this.assessmentService.setCategoryCollections($event, selectCategoryForm)">
+              (selectionChange)="this.assessmentService.setCategoryCollections($event)">
               <mat-option #categoryOption *ngFor="let category of categories; index as i" [value]="category">
                 {{category.name}}
               </mat-option>

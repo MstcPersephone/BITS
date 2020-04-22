@@ -131,7 +131,7 @@ export class AssessmentService {
   // ******************************************************** //
 
   // Sets the the available questions by category on create-assessment
-  setCategoryCollections(event: any, selectObject: any, selectCategoryForm: any) {
+  setCategoryCollections(event: any) {
     this.selectedCategory = event.value;
     this.selectedCategoryName = this.selectedCategory.name;
   }

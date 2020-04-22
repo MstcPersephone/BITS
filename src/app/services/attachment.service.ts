@@ -67,7 +67,7 @@ export class AttachmentService {
   }
 
   // Remove attachment from question
-  removeAttachment(a: Attachment, uploadType: string) {
+  removeAttachment(a: Attachment, uploadType: string = 'attachment') {
     let index: number;
     switch (uploadType) {
       case UploadType.StudentAnswer:
