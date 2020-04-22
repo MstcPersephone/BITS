@@ -59,15 +59,33 @@ export class LoginEngineService {
       // If token exists, change authorization status and reroute to homepage
       if (token) {
         const expiresInDuration = response.expiresIn;
-        this.tokenTimer = setTimeout(() => {
-          this.logout();
-        }, expiresInDuration * 1000);
+        this.setAuthTimer(expiresInDuration);
         this.isAdmin = response.isAdmin;
         this.isAuthenticated = true;
         this.authStatusListener.next(true);
+        const now = new Date();
+        const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
+        this.saveAuthData(token, expirationDate, response.isAdmin);
         this.router.navigate(['/home']);
        }
     });
+  }
+
+  // Automatically checks from auth data in local storage on refresh to keep user signed in
+  autoAuthUser() {
+    const authInformation = this.getAuthData();
+    if (!authInformation) {
+      return;
+    }
+    const now = new Date();
+    const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+    if (expiresIn > 0) {
+      this.token = authInformation.token;
+      this.isAuthenticated = true;
+      this.setAuthTimer(expiresIn / 1000);
+      this.isAdmin = (authInformation.isAdmin === 'true');
+      this.authStatusListener.next(true);
+    }
   }
 
   // The function to log out a user - destory token, change auth status, notify listeners and navigate away
@@ -76,6 +94,43 @@ export class LoginEngineService {
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
     clearTimeout(this.tokenTimer);
+    this.clearAuthData();
     this.router.navigate(['/login']);
+  }
+
+  // Sets the timer for the token
+  private setAuthTimer(duration: number) {
+    this.tokenTimer = setTimeout(() => {
+      this.logout();
+    }, duration * 1000);
+  }
+
+  // Saves the auth data to the local storage
+  private saveAuthData(token: string, expirationDate: Date, isAdmin: boolean) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('expiration', expirationDate.toISOString());
+    localStorage.setItem('isAdmin', isAdmin.toString());
+  }
+
+  // clears the auth data from the local storage
+  private clearAuthData() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiration');
+    localStorage.removeItem('isAdmin');
+  }
+
+  // Gets the authentication data from local storage
+  private getAuthData() {
+    const token = localStorage.getItem('token');
+    const expirationDate = localStorage.getItem('expiration');
+    const isAdmin = localStorage.getItem('isAdmin');
+    if (!token || !expirationDate || !isAdmin) {
+      return;
+    }
+    return {
+      token: token,
+      expirationDate: new Date(expirationDate),
+      isAdmin: isAdmin
+    };
   }
 }
