@@ -36,6 +36,8 @@ export class AssessmentEngineService {
   private assessmentQuestionsSubscription: Subscription;
 
   // Keeping track of taken assessment
+  private takenAssessments: any;
+  private takenAssessmentsUpdated = new Subject<any>();
   private takenAssessment: TakenAssessment;
   private takenAssessmentUpdated = new Subject<TakenAssessment>();
   private takenAssessmentId: string;
@@ -70,6 +72,10 @@ export class AssessmentEngineService {
 
   getTakenAssessmentUpdateListener() {
     return this.takenAssessmentUpdated.asObservable();
+  }
+
+  getTakenAssessmentsUpdateListener() {
+    return this.takenAssessmentsUpdated.asObservable();
   }
 
   // ********************************************** //
@@ -384,6 +390,29 @@ export class AssessmentEngineService {
         this.helperService.isLoading = false;
       });
   }
+
+  // ************************************************ //
+  // *********   GET: ALL TAKEN ASSESSMENT   ******** //
+  // ************************************************ //
+  getAllTakenAssessment() {
+      this.helperService.isLoading = true;
+      this.http
+        .get<{ message: string, takenAssessments: TakenAssessment[] }>(
+          'http://localhost:3000/api/takenAssessments'
+        )
+        .subscribe((takenAssessmentData) => {
+          this.takenAssessments = takenAssessmentData.takenAssessments.reverse();
+          console.log(this.takenAssessments);
+          // Subscribers get a copy of the assessments array
+          this.takenAssessmentsUpdated.next(this.takenAssessments);
+          // Done loading. Remove the loading spinner
+          this.helperService.isLoading = false;
+        },
+          error => {
+            // log error message from server
+            console.log('%c' + error.error.message, 'color: red;');
+          });
+    }
 
   // ************************************************* //
   // ***************  SAVE: STUDENT  ***************** //
