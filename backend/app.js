@@ -232,6 +232,59 @@ app.get("/api/assessment/:id", (request, response, next) => {
 });
 
 // ******************************************************** //
+// *************   GET: ALL TAKEN ASSESSMENTS    ***************** //
+// ******************************************************** //
+app.get("/api/takenAssessments", (request, response, next) => {
+  // Get all taken assessments from the database
+  takenAssessmentCollection.find({ _id: { $exists: true } }).then((takenAssessments, error) => {
+    response.status(200).json({
+      message: 'Taken Assessments fetched successfully!',
+      takenAssessments: takenAssessments
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        assignments: null
+      })
+    })
+});
+
+// ******************************************************** //
+// **********   GET: FILTERED TAKEN ASSESSMENTS  ********** //
+// ******************************************************** //
+app.post("/api/filterTakenAssessments/", (request, response, next) => {
+  // request.params.searchParameters.forEach(sp => {
+
+  //   takenAssessmentCollection.find({$and: [{"student.uniqueStudentIdentifier": /jane/}, {"student.uniqueStudentIdentifier": /deter/}]});
+  // });
+
+  const searchParameters = request.body.searchParameters;
+  console.log(searchParameters);
+
+  const spArray = [];
+
+  searchParameters.forEach(sp => {
+    const regEx = new RegExp(sp);
+    spArray.push({ "student.uniqueStudentIdentifier":  regEx  });
+  });
+
+  console.log(spArray);
+
+  takenAssessmentCollection.find({ $and: spArray }).then((takenAssessments, error) => {
+    if (error) {
+      console.log(error.message);
+    } else {
+      response.status(200).json({
+        message: 'Student Results fetched successfully!',
+        takenAssessments: takenAssessments
+      });
+    }
+  });
+});
+
+// ******************************************************** //
 // *********   GET: SINGLE TAKEN ASSESSMENT BY ID    ************ //
 // ******************************************************** //
 app.get("/api/assessment/take/:id", (request, response, next) => {
@@ -682,7 +735,7 @@ app.post("/api/assessment/generate", (request, response, next) => {
     questions: takenAssessment.questions,
     score: takenAssessment.score,
     studentPassed: takenAssessment.studentPassed,
-    createdOn: Date.now()
+    modifiedOn: Date.now()
   });
 
   console.log('Backend Taken Assessment Presave', takenAssessmentToSaveModel);
@@ -728,7 +781,7 @@ app.post("/api/assessment/update/", (request, response, next) => {
     config: requestedUpdate.config,
     questionIds: requestedUpdate.questionIds,
     status: requestedUpdate.status,
-    createdOn: requestedUpdate.createdOn
+    createdOn: Date.now()
   };
 
   // passes the data to the database to update a specific assessment by id
@@ -830,13 +883,13 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
 
   // Stores the updated taken assessment data
   const update = {
-    id: requestedUpdate._id,
+    // id: requestedUpdate._id,
     assessment: requestedUpdate.assessment,
     student: requestedUpdate.student,
     questions: requestedUpdate.questions,
     score: requestedUpdate.score,
     studentPassed: requestedUpdate.studentPassed,
-    createdOn: requestedUpdate.createdOn
+    modifiedOn: Date.now()
   };
 
   // passes the data to the database to update a specific assessment by id
