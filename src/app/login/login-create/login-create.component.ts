@@ -34,7 +34,7 @@ export class LoginCreateComponent implements OnInit {
     const user = new User();
     user.username = formData.username;
     user.password = formData.password1;
-    if (formData.isAdmin === 'true') {
+    if (formData.isAdmin === true) {
       user.isAdmin = true;
     } else {
       user.isAdmin = false;
