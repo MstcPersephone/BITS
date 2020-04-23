@@ -75,13 +75,13 @@ export class ListStudentComponent implements OnInit {
     console.log(searchParameters);
 
     this.assessmentEngineService.getFilteredTakenAssessment(searchParameters);
-    // this.takenAssessmentsSubscription = this.assessmentEngineService.getTakenAssessmentsUpdateListener()
-    //   .subscribe((takenAssessmentArray: any) => {
-    //     this.dataSource.data = takenAssessmentArray;
-    //     console.log(this.dataSource.data);
-    //   });
+    this.takenAssessmentsSubscription = this.assessmentEngineService.getTakenAssessmentsUpdateListener()
+      .subscribe((takenAssessmentArray: any) => {
+        this.dataSource.data = takenAssessmentArray;
+        console.log(this.dataSource.data);
+      });
 
-    // this.dataSource.sort = this.sort;
+    this.dataSource.sort = this.sort;
 
 
     // this.assessmentEngineService.getAllTakenAssessment();
