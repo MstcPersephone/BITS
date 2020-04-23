@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 import { AuthData } from '../models/auth-data.model';
+import { HelperService } from './helper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class LoginEngineService {
 
   constructor(
     private http: HttpClient,
+    private helperService: HelperService,
     private router: Router ) { }
 
   // Gets the authentication status listener
@@ -45,6 +47,7 @@ export class LoginEngineService {
     this.http.post('http://localhost:3000/api/user/create', user)
     .subscribe(response => {
       console.log(response);
+      this.helperService.openSnackBar('User creation successful!', 'Close', 'success-dialog', 5000);
       this.router.navigate(['/home']);
     });
   }
@@ -60,6 +63,7 @@ export class LoginEngineService {
       this.token = token;
       // If token exists, change authorization status and reroute to homepage
       if (token) {
+        this.helperService.openSnackBar('Login successful!', 'Close', 'success-dialog', 5000);
         const expiresInDuration = response.expiresIn;
         this.setAuthTimer(expiresInDuration);
         this.isAdmin = response.isAdmin;
@@ -70,6 +74,10 @@ export class LoginEngineService {
         this.saveAuthData(token, expirationDate, response.isAdmin);
         this.router.navigate(['/home']);
        }
+      },
+    error => {
+      this.helperService.openSnackBar('Login failed!', 'Close', 'error-dialog', 5000);
+      this.helperService.refreshComponent('/login');
     });
   }
 
