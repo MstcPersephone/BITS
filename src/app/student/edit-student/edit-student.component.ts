@@ -47,14 +47,16 @@ export class EditStudentComponent implements OnInit {
         this.student = student;
         this.selected = this.student.campusLocation;
         console.log(this.student);
-        if (this.student !== undefined) {
-          // this.editStudentForm.get('studentId').setValue(this.student.studentId);
-          this.editStudentForm.setValue({studentId: String(this.student.studentId) });
-          this.editStudentForm.setValue({campusLocation: String(this.selected) });
-          this.editStudentForm.setValue({firstName: String(this.student.firstName) });
-          this.editStudentForm.setValue({lastName: String(this.student.lastName) });
-          this.editStudentForm.setValue({dateOfBirth: String(this.student.dateOfBirth) });
-        }
+        this.campusLocationSelected = this.student.campusLocation;
+
+        // this.editStudentForm.get('studentId').setValue(this.student.studentId);
+        this.editStudentForm.setValue({
+          studentId: String(this.student.studentId),
+          campusLocation: String(this.selected),
+          firstName: String(this.student.firstName),
+          lastName: String(this.student.lastName),
+          dateOfBirth: String(this.student.dateOfBirth)
+        });
       });
     this.assessmentEngineService.getStudentbyId(this.route.snapshot.params.studentsId);
   }
