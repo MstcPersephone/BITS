@@ -117,7 +117,7 @@ export class QuestionService {
   getAllCategories() {
     this.http
       .get<{ message: string, categories: Category[] }>(
-        'http://localhost:3000/api/categories'
+        environment.apiUrl + 'categories'
       )
       .subscribe((categoryData) => {
         this.categories = categoryData.categories;
@@ -199,7 +199,7 @@ export class QuestionService {
   saveCategory(category: Category, createCategoryForm) {
     // Hide the form to create a new category
     this.showHideCreateCategory = false;
-    this.http.post<{ message: string, category: Category }>('http://localhost:3000/api/categories/save', category)
+    this.http.post<{ message: string, category: Category }>(environment.apiUrl + 'categories/save', category)
       .subscribe(
         responseData => {
           this.helperService.openSnackBar(category.name + ' Category Saved Successfully!', 'Close', 'success-dialog', 5000);
@@ -488,7 +488,7 @@ export class QuestionService {
       if (result) {
         this.helperService.isLoading = true;
         this.http
-          .post<{ message: string }>('http://localhost:3000/api/question/delete', question)
+          .post<{ message: string }>(environment.apiUrl + 'question/delete', question)
           .subscribe((responseData) => {
             setTimeout(() => {
               console.log(responseData);
@@ -537,7 +537,7 @@ export class QuestionService {
 
   getCategoryById(categoryId: string) {
     this.helperService.isLoading = true;
-    this.http.get<{ message: string, category: Category }>('http://localhost:3000/api/category/' + categoryId)
+    this.http.get<{ message: string, category: Category }>(environment.apiUrl + 'category/' + categoryId)
       .subscribe((categoryData) => {
         this.category = categoryData.category[0];
         this.categoryUpdated.next(this.category);
@@ -549,7 +549,7 @@ export class QuestionService {
   getQuestionById(questionId: string) {
     this.http
       .get<{ message: string, question: Question }>(
-        'http://localhost:3000/api/question/' + questionId
+        environment.apiUrl + 'question/' + questionId
       )
       .subscribe((questionData) => {
         // mongoose always returns an array with find()
@@ -611,7 +611,7 @@ export class QuestionService {
   getQuestionsByType(questionType: QuestionType) {
     this.http
       .get<{ message: string, questions: Question[] }>(
-        'http://localhost:3000/api/questions/' + questionType
+        environment.apiUrl + 'questions/' + questionType
       )
       .subscribe((questionData) => {
         this.questions = questionData.questions;
@@ -643,7 +643,7 @@ export class QuestionService {
     console.log(this.selectedCategories);
     question.categories = this.selectedCategories;
     question.points = this.enteredPoints;
-    this.http.post<{ message: string, question: Question }>('http://localhost:3000/api/question/save', question)
+    this.http.post<{ message: string, question: Question }>(environment.apiUrl + 'question/save', question)
       .subscribe(
         responseData => {
           // Refreshes the component so a new question can be created right away
@@ -684,7 +684,7 @@ export class QuestionService {
 
   updateCategoryById(category: Category) {
     this.helperService.isLoading = true;
-    this.http.post<{ message: string, updatedCategory: Category }>('http://localhost:3000/api/category/update', category)
+    this.http.post<{ message: string, updatedCategory: Category }>(environment.apiUrl + 'category/update', category)
       .subscribe(
         responseData => {
           this.helperService.openSnackBar('Category Name: ' + category.name + ' updated successfully', 'Close', 'success-dialog');
@@ -707,7 +707,7 @@ export class QuestionService {
     // Add points and categories from the service
     question.categories = this.selectedCategories;
     question.points = this.enteredPoints;
-    this.http.post<{ message: string, updatedQuestion: Question }>('http://localhost:3000/api/question/update', question)
+    this.http.post<{ message: string, updatedQuestion: Question }>(environment.apiUrl + 'question/update', question)
       .subscribe(
         responseData => {
           // Success message at the bottom of the screen

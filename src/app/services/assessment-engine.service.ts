@@ -162,7 +162,7 @@ export class AssessmentEngineService {
   // Returns an object that contains a true/false result
   checkUpload(question: Question) {
     console.log(question);
-    this.http.post<{ message: string, result: boolean }>('http://localhost:3000/api/assessment/checkUpload', question)
+    this.http.post<{ message: string, result: boolean }>(environment.apiUrl + 'assessment/checkUpload', question)
       .subscribe((responseData) => {
         console.log(responseData);
         return responseData.result;
@@ -365,7 +365,7 @@ export class AssessmentEngineService {
     this.helperService.isLoading = true;
     this.http
       .get<{ message: string, takenAssessment: TakenAssessment }>(
-        'http://localhost:3000/api/assessment/take/' + takeAssessmentId
+        environment.apiUrl + 'assessment/take/' + takeAssessmentId
       )
       .subscribe((assessmentData) => {
 
@@ -392,7 +392,7 @@ export class AssessmentEngineService {
   saveStudent(student: Student) {
 
     // API call to backend to add student to database
-    this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/student/save', student)
+    this.http.post<{ message: string, student: Student }>(environment.apiUrl + 'student/save', student)
       .subscribe(
         responseData => {
           // tslint:disable-next-line: max-line-length
@@ -415,7 +415,7 @@ export class AssessmentEngineService {
   saveTakenAssessment(takenAssessment: TakenAssessment) {
     console.log('Taken Assessment', takenAssessment);
     // API call to backend to create a taken assessment record to pass assessment engine data to
-    this.http.post<{ message: string, takenAssessmentId: string }>('http://localhost:3000/api/assessment/generate', takenAssessment)
+    this.http.post<{ message: string, takenAssessmentId: string }>(environment.apiUrl + 'assessment/generate', takenAssessment)
       .subscribe(
         responseData => {
           // tslint:disable-next-line: max-line-length
@@ -442,7 +442,7 @@ export class AssessmentEngineService {
     console.log('Updated Taken Assessment', takenAssessment);
 
     // tslint:disable-next-line: max-line-length
-    this.http.post<{ message: string, updatedTakenAssessment: TakenAssessment }>('http://localhost:3000/api/assessment/updateTaken', takenAssessment)
+    this.http.post<{ message: string, updatedTakenAssessment: TakenAssessment }>(environment.apiUrl + 'assessment/updateTaken', takenAssessment)
       .subscribe(
         responseData => {
           // Success message at the bottom of the screen

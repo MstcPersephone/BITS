@@ -19,6 +19,6 @@ export class AssessmentEngineComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit() {
+  onSubmit(formData) {
   }
 }
