@@ -420,22 +420,21 @@ export class AssessmentEngineService {
   getFilteredTakenAssessment(searchParameters: string[]) {
     this.helperService.isLoading = true;
     this.http
-      .get<{ message: string, takenAssessments: TakenAssessment[] }>(
-        'http://localhost:3000/api/filterTakenAssessments/' + searchParameters
-      )
-      .subscribe((takenAssessmentData) => {
-        this.takenAssessments = takenAssessmentData.takenAssessments;
-        console.log(this.takenAssessments);
-        // Subscribers get a copy of the assessments array
-        this.takenAssessmentsUpdated.next(this.takenAssessments);
-        // Done loading. Remove the loading spinner
-        this.helperService.isLoading = false;
-      },
-        error => {
-          // log error message from server
-          console.log('%c' + error.error.message, 'color: red;');
-        });
-  }
+      .post<{ message: string, takenAssessments: TakenAssessment[] }>(
+        'http://localhost:3000/api/filterTakenAssessments/', {searchParameters})
+        .subscribe(
+          responseData => {
+            this.takenAssessments = responseData.takenAssessments;
+            this.takenAssessmentsUpdated.next(this.takenAssessments);
+            // Done loading. Remove the loading spinner
+            this.helperService.isLoading = false;
+            console.log(responseData.message);
+            console.log(this.takenAssessments);
+          },
+          error => {
+            console.log('%c' + error.error.message, 'color: red;');
+          });
+    }
 
   // ************************************************* //
   // ***************  SAVE: STUDENT  ***************** //

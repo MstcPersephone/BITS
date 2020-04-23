@@ -254,35 +254,34 @@ app.get("/api/takenAssessments", (request, response, next) => {
 // ******************************************************** //
 // **********   GET: FILTERED TAKEN ASSESSMENTS  ********** //
 // ******************************************************** //
-app.get("/api/filterTakenAssessments/:searchParameters", (request, response, next) => {
-  console.log(request.params.searchParameters);
-
+app.post("/api/filterTakenAssessments/", (request, response, next) => {
   // request.params.searchParameters.forEach(sp => {
 
   //   takenAssessmentCollection.find({$and: [{"student.uniqueStudentIdentifier": /jane/}, {"student.uniqueStudentIdentifier": /deter/}]});
   // });
 
-  const array = [];
-  request.params.searchParameters.forEach(sp => {
-    array.push({"student.uniqueStudentIdentifier": '/' + sp + '/'});
+  const searchParameters = request.body.searchParameters;
+  console.log(searchParameters);
+
+  const spArray = [];
+
+  searchParameters.forEach(sp => {
+    const searchString = '/' + sp + '/';
+    spArray.push({ "student.uniqueStudentIdentifier":  + sp  });
   });
 
- takenAssessmentCollection.find({$and: array}).then((takenAssessment, error) => {
-    response.status(200).json({
-      message: request.params.id + ' Assessment fetched successfully!',
-      takenAssessment: takenAssessment
-    });
-    // TODO: [PER-98] Remove the console logs before pushing to production.
-    console.log(takenAssessment);
-  },
-    error => {
-      console.log(error.message);
-      response.status(400).json({
-        message: error.message,
-        takenAssessment: null
-      })
-    })
+  console.log(spArray);
 
+  takenAssessmentCollection.find({ $and: spArray }).then((takenAssessments, error) => {
+    if (error) {
+      console.log(error.message);
+    } else {
+      response.status(200).json({
+        message: 'Student Results fetched successfully!',
+        takenAssessments: takenAssessments
+      });
+    }
+  });
 });
 
 // ******************************************************** //
