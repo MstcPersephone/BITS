@@ -4,7 +4,7 @@
   <!-- Question Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Question Text</mat-label>
-    <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}" required>
+    <input matInput id="questionText" type="text" formControlName="questionText" value="{{ question.questionText }}">
   </mat-form-field>
   <app-validation-messages [control]="editTrueFalseForm.get('questionText')"></app-validation-messages>
 
@@ -13,7 +13,7 @@
 
   <!-- True/False Correct Answer Input -->
   <h3>Select correct answer:  </h3>
-  <mat-radio-group aria-label="Select correct answer" formControlName="answer" required>
+  <mat-radio-group aria-label="Select correct answer" formControlName="answer">
     <mat-radio-button
      *ngFor="let answer of answers; let i = index"
      [ngClass]="{'ml-25': i > 0}"

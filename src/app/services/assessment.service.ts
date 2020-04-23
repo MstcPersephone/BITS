@@ -381,7 +381,7 @@ export class AssessmentService {
     }
   }
 
-  // Makes a call to the server to update a question based on its id
+  // Makes a call to the server to update an assessment
   updateAssessmentById(assessment: Assessment) {
     // isLoading is used to add a spinner
     this.helperService.isLoading = true;

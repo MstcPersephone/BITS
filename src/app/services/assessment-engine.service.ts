@@ -35,8 +35,8 @@ export class AssessmentEngineService {
   private isTimed = false;
   private assessmentQuestionsSubscription: Subscription;
 
-  private takenAssessment: TakenAssessment;
   // Keeping track of taken assessment
+  private takenAssessment: TakenAssessment;
   private takenAssessmentUpdated = new Subject<TakenAssessment>();
   private takenAssessmentId: string;
   private takenAssessmentIdUpdated = new Subject<string>();
@@ -46,130 +46,161 @@ export class AssessmentEngineService {
   private currentQuestionIndex = 0;
   private currentQuestionUpdated = new Subject<Question>();
 
+  // Keeping track of students
+  private studentFormIsValid = false;
+  private currentStudent: Student;
+  private currentStudentUpdated = new Subject<Student>();
+
   constructor(
     private http: HttpClient,
     private router: Router,
     private helperService: HelperService,
     private assessmentService: AssessmentService) { }
 
-    // MOVE
-    getTakenAssessmentIdUpdateListener() {
-      return this.takenAssessmentIdUpdated.asObservable();
-    }
+  // **************************************** //
+  // *********  ASSESSMENT OBJECTS  ********* //
+  // **************************************** //
+  getAssessmentUpdateListener() {
+    return this.assessmentUpdated.asObservable();
+  }
 
-    getAssessmentUpdateListener() {
-      return this.assessmentUpdated.asObservable();
-    }
+  getTakenAssessmentIdUpdateListener() {
+    return this.takenAssessmentIdUpdated.asObservable();
+  }
+
+  getTakenAssessmentUpdateListener() {
+    return this.takenAssessmentUpdated.asObservable();
+  }
 
   // ********************************************** //
   // *********  ASSESSMENT: SCORING   ********* //
   // ********************************************** //
-    checkAnswer(question: Question) {
-      console.log(question);
+  checkAnswer(question: Question) {
+    console.log(question);
 
-      switch (question.questionType) {
-        case QuestionType.CheckBox:
-          return this.checkQuestionsWithOptions(question as Checkbox);
-        case QuestionType.MultipleChoice:
-          return this.checkQuestionsWithOptions(question as MultipleChoice);
-        case QuestionType.ShortAnswer:
-          return this.checkShortAnswer(question as ShortAnswer);
-        case QuestionType.TrueFalse:
-          return this.checkTrueFalse(question as TrueFalse);
-        case QuestionType.Upload:
-          return this.checkUpload(question as Upload);
-      }
+    switch (question.questionType) {
+      case QuestionType.CheckBox:
+        return this.checkQuestionsWithOptions(question as Checkbox);
+      case QuestionType.MultipleChoice:
+        return this.checkQuestionsWithOptions(question as MultipleChoice);
+      case QuestionType.ShortAnswer:
+        return this.checkShortAnswer(question as ShortAnswer);
+      case QuestionType.TrueFalse:
+        return this.checkTrueFalse(question as TrueFalse);
+      case QuestionType.Upload:
+        return this.checkUpload(question as Upload);
     }
+  }
 
-    // Checks Answers for Checkbox and MultipleChoice because they both use Options
-    checkQuestionsWithOptions(question: Checkbox | MultipleChoice) {
+  // Checks Answers for Checkbox and MultipleChoice because they both use Options
+  checkQuestionsWithOptions(question: Checkbox | MultipleChoice) {
 
-      // The answer is correct until proven otherwise
-      let isCorrect = true;
+    // The answer is correct until proven otherwise
+    let isCorrect = true;
 
-      // Loop through all options in the question
-      question.options.forEach((o) => {
+    // Loop through all options in the question
+    question.options.forEach((o) => {
 
-        // If it is a correct answer, make sure the student selected it
-        if (o.isAnswer) {
-          if (!o.optionIsSelected) {
-            isCorrect = false;
-          }
-          // Make sure student did not select any wrong answers
-        } else {
-          if (o.optionIsSelected) {
-            isCorrect = false;
-          }
+      // If it is a correct answer, make sure the student selected it
+      if (o.isAnswer) {
+        if (!o.optionIsSelected) {
+          isCorrect = false;
         }
+        // Make sure student did not select any wrong answers
+      } else {
+        if (o.optionIsSelected) {
+          isCorrect = false;
+        }
+      }
+    });
+
+    return isCorrect;
+  }
+
+  checkShortAnswer(question: ShortAnswer) {
+
+    // TODO: add space checks for validation
+    let isCorrect = false;
+    const exactMatches = [];
+
+    // If question is case sensetive, leave strings alone when doing the check
+    if (question.isCaseSensitive) {
+
+      // Create an array of the exact match strings
+      question.matches.forEach((m) => {
+        exactMatches.push(m.matchText);
       });
 
-      return isCorrect;
-    }
-
-    checkShortAnswer(question: ShortAnswer) {
-
-      //TODO: add space checks for validation
-      let isCorrect = false;
-      const exactMatches = [];
-
-      // If question is case sensetive, leave strings alone when doing the check
-      if (question.isCaseSensitive) {
-
-        // Create an array of the exact match strings
-        question.matches.forEach((m) => {
-          exactMatches.push(m.matchText);
-        });
-
-        // Check to see if the student answer is in the exact matches string array
-        if (exactMatches.includes(question.studentAnswer)) {
-          isCorrect = true;
-        }
-      } else {
-
-        // Not case sensetive, so making everything lowercase
-        question.matches.forEach((m) => {
-          exactMatches.push(m.matchText.toLowerCase());
-        });
-
-        // Also make student answer all lower case
-        if (exactMatches.includes(question.studentAnswer.toLowerCase)) {
-          isCorrect = true;
-        }
+      // Check to see if the student answer is in the exact matches string array
+      if (exactMatches.includes(question.studentAnswer)) {
+        isCorrect = true;
       }
+    } else {
 
-      return isCorrect;
+      // Not case sensetive, so making everything lowercase
+      question.matches.forEach((m) => {
+        exactMatches.push(m.matchText.toLowerCase());
+      });
+
+      // Also make student answer all lower case
+      if (exactMatches.includes(question.studentAnswer.toLowerCase)) {
+        isCorrect = true;
+      }
     }
 
-    // Checks to see if the student answer matches correct answer
-    // Both properties are booleans
-    checkTrueFalse(question: TrueFalse) {
-      return question.studentAnswer === question.answer ? true : false;
-    }
+    return isCorrect;
+  }
 
-    // Makes a call to the back end to extract (if necessary), store, and compare file contents
-    // Returns an object that contains a true/false result
-    checkUpload(question: Question) {
-      console.log(question);
-      this.http.post<{message: string, result: boolean}>('http://localhost:3000/api/assessment/checkUpload', question)
-        .subscribe((responseData) => {
-          console.log(responseData);
-          return responseData.result;
-        });
-    }
+  // Checks to see if the student answer matches correct answer
+  // Both properties are booleans
+  checkTrueFalse(question: TrueFalse) {
+    return question.studentAnswer === question.answer ? true : false;
+  }
 
-    checkAssessment(assessment: Assessment) {
-      console.log(assessment);
-    }
+  // Makes a call to the back end to extract (if necessary), store, and compare file contents
+  // Returns an object that contains a true/false result
+  checkUpload(question: Question) {
+    console.log(question);
+    this.http.post<{ message: string, result: boolean }>('http://localhost:3000/api/assessment/checkUpload', question)
+      .subscribe((responseData) => {
+        console.log(responseData);
+        return responseData.result;
+      });
+  }
 
-    submitAssessment() {
-      // Loop through remaining question and mark them as wrong
-      // Create a new TakenAssessment object
-      // Provide the properties based on values within this service
-      // Make a call to save the results to TakenAssessment database
-      // (will be an update as the record should already exist from getting the URL)
-      // Navigate user to login page
-      // Some way to reset the values within this service
-    }
+  checkAssessment(assessment: Assessment) {
+    console.log(assessment);
+  }
+
+  submitAssessment() {
+    // Loop through remaining question and mark them as wrong
+    // Create a new TakenAssessment object
+    // Provide the properties based on values within this service
+    // Make a call to save the results to TakenAssessment database
+    // (will be an update as the record should already exist from getting the URL)
+    // Navigate user to login page
+    // Some way to reset the values within this service
+  }
+
+  // ********************************************** //
+  // **************  STUDENT OBJECT  ************** //
+  // ********************************************** //
+
+  getCurrentStudentUpdateListener() {
+    return this.currentStudentUpdated.asObservable();
+  }
+
+  // ********************************************** //
+  // *********  STUDENT: FORM VALIDATION  ********* //
+  // ********************************************** //
+
+  setStudentFormIsValid(isValid: boolean) {
+    this.studentFormIsValid = isValid;
+  }
+
+  getStudentFormIsValid() {
+    return this.studentFormIsValid;
+  }
 
   // ********************************************** //
   // *********  STUDENT: PREVIOUS SCORES  ********* //
@@ -187,53 +218,6 @@ export class AssessmentEngineService {
   getCurrentQuestionUpdatedListener() {
     return this.currentQuestionUpdated.asObservable();
   }
-
-  // Gets an assessment by an id
-  getTakenAssessmentById(takeAssessmentId: string) {
-    this.helperService.isLoading = true;
-    this.http
-      .get<{ message: string, takenAssessment: TakenAssessment }>(
-        'http://localhost:3000/api/assessment/take/' + takeAssessmentId
-      )
-      .subscribe((assessmentData) => {
-
-        console.log(assessmentData);
-
-        this.takenAssessment = assessmentData.takenAssessment[0];
-        // // mongoose always returns an array with find()
-        // grabbing the first (and only) assessment in array
-        this.assessment = this.takenAssessment.assessment;
-
-        // Subscribers get a copy of the assessment.
-        this.assessmentUpdated.next(this.assessment);
-
-        this.takenAssessmentUpdated.next(this.takenAssessment);
-
-        // Done loading. Remove the loading spinner
-        this.helperService.isLoading = false;
-      });
-  }
-
-  saveStudent(student: Student) {
-
-    console.log('Student', student);
-
-    this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/student/save', student)
-      .subscribe(
-        responseData => {
-          // tslint:disable-next-line: max-line-length
-          this.helperService.openSnackBar(student.studentId + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
-          console.log('%c' + responseData.message, 'color: green;');
-          console.log('%c Database Object:', 'color: orange;');
-          console.log(responseData.student);
-          // this.router.navigate(['/assessment/list']);
-        },
-        error => {
-          console.log('%c' + error.error.message, 'color: red;');
-        });
-  }
-
-
 
   prepareAssessment(assessment: Assessment) {
     this.assessment = assessment;
@@ -261,7 +245,7 @@ export class AssessmentEngineService {
         }
 
         // Set up and trigger wrong streak if needed
-        if (config.wrongStreak > 0 ) {
+        if (config.wrongStreak > 0) {
           this.isWrongStreak = true;
           this.maxWrongStreak = config.wrongStreak;
         }
@@ -373,27 +357,104 @@ export class AssessmentEngineService {
   // ***************  API CALLS TO BACKEND  ***************** //
   // ******************************************************** //
 
-  saveTakenAssessment(takenAssessment: TakenAssessment) {
-    // const completeAssessment: any = assessment;
-    // completeAssessment.config = this.assessmentConfig;
-    // completeAssessment.status = this.status;
-    console.log('Taken Assessment', takenAssessment);
+  // ************************************************* //
+  // *********  GET: TAKEN ASSESSMENT BY ID   ******** //
+  // ************************************************* //
+  getTakenAssessmentById(takeAssessmentId: string) {
+    this.helperService.isLoading = true;
+    this.http
+      .get<{ message: string, takenAssessment: TakenAssessment }>(
+        'http://localhost:3000/api/assessment/take/' + takeAssessmentId
+      )
+      .subscribe((assessmentData) => {
 
+        console.log(assessmentData);
+
+        this.takenAssessment = assessmentData.takenAssessment[0];
+        // // mongoose always returns an array with find()
+        // grabbing the first (and only) assessment in array
+        this.assessment = this.takenAssessment.assessment;
+
+        // Subscribers get a copy of the assessment.
+        this.assessmentUpdated.next(this.assessment);
+
+        this.takenAssessmentUpdated.next(this.takenAssessment);
+
+        // Done loading. Remove the loading spinner
+        this.helperService.isLoading = false;
+      });
+  }
+
+  // ************************************************* //
+  // ***************  SAVE: STUDENT  ***************** //
+  // ************************************************* //
+  saveStudent(student: Student) {
+
+    // API call to backend to add student to database
+    this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/student/save', student)
+      .subscribe(
+        responseData => {
+          // tslint:disable-next-line: max-line-length
+          this.helperService.openSnackBar(student.uniqueStudentIdentifier + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.student);
+          console.log(responseData.student._id);
+          this.currentStudent = responseData.student;
+          this.currentStudentUpdated.next(this.currentStudent);
+        },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
+  // ********************************************************** //
+  // ***************  SAVE: TAKEN ASSESSMENT  ***************** //
+  // ********************************************************** //
+  saveTakenAssessment(takenAssessment: TakenAssessment) {
+    console.log('Taken Assessment', takenAssessment);
+    // API call to backend to create a taken assessment record to pass assessment engine data to
     this.http.post<{ message: string, takenAssessmentId: string }>('http://localhost:3000/api/assessment/generate', takenAssessment)
       .subscribe(
         responseData => {
           // tslint:disable-next-line: max-line-length
-          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Taken Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
+          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData);
+          // The taken assessment id to be used to generate url
           this.takenAssessmentId = responseData.takenAssessmentId;
           this.takenAssessmentIdUpdated.next(this.takenAssessmentId);
-          // this.resetConfigurationForm();
-          // this.router.navigate(['/assessment/list']);
-
         },
         error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
+  // ********************************************************** //
+  // **************  UPDATE: TAKEN ASSESSMENT  **************** //
+  // ********************************************************** //
+  updateTakenAssessment(takenAssessment: TakenAssessment) {
+    // isLoading is used to add a spinner
+    this.helperService.isLoading = true;
+
+    console.log('Updated Taken Assessment', takenAssessment);
+
+    // tslint:disable-next-line: max-line-length
+    this.http.post<{ message: string, updatedTakenAssessment: TakenAssessment }>('http://localhost:3000/api/assessment/updateTaken', takenAssessment)
+      .subscribe(
+        responseData => {
+          // Success message at the bottom of the screen
+          // console log information about the response for debugging
+          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
+          this.helperService.isLoading = false;
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.updatedTakenAssessment);
+          console.table(responseData.updatedTakenAssessment);
+        },
+        error => {
+          // log error message from server
           console.log('%c' + error.error.message, 'color: red;');
         });
   }
