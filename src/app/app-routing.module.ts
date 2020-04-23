@@ -30,30 +30,31 @@ import { LoginViewComponent } from './login/login-view/login-view.component';
 
 import { TakenAssessmentComponent } from './assessment-engine/taken-assessment/taken-assessment.component';
 import { AuthGuard } from './login/auth-guard';
+import { AdminGuard } from './login/admin-guard';
 
 
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
-  { path: '', component: AssessmentListComponent, canActivate: [AuthGuard] },
-  { path: 'assessment/create', component: CreateAssessmentComponent, canActivate: [AuthGuard] },
-  { path: 'assessment/edit/:assessmentId', component: EditAssessmentComponent, canActivate: [AuthGuard] },
-  { path: 'assessment/list', component: AssessmentListComponent, canActivate: [AuthGuard] },
-  { path: 'assessment/view/:assessmentId', component: ViewAssessmentComponent, canActivate: [AuthGuard] },
+  { path: '', component: AssessmentListComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'assessment/create', component: CreateAssessmentComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'assessment/edit/:assessmentId', component: EditAssessmentComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'assessment/list', component: AssessmentListComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'assessment/view/:assessmentId', component: ViewAssessmentComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'assessment/take/:takenAssessmentId', component: AssessmentEngineComponent },
-  { path: 'category', component: ManageCategoryComponent, canActivate: [AuthGuard] },
-  { path: 'category/edit/:categoryId', component: EditCategoryComponent, canActivate: [AuthGuard] },
-  { path: 'match/create', component: CreateExactMatchComponent, canActivate: [AuthGuard] },
-  { path: 'option/create', component: CreateOptionComponent, canActivate: [AuthGuard] },
-  { path: 'question/create', component: CreateQuestionComponent, canActivate: [AuthGuard] },
-  { path: 'question/edit/:questionId', component: EditQuestionComponent, canActivate: [AuthGuard] },
-  { path: 'question/list', component: ListQuestionsComponent, canActivate: [AuthGuard] },
-  { path: 'question/view/:questionId', component: ViewQuestionComponent, canActivate: [AuthGuard] },
+  { path: 'category', component: ManageCategoryComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'category/edit/:categoryId', component: EditCategoryComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'match/create', component: CreateExactMatchComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'option/create', component: CreateOptionComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'question/create', component: CreateQuestionComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'question/edit/:questionId', component: EditQuestionComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'question/list', component: ListQuestionsComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'question/view/:questionId', component: ViewQuestionComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'student/create', component: CreateStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/edit', component: EditStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/list', component: ListStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/view', component: ViewStudentComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomepageComponent, canActivate: [AuthGuard] },
-  { path: 'user/create', component: LoginCreateComponent, canActivate: [AuthGuard]},
+  { path: 'user/create', component: LoginCreateComponent, canActivate: [AuthGuard, AdminGuard]},
   { path: 'login', component: LoginViewComponent},
   { path: 'assessment/generate', component: TakenAssessmentComponent, canActivate: [AuthGuard] }
 ];
@@ -61,6 +62,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule],
-  providers: [AuthGuard]
+  providers: [AuthGuard, AdminGuard]
 })
 export class AppRoutingModule {}

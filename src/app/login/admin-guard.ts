@@ -5,18 +5,18 @@ import { Injectable } from '@angular/core';
 import { LoginEngineService } from '../services/login.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
   constructor(private loginService: LoginEngineService,
               private router: Router) {}
 
-  // Function to check authorization status to restrict access and reroute unauthorized users
+  // Function to check admin status to restrict access and reroute unauthorized users
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot
               ): boolean | Observable<boolean> | Promise<boolean> {
-      const isAuth = this.loginService.getIsAuth();
-      if (!isAuth) {
-      this.router.navigate(['/login']);
+      const isAdmin = this.loginService.isAdmin;
+      if (!isAdmin) {
+      this.router.navigate(['/home']);
       }
-      return isAuth;
+      return isAdmin;
   }
 }
