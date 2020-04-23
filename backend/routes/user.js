@@ -50,8 +50,9 @@ router.post("/login", (request, response, next) => {
           message: "Password does not match."
       });
     }
-    // Create the token used to login - expires in 4 hours
+    // Create the token used to login - expires in 2 hours
     const token = jwt.sign({ username: fetchedUser.username, userId: fetchedUser._id },
+      // TODO: [PER-163] create a better secret for the token
       'secret_this_should_be_longer_replace_before_publication',
       // TODO: [PER-159] figure out max time for token to last
       { expiresIn: "2h" }
