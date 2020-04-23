@@ -1,2 +1,13 @@
+@import "../../../../../styles.css";
+
 /* Importing the task-specific styling. */
 @import "../../_taskStyles/editStyles.css";
+
+.closeAddOption{
+  background-color: #fcb618;
+}
+
+div.buttonContainer div.buttonContainer{
+  margin-left: auto;
+  margin-right: 0;
+}
