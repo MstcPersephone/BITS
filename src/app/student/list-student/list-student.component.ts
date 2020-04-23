@@ -65,7 +65,7 @@ export class ListStudentComponent implements OnInit {
     if (studentData.dateOfBirth !== '') {
       studentData.dateOfBirth = this.helperService.convertBirthdateToNumbers(studentData.dateOfBirth);
     }
-    const searchParameters = [];
+    const searchParameters: string[] = [];
     Object.keys(studentData).forEach((key) => {
       if (studentData[key] !== '') {
         searchParameters.push(studentData[key]);

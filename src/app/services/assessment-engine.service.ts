@@ -417,7 +417,7 @@ export class AssessmentEngineService {
   // ***************************************************** //
   // *********   GET: FILTERED TAKEN ASSESSMENT   ******** //
   // ***************************************************** //
-  getFilteredTakenAssessment(searchParameters: []) {
+  getFilteredTakenAssessment(searchParameters: string[]) {
     this.helperService.isLoading = true;
     this.http
       .get<{ message: string, takenAssessments: TakenAssessment[] }>(
