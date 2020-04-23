@@ -57,6 +57,14 @@
       </td>
     </ng-container>
 
+    <!-- Student Id Column -->
+    <ng-container matColumnDef="campusLocation">
+      <th class="columnHeader" mat-header-cell *matHeaderCellDef mat-sort-header>Campus Location</th>
+      <td mat-cell *matCellDef="let takenAssessment">
+        <div *ngIf="takenAssessment.student !== null">{{takenAssessment.student.campusLocation}}</div>
+      </td>
+    </ng-container>
+
 
     <!-- Student Name Column -->
     <ng-container matColumnDef="studentName">

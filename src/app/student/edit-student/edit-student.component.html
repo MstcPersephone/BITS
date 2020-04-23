@@ -1,1 +1,61 @@
-<p>edit-student works!</p>
+<mat-card>
+
+  <h4>Edit Student Information</h4>
+
+  <form [formGroup]="editStudentForm" (ngSubmit)="onSubmit(editStudentForm.value)">
+
+    <!-- Student Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Edit Student ID</mat-label>
+      <input matInput id="studentId" type="text" formControlName="studentId">
+    </mat-form-field>
+    <app-validation-messages [control]="editStudentForm.get('studentId')"></app-validation-messages>
+
+    <br>
+
+    <!-- Campus Location Dropdown -->
+    <mat-form-field class="questionTypeInput">
+      <mat-label>Select Campus Location</mat-label>
+      <mat-select (selectionChange)="onCampusLocationSelected($event)" formControlName="campusLocation">
+        <mat-option value="Stevens Point">Stevens Point</mat-option>
+        <mat-option value="Wisconsin Rapids">Wisconsin Rapids</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <app-validation-messages [control]="editStudentForm.get('campusLocation')"></app-validation-messages>
+
+    <br>
+
+    <!-- First Name Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Edit first name</mat-label>
+      <input matInput id="firstName" type="text" formControlName="firstName">
+    </mat-form-field>
+    <app-validation-messages [control]="editStudentForm.get('firstName')"></app-validation-messages>
+
+    <br>
+
+    <!-- Last Name Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Edit last name</mat-label>
+      <input matInput id="lastName" type="text" formControlName="lastName">
+    </mat-form-field>
+    <app-validation-messages [control]="editStudentForm.get('lastName')"></app-validation-messages>
+
+    <br>
+
+    <mat-form-field class="date" appearance="standard">
+      <mat-label color="primary" class="label-header">Choose date of birth</mat-label>
+      <input matInput id="dateOfBirth" [matDatepicker]="picker" formControlName="dateOfBirth" [min]="minDate"
+        [max]="maxDate" readonly="readonly">
+      <mat-datepicker-toggle matSuffix [for]="picker" startView="year"></mat-datepicker-toggle>
+      <mat-datepicker #picker startView="multi-year" [startAt]="startDate"></mat-datepicker>
+    </mat-form-field>
+    <app-validation-messages [control]="editStudentForm.get('dateOfBirth')"></app-validation-messages>
+
+
+
+    <!-- Submit Button -->
+    <!-- This button will not display: click is simulated in helping validate the form -->
+    <button class="simulatedButton" id="validateStudentForm" type="submit"></button>
+  </form>
+</mat-card>

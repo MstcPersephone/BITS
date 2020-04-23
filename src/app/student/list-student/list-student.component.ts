@@ -20,9 +20,9 @@ export class ListStudentComponent implements OnInit {
   startDate: Date;
   showTableData = false;
   private takenAssessmentsSubscription: Subscription;
-  public displayedColumns: string[] = ['studentId', 'studentName', 'dateOfBirth', 'score', 'modifiedOn', 'studentPassed'];
+  public displayedColumns: string[] = ['studentId', 'campusLocation', 'studentName', 'dateOfBirth', 'score', 'modifiedOn', 'studentPassed'];
   public dataSource = new MatTableDataSource<TakenAssessment>();
-  public columnsToDisplay = ['studentId', 'studentName', 'dateOfBirth', 'score', 'modifiedOn', 'studentPassed'];
+  public columnsToDisplay = ['studentId', 'campusLocation', 'studentName', 'dateOfBirth', 'score', 'modifiedOn', 'studentPassed'];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
 

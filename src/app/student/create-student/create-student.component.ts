@@ -4,7 +4,6 @@ import { Student } from '../../models/student.model';
 import { AssessmentEngineService } from '../../services/assessment-engine.service';
 import { HelperService } from '../../services/helper.service';
 import { ValidationService } from '../../services/validation.service';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-create-student',
@@ -41,6 +40,7 @@ export class CreateStudentComponent implements OnInit {
   ngOnInit() {
 
   }
+
   // Sets the variable for the ngSwitch statement in html file
   // Function is triggered after user selects an option
   onCampusLocationSelected(event) {
