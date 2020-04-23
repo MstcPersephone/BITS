@@ -2,7 +2,7 @@
   <mat-toolbar-row><p>Basic IT Software Assessment</p></mat-toolbar-row>
   <mat-toolbar-row><button color="accent" mat-raised-button [matMenuTriggerFor]="menu">Menu</button></mat-toolbar-row>
   <mat-menu class="nav" #menu="matMenu">
-    <button mat-menu-item *ngIf="!userIsAuthenticated" (click)="this.helperService.refreshComponent('/user/create')"><a>Sign up</a></button>
+    <button mat-menu-item *ngIf="userIsAuthenticated" (click)="this.helperService.refreshComponent('/user/create')"><a>Sign up</a></button>
     <button mat-menu-item *ngIf="!userIsAuthenticated" (click)="this.helperService.refreshComponent('/login')"><a>Login</a></button>
     <button mat-menu-item *ngIf="userIsAuthenticated" (click)="this.helperService.refreshComponent('/home')"><a>Home</a></button>
     <button mat-menu-item *ngIf="userIsAuthenticated" (click)="this.helperService.refreshComponent('/category')"><a>Manage Category</a></button>
