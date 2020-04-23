@@ -266,8 +266,8 @@ app.post("/api/filterTakenAssessments/", (request, response, next) => {
   const spArray = [];
 
   searchParameters.forEach(sp => {
-    const searchString = '/' + sp + '/';
-    spArray.push({ "student.uniqueStudentIdentifier":  + sp  });
+    const regEx = new RegExp(sp);
+    spArray.push({ "student.uniqueStudentIdentifier":  regEx  });
   });
 
   console.log(spArray);
