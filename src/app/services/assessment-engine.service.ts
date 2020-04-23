@@ -52,6 +52,8 @@ export class AssessmentEngineService {
   private studentFormIsValid = false;
   private currentStudent: Student;
   private currentStudentUpdated = new Subject<Student>();
+  private assessmentStudent: Student;
+  private assessmentStudentUpdated = new Subject<Student>();
 
   constructor(
     private http: HttpClient,
@@ -194,6 +196,10 @@ export class AssessmentEngineService {
 
   getCurrentStudentUpdateListener() {
     return this.currentStudentUpdated.asObservable();
+  }
+
+  getAssessmentStudentUpdateListener() {
+    return this.assessmentStudentUpdated.asObservable();
   }
 
   // ********************************************** //
@@ -439,6 +445,19 @@ export class AssessmentEngineService {
   // ************************************************* //
   // ***************  SAVE: STUDENT  ***************** //
   // ************************************************* //
+  getStudentbyId(studentsId: string) {
+      this.helperService.isLoading = true;
+      this.http.get<{ message: string, student: Student }>('http://localhost:3000/api/student/' + studentsId)
+        .subscribe((studentData) => {
+          this.currentStudent = studentData.student[0];
+          this.currentStudentUpdated.next(this.currentStudent);
+          this.helperService.isLoading = false;
+        });
+    }
+
+  // ************************************************* //
+  // ***************  SAVE: STUDENT  ***************** //
+  // ************************************************* //
   saveStudent(student: Student) {
 
     // API call to backend to add student to database
@@ -451,8 +470,8 @@ export class AssessmentEngineService {
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.student);
           console.log(responseData.student._id);
-          this.currentStudent = responseData.student;
-          this.currentStudentUpdated.next(this.currentStudent);
+          this.assessmentStudent = responseData.student;
+          this.assessmentStudentUpdated.next(this.assessmentStudent);
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');

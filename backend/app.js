@@ -490,6 +490,26 @@ app.get("/api/question/:id", (request, response, next) => {
     })
 });
 
+
+// ************************************************** //
+// **************   GET: STUDENT BY ID ************** //
+// ************************************************** //
+app.get("/api/student/:id", (request, response, next) => {
+  studentCollection.find({ _id: request.params.id }).then((student, error) => {
+    response.status(200).json({
+      message: request.params.id + ' Student fetched successfully!',
+      student: student
+    });
+    console.log(student);
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        student: null
+      })
+    })
+});
 // *********************************************************** //
 // ******   SAVE: ASSESSMENT TO ASSESSMENT COLLECTION   ****** //
 // *********************************************************** //
@@ -870,6 +890,31 @@ app.post("/api/question/update/", (request, response, next) => {
     })
   });
 });
+
+// ******************************************************** //
+// ***********   UPDATE STUDENT COLLECTION   ************* //
+// ******************************************************** //
+// app.post("/api/category/update", (request, response, next) => {
+//   const requestedUpdate = request.body;
+
+//   mongoose.connection.db.collection('categories').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: { name: requestedUpdate.name } }, function (error, updatedCategory) {
+//     updateQuestionCategories(requestedUpdate);
+//     // Send a successful response message and an array of categories to work with.
+//     response.status(200).json({
+//       message: updatedCategory.name + ' updated successfully!',
+//       updatedCategory: updatedCategory
+//     });
+//   }, error => {
+//     // Logs error message.
+//     // Sends an error status back to requestor.
+//     // Includes what was pulled for a categories array (if anything)
+//     console.log(error.message);
+//     response.status(400).json({
+//       message: error.message,
+//       updatedCategory: updatedCategory
+//     })
+//   });
+// });
 
 // ******************************************************** //
 // ********   UPDATE TAKEN ASSESSMENT COLLECTION   ******** //

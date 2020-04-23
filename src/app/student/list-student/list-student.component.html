@@ -112,7 +112,7 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns; Index as i"
-      [routerLink]="['/student/edit', row._id]"></tr>
+      [routerLink]="['/student/edit', row.student._id]"></tr>
   </table>
 </mat-card>
 <br>

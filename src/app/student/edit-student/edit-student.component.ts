@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { Student } from '../../models/student.model';
 import { AssessmentEngineService } from '../../services/assessment-engine.service';
 import { HelperService } from '../../services/helper.service';
@@ -12,16 +14,17 @@ import { ValidationService } from '../../services/validation.service';
 })
 export class EditStudentComponent implements OnInit {
   editStudentForm;
-  hasStudentId = false;
-  showstudentId = false;
-  studentId;
+  studentSubscription: Subscription;
+  student: Student;
   maxDate: Date;
   minDate: Date;
   startDate: Date;
+  selected;
   campusLocationSelected: string;
 
 
   constructor(
+    private route: ActivatedRoute,
     public assessmentEngineService: AssessmentEngineService,
     public helperService: HelperService,
     private formBuilder: FormBuilder) {
@@ -39,6 +42,21 @@ export class EditStudentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.studentSubscription = this.assessmentEngineService.getCurrentStudentUpdateListener()
+      .subscribe((student: Student) => {
+        this.student = student;
+        this.selected = this.student.campusLocation;
+        console.log(this.student);
+        if (this.student !== undefined) {
+          // this.editStudentForm.get('studentId').setValue(this.student.studentId);
+          this.editStudentForm.setValue({studentId: String(this.student.studentId) });
+          this.editStudentForm.setValue({campusLocation: String(this.selected) });
+          this.editStudentForm.setValue({firstName: String(this.student.firstName) });
+          this.editStudentForm.setValue({lastName: String(this.student.lastName) });
+          this.editStudentForm.setValue({dateOfBirth: String(this.student.dateOfBirth) });
+        }
+      });
+    this.assessmentEngineService.getStudentbyId(this.route.snapshot.params.studentsId);
   }
 
   // Sets the variable for the ngSwitch statement in html file
