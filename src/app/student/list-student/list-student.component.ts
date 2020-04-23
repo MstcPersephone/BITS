@@ -18,6 +18,7 @@ export class ListStudentComponent implements OnInit {
   maxDate: Date;
   minDate: Date;
   startDate: Date;
+  showTableData = false;
   private takenAssessmentsSubscription: Subscription;
   public displayedColumns: string[] = ['studentId', 'studentName', 'dateOfBirth', 'score', 'modifiedOn', 'studentPassed'];
   public dataSource = new MatTableDataSource<TakenAssessment>();
@@ -43,19 +44,54 @@ export class ListStudentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showTableData = false;
+  }
 
+  clearForm() {
+    this.showTableData = false;
+    this.findStudentForm = this.formBuilder.group({
+      firstName: '',
+      lastName: '',
+      studentId: '',
+      dateOfBirth: '',
+    });
   }
 
   onSubmit(studentData) {
+    this.showTableData = true;
+    console.log('Student Data', studentData);
+    studentData.firstName = this.helperService.convertName(studentData.firstName);
+    studentData.lastName = this.helperService.convertName(studentData.lastName);
+    if (studentData.dateOfBirth !== '') {
+      studentData.dateOfBirth = this.helperService.convertBirthdateToNumbers(studentData.dateOfBirth);
+    }
+    const searchParameters = [];
+    Object.keys(studentData).forEach((key) => {
+      if (studentData[key] !== '') {
+        searchParameters.push(studentData[key]);
+      }
+    });
 
-    this.assessmentEngineService.getAllTakenAssessment();
-    this.takenAssessmentsSubscription = this.assessmentEngineService.getTakenAssessmentsUpdateListener()
-      .subscribe((takenAssessmentArray: any) => {
-        this.dataSource.data = takenAssessmentArray;
-        console.log(this.dataSource.data);
-      });
+    console.log(searchParameters);
 
-    this.dataSource.sort = this.sort;
+    this.assessmentEngineService.getFilteredTakenAssessment(searchParameters);
+    // this.takenAssessmentsSubscription = this.assessmentEngineService.getTakenAssessmentsUpdateListener()
+    //   .subscribe((takenAssessmentArray: any) => {
+    //     this.dataSource.data = takenAssessmentArray;
+    //     console.log(this.dataSource.data);
+    //   });
+
+    // this.dataSource.sort = this.sort;
+
+
+    // this.assessmentEngineService.getAllTakenAssessment();
+    // this.takenAssessmentsSubscription = this.assessmentEngineService.getTakenAssessmentsUpdateListener()
+    //   .subscribe((takenAssessmentArray: any) => {
+    //     this.dataSource.data = takenAssessmentArray;
+    //     console.log(this.dataSource.data);
+    //   });
+
+    // this.dataSource.sort = this.sort;
 
   }
 

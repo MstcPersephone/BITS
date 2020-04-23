@@ -4,7 +4,7 @@
 <mat-card>
   <h3>Enter Search Criteria</h3>
 
-  <form [formGroup]="findStudentForm" (ngSubmit)="onSubmit(findStudentForm.value)">
+  <form [formGroup]="findStudentForm" >
 
     <!-- Student Id Input -->
     <mat-form-field appearance="standard">
@@ -34,7 +34,8 @@
 
     <br>
     <!-- Submit Button -->
-    <button class="mt-20 saveButton" mat-raised-button type="submit">Get Results</button>
+    <button class="mt-20 saveButton" mat-raised-button (click)="onSubmit(findStudentForm.value)">Get Results</button>
+    <button class="cancelOption" mat-raised-button (click)="this.clearForm()">Clear Search Criteria</button>
   </form>
 
 </mat-card>
@@ -42,7 +43,7 @@
 <br>
 
 <!-- This card displays the output generated based upon the search criteria -->
-<mat-card>
+<mat-card *ngIf="showTableData">
   <!-- Page Header -->
   <h3>Student Assessment Results</h3>
 
