@@ -34,7 +34,7 @@ import { AuthGuard } from './login/auth-guard';
 
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
-  { path: '', component: AssessmentListComponent },
+  { path: '', component: AssessmentListComponent, canActivate: [AuthGuard] },
   { path: 'assessment/create', component: CreateAssessmentComponent, canActivate: [AuthGuard] },
   { path: 'assessment/edit/:assessmentId', component: EditAssessmentComponent, canActivate: [AuthGuard] },
   { path: 'assessment/list', component: AssessmentListComponent, canActivate: [AuthGuard] },
@@ -44,10 +44,10 @@ const routes: Routes = [
   { path: 'category/edit/:categoryId', component: EditCategoryComponent, canActivate: [AuthGuard] },
   { path: 'match/create', component: CreateExactMatchComponent, canActivate: [AuthGuard] },
   { path: 'option/create', component: CreateOptionComponent, canActivate: [AuthGuard] },
-  { path: 'question/create', component: CreateQuestionComponent },
+  { path: 'question/create', component: CreateQuestionComponent, canActivate: [AuthGuard] },
   { path: 'question/edit/:questionId', component: EditQuestionComponent, canActivate: [AuthGuard] },
   { path: 'question/list', component: ListQuestionsComponent, canActivate: [AuthGuard] },
-  { path: 'question/view/:questionId', component: ViewQuestionComponent },
+  { path: 'question/view/:questionId', component: ViewQuestionComponent, canActivate: [AuthGuard] },
   { path: 'student/create', component: CreateStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/edit', component: EditStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/list', component: ListStudentComponent, canActivate: [AuthGuard] },

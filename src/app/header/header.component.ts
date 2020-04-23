@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userIsAuthenticated = false;
   private authListenerSubs: Subscription;
 
-  constructor(private loginService: LoginEngineService,
+  constructor(public loginService: LoginEngineService,
               public helperService: HelperService) {}
 
   ngOnInit() {

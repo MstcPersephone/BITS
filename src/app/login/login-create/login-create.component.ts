@@ -37,7 +37,7 @@ export class LoginCreateComponent implements OnInit {
     user.isAdmin = false;
 
     this.loginService.createUser(user);
-
+    this.isLoading = false;
     } else {
       alert('Passwords don\'t match, please try again');
     }

@@ -17,6 +17,7 @@ export class LoginEngineService {
   private isAuthenticated = false;
   // Subject to update the authentication status
   private authStatusListener = new Subject<boolean>();
+  // The timer for the expiration of the token
   private tokenTimer: any;
 
   constructor(
@@ -44,6 +45,7 @@ export class LoginEngineService {
     this.http.post('http://localhost:3000/api/user/create', user)
     .subscribe(response => {
       console.log(response);
+      this.router.navigate(['/home']);
     });
   }
 
@@ -74,11 +76,13 @@ export class LoginEngineService {
   // Automatically checks from auth data in local storage on refresh to keep user signed in
   autoAuthUser() {
     const authInformation = this.getAuthData();
+    // If auth information doesn't exist in local storage return
     if (!authInformation) {
       return;
     }
     const now = new Date();
     const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+    // Check if the token isn't expired
     if (expiresIn > 0) {
       this.token = authInformation.token;
       this.isAuthenticated = true;
@@ -128,9 +132,9 @@ export class LoginEngineService {
       return;
     }
     return {
-      token: token,
+      token,
       expirationDate: new Date(expirationDate),
-      isAdmin: isAdmin
+      isAdmin
     };
   }
 }
