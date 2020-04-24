@@ -28,11 +28,11 @@ export class FooterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.assessmentSubscription = this.assessmentEngineService.getAssessmentUpdateListener()
-      .subscribe((assessment: Assessment) => {
-        console.log('assessment to take', assessment);
-        this.assessment = assessment;
-      });
+    // this.assessmentSubscription = this.assessmentEngineService.getAssessmentUpdateListener()
+    //   .subscribe((assessment: Assessment) => {
+    //     console.log('assessment to take', assessment);
+    //     this.assessment = assessment;
+    //   });
 
     this.takenAssessmentSubscription = this.assessmentEngineService.getTakenAssessmentUpdateListener()
       .subscribe((takenAssessment: TakenAssessment) => {
@@ -44,23 +44,24 @@ export class FooterComponent implements OnInit {
 
   // The method to start an assessment
   startAssessment() {
-    // simulates a button click to run student form validation.
-    document.getElementById('validateStudentForm').click();
+    // // simulates a button click to run student form validation.
+    // document.getElementById('validateStudentForm').click();
 
-    // gets a stored value for whether the student form is valid
-    const studentFormIsValid = this.assessmentEngineService.getStudentFormIsValid();
+    // // gets a stored value for whether the student form is valid
+    // const studentFormIsValid = this.assessmentEngineService.getStudentFormIsValid();
 
-    // If the student form has passed validation, start the assessment
-    if (studentFormIsValid) {
-      this.currentStudentSubscription = this.assessmentEngineService.getAssessmentStudentUpdateListener()
-      .subscribe((student: Student) => {
-        this.takenAssessment.student = student;
-        this.assessmentEngineService.updateTakenAssessment(this.takenAssessment);
-      });
-      this.assessmentEngineService.assessmentStarted = true;
-      console.log('Assessment started');
-      this.assessmentEngineService.prepareAssessment(this.assessment);
-    }
+    // // If the student form has passed validation, start the assessment
+    // if (studentFormIsValid) {
+    //   this.currentStudentSubscription = this.assessmentEngineService.getAssessmentStudentUpdateListener()
+    //   .subscribe((student: Student) => {
+    //     this.takenAssessment.student = student;
+    //     this.assessmentEngineService.updateTakenAssessment(this.takenAssessment);
+    //     this.assessmentEngineService.assessmentStarted = true;
+    //     console.log('Assessment started');
+    //     this.assessmentEngineService.prepareAssessment(this.assessment);
+    //   });
+    // }
+    this.assessmentEngineService.prepareAssessment(this.takenAssessment.assessment);
   }
 
   acceptAnswer() {

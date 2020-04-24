@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ShortAnswer } from 'src/app/models/question-types/short-answer.model';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { AssessmentService } from 'src/app/services/assessment.service';
 import { AssessmentEngineService } from 'src/app/services/assessment-engine.service';
 
@@ -20,11 +20,12 @@ answerForm;
     private formBuilder: FormBuilder
   ) {
     this.answerForm = this.formBuilder.group({
-      studentAnswer: ''
+      studentAnswer: new FormControl('')
     });
    }
 
   ngOnInit(): void {
+
   }
 
   onSubmit(formData) {

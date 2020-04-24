@@ -20,7 +20,9 @@ import { AssessmentService } from './assessment.service';
 })
 export class AssessmentEngineService {
 
-  // Students previous scores array and subject.
+  // Keeping track of question points and assessment score
+  private possiblePoints = 0;
+  private receivedPoints = 0;
   public previousScores: any[];
   private previousScoresUpdated = new Subject<any[]>();
 
@@ -28,7 +30,7 @@ export class AssessmentEngineService {
   public assessmentStarted = false;
   private assessment: Assessment;
   private assessmentUpdated = new Subject<Assessment>();
-  private questions: Question[];
+  public questions: Question[];
   private wrongAnswerStreak = 0;
   private isWrongStreak = false;
   private maxWrongStreak = 0;
@@ -176,14 +178,41 @@ export class AssessmentEngineService {
       });
   }
 
-  checkAssessment(assessment: Assessment) {
-    console.log(assessment);
+  getPossiblePoints(points: number) {
+    return this.possiblePoints += points;
+  }
+
+  getReceivedPoints(points: number) {
+    return this.receivedPoints += points;
+  }
+
+  checkAssessment() {
+    const questions = this.questions;
+
+    questions.forEach(q => {
+      if (!q.isAnswered) {
+        q.isAnsweredCorrectly = false;
+        this.getPossiblePoints(q.points);
+        console.log('Possible Points', this.possiblePoints);
+      } else {
+        this.getPossiblePoints(q.points);
+        this.getReceivedPoints(q.points);
+        console.log('Possible Points', this.possiblePoints);
+        console.log('Received Points', this.receivedPoints);
+      }
+
+    });
+
+
+
   }
 
   submitAssessment() {
-    // Loop through remaining question and mark them as wrong
+    // Loop through remaining unaswered questions and mark them as wrong, unanswered, and duration = 0
     // Create a new TakenAssessment object
-    // Provide the properties based on values within this service
+    // Loop through all questions and get recievedPoints and possible points
+    // Calculate score and set studentPassed value
+    // Pass all property values into new TakenAssessment
     // Make a call to save the results to TakenAssessment database
     // (will be an update as the record should already exist from getting the URL)
     // Navigate user to login page
@@ -294,12 +323,12 @@ export class AssessmentEngineService {
     this.assessmentStarted = true;
   }
 
-  acceptAnswer() {
+  acceptAnswer(isQuitAssessment = false) {
 
     const question = this.currentQuestion;
 
     // Mark the question as being answered by the student
-    question.isAnswered = true;
+    question.isAnswered = isQuitAssessment ? false : true;
 
     // Check to see if the answer is correct
     const isCorrect = this.checkAnswer(question);
@@ -332,7 +361,7 @@ export class AssessmentEngineService {
 
         // Check to see if max wrong streak is reached
         if (this.wrongAnswerStreak === this.maxWrongStreak) {
-          this.submitAssessment();
+          this.checkAssessment();
 
           // stop the rest of the function execution
           return;
@@ -344,7 +373,7 @@ export class AssessmentEngineService {
 
       // Else, there are no more questions, and the assessment needs to submit
     } else {
-      this.submitAssessment();
+      this.checkAssessment();
     }
   }
 
@@ -387,8 +416,8 @@ export class AssessmentEngineService {
         // grabbing the first (and only) assessment in array
         this.assessment = this.takenAssessment.assessment;
 
-        // Subscribers get a copy of the assessment.
-        this.assessmentUpdated.next(this.assessment);
+        // // Subscribers get a copy of the assessment.
+        // this.assessmentUpdated.next(this.assessment);
 
         this.takenAssessmentUpdated.next(this.takenAssessment);
 
@@ -401,24 +430,24 @@ export class AssessmentEngineService {
   // *********   GET: ALL TAKEN ASSESSMENT   ******** //
   // ************************************************ //
   getAllTakenAssessment() {
-      this.helperService.isLoading = true;
-      this.http
-        .get<{ message: string, takenAssessments: TakenAssessment[] }>(
-          'http://localhost:3000/api/takenAssessments'
-        )
-        .subscribe((takenAssessmentData) => {
-          this.takenAssessments = takenAssessmentData.takenAssessments.reverse();
-          console.log(this.takenAssessments);
-          // Subscribers get a copy of the assessments array
-          this.takenAssessmentsUpdated.next(this.takenAssessments);
-          // Done loading. Remove the loading spinner
-          this.helperService.isLoading = false;
-        },
-          error => {
-            // log error message from server
-            console.log('%c' + error.error.message, 'color: red;');
-          });
-    }
+    this.helperService.isLoading = true;
+    this.http
+      .get<{ message: string, takenAssessments: TakenAssessment[] }>(
+        'http://localhost:3000/api/takenAssessments'
+      )
+      .subscribe((takenAssessmentData) => {
+        this.takenAssessments = takenAssessmentData.takenAssessments.reverse();
+        console.log(this.takenAssessments);
+        // Subscribers get a copy of the assessments array
+        this.takenAssessmentsUpdated.next(this.takenAssessments);
+        // Done loading. Remove the loading spinner
+        this.helperService.isLoading = false;
+      },
+        error => {
+          // log error message from server
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
 
   // ***************************************************** //
   // *********   GET: FILTERED TAKEN ASSESSMENT   ******** //
@@ -427,39 +456,38 @@ export class AssessmentEngineService {
     this.helperService.isLoading = true;
     this.http
       .post<{ message: string, takenAssessments: TakenAssessment[] }>(
-        'http://localhost:3000/api/filterTakenAssessments/', {searchParameters})
-        .subscribe(
-          responseData => {
-            this.takenAssessments = responseData.takenAssessments;
-            this.takenAssessmentsUpdated.next(this.takenAssessments);
-            // Done loading. Remove the loading spinner
-            this.helperService.isLoading = false;
-            console.log(responseData.message);
-            console.log(this.takenAssessments);
-          },
-          error => {
-            console.log('%c' + error.error.message, 'color: red;');
-          });
-    }
+        'http://localhost:3000/api/filterTakenAssessments/', { searchParameters })
+      .subscribe(
+        responseData => {
+          this.takenAssessments = responseData.takenAssessments;
+          this.takenAssessmentsUpdated.next(this.takenAssessments);
+          // Done loading. Remove the loading spinner
+          this.helperService.isLoading = false;
+          console.log(responseData.message);
+          console.log(this.takenAssessments);
+        },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
 
   // ************************************************* //
   // *************  GET: STUDENT BY ID  ************** //
   // ************************************************* //
   getStudentbyId(studentsId: string) {
-      this.helperService.isLoading = true;
-      this.http.get<{ message: string, student: Student }>('http://localhost:3000/api/student/' + studentsId)
-        .subscribe((studentData) => {
-          this.currentStudent = studentData.student[0];
-          this.currentStudentUpdated.next(this.currentStudent);
-          this.helperService.isLoading = false;
-        });
-    }
+    this.helperService.isLoading = true;
+    this.http.get<{ message: string, student: Student }>('http://localhost:3000/api/student/' + studentsId)
+      .subscribe((studentData) => {
+        this.currentStudent = studentData.student[0];
+        this.currentStudentUpdated.next(this.currentStudent);
+        this.helperService.isLoading = false;
+      });
+  }
 
   // ************************************************* //
   // ***************  SAVE: STUDENT  ***************** //
   // ************************************************* //
   saveStudent(student: Student) {
-
     // API call to backend to add student to database
     this.http.post<{ message: string, student: Student }>('http://localhost:3000/api/student/save', student)
       .subscribe(
