@@ -917,6 +917,9 @@ app.post("/api/student/update/", (request, response, next) => {
   // passes the data to the database to update a specific student by id
   mongoose.connection.db.collection('students').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedStudent) {
 
+    // sends the updates to the taken assessments to update student data there as well.
+    updateTakenAssessmentStudents(requestedUpdate);
+
     // Send a successful response message
     response.status(200).json({
       message: 'updated Student Fetched Successfully!',
@@ -1002,6 +1005,22 @@ function deleteById(name, query, callBack) {
 // Updates all questions that have the updated category with the updated name
 function updateQuestionCategories(updatedCategory) {
   mongoose.connection.db.collection('questions').updateMany({ categories: { $elemMatch: { _id: mongoose.Types.ObjectId(updatedCategory._id) } } }, { $set: { "categories.$.name": updatedCategory.name } });
+}
+
+// Updates all taken assessments student data when the student collection document is updated.
+function updateTakenAssessmentStudents(updatedStudent) {
+  mongoose.connection.db.collection('takenAssessments')
+  .updateMany( { "student._id": { $eq: updatedStudent._id } },
+  { $set: {
+    "student.uniqueStudentIdentifier": updatedStudent.uniqueStudentIdentifier,
+    "student.studentId": updatedStudent.studentId,
+    "student.firstName": updatedStudent.firstName,
+    "student.lastName": updatedStudent.lastName,
+    "student.dateOfBirth": updatedStudent.dateOfBirth,
+    "student.campusLocation": updatedStudent.campusLocation,
+    "student.lastAssessmentDate": updatedStudent.lastAssessmentDate,
+    "student.previousScores": updatedStudent.previousScores
+  } });
 }
 
 // Exports the contstants and all of the middlewares attached to it.

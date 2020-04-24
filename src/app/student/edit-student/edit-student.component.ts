@@ -91,7 +91,7 @@ export class EditStudentComponent implements OnInit {
       console.log(updatedStudent);
 
       // Sends the data to the service to handle passing data for saving in database
-      // this.assessmentEngineService.updateStudent(updatedStudent);
+      this.assessmentEngineService.updateStudent(updatedStudent);
     }
   }
 }
