@@ -31,8 +31,4 @@ export class ViewCheckboxComponent implements OnInit {
     this.question.options[i].optionIsSelected = $event.checked;
     console.log(this.question.options);
   }
-
-  onSubmit() {
-    this.assessmentEngineService.checkAnswer(this.question);
-  }
 }

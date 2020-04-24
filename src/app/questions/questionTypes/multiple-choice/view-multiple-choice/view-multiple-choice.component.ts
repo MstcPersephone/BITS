@@ -34,8 +34,4 @@ export class ViewMultipleChoiceComponent implements OnInit {
     this.question.options[i].optionIsSelected = true;
     console.log(this.question.options);
   }
-
-  onSubmit() {
-    this.assessmentEngineService.checkAnswer(this.question);
-  }
 }

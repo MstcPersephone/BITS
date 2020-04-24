@@ -28,8 +28,7 @@ answerForm;
 
   }
 
-  onSubmit(formData) {
-    this.question.studentAnswer = formData.studentAnswer;
-    this.assessmentEngineService.checkAnswer(this.question);
+  studentAnswer(event: any) {
+    this.assessmentEngineService.studentShortAnswer = event.target.value;
   }
 }

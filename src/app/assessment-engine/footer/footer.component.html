@@ -2,19 +2,19 @@
 <button color="primary" *ngIf="!this.assessmentEngineService.assessmentStarted" mat-raised-button type="button"
   (click)="startAssessment()">Start Assessment&nbsp;<mat-icon>save</mat-icon></button>
 
-<!-- Submit Buttons group to show after assessment has been started -->
+<!-- Starts the assessment when student clicks button, only after form validation has passed -->
 <div *ngIf="this.assessmentEngineService.assessmentStarted">
 
-  <!-- Submit Button for student submitted answer to load next question -->
+  <!-- Saves current answer and loads the next question -->
   <button *ngIf="this.assessmentEngineService.questions !== undefined && this.assessmentEngineService.hasQuestionsRemaining()" class="mt-20 saveButton" mat-raised-button
     type="button" (click)=acceptAnswer()>Save Answer&nbsp;<mat-icon>save</mat-icon></button>
 
-  <!-- Submit Button for student submitted answer to finish the assessment -->
+  <!-- Finishes the assessment while saving the last the answer provided -->
   <button *ngIf="this.assessmentEngineService.questions !== undefined && !this.assessmentEngineService.hasQuestionsRemaining()" class="mt-20 saveButton" mat-raised-button
-    type="button" (click)="this.assessmentEngineService.checkAnswer()">Finish Assessment&nbsp;<mat-icon>save</mat-icon></button>
+    type="button" (click)="this.assessmentEngineService.acceptAnswer()">Finish Assessment&nbsp;<mat-icon>save</mat-icon></button>
 
-  <!-- Button to quit assessment early -->
-  <button *ngIf="this.assessmentEngineService.questions !== undefined && this.assessmentEngineService.hasQuestionsRemaining()" class="mt-20 saveButton" mat-raised-button
+    <!-- Ends the assessment early by student clicking the quit button -->
+    <button *ngIf="this.assessmentEngineService.questions !== undefined && this.assessmentEngineService.hasQuestionsRemaining()" class="mt-20 saveButton" mat-raised-button
   type="button" (click)="this.assessmentEngineService.acceptAnswer(true)">Quit Assessment&nbsp;<mat-icon>cancel</mat-icon></button>
 
 </div>

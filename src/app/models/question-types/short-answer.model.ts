@@ -6,6 +6,7 @@ import { Category } from '../shared/category.model';
 
 // Essay question that that accepts a text response.
 export class ShortAnswer implements Question {
+  // tslint:disable-next-line: variable-name
   _id: string;
   categories: Category [];
   questionText: string;

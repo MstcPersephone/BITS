@@ -20,6 +20,7 @@ import { AssessmentService } from './assessment.service';
 })
 export class AssessmentEngineService {
 
+  public studentShortAnswer = '';
   // Keeping track of question points and assessment score
   private possiblePoints = 0;
   private receivedPoints = 0;
@@ -115,6 +116,7 @@ export class AssessmentEngineService {
       if (o.isAnswer) {
         if (!o.optionIsSelected) {
           isCorrect = false;
+
         }
         // Make sure student did not select any wrong answers
       } else {
@@ -196,10 +198,12 @@ export class AssessmentEngineService {
         console.log('Possible Points', this.possiblePoints);
       } else {
         this.getPossiblePoints(q.points);
-        this.getReceivedPoints(q.points);
-        console.log('Possible Points', this.possiblePoints);
-        console.log('Received Points', this.receivedPoints);
+        if (q.isAnsweredCorrectly) {
+          this.getReceivedPoints(q.points);
+        }
       }
+      console.log('Possible Points', this.possiblePoints);
+      console.log('Received Points', this.receivedPoints);
 
     });
 
@@ -326,6 +330,10 @@ export class AssessmentEngineService {
   acceptAnswer(isQuitAssessment = false) {
 
     const question = this.currentQuestion;
+
+    if (question.questionType === QuestionType.ShortAnswer) {
+      (question as ShortAnswer).studentAnswer = this.studentShortAnswer;
+    }
 
     // Mark the question as being answered by the student
     question.isAnswered = isQuitAssessment ? false : true;
