@@ -28,11 +28,13 @@ export class LoginCreateComponent implements OnInit {
   }
 
   onSignup(formData) {
+    let username = formData.username.toLowerCase();
+
     // Check that the passwords match and create new user if they do
     if (formData.password1 === formData.password2) {
     this.isLoading = true;
     const user = new User();
-    user.username = formData.username;
+    user.username = username;
     user.password = formData.password1;
     if (formData.isAdmin === true) {
       user.isAdmin = true;

@@ -24,9 +24,9 @@ export class LoginViewComponent implements OnInit {
   }
 
   onLogin(formData) {
-    console.log(formData);
+    let username = formData.username.toLowerCase();
     this.isLoading = true;
-    this.loginService.loginUser(formData.username, formData.password);
+    this.loginService.loginUser(username, formData.password);
     this.isLoading = false;
   }
 }

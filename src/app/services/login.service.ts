@@ -76,7 +76,7 @@ export class LoginEngineService {
        }
       },
     error => {
-      this.helperService.openSnackBar('Username and password do not match!', 'Close', 'error-dialog', 5000);
+      this.helperService.openSnackBar('Username and password do not match', 'Close', 'error-dialog', 5000);
     });
   }
 
