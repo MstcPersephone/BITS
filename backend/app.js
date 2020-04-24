@@ -694,7 +694,7 @@ app.post("/api/student/save", (request, response, next) => {
           campusLocation: student.campusLocation,
           lastAssessmentDate: student.lastAssessmentDate,
           previousScores: student.previousScores,
-          createdOn: Date.now()
+          modifiedOn: Date.now()
         });
 
         console.log('Backend Student Presave', studentToSaveModel);
@@ -892,29 +892,51 @@ app.post("/api/question/update/", (request, response, next) => {
 });
 
 // ******************************************************** //
-// ***********   UPDATE STUDENT COLLECTION   ************* //
+// ************   UPDATE STUDENT COLLECTION   ************* //
 // ******************************************************** //
-// app.post("/api/category/update", (request, response, next) => {
-//   const requestedUpdate = request.body;
+app.post("/api/student/update/", (request, response, next) => {
 
-//   mongoose.connection.db.collection('categories').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: { name: requestedUpdate.name } }, function (error, updatedCategory) {
-//     updateQuestionCategories(requestedUpdate);
-//     // Send a successful response message and an array of categories to work with.
-//     response.status(200).json({
-//       message: updatedCategory.name + ' updated successfully!',
-//       updatedCategory: updatedCategory
-//     });
-//   }, error => {
-//     // Logs error message.
-//     // Sends an error status back to requestor.
-//     // Includes what was pulled for a categories array (if anything)
-//     console.log(error.message);
-//     response.status(400).json({
-//       message: error.message,
-//       updatedCategory: updatedCategory
-//     })
-//   });
-// });
+  // Gets the student passed from the front end
+  // Stores data for updating backend properties
+  const requestedUpdate = request.body;
+
+  // Stores the updated student data
+  const update = {
+    id: requestedUpdate._id,
+    uniqueStudentIdentifier: requestedUpdate.uniqueStudentIdentifier,
+    studentId: requestedUpdate.studentId,
+    campusLocation: requestedUpdate.campusLocation,
+    firstName: requestedUpdate.firstName,
+    lastName: requestedUpdate.lastName,
+    dateOfBirth: requestedUpdate.dateOfBirth,
+    lastAssessmentDate: requestedUpdate.lastAssessmentDate,
+    previousScores: requestedUpdate.previousScores,
+    modifiedOn: new Date(Date.now())
+  };
+
+  // passes the data to the database to update a specific student by id
+  mongoose.connection.db.collection('students').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedStudent) {
+
+    // Send a successful response message
+    response.status(200).json({
+      message: 'updated Student Fetched Successfully!',
+      updatedStudent: updatedStudent
+    });
+
+    // Logs message and student to the backend for debugging.
+    console.log("updated Student Fetched Successfully.")
+    console.log(updatedStudent);
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a student (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      updatedStudent: updatedStudent
+    })
+  });
+});
 
 // ******************************************************** //
 // ********   UPDATE TAKEN ASSESSMENT COLLECTION   ******** //

@@ -46,10 +46,8 @@ export class EditStudentComponent implements OnInit {
       .subscribe((student: Student) => {
         this.student = student;
         this.selected = this.student.campusLocation;
-        console.log(this.student);
         this.campusLocationSelected = this.student.campusLocation;
 
-        // this.editStudentForm.get('studentId').setValue(this.student.studentId);
         this.editStudentForm.setValue({
           studentId: String(this.student.studentId),
           campusLocation: String(this.selected),
@@ -69,5 +67,31 @@ export class EditStudentComponent implements OnInit {
   }
 
   onSubmit(studentData) {
+    const updatedStudent: Student = new Student();
+
+    // Calls validation on the current form when submit button is clicked
+    if (!this.editStudentForm.valid) {
+      // Marks all controls as touched so error messages may populate
+      (Object as any).values(this.editStudentForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
+
+    if (this.editStudentForm.valid) {
+      updatedStudent._id = this.student._id;
+      updatedStudent.studentId = studentData.studentId;
+      updatedStudent.firstName = studentData.firstName;
+      updatedStudent.lastName = studentData.lastName;
+      updatedStudent.dateOfBirth = studentData.dateOfBirth;
+      updatedStudent.campusLocation = this.campusLocationSelected;
+      updatedStudent.lastAssessmentDate = this.student.lastAssessmentDate;
+      updatedStudent.previousScores = this.student.previousScores;
+      updatedStudent.uniqueStudentIdentifier = this.helperService.generateUniqueStudentId(updatedStudent);
+
+      console.log(updatedStudent);
+
+      // Sends the data to the service to handle passing data for saving in database
+      // this.assessmentEngineService.updateStudent(updatedStudent);
+    }
   }
 }

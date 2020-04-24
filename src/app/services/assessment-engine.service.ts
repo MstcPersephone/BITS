@@ -443,7 +443,7 @@ export class AssessmentEngineService {
     }
 
   // ************************************************* //
-  // ***************  SAVE: STUDENT  ***************** //
+  // *************  GET: STUDENT BY ID  ************** //
   // ************************************************* //
   getStudentbyId(studentsId: string) {
       this.helperService.isLoading = true;
@@ -497,6 +497,34 @@ export class AssessmentEngineService {
           this.takenAssessmentIdUpdated.next(this.takenAssessmentId);
         },
         error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
+  // ************************************************* //
+  // **************  UPDATE: STUDENT  **************** //
+  // ************************************************* //
+  updateStudent(student: Student) {
+    // isLoading is used to add a spinner
+    this.helperService.isLoading = true;
+
+    console.log('In Service', student.studentId);
+
+    // tslint:disable-next-line: max-line-length
+    this.http.post<{ message: string, updatedStudent: Student }>('http://localhost:3000/api/student/update', student)
+      .subscribe(
+        responseData => {
+          // Success message at the bottom of the screen
+          // console log information about the response for debugging
+          this.helperService.openSnackBar(student.firstName + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
+          this.helperService.isLoading = false;
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.updatedStudent);
+          this.router.navigate(['/student/list']);
+        },
+        error => {
+          // log error message from server
           console.log('%c' + error.error.message, 'color: red;');
         });
   }
