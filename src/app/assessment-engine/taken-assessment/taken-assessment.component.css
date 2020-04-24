@@ -1,0 +1,21 @@
+/* Importing global styles */
+@import '../../../styles.css';
+
+/* Removing the increased top-margin from the Generate Assessment button */
+.generateAssessmentUrlForm button{
+  margin-top: 0;
+}
+
+/* Centering the content within the container that holds the generated link */
+.generatedLinkContainer{
+  display: flex;
+  justify-content: center;
+}
+
+/* Styles applied to the generated link */
+.generatedLink{
+  text-decoration: none;
+  background-color: #0b578a;
+  color: white;
+  font-size: 18px;
+}
