@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, VirtualTimeScheduler } from 'rxjs';
 import { Router } from '@angular/router';
 import { HelperService } from './helper.service';
 import { Student } from '../models/student.model';
@@ -24,6 +24,8 @@ export class AssessmentEngineService {
   // Keeping track of question points and assessment score
   private possiblePoints = 0;
   private receivedPoints = 0;
+  private completedAssessmentScore = 0;
+  private studentPassedCurrentAssessment = false;
   public previousScores: any[];
   private previousScoresUpdated = new Subject<any[]>();
 
@@ -191,36 +193,55 @@ export class AssessmentEngineService {
   checkAssessment() {
     const questions = this.questions;
 
+    // Loop through all the questions
     questions.forEach(q => {
+      // If the student hit the quit button
       if (!q.isAnswered) {
+        // assign incorrect answer
         q.isAnsweredCorrectly = false;
+        // track the possible points but don't give student point credits
         this.getPossiblePoints(q.points);
-        console.log('Possible Points', this.possiblePoints);
       } else {
+        // When the student has answered this question, also get the possible points
         this.getPossiblePoints(q.points);
         if (q.isAnsweredCorrectly) {
+          // Only if they answered the question correctly then give them point credits
           this.getReceivedPoints(q.points);
         }
       }
-      console.log('Possible Points', this.possiblePoints);
-      console.log('Received Points', this.receivedPoints);
-
     });
 
+    // Calculate the student's assessment score
+    this.completedAssessmentScore = (this.receivedPoints / this.possiblePoints) * 100;
 
-
+    // Validate if student has passed the assessment
+    if (this.completedAssessmentScore < this.takenAssessment.score) {
+      // If their score is less than the min passing score they have failed
+      this.studentPassedCurrentAssessment = false;
+    } else {
+      // Otherwise they have passed
+      this.studentPassedCurrentAssessment = true;
+    }
+    // call to function that will add all property values to the taken assessment
+    this.submitAssessment();
   }
 
   submitAssessment() {
-    // Loop through remaining unaswered questions and mark them as wrong, unanswered, and duration = 0
-    // Create a new TakenAssessment object
-    // Loop through all questions and get recievedPoints and possible points
-    // Calculate score and set studentPassed value
-    // Pass all property values into new TakenAssessment
-    // Make a call to save the results to TakenAssessment database
-    // (will be an update as the record should already exist from getting the URL)
     // Navigate user to login page
+    // Once student selects finish or quit assessment do not allow this taken assessment url to be accessed.
     // Some way to reset the values within this service
+    // Some way of hiding the Menu button in the header when loading the taken assessment url.
+
+    // Add the questions to the students taken assessment with answers included
+    this.takenAssessment.questions = this.questions;
+    // Add the students score to the taken assessment
+    this.takenAssessment.score = this.completedAssessmentScore;
+    // Add the student's passing status to the taken assessment
+    this.takenAssessment.studentPassed = this.studentPassedCurrentAssessment;
+
+    console.log('The Students Completed Assessment', this.takenAssessment);
+    // Pass the taken assessment to be updated in the database
+    // this.updateTakenAssessment(this.takenAssessment);
   }
 
   // ********************************************** //
