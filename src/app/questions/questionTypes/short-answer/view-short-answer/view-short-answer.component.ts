@@ -30,5 +30,6 @@ answerForm;
 
   studentAnswer(event: any) {
     this.assessmentEngineService.studentShortAnswer = event.target.value;
+    this.question.studentAnswer = event.target.value;
   }
 }
