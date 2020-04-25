@@ -1,0 +1,2 @@
+/* Importing the task-specific styling. */
+@import "../../questions/questionTypes/_taskStyles/createStyles.css";
