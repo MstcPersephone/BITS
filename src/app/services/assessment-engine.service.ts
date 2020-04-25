@@ -14,6 +14,8 @@ import { ShortAnswer } from '../models/question-types/short-answer.model';
 import { TrueFalse } from '../models/question-types/true-false.model';
 import { Upload } from '../models/question-types/upload.model';
 import { AssessmentService } from './assessment.service';
+import { LoginEngineService } from './login.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +66,8 @@ export class AssessmentEngineService {
     private http: HttpClient,
     private router: Router,
     private helperService: HelperService,
-    private assessmentService: AssessmentService) { }
+    private assessmentService: AssessmentService,
+    public loginService: LoginEngineService) { }
 
   // **************************************** //
   // *********  ASSESSMENT OBJECTS  ********* //
@@ -625,7 +628,7 @@ export class AssessmentEngineService {
           console.log(responseData.updatedTakenAssessment);
           console.table(responseData.updatedTakenAssessment);
           if (this.takenAssessment.studentPassed !== null) {
-          this.helperService.refreshComponent('home');
+            this.loginService.logout();
         }
         },
         error => {
