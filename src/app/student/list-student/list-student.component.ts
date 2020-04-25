@@ -84,17 +84,6 @@ export class ListStudentComponent implements OnInit {
       });
 
     this.dataSource.sort = this.sort;
-
-
-    // this.assessmentEngineService.getAllTakenAssessment();
-    // this.takenAssessmentsSubscription = this.assessmentEngineService.getTakenAssessmentsUpdateListener()
-    //   .subscribe((takenAssessmentArray: any) => {
-    //     this.dataSource.data = takenAssessmentArray;
-    //     console.log(this.dataSource.data);
-    //   });
-
-    // this.dataSource.sort = this.sort;
-
   }
 
 }

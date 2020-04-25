@@ -235,26 +235,6 @@ app.get("/api/assessment/:id", checkAuth, (request, response, next) => {
 });
 
 // ******************************************************** //
-// *************   GET: ALL TAKEN ASSESSMENTS    ***************** //
-// ******************************************************** //
-app.get("/api/takenAssessments", (request, response, next) => {
-  // Get all taken assessments from the database
-  takenAssessmentCollection.find({ _id: { $exists: true } }).then((takenAssessments, error) => {
-    response.status(200).json({
-      message: 'Taken Assessments fetched successfully!',
-      takenAssessments: takenAssessments
-    });
-  },
-    error => {
-      console.log(error.message);
-      response.status(400).json({
-        message: error.message,
-        assignments: null
-      })
-    })
-});
-
-// ******************************************************** //
 // **********   GET: FILTERED TAKEN ASSESSMENTS  ********** //
 // ******************************************************** //
 app.post("/api/filterTakenAssessments/", (request, response, next) => {

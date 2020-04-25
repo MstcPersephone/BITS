@@ -50,7 +50,7 @@ const routes: Routes = [
   { path: 'question/list', component: ListQuestionsComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'question/view/:questionId', component: ViewQuestionComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'student/create', component: CreateStudentComponent, canActivate: [AuthGuard] },
-  { path: 'student/edit', component: EditStudentComponent, canActivate: [AuthGuard] },
+  { path: 'student/edit/:studentsId', component: EditStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/list', component: ListStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/view', component: ViewStudentComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomepageComponent, canActivate: [AuthGuard] },

@@ -26,7 +26,7 @@ export class AssessmentEngineService {
   // Keeping track of question points and assessment score
   private possiblePoints = 0;
   private receivedPoints = 0;
-  private completedAssessmentScore = 0;
+  private completedAssessmentScore;
   private studentPassedCurrentAssessment = false;
   public previousScores: any[];
   private previousScoresUpdated = new Subject<any[]>();
@@ -216,7 +216,11 @@ export class AssessmentEngineService {
     });
 
     // Calculate the student's assessment score
-    this.completedAssessmentScore = (this.receivedPoints / this.possiblePoints) * 100;
+    // this.completedAssessmentScore = this.receivedPoints / this.possiblePoints * 100;
+    const pointScore: any = Number(this.receivedPoints / this.possiblePoints).toFixed(4);
+    console.log('point score', pointScore);
+
+    this.completedAssessmentScore = (pointScore * 100).toFixed(2);
 
     // Validate if student has passed the assessment
     if (this.completedAssessmentScore < this.assessment.config.minimumScore) {
@@ -234,14 +238,15 @@ export class AssessmentEngineService {
 
   submitAssessment() {
     // Still need to take care of timed assessment function.
-    // Navigate user to login page when assessment is completed (Currently being sent to Home Page)
     // Some way to reset the values within this service
     // Some way of hiding the Menu button in the header when loading the taken assessment url.
 
     // Add the questions to the students taken assessment with answers included
     this.takenAssessment.questions = this.questions;
     // Add the students score to the taken assessment
-    this.takenAssessment.score = this.completedAssessmentScore;
+    console.log('prescore', this.completedAssessmentScore);
+    this.takenAssessment.score = parseFloat(this.completedAssessmentScore);
+    console.log('postscore', this.takenAssessment.score);
     // Add the student's passing status to the taken assessment
     this.takenAssessment.studentPassed = this.studentPassedCurrentAssessment;
 
@@ -473,29 +478,6 @@ export class AssessmentEngineService {
         // Done loading. Remove the loading spinner
         this.helperService.isLoading = false;
       });
-  }
-
-  // ************************************************ //
-  // *********   GET: ALL TAKEN ASSESSMENT   ******** //
-  // ************************************************ //
-  getAllTakenAssessment() {
-    this.helperService.isLoading = true;
-    this.http
-      .get<{ message: string, takenAssessments: TakenAssessment[] }>(
-        'http://localhost:3000/api/takenAssessments'
-      )
-      .subscribe((takenAssessmentData) => {
-        this.takenAssessments = takenAssessmentData.takenAssessments.reverse();
-        console.log(this.takenAssessments);
-        // Subscribers get a copy of the assessments array
-        this.takenAssessmentsUpdated.next(this.takenAssessments);
-        // Done loading. Remove the loading spinner
-        this.helperService.isLoading = false;
-      },
-        error => {
-          // log error message from server
-          console.log('%c' + error.error.message, 'color: red;');
-        });
   }
 
   // ***************************************************** //
