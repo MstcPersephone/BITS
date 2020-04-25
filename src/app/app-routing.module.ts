@@ -30,7 +30,7 @@ import { TakenAssessmentComponent } from './assessment-engine/taken-assessment/t
 
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
-  { path: '', component: AssessmentListComponent },
+  { path: '', component: HomepageComponent },
   { path: 'assessment/create', component: CreateAssessmentComponent },
   { path: 'assessment/edit/:assessmentId', component: EditAssessmentComponent },
   { path: 'assessment/list', component: AssessmentListComponent },
@@ -45,7 +45,7 @@ const routes: Routes = [
   { path: 'question/list', component: ListQuestionsComponent },
   { path: 'question/view/:questionId', component: ViewQuestionComponent },
   { path: 'student/create', component: CreateStudentComponent },
-  { path: 'student/edit', component: EditStudentComponent },
+  { path: 'student/edit/:studentsId', component: EditStudentComponent },
   { path: 'student/list', component: ListStudentComponent },
   { path: 'student/view', component: ViewStudentComponent },
   { path: 'assessment/generate', component: TakenAssessmentComponent },

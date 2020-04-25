@@ -232,6 +232,59 @@ app.get("/api/assessment/:id", (request, response, next) => {
 });
 
 // ******************************************************** //
+// *************   GET: ALL TAKEN ASSESSMENTS    ***************** //
+// ******************************************************** //
+app.get("/api/takenAssessments", (request, response, next) => {
+  // Get all taken assessments from the database
+  takenAssessmentCollection.find({ _id: { $exists: true } }).then((takenAssessments, error) => {
+    response.status(200).json({
+      message: 'Taken Assessments fetched successfully!',
+      takenAssessments: takenAssessments
+    });
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        assignments: null
+      })
+    })
+});
+
+// ******************************************************** //
+// **********   GET: FILTERED TAKEN ASSESSMENTS  ********** //
+// ******************************************************** //
+app.post("/api/filterTakenAssessments/", (request, response, next) => {
+  // request.params.searchParameters.forEach(sp => {
+
+  //   takenAssessmentCollection.find({$and: [{"student.uniqueStudentIdentifier": /jane/}, {"student.uniqueStudentIdentifier": /deter/}]});
+  // });
+
+  const searchParameters = request.body.searchParameters;
+  console.log(searchParameters);
+
+  const spArray = [];
+
+  searchParameters.forEach(sp => {
+    const regEx = new RegExp(sp);
+    spArray.push({ "student.uniqueStudentIdentifier":  regEx  });
+  });
+
+  console.log(spArray);
+
+  takenAssessmentCollection.find({ $and: spArray }).then((takenAssessments, error) => {
+    if (error) {
+      console.log(error.message);
+    } else {
+      response.status(200).json({
+        message: 'Student Results fetched successfully!',
+        takenAssessments: takenAssessments
+      });
+    }
+  });
+});
+
+// ******************************************************** //
 // *********   GET: SINGLE TAKEN ASSESSMENT BY ID    ************ //
 // ******************************************************** //
 app.get("/api/assessment/take/:id", (request, response, next) => {
@@ -437,6 +490,26 @@ app.get("/api/question/:id", (request, response, next) => {
     })
 });
 
+
+// ************************************************** //
+// **************   GET: STUDENT BY ID ************** //
+// ************************************************** //
+app.get("/api/student/:id", (request, response, next) => {
+  studentCollection.find({ _id: request.params.id }).then((student, error) => {
+    response.status(200).json({
+      message: request.params.id + ' Student fetched successfully!',
+      student: student
+    });
+    console.log(student);
+  },
+    error => {
+      console.log(error.message);
+      response.status(400).json({
+        message: error.message,
+        student: null
+      })
+    })
+});
 // *********************************************************** //
 // ******   SAVE: ASSESSMENT TO ASSESSMENT COLLECTION   ****** //
 // *********************************************************** //
@@ -621,7 +694,7 @@ app.post("/api/student/save", (request, response, next) => {
           campusLocation: student.campusLocation,
           lastAssessmentDate: student.lastAssessmentDate,
           previousScores: student.previousScores,
-          createdOn: Date.now()
+          modifiedOn: Date.now()
         });
 
         console.log('Backend Student Presave', studentToSaveModel);
@@ -682,7 +755,7 @@ app.post("/api/assessment/generate", (request, response, next) => {
     questions: takenAssessment.questions,
     score: takenAssessment.score,
     studentPassed: takenAssessment.studentPassed,
-    createdOn: Date.now()
+    modifiedOn: Date.now()
   });
 
   console.log('Backend Taken Assessment Presave', takenAssessmentToSaveModel);
@@ -728,7 +801,7 @@ app.post("/api/assessment/update/", (request, response, next) => {
     config: requestedUpdate.config,
     questionIds: requestedUpdate.questionIds,
     status: requestedUpdate.status,
-    createdOn: requestedUpdate.createdOn
+    createdOn: Date.now()
   };
 
   // passes the data to the database to update a specific assessment by id
@@ -819,6 +892,56 @@ app.post("/api/question/update/", (request, response, next) => {
 });
 
 // ******************************************************** //
+// ************   UPDATE STUDENT COLLECTION   ************* //
+// ******************************************************** //
+app.post("/api/student/update/", (request, response, next) => {
+
+  // Gets the student passed from the front end
+  // Stores data for updating backend properties
+  const requestedUpdate = request.body;
+
+  // Stores the updated student data
+  const update = {
+    id: requestedUpdate._id,
+    uniqueStudentIdentifier: requestedUpdate.uniqueStudentIdentifier,
+    studentId: requestedUpdate.studentId,
+    campusLocation: requestedUpdate.campusLocation,
+    firstName: requestedUpdate.firstName,
+    lastName: requestedUpdate.lastName,
+    dateOfBirth: requestedUpdate.dateOfBirth,
+    lastAssessmentDate: requestedUpdate.lastAssessmentDate,
+    previousScores: requestedUpdate.previousScores,
+    modifiedOn: new Date(Date.now())
+  };
+
+  // passes the data to the database to update a specific student by id
+  mongoose.connection.db.collection('students').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedStudent) {
+
+    // sends the updates to the taken assessments to update student data there as well.
+    updateTakenAssessmentStudents(requestedUpdate);
+
+    // Send a successful response message
+    response.status(200).json({
+      message: 'updated Student Fetched Successfully!',
+      updatedStudent: updatedStudent
+    });
+
+    // Logs message and student to the backend for debugging.
+    console.log("updated Student Fetched Successfully.")
+    console.log(updatedStudent);
+  }, error => {
+    // Logs error message.
+    // Sends an error status back to requestor.
+    // Includes what was pulled for a student (if anything)
+    console.log(error.message);
+    response.status(400).json({
+      message: error.message,
+      updatedStudent: updatedStudent
+    })
+  });
+});
+
+// ******************************************************** //
 // ********   UPDATE TAKEN ASSESSMENT COLLECTION   ******** //
 // ******************************************************** //
 app.post("/api/assessment/updateTaken", (request, response, next) => {
@@ -830,13 +953,13 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
 
   // Stores the updated taken assessment data
   const update = {
-    id: requestedUpdate._id,
+    // id: requestedUpdate._id,
     assessment: requestedUpdate.assessment,
     student: requestedUpdate.student,
     questions: requestedUpdate.questions,
     score: requestedUpdate.score,
     studentPassed: requestedUpdate.studentPassed,
-    createdOn: requestedUpdate.createdOn
+    modifiedOn: Date.now()
   };
 
   // passes the data to the database to update a specific assessment by id
@@ -882,6 +1005,22 @@ function deleteById(name, query, callBack) {
 // Updates all questions that have the updated category with the updated name
 function updateQuestionCategories(updatedCategory) {
   mongoose.connection.db.collection('questions').updateMany({ categories: { $elemMatch: { _id: mongoose.Types.ObjectId(updatedCategory._id) } } }, { $set: { "categories.$.name": updatedCategory.name } });
+}
+
+// Updates all taken assessments student data when the student collection document is updated.
+function updateTakenAssessmentStudents(updatedStudent) {
+  mongoose.connection.db.collection('takenAssessments')
+  .updateMany( { "student._id": { $eq: updatedStudent._id } },
+  { $set: {
+    "student.uniqueStudentIdentifier": updatedStudent.uniqueStudentIdentifier,
+    "student.studentId": updatedStudent.studentId,
+    "student.firstName": updatedStudent.firstName,
+    "student.lastName": updatedStudent.lastName,
+    "student.dateOfBirth": updatedStudent.dateOfBirth,
+    "student.campusLocation": updatedStudent.campusLocation,
+    "student.lastAssessmentDate": updatedStudent.lastAssessmentDate,
+    "student.previousScores": updatedStudent.previousScores
+  } });
 }
 
 // Exports the contstants and all of the middlewares attached to it.
