@@ -11,6 +11,8 @@ import { AssessmentEngineService } from 'src/app/services/assessment-engine.serv
 })
 export class ViewCheckboxComponent implements OnInit {
   answerForm;
+  public studentAnswers = [];
+
   @Input() question: Checkbox;
   constructor(
     public assessmentService: AssessmentService,
@@ -29,9 +31,8 @@ export class ViewCheckboxComponent implements OnInit {
 
   onChangeOption($event, i) {
     this.question.options[i].optionIsSelected = $event.checked;
-    // if (this.question.options[i].optionIsSelected) {
-    //   this.question.studentAnswers.push(this.question.options[i].optionText);
-    // }
+    this.studentAnswers.push(this.question.options[i].optionText);
+    this.question.studentAnswers = this.studentAnswers;
 
     console.log(this.question.options);
   }

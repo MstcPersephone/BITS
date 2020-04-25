@@ -15,7 +15,7 @@ export class Checkbox implements Question {
   hasAttachments: boolean;
   attachments?: Attachment[];
   isAnswered: boolean;
-  studentAnswers: any;
+  studentAnswers: string[];
   duration: number;
   points: number;
   isAnsweredCorrectly: boolean; // whether the user has provided the correct answer
