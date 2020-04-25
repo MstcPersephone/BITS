@@ -36,6 +36,8 @@ export class AssessmentEngineService {
   private assessmentQuestionsSubscription: Subscription;
 
   // Keeping track of taken assessment
+  private takenAssessments: any;
+  private takenAssessmentsUpdated = new Subject<any>();
   private takenAssessment: TakenAssessment;
   private takenAssessmentUpdated = new Subject<TakenAssessment>();
   private takenAssessmentId: string;
@@ -50,6 +52,8 @@ export class AssessmentEngineService {
   private studentFormIsValid = false;
   private currentStudent: Student;
   private currentStudentUpdated = new Subject<Student>();
+  private assessmentStudent: Student;
+  private assessmentStudentUpdated = new Subject<Student>();
 
   constructor(
     private http: HttpClient,
@@ -70,6 +74,10 @@ export class AssessmentEngineService {
 
   getTakenAssessmentUpdateListener() {
     return this.takenAssessmentUpdated.asObservable();
+  }
+
+  getTakenAssessmentsUpdateListener() {
+    return this.takenAssessmentsUpdated.asObservable();
   }
 
   // ********************************************** //
@@ -188,6 +196,10 @@ export class AssessmentEngineService {
 
   getCurrentStudentUpdateListener() {
     return this.currentStudentUpdated.asObservable();
+  }
+
+  getAssessmentStudentUpdateListener() {
+    return this.assessmentStudentUpdated.asObservable();
   }
 
   // ********************************************** //
@@ -385,6 +397,64 @@ export class AssessmentEngineService {
       });
   }
 
+  // ************************************************ //
+  // *********   GET: ALL TAKEN ASSESSMENT   ******** //
+  // ************************************************ //
+  getAllTakenAssessment() {
+      this.helperService.isLoading = true;
+      this.http
+        .get<{ message: string, takenAssessments: TakenAssessment[] }>(
+          'http://localhost:3000/api/takenAssessments'
+        )
+        .subscribe((takenAssessmentData) => {
+          this.takenAssessments = takenAssessmentData.takenAssessments.reverse();
+          console.log(this.takenAssessments);
+          // Subscribers get a copy of the assessments array
+          this.takenAssessmentsUpdated.next(this.takenAssessments);
+          // Done loading. Remove the loading spinner
+          this.helperService.isLoading = false;
+        },
+          error => {
+            // log error message from server
+            console.log('%c' + error.error.message, 'color: red;');
+          });
+    }
+
+  // ***************************************************** //
+  // *********   GET: FILTERED TAKEN ASSESSMENT   ******** //
+  // ***************************************************** //
+  getFilteredTakenAssessment(searchParameters: string[]) {
+    this.helperService.isLoading = true;
+    this.http
+      .post<{ message: string, takenAssessments: TakenAssessment[] }>(
+        'http://localhost:3000/api/filterTakenAssessments/', {searchParameters})
+        .subscribe(
+          responseData => {
+            this.takenAssessments = responseData.takenAssessments;
+            this.takenAssessmentsUpdated.next(this.takenAssessments);
+            // Done loading. Remove the loading spinner
+            this.helperService.isLoading = false;
+            console.log(responseData.message);
+            console.log(this.takenAssessments);
+          },
+          error => {
+            console.log('%c' + error.error.message, 'color: red;');
+          });
+    }
+
+  // ************************************************* //
+  // *************  GET: STUDENT BY ID  ************** //
+  // ************************************************* //
+  getStudentbyId(studentsId: string) {
+      this.helperService.isLoading = true;
+      this.http.get<{ message: string, student: Student }>('http://localhost:3000/api/student/' + studentsId)
+        .subscribe((studentData) => {
+          this.currentStudent = studentData.student[0];
+          this.currentStudentUpdated.next(this.currentStudent);
+          this.helperService.isLoading = false;
+        });
+    }
+
   // ************************************************* //
   // ***************  SAVE: STUDENT  ***************** //
   // ************************************************* //
@@ -400,8 +470,8 @@ export class AssessmentEngineService {
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.student);
           console.log(responseData.student._id);
-          this.currentStudent = responseData.student;
-          this.currentStudentUpdated.next(this.currentStudent);
+          this.assessmentStudent = responseData.student;
+          this.assessmentStudentUpdated.next(this.assessmentStudent);
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');
@@ -427,6 +497,34 @@ export class AssessmentEngineService {
           this.takenAssessmentIdUpdated.next(this.takenAssessmentId);
         },
         error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
+
+  // ************************************************* //
+  // **************  UPDATE: STUDENT  **************** //
+  // ************************************************* //
+  updateStudent(student: Student) {
+    // isLoading is used to add a spinner
+    this.helperService.isLoading = true;
+
+    console.log('In Service', student.studentId);
+
+    // tslint:disable-next-line: max-line-length
+    this.http.post<{ message: string, updatedStudent: Student }>('http://localhost:3000/api/student/update', student)
+      .subscribe(
+        responseData => {
+          // Success message at the bottom of the screen
+          // console log information about the response for debugging
+          this.helperService.openSnackBar(student.firstName + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
+          this.helperService.isLoading = false;
+          console.log('%c' + responseData.message, 'color: green;');
+          console.log('%c Database Object:', 'color: orange;');
+          console.log(responseData.updatedStudent);
+          this.router.navigate(['/student/list']);
+        },
+        error => {
+          // log error message from server
           console.log('%c' + error.error.message, 'color: red;');
         });
   }

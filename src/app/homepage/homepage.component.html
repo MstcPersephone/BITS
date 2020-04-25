@@ -20,13 +20,13 @@
     </mat-grid-tile>
 
     <!-- The Student button -->
-    <mat-grid-tile *ngIf="!this.loginService.isAdmin" [colspan]='1'>
-      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['']">
+    <mat-grid-tile [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/student/list']">
         <mat-icon>portrait</mat-icon>
       </section>
       <mat-grid-tile-footer>
         <section class="homePageButtonFooterContainer flexContainer">
-          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['']">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/student/list']">
             <p>Student</p>
           </section>
         </section>
