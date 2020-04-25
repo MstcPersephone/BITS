@@ -215,13 +215,15 @@ export class AssessmentEngineService {
     this.completedAssessmentScore = (this.receivedPoints / this.possiblePoints) * 100;
 
     // Validate if student has passed the assessment
-    if (this.completedAssessmentScore < this.takenAssessment.score) {
+    if (this.completedAssessmentScore < this.assessment.config.minimumScore) {
       // If their score is less than the min passing score they have failed
       this.studentPassedCurrentAssessment = false;
     } else {
       // Otherwise they have passed
       this.studentPassedCurrentAssessment = true;
     }
+
+    console.log('Student Passed', this.studentPassedCurrentAssessment);
     // call to function that will add all property values to the taken assessment
     this.submitAssessment();
   }
@@ -241,7 +243,7 @@ export class AssessmentEngineService {
 
     console.log('The Students Completed Assessment', this.takenAssessment);
     // Pass the taken assessment to be updated in the database
-    // this.updateTakenAssessment(this.takenAssessment);
+    this.updateTakenAssessment(this.takenAssessment);
   }
 
   // ********************************************** //
