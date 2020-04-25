@@ -191,6 +191,7 @@ export class AssessmentEngineService {
   }
 
   checkAssessment() {
+    this.assessmentStarted = false;
     const questions = this.questions;
 
     // Loop through all the questions
@@ -229,8 +230,8 @@ export class AssessmentEngineService {
   }
 
   submitAssessment() {
-    // Navigate user to login page
-    // Once student selects finish or quit assessment do not allow this taken assessment url to be accessed.
+    // Still need to take care of timed assessment function.
+    // Navigate user to login page when assessment is completed (Currently being sent to Home Page)
     // Some way to reset the values within this service
     // Some way of hiding the Menu button in the header when loading the taken assessment url.
 
@@ -379,6 +380,9 @@ export class AssessmentEngineService {
     // Update the submitted question in the array so it can be saved when submitting
     this.questions[this.currentQuestionIndex] = question;
 
+    // const hasQuestionsRemaining = true;
+    // this.hasQuestionsRemaining();
+
     // Check to see if there are more questions
     if (this.hasQuestionsRemaining()) {
 
@@ -394,9 +398,20 @@ export class AssessmentEngineService {
         if (this.wrongAnswerStreak === this.maxWrongStreak) {
           this.checkAssessment();
 
+          alert('Hit the wrong streak');
+
           // stop the rest of the function execution
           return;
         }
+      }
+
+      if (isQuitAssessment) {
+        this.checkAssessment();
+
+        alert('Quit assessment button clicked');
+
+        // stop the rest of the function execution
+        return;
       }
 
       // Go to next question
@@ -609,6 +624,9 @@ export class AssessmentEngineService {
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.updatedTakenAssessment);
           console.table(responseData.updatedTakenAssessment);
+          if (this.takenAssessment.studentPassed !== null) {
+          this.helperService.refreshComponent('home');
+        }
         },
         error => {
           // log error message from server

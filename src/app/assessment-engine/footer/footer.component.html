@@ -7,7 +7,7 @@
 
   <!-- Saves current answer and loads the next question -->
   <button *ngIf="this.assessmentEngineService.questions !== undefined && this.assessmentEngineService.hasQuestionsRemaining()" class="mt-20 saveButton" mat-raised-button
-    type="button" (click)=acceptAnswer()>Save Answer&nbsp;<mat-icon>save</mat-icon></button>
+    type="button" (click)="this.assessmentEngineService.acceptAnswer()">Save Answer&nbsp;<mat-icon>save</mat-icon></button>
 
   <!-- Finishes the assessment while saving the last the answer provided -->
   <button *ngIf="this.assessmentEngineService.questions !== undefined && !this.assessmentEngineService.hasQuestionsRemaining()" class="mt-20 saveButton" mat-raised-button
