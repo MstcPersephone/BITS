@@ -1,14 +1,22 @@
+<!-- The div group for taking an assessment -->
 <div *ngIf="!this.assessmentTaken">
+
   <!-- Create student form which hides on submit -->
   <app-create-student *ngIf="!this.assessmentEngineService.assessmentStarted"></app-create-student>
+
   <!-- The form used for the student answer -->
   <form [formGroup]="answerForm" (ngSubmit)="onSubmit(answerForm.value)">
-    <!-- The view for once the assessment engine is started -->
+
+    <!-- The form used for the student answer -->
     <app-view-question *ngIf="this.assessmentEngineService.assessmentStarted"
       [currentQuestion]=this.assessmentEngineService.currentQuestion></app-view-question>
+
+      <!-- The footer view which contains all the button controls -->
     <app-footer></app-footer>
   </form>
 </div>
+
+<!-- The div group let user know assessment can only be taken once. -->
 <div *ngIf="this.assessmentTaken">
   <p>This assessment has already been taken and cannot be taken again.</p>
 </div>

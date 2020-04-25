@@ -30,6 +30,7 @@ export class AssessmentEngineComponent implements OnInit {
       .subscribe((takenAssessment: TakenAssessment) => {
         console.log('assessment to take', takenAssessment);
         this.takenAssessment = takenAssessment;
+        // Setting property to define whether the assessment has been taken yet or not.
         if (this.takenAssessment.studentPassed === null) {
             this.assessmentTaken = false;
         } else if (this.takenAssessment.studentPassed !== null) {
