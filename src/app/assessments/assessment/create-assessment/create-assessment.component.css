@@ -32,7 +32,9 @@ mat-panel-title{
 
 /* Adjusting the width of the Add Questions category selector so it appears above the appropriate question box */
 .categorySelectForm{
-  width: 48%;
+  width: 46%;
+  margin-left: 0;
+  padding-left: 0;
 }
 
 /* Sets up main Add Questions flexbox */
@@ -100,6 +102,36 @@ mat-panel-title{
   border-right: 1px solid rgba(0,0,0,0.2);
   padding-right: 5px;
   text-align: left;
+}
+
+/* Styles applied to the "Drag to Edit" icon shown between the question lists. */
+.dragToEditContainer{
+  max-width: 100px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  border: none !important;
+}
+.dragToEditContainer div{
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  width: 100px;
+}
+.dragToEditContainer div mat-icon, .dragToEditContainer div p{
+  margin: auto;
+  color: gray;
+}
+.dragToEditContainer div mat-icon{
+  cursor: default;
+  font-size: 70px;
+  margin-right: 60px;
+}
+.dragToEditContainer div p{
+  padding: 0;
+  padding-top: 15px;
+  font-size: 18px;
+  text-align: center;
 }
 
 /* Styling applied to the item preview when moving a question */

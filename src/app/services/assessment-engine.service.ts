@@ -488,7 +488,7 @@ export class AssessmentEngineService {
       .subscribe(
         responseData => {
           // tslint:disable-next-line: max-line-length
-          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
+          this.helperService.openSnackBar(takenAssessment.assessment.name + ' URL has been created!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData);

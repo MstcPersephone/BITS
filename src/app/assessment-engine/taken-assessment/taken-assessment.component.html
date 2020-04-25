@@ -1,8 +1,9 @@
+<br>
 <mat-card>
 <!-- Page Header -->
 <h1 class="mat-display-1">Generate Url to Take an Assessment</h1>
 
-  <form [formGroup]="generateAssessmentUrlForm" (ngSubmit)="onSubmit(generateAssessmentUrlForm.value)">
+  <form class="generateAssessmentUrlForm" [formGroup]="generateAssessmentUrlForm" (ngSubmit)="onSubmit(generateAssessmentUrlForm.value)">
 
     <mat-form-field>
       <mat-label>Select an Assessment</mat-label>
@@ -20,9 +21,9 @@
   </form>
   <br>
 
-  <div>
-    <a *ngIf="this.takenAssessmentId !== undefined" [routerLink]="['/assessment/take', this.takenAssessmentId]">
-      Start Assessment
+  <div class="generatedLinkContainer">
+    <a mat-raised-button class="generatedLink" *ngIf="this.takenAssessmentId !== undefined" [routerLink]="['/assessment/take', this.takenAssessmentId]">
+      Start Assessment (or right-click to copy link)
     </a>
   </div>
 
