@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form [formGroup]="signupForm" (ngSubmit)="onSignup(signupForm.value)"  *ngIf="!isLoading">
+    <mat-form-field>
+      <input matInput name="username" type="text" placeholder="Username" formControlName="username" required>
+
+    </mat-form-field>
+    <mat-form-field>
+      <input type="password" name="password1" matInput placeholder="Password" formControlName="password1"  required>
+
+    </mat-form-field>
+    <mat-form-field>
+      <input type="password" name="password2" matInput placeholder="Re-enter Password" formControlName="password2"  required>
+
+    </mat-form-field>
+    <mat-checkbox class="mt-20" name="isAdmin" formControlName="isAdmin" [checked]="true">Is admin?
+    </mat-checkbox>
+
+    <button mat-raised-button color="accent" type="submit">Signup</button>
+  </form>
+</mat-card>
