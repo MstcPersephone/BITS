@@ -20,13 +20,13 @@
         <a>Home</a>
       </button>
 
-      <!-- Generate Assessment Button - displays if user is logged in AND is an admin -->
-      <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/assessment/generate')">
+      <!-- Generate Assessment Button - displays if user is logged in -->
+      <button mat-menu-item *ngIf="userIsAuthenticated" (click)="this.helperService.refreshComponent('/assessment/generate')">
         <a>Generate Assessment</a>
       </button>
 
-      <!-- View Student Results Button - displays if user is logged in AND is an admin -->
-      <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/student/list')">
+      <!-- View Student Results Button - displays if user is logged in -->
+      <button mat-menu-item *ngIf="userIsAuthenticated" (click)="this.helperService.refreshComponent('/student/list')">
         <a>View Student Results</a>
       </button>
 
@@ -58,13 +58,6 @@
       <!-- View Assessments Button - displays if user is logged in AND is an admin -->
       <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/assessment/list')">
         <a>View Assessments</a>
-      </button>
-
-      <!-- Take Assessment Button - displays if user is NOT logged in OR if the user is NOT an admin -->
-      <button mat-menu-item *ngIf="!userIsAuthenticated || !this.loginService.isAdmin" >
-        <a class="hiddenLink" [routerLink]="['/assessment/take', '5e8ce30398758f44cc922614']">
-          Take Assessment
-        </a>
       </button>
 
       <!-- Logout Button - displays if user is logged in -->
