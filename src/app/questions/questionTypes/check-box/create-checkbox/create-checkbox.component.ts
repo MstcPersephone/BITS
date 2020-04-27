@@ -94,7 +94,7 @@ export class CreateCheckboxComponent implements OnInit {
       checkboxQuestion.hasAttachments = this.attachmentService.hasAttachments;
       checkboxQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
       checkboxQuestion.isAnswered = false;
-      checkboxQuestion.answers = null;
+      checkboxQuestion.studentAnswers = null;
       checkboxQuestion.duration = 0;
       checkboxQuestion.assessmentIds = null;
 

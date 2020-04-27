@@ -3,7 +3,8 @@
 <br>
 
 <h3>Please upload the answer to this question:</h3>
-<input class="hidden" hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event, 'studentAnswer')" />
+<input class="hidden" hidden type="file" #uploader
+  (change)="this.attachmentService.uploadFiles($event, 'studentAnswer')" />
 <br>
 <div class="buttonContainer">
   <button type="button" (click)="uploader.click()" mat-raised-button color="accent" class="mt-20">
@@ -14,13 +15,13 @@
   </button>
 </div>
 
-  <br>
-
-  <div class="returnSection" *ngIf="this.assessmentService.showBackButton === true">
-    <!-- Return to Assessment Button : Resets showBackButton to false and returns to the current assessment view -->
-    <button class="returnButton" mat-raised-button (click)="this.assessmentService.returnToAssessment()">
-      Return to Assessment
-    </button>
-  </div>
+<br>
 
 
+<!-- This button is for instructors view assessment questions only / not required for taking an assessment -->
+<div class="returnSection" *ngIf="this.assessmentService.showBackButton === true">
+  <!-- Return to Assessment Button : Resets showBackButton to false and returns to the current assessment view -->
+  <button class="returnButton" mat-raised-button (click)="this.assessmentService.returnToAssessment()">
+    Return to Assessment
+  </button>
+</div>

@@ -216,7 +216,7 @@ app.get("/api/assessments", checkAuth, (request, response, next) => {
 // ******************************************************** //
 // *********   GET: SINGLE ASSESSMENT BY ID    ************ //
 // ******************************************************** //
-app.get("/api/assessment/:id", checkAuth, (request, response, next) => {
+app.get("/api/assessment/:id", (request, response, next) => {
   assessmentCollection.find({ _id: request.params.id }).then((assessment, error) => {
     response.status(200).json({
       message: request.params.id + ' Assessment fetched successfully!',
@@ -230,26 +230,6 @@ app.get("/api/assessment/:id", checkAuth, (request, response, next) => {
       response.status(400).json({
         message: error.message,
         assessment: null
-      })
-    })
-});
-
-// ******************************************************** //
-// *************   GET: ALL TAKEN ASSESSMENTS    ***************** //
-// ******************************************************** //
-app.get("/api/takenAssessments", (request, response, next) => {
-  // Get all taken assessments from the database
-  takenAssessmentCollection.find({ _id: { $exists: true } }).then((takenAssessments, error) => {
-    response.status(200).json({
-      message: 'Taken Assessments fetched successfully!',
-      takenAssessments: takenAssessments
-    });
-  },
-    error => {
-      console.log(error.message);
-      response.status(400).json({
-        message: error.message,
-        assignments: null
       })
     })
 });
@@ -361,7 +341,7 @@ app.get("/api/category/:id", checkAuth, (request, response, next) => {
 // ********************************************************** //
 // ******   GET: QUESTIONS (ALL) FOR ASSESSMENT USE   ******* //
 // ********************************************************** //
-app.post("/api/assessment/questions/", checkAuth, (request, response, next) => {
+app.post("/api/assessment/questions/", (request, response, next) => {
   const questionIds = request.body.questionIds;
   console.log(questionIds);
   const objectIds = [];
@@ -676,7 +656,7 @@ app.post("/api/question/save", checkAuth, (request, response, next) => {
 // ***************************************************** //
 // ******   SAVE: STUDENT TO STUDENT COLLECTION   ****** //
 // ***************************************************** //
-app.post("/api/student/save", checkAuth, (request, response, next) => {
+app.post("/api/student/save", (request, response, next) => {
 
   // First check to validate if student already exists using uniqueStudentIdentifier
   studentCollection.findOne({ uniqueStudentIdentifier: request.body.uniqueStudentIdentifier })

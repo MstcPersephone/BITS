@@ -35,6 +35,9 @@ const checkboxSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
+  studentAnswers: {
+    type: [String]
+  },
   duration: {
     type: Number,
     default: 0

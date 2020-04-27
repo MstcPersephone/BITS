@@ -83,6 +83,10 @@ mat-grid-tile, .attachmentContainer{
   padding-bottom: 0 !important;
 }
 
+.additionalAttachments{
+  height: 60px !important;
+}
+
 mat-grid-tile p{
   padding-bottom: 8px;
 }

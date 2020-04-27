@@ -32,8 +32,7 @@ const shortAnswerSchema = mongoose.Schema({
     required: true
   },
   studentAnswer: {
-    type: String,
-    default: 'Not answered'
+    type: String
   },
   matches: {
     type: [exactMatchSchema.schema]
