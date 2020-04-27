@@ -32,10 +32,7 @@ export class ViewMultipleChoiceComponent implements OnInit {
       element.optionIsSelected = false;
     });
     this.question.options[i].optionIsSelected = true;
+    this.question.studentAnswer = this.question.options[i].optionText;
     console.log(this.question.options);
-  }
-
-  onSubmit() {
-    this.assessmentEngineService.checkAnswer(this.question);
   }
 }

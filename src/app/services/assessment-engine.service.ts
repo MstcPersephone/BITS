@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, VirtualTimeScheduler } from 'rxjs';
 import { Router } from '@angular/router';
 import { HelperService } from './helper.service';
 import { Student } from '../models/student.model';
@@ -15,13 +15,20 @@ import { TrueFalse } from '../models/question-types/true-false.model';
 import { Upload } from '../models/question-types/upload.model';
 import { AssessmentService } from './assessment.service';
 import { environment } from '../../environments/environment';
+import { LoginEngineService } from './login.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssessmentEngineService {
 
-  // Students previous scores array and subject.
+  public studentShortAnswer = '';
+  // Keeping track of question points and assessment score
+  private possiblePoints = 0;
+  private receivedPoints = 0;
+  private completedAssessmentScore;
+  private studentPassedCurrentAssessment = false;
   public previousScores: any[];
   private previousScoresUpdated = new Subject<any[]>();
 
@@ -29,7 +36,7 @@ export class AssessmentEngineService {
   public assessmentStarted = false;
   private assessment: Assessment;
   private assessmentUpdated = new Subject<Assessment>();
-  private questions: Question[];
+  public questions: Question[];
   private wrongAnswerStreak = 0;
   private isWrongStreak = false;
   private maxWrongStreak = 0;
@@ -60,7 +67,8 @@ export class AssessmentEngineService {
     private http: HttpClient,
     private router: Router,
     private helperService: HelperService,
-    private assessmentService: AssessmentService) { }
+    private assessmentService: AssessmentService,
+    public loginService: LoginEngineService) { }
 
   // **************************************** //
   // *********  ASSESSMENT OBJECTS  ********* //
@@ -114,6 +122,7 @@ export class AssessmentEngineService {
       if (o.isAnswer) {
         if (!o.optionIsSelected) {
           isCorrect = false;
+
         }
         // Make sure student did not select any wrong answers
       } else {
@@ -177,18 +186,74 @@ export class AssessmentEngineService {
       });
   }
 
-  checkAssessment(assessment: Assessment) {
-    console.log(assessment);
+  getPossiblePoints(points: number) {
+    return this.possiblePoints += points;
+  }
+
+  getReceivedPoints(points: number) {
+    return this.receivedPoints += points;
+  }
+
+  checkAssessment() {
+    this.assessmentStarted = false;
+    const questions = this.questions;
+
+    // Loop through all the questions
+    questions.forEach(q => {
+      // If the student hit the quit button
+      if (!q.isAnswered) {
+        // assign incorrect answer
+        q.isAnsweredCorrectly = false;
+        // track the possible points but don't give student point credits
+        this.getPossiblePoints(q.points);
+      } else {
+        // When the student has answered this question, also get the possible points
+        this.getPossiblePoints(q.points);
+        if (q.isAnsweredCorrectly) {
+          // Only if they answered the question correctly then give them point credits
+          this.getReceivedPoints(q.points);
+        }
+      }
+    });
+
+    // Calculate the student's assessment score
+    // this.completedAssessmentScore = this.receivedPoints / this.possiblePoints * 100;
+    const pointScore: any = Number(this.receivedPoints / this.possiblePoints).toFixed(4);
+    console.log('point score', pointScore);
+
+    this.completedAssessmentScore = (pointScore * 100).toFixed(2);
+
+    // Validate if student has passed the assessment
+    if (this.completedAssessmentScore < this.assessment.config.minimumScore) {
+      // If their score is less than the min passing score they have failed
+      this.studentPassedCurrentAssessment = false;
+    } else {
+      // Otherwise they have passed
+      this.studentPassedCurrentAssessment = true;
+    }
+
+    console.log('Student Passed', this.studentPassedCurrentAssessment);
+    // call to function that will add all property values to the taken assessment
+    this.submitAssessment();
   }
 
   submitAssessment() {
-    // Loop through remaining question and mark them as wrong
-    // Create a new TakenAssessment object
-    // Provide the properties based on values within this service
-    // Make a call to save the results to TakenAssessment database
-    // (will be an update as the record should already exist from getting the URL)
-    // Navigate user to login page
+    // Still need to take care of timed assessment function.
     // Some way to reset the values within this service
+    // Some way of hiding the Menu button in the header when loading the taken assessment url.
+
+    // Add the questions to the students taken assessment with answers included
+    this.takenAssessment.questions = this.questions;
+    // Add the students score to the taken assessment
+    console.log('prescore', this.completedAssessmentScore);
+    this.takenAssessment.score = parseFloat(this.completedAssessmentScore);
+    console.log('postscore', this.takenAssessment.score);
+    // Add the student's passing status to the taken assessment
+    this.takenAssessment.studentPassed = this.studentPassedCurrentAssessment;
+
+    console.log('The Students Completed Assessment', this.takenAssessment);
+    // Pass the taken assessment to be updated in the database
+    this.updateTakenAssessment(this.takenAssessment);
   }
 
   // ********************************************** //
@@ -295,12 +360,16 @@ export class AssessmentEngineService {
     this.assessmentStarted = true;
   }
 
-  acceptAnswer() {
+  acceptAnswer(isQuitAssessment = false) {
 
     const question = this.currentQuestion;
 
+    if (question.questionType === QuestionType.ShortAnswer) {
+      (question as ShortAnswer).studentAnswer = this.studentShortAnswer;
+    }
+
     // Mark the question as being answered by the student
-    question.isAnswered = true;
+    question.isAnswered = isQuitAssessment ? false : true;
 
     // Check to see if the answer is correct
     const isCorrect = this.checkAnswer(question);
@@ -320,6 +389,9 @@ export class AssessmentEngineService {
     // Update the submitted question in the array so it can be saved when submitting
     this.questions[this.currentQuestionIndex] = question;
 
+    // const hasQuestionsRemaining = true;
+    // this.hasQuestionsRemaining();
+
     // Check to see if there are more questions
     if (this.hasQuestionsRemaining()) {
 
@@ -333,11 +405,22 @@ export class AssessmentEngineService {
 
         // Check to see if max wrong streak is reached
         if (this.wrongAnswerStreak === this.maxWrongStreak) {
-          this.submitAssessment();
+          this.checkAssessment();
+
+          alert('Hit the wrong streak');
 
           // stop the rest of the function execution
           return;
         }
+      }
+
+      if (isQuitAssessment) {
+        this.checkAssessment();
+
+        alert('Quit assessment button clicked');
+
+        // stop the rest of the function execution
+        return;
       }
 
       // Go to next question
@@ -345,7 +428,7 @@ export class AssessmentEngineService {
 
       // Else, there are no more questions, and the assessment needs to submit
     } else {
-      this.submitAssessment();
+      this.checkAssessment();
     }
   }
 
@@ -388,8 +471,8 @@ export class AssessmentEngineService {
         // grabbing the first (and only) assessment in array
         this.assessment = this.takenAssessment.assessment;
 
-        // Subscribers get a copy of the assessment.
-        this.assessmentUpdated.next(this.assessment);
+        // // Subscribers get a copy of the assessment.
+        // this.assessmentUpdated.next(this.assessment);
 
         this.takenAssessmentUpdated.next(this.takenAssessment);
 
@@ -397,29 +480,6 @@ export class AssessmentEngineService {
         this.helperService.isLoading = false;
       });
   }
-
-  // ************************************************ //
-  // *********   GET: ALL TAKEN ASSESSMENT   ******** //
-  // ************************************************ //
-  getAllTakenAssessment() {
-      this.helperService.isLoading = true;
-      this.http
-        .get<{ message: string, takenAssessments: TakenAssessment[] }>(
-          environment.apiUrl + 'takenAssessments'
-        )
-        .subscribe((takenAssessmentData) => {
-          this.takenAssessments = takenAssessmentData.takenAssessments.reverse();
-          console.log(this.takenAssessments);
-          // Subscribers get a copy of the assessments array
-          this.takenAssessmentsUpdated.next(this.takenAssessments);
-          // Done loading. Remove the loading spinner
-          this.helperService.isLoading = false;
-        },
-          error => {
-            // log error message from server
-            console.log('%c' + error.error.message, 'color: red;');
-          });
-    }
 
   // ***************************************************** //
   // *********   GET: FILTERED TAKEN ASSESSMENT   ******** //
@@ -460,7 +520,6 @@ export class AssessmentEngineService {
   // ***************  SAVE: STUDENT  ***************** //
   // ************************************************* //
   saveStudent(student: Student) {
-
     // API call to backend to add student to database
     this.http.post<{ message: string, student: Student }>(environment.apiUrl + 'student/save', student)
       .subscribe(
@@ -551,6 +610,9 @@ export class AssessmentEngineService {
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.updatedTakenAssessment);
           console.table(responseData.updatedTakenAssessment);
+          if (this.takenAssessment.studentPassed !== null) {
+            this.loginService.logout();
+        }
         },
         error => {
           // log error message from server

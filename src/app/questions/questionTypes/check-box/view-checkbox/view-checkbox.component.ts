@@ -12,6 +12,8 @@ import { AttachmentService } from 'src/app/services/attachment.service';
 })
 export class ViewCheckboxComponent implements OnInit {
   answerForm;
+  public studentAnswers = [];
+
   @Input() question: Checkbox;
   constructor(
     public assessmentService: AssessmentService,
@@ -31,10 +33,9 @@ export class ViewCheckboxComponent implements OnInit {
 
   onChangeOption($event, i) {
     this.question.options[i].optionIsSelected = $event.checked;
-    console.log(this.question.options);
-  }
+    this.studentAnswers.push(this.question.options[i].optionText);
+    this.question.studentAnswers = this.studentAnswers;
 
-  onSubmit() {
-    this.assessmentEngineService.checkAnswer(this.question);
+    console.log(this.question.options);
   }
 }
