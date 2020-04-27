@@ -27,9 +27,4 @@ answerForm;
   onChangeOption($event) {
     this.question.studentAnswer = $event.value;
   }
-
-  onSubmit() {
-    this.assessmentEngineService.checkAnswer(this.question);
-  }
-
 }
