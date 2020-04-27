@@ -85,7 +85,6 @@ app.post("/api/assessment/checkUpload", (request, response, next) => {
 
   // The question object to check.
   const question = request.body;
-  console.log('SUBMITTED ANSWER', question.submittedAnswer);
   const result = checkUploadAnswer.checkUploadAnswer(question);
 
   const responseMessage = result === true ? 'The file contents match' : 'The file contents do not match';

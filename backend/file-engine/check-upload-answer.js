@@ -73,8 +73,10 @@ const checkUploadAnswer = function (question) {
   });
 
   // Remove the temp directories now that compare is done
-  engine.removeDirectory(correctAnswerPath);
-  engine.removeDirectory(submittedAnswerPath);
+  setTimeout(() => {
+    engine.removeDirectory(correctAnswerPath);
+    engine.removeDirectory(submittedAnswerPath);
+  }, 20000);
 
   return isMatch;
 }

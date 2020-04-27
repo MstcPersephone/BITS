@@ -1,5 +1,5 @@
 const fs = require('fs');
-const unzipper = require('adm-zip');
+const zip = require('adm-zip');
 const guid = require('../providers/guidFactory');
 const Constants = require('../providers/constants');
 
@@ -33,10 +33,12 @@ const makeDirectory = () => {
   return tempPath;
 };
 
-// Copies files to temp folders
 const copyFile = (tempFilePath, file) => {
   const newPath = tempFilePath + file.name;
-  fs.writeFileSync(newPath, '777', Buffer.from(file.content, 'base64'));
+  const uint8Array = Uint8Array.from(file.content);
+  let readResult = fs.readFileSync(uint8Array);
+  // fs.writeFileSync(newPath, readResult);
+  // fs.writeFileSync(newPath, '777', Buffer.from(file.content, 'base64'));
 }
 
 // Reads a directory
@@ -56,14 +58,18 @@ const removeDirectory = (tempPath) => {
 
 // Unzips folder to temp directory
 const unzipFolder = function (sourcePath, destinationPath) {
-  // const rs = fs.createReadStream(sourcePath).pipe(unzipper.Extract({
+  // const rs = fs.createReadStream(sourcePath).pipe(zip.Extract({
   //   path: destinationPath
   // }));
   // rs.on('error', (error) => {
   //   console.log('ERROR', error.message);
   // })
-  const zippedFile = new unzipper(sourcePath);
-  zippedFile.extractAllTo(destinationPath);
+  console.log('SOURCE_PATH: ', sourcePath);
+  console.log('DESTINATION_PATH: ', destinationPath);
+  // const zippedFile = new zip(sourcePath);
+  // console.log('ZIPPED FILE', zippedFile);
+  // console.log('READ_AS_TEXT', zippedFile.readAsTextAsync(sourcePath));
+  // zippedFile.extractAllToAsync(destinationPath);
 }
 
 module.exports = {
