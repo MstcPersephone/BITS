@@ -300,3 +300,9 @@ div.buttonContainer button:nth-of-type(2){
   height: 225px;
   font-size: 225px;
 }
+
+/* Makes hyperlink text appear as regular text. */
+a.hiddenLink{
+  text-decoration: none;
+  color: black;
+}
