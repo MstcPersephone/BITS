@@ -405,7 +405,7 @@ export class AssessmentEngineService {
       this.helperService.isLoading = true;
       this.http
         .get<{ message: string, takenAssessments: TakenAssessment[] }>(
-          'http://localhost:3000/api/takenAssessments'
+          environment.apiUrl + 'takenAssessments'
         )
         .subscribe((takenAssessmentData) => {
           this.takenAssessments = takenAssessmentData.takenAssessments.reverse();
@@ -428,7 +428,7 @@ export class AssessmentEngineService {
     this.helperService.isLoading = true;
     this.http
       .post<{ message: string, takenAssessments: TakenAssessment[] }>(
-        'http://localhost:3000/api/filterTakenAssessments/', {searchParameters})
+        environment.apiUrl + 'filterTakenAssessments/', {searchParameters})
         .subscribe(
           responseData => {
             this.takenAssessments = responseData.takenAssessments;
@@ -448,7 +448,7 @@ export class AssessmentEngineService {
   // ************************************************* //
   getStudentbyId(studentsId: string) {
       this.helperService.isLoading = true;
-      this.http.get<{ message: string, student: Student }>('http://localhost:3000/api/student/' + studentsId)
+      this.http.get<{ message: string, student: Student }>(environment.apiUrl + 'student/' + studentsId)
         .subscribe((studentData) => {
           this.currentStudent = studentData.student[0];
           this.currentStudentUpdated.next(this.currentStudent);
@@ -512,7 +512,7 @@ export class AssessmentEngineService {
     console.log('In Service', student.studentId);
 
     // tslint:disable-next-line: max-line-length
-    this.http.post<{ message: string, updatedStudent: Student }>('http://localhost:3000/api/student/update', student)
+    this.http.post<{ message: string, updatedStudent: Student }>(environment.apiUrl + 'student/update', student)
       .subscribe(
         responseData => {
           // Success message at the bottom of the screen
