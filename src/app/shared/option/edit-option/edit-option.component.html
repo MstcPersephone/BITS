@@ -9,6 +9,12 @@
   <!-- Is Answer Checkbox -->
   <mat-checkbox class="mt-20" formControlName="isAnswer">Is this a correct answer?</mat-checkbox>
 
+  <!-- Section which houses the command to delete the list item. -->
+  <section class="optionButtonContainer">
+    <mat-icon class="deleteIcon iconButton" matListIcon (click)="this.questionService.deleteOption([i])">delete</mat-icon>
+  </section>
+
+
   <!-- This button will not display: click is simulated in helping validate the form and save value
        Uses a class rather than id to run through an array of options -->
   <button class="simulatedButtonMCClass" type="submit"></button>
