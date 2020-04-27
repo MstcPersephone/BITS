@@ -56,7 +56,6 @@ const app = express();
 // soon-to-be depecrated features of mongoDb client
 mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority',
   { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
-    console.log('Connected to the database successfully'),
       (error) => {
         console.log(error.reason);
       }
@@ -82,11 +81,11 @@ app.use((request, response, next) => {
   next();
 });
 
-app.post("/api/assessment/checkUpload", checkAuth, (request, response, next) => {
+app.post("/api/assessment/checkUpload", (request, response, next) => {
 
   // The question object to check.
   const question = request.body;
-
+  console.log('SUBMITTED ANSWER', question.submittedAnswer);
   const result = checkUploadAnswer.checkUploadAnswer(question);
 
   const responseMessage = result === true ? 'The file contents match' : 'The file contents do not match';
@@ -115,22 +114,21 @@ app.post("/api/assessment/delete", checkAuth, (request, response, next) => {
     createdOn: Date.now()
   });
 
-  console.log(assessmentToArchive);
+
   // Save the archive model to the archive assessment collection
   assessmentToArchive.save().then(() => {
     // get the id of the original assessment to find and delete from assessment collection
     const objectId = mongoose.Types.ObjectId(assessment._id);
-    console.log(objectId);
+
     // pass the original assessment to the delete function
     deleteById('assessments', { _id: objectId }, function (resp, error) {
       if (error) {
-        console.log(error);
+        console.log('ERROR1', error.message);
         response.status(400).json({
           message: error.message
         })
       }
       else {
-        console.log("");
         response.status(200).json({
           message: 'assessment archived successfully!'
         });
@@ -138,7 +136,7 @@ app.post("/api/assessment/delete", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR2', error.message);
       response.status(400).json({
         message: error.message
       })
@@ -152,8 +150,6 @@ app.post("/api/question/delete", checkAuth, (request, response, next) => {
   // Request.body is the question that is passed through.
   const question = request.body;
 
-  console.log('passed back questionId: ', question._id);
-  console.log(question.categories);
   // Will store the converted object to be archived.
   let questionObjectToArchive;
 
@@ -171,7 +167,7 @@ app.post("/api/question/delete", checkAuth, (request, response, next) => {
     const objectId = mongoose.Types.ObjectId(questionObjectToArchive._id);
     deleteById('questions', { _id: objectId }, function (resp, error) {
       if (error) {
-        console.log(error);
+        console.log('ERROR3', error.message);
         response.status(400).json({
           message: error.message,
           question: question
@@ -185,7 +181,7 @@ app.post("/api/question/delete", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR4', error.message);
       response.status(400).json({
         message: error.message,
         question: question
@@ -205,7 +201,7 @@ app.get("/api/assessments", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR5', error.message);
       response.status(400).json({
         message: error.message,
         assignments: null
@@ -222,11 +218,9 @@ app.get("/api/assessment/:id", (request, response, next) => {
       message: request.params.id + ' Assessment fetched successfully!',
       assessment: assessment
     });
-    // TODO: [PER-98] Remove the console logs before pushing to production.
-    console.log(assessment);
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR6', error.message);
       response.status(400).json({
         message: error.message,
         assessment: null
@@ -238,13 +232,8 @@ app.get("/api/assessment/:id", (request, response, next) => {
 // **********   GET: FILTERED TAKEN ASSESSMENTS  ********** //
 // ******************************************************** //
 app.post("/api/filterTakenAssessments/", (request, response, next) => {
-  // request.params.searchParameters.forEach(sp => {
-
-  //   takenAssessmentCollection.find({$and: [{"student.uniqueStudentIdentifier": /jane/}, {"student.uniqueStudentIdentifier": /deter/}]});
-  // });
 
   const searchParameters = request.body.searchParameters;
-  console.log(searchParameters);
 
   const spArray = [];
 
@@ -253,11 +242,9 @@ app.post("/api/filterTakenAssessments/", (request, response, next) => {
     spArray.push({ "student.uniqueStudentIdentifier":  regEx  });
   });
 
-  console.log(spArray);
-
   takenAssessmentCollection.find({ $and: spArray }).then((takenAssessments, error) => {
     if (error) {
-      console.log(error.message);
+      console.log('ERROR7', error.message);
     } else {
       response.status(200).json({
         message: 'Student Results fetched successfully!',
@@ -271,17 +258,14 @@ app.post("/api/filterTakenAssessments/", (request, response, next) => {
 // *********   GET: SINGLE TAKEN ASSESSMENT BY ID    ************ //
 // ******************************************************** //
 app.get("/api/assessment/take/:id", (request, response, next) => {
-  console.log(request.params.id);
   takenAssessmentCollection.find({ _id: request.params.id }).then((takenAssessment, error) => {
     response.status(200).json({
       message: request.params.id + ' Assessment fetched successfully!',
       takenAssessment: takenAssessment
     });
-    // TODO: [PER-98] Remove the console logs before pushing to production.
-    console.log(takenAssessment);
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR8', error.message);
       response.status(400).json({
         message: error.message,
         takenAssessment: null
@@ -302,15 +286,11 @@ app.get("/api/categories", checkAuth, (request, response, next) => {
       message: 'Categories Fetched Successfully!',
       categories: categories
     });
-
-    // Logs message and questions array to the backend for debugging.
-    // console.log("Categories Fetched Successfully.")
-    // console.log(categories);
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a categories array (if anything)
-    console.log(error.message);
+    console.log('ERROR9', error.message);
     response.status(400).json({
       message: error.message,
       categories: categories
@@ -327,10 +307,9 @@ app.get("/api/category/:id", checkAuth, (request, response, next) => {
       message: request.params.id + ' Category fetched successfully!',
       category: category
     });
-    console.log(category);
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR10', error.message);
       response.status(400).json({
         message: error.message,
         category: null
@@ -343,18 +322,16 @@ app.get("/api/category/:id", checkAuth, (request, response, next) => {
 // ********************************************************** //
 app.post("/api/assessment/questions/", (request, response, next) => {
   const questionIds = request.body.questionIds;
-  console.log(questionIds);
   const objectIds = [];
   // Turns the string ids into ObjectIds
   if (questionIds !== null && questionIds !== undefined) {
     questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
-    console.log(objectIds);
   }
 
   // Performs the search
   questionCollection.find({ _id: { $in: objectIds } }, (error, questions) => {
     if (error) {
-      console.log(error.message);
+      console.log('ERROR11', error.message);
     }
     else {
       // Send a successful response message and an array of questions to work with.
@@ -444,7 +421,7 @@ app.get("/api/questions/:questionType", checkAuth, (request, response, next) => 
     });
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR12', error.message);
       response.status(400).json({
         message: error.message,
         questions: null
@@ -461,11 +438,9 @@ app.get("/api/question/:id", checkAuth, (request, response, next) => {
       message: request.params.id + ' Question fetched successfully!',
       question: question
     });
-    // TODO: [PER-98] Remove the console logs in getting a question by ID before pushing to production.
-    console.log(question);
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR13', error.message);
       response.status(400).json({
         message: error.message,
         question: null
@@ -483,10 +458,9 @@ app.get("/api/student/:id", (request, response, next) => {
       message: request.params.id + ' Student fetched successfully!',
       student: student
     });
-    console.log(student);
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR14', error.message);
       response.status(400).json({
         message: error.message,
         student: null
@@ -506,7 +480,6 @@ app.post("/api/assessment/save", checkAuth, (request, response, next) => {
 
   // assigns the unique id to the assessment.
   assessment._id = assessmentId;
-  console.log('Assessment:', assessment)
 
   // assessment mapped object from front to back end.
   const assessmentToSaveModel = new assessmentCollection({
@@ -519,15 +492,9 @@ app.post("/api/assessment/save", checkAuth, (request, response, next) => {
     createdOn: Date.now()
   });
 
-  console.log('Backend Assessment Presave', assessmentToSaveModel);
-
   // Saves the assessment object to the database.
   // Returns either 200 success or 400 error
   assessmentToSaveModel.save().then(() => {
-
-    // Log success message and saved object.
-    console.log(assessment.name + ' Assessment Created Successfully');
-    console.log('Saved assessment', assessmentToSaveModel);
 
     // Send success message back to front end.
     // Will probably use for logging later.
@@ -537,7 +504,7 @@ app.post("/api/assessment/save", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR15', error.message);
       response.status(400).json({
         message: error.message,
         assessment: assessment
@@ -569,10 +536,6 @@ app.post("/api/categories/save", checkAuth, (request, response, next) => {
   // Returns either 200 success or 400 error
   categoryToSaveModel.save().then(() => {
 
-    // Log success message and saved object.
-    console.log(category.name + ' Category Created Successfully');
-    console.log(categoryToSaveModel);
-
     // Send success message back to front end.
     // Will probably use for logging later.
     response.status(200).json({
@@ -581,7 +544,7 @@ app.post("/api/categories/save", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR16', error.message);
       response.status(400).json({
         message: error.message,
         category: category
@@ -627,15 +590,9 @@ app.post("/api/question/save", checkAuth, (request, response, next) => {
   // Attach indication if question was answered correctly before saving.
   questionObjectToSave.isAnsweredCorrectly = question.isAnsweredCorrectly;
 
-  console.log(questionObjectToSave);
-
   // Saves the object to the database.
   // Returns either 200 success or 400 error
   questionObjectToSave.save().then(() => {
-
-    // Log success message and saved object.
-    // console.log(question.questionType + ' Question Created Successfully');
-    // console.log(questionObjectToSave);
 
     // Send success message back to front end.
     // Will probably use for logging later.
@@ -645,7 +602,7 @@ app.post("/api/question/save", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR17', error.message);
       response.status(400).json({
         message: error.message,
         question: question
@@ -665,7 +622,6 @@ app.post("/api/student/save", (request, response, next) => {
       if (studentFound === null) {
         // Request.body is the student that is passed through.
         const student = request.body;
-        console.log('Student:', student);
 
         // student mapped object from front to back end.
         const studentToSaveModel = new studentCollection({
@@ -680,15 +636,9 @@ app.post("/api/student/save", (request, response, next) => {
           modifiedOn: Date.now()
         });
 
-        console.log('Backend Student Presave', studentToSaveModel);
-
         // Saves the student object to the database.
         // Returns either 200 success or 400 error
         studentToSaveModel.save().then(() => {
-
-          // Log success message and saved object.
-          console.log(student.studentId + ' Created Successfully');
-          console.log('Saved Student', studentToSaveModel);
 
           // Send success message back to front end return for attaching to taken assessment.
           // Will probably use for logging later.
@@ -698,7 +648,7 @@ app.post("/api/student/save", (request, response, next) => {
           });
         },
           error => {
-            console.log(error.message);
+            console.log('ERROR18', error.message);
             response.status(400).json({
               message: error.message,
               student: Object
@@ -728,7 +678,6 @@ app.post("/api/assessment/generate", (request, response, next) => {
 
   // assigns the unique id to the taken assessment.
   takenAssessment._id = takenAssessmentId;
-  console.log('Taken Assessment:', takenAssessment)
 
   // taken assessment mapped object from front to back end.
   const takenAssessmentToSaveModel = new takenAssessmentCollection({
@@ -741,15 +690,9 @@ app.post("/api/assessment/generate", (request, response, next) => {
     modifiedOn: Date.now()
   });
 
-  console.log('Backend Taken Assessment Presave', takenAssessmentToSaveModel);
-
   // Saves the assessment object to the database.
   // Returns either 200 success or 400 error
   takenAssessmentToSaveModel.save().then((takenAssessment) => {
-
-    // Log success message and saved object.
-    console.log(takenAssessment.assessment.name + ' Assessment Created Successfully');
-    console.log('Saved taken assessment', takenAssessmentToSaveModel);
 
     // Send success message back to front end.
     // Will probably use for logging later.
@@ -759,7 +702,7 @@ app.post("/api/assessment/generate", (request, response, next) => {
     });
   },
     error => {
-      console.log(error.message);
+      console.log('ERROR19', error.message);
       response.status(400).json({
         message: error.message,
         takenAssessmentId: takenAssessment._id
@@ -795,15 +738,11 @@ app.post("/api/assessment/update/", checkAuth, (request, response, next) => {
       message: 'updatedAssessment Fetched Successfully!',
       updatedAssessment: updatedAssessment
     });
-
-    // Logs message and assessment array to the backend for debugging.
-    console.log("updatedQuestion Fetched Successfully.")
-    console.log(updatedAssessment);
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a categories array (if anything)
-    console.log(error.message);
+    console.log('ERROR20', error.message);
     response.status(400).json({
       message: error.message,
       updatedAssessment: updatedAssessment
@@ -825,7 +764,7 @@ app.post("/api/category/update", checkAuth, (request, response, next) => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a categories array (if anything)
-    console.log(error.message);
+    console.log('ERROR21', error.message);
     response.status(400).json({
       message: error.message,
       updatedCategory: updatedCategory
@@ -840,7 +779,6 @@ app.post("/api/question/update/", checkAuth, (request, response, next) => {
 
   // Gets the question passed from the front end
   // Stores data for updating backend properties
-  console.log(request.body.points);
   const requestedUpdate = request.body;
 
   // Sends the data to the question factory to edit the properties for a specific question type
@@ -855,15 +793,11 @@ app.post("/api/question/update/", checkAuth, (request, response, next) => {
       message: 'updatedQuestion Fetched Successfully!',
       updatedQuestion: updatedQuestion
     });
-
-    // Logs message and questions array to the backend for debugging.
-    console.log("updatedQuestion Fetched Successfully.")
-    console.log(updatedQuestion);
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a question array (if anything)
-    console.log(error.message);
+    console.log('ERROR22', error.message);
     response.status(400).json({
       message: error.message,
       updatedQuestion: updatedQuestion
@@ -905,15 +839,11 @@ app.post("/api/student/update/", (request, response, next) => {
       message: 'updated Student Fetched Successfully!',
       updatedStudent: updatedStudent
     });
-
-    // Logs message and student to the backend for debugging.
-    console.log("updated Student Fetched Successfully.")
-    console.log(updatedStudent);
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a student (if anything)
-    console.log(error.message);
+    console.log('ERROR23', error.message);
     response.status(400).json({
       message: error.message,
       updatedStudent: updatedStudent
@@ -950,15 +880,11 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
       message: 'updatedAssessment Fetched Successfully!',
       updatedAssessment: updatedTakenAssessment
     });
-
-    // Logs message and assessment array to the backend for debugging.
-    console.log("updatedQuestion Fetched Successfully.")
-    console.log(updatedTakenAssessment);
   }, error => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a categories array (if anything)
-    console.log(error.message);
+    console.log('ERROR24', error.message);
     response.status(400).json({
       message: error.message,
       updatedAssessment: updatedTakenAssessment
