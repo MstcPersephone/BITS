@@ -42,11 +42,16 @@ export class CreateMultipleChoiceComponent implements OnInit {
     if (this.questionService.showCreateOption) {
       document.getElementById('validateOption').click();
       this.isValid = this.questionService.optionIsValid;
+      if (this.isValid) {
+        this.showCancelButton = false;
+        this.questionService.showCreateOption = false;
+      }
+    } else {
+      // // sets the form to remain as visible
+      this.questionService.showCreateOption = true;
+      // // sets the cancel button to visible
+      this.showCancelButton = true;
     }
-    // // sets the form to remain as visible
-    this.questionService.showCreateOption = true;
-    // // sets the cancel button to visible
-    this.showCancelButton = true;
   }
 
   clickCancel() {

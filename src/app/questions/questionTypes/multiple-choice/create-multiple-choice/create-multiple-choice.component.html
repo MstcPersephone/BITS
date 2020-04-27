@@ -12,6 +12,8 @@
 
   <mat-card>
     <h3>Options</h3>
+    <app-list-option></app-list-option>
+
     <app-create-option *ngIf="this.questionService.showCreateOption"></app-create-option>
 
     <div class="buttonContainer">
@@ -25,7 +27,7 @@
       </button>
     </div>
 
-    <app-list-option></app-list-option>
+
   </mat-card>
 
   <!-- Submit Button : calls validation on all forms controllers when clicked -->
