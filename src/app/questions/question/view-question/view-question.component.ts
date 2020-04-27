@@ -35,8 +35,6 @@ export class ViewQuestionComponent implements OnInit {
       // this.currentQuestion = this.questions[0];
     });
 
-    this.assessmentService.getQuestionsByIds(this.assessmentService.mockQuestionIds);
-
     // Sets up a question listener to get a new question
     // Gets the question based on the passed in id
     // id is passed through the URL

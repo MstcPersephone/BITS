@@ -82,6 +82,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { AuthInterceptor } from './login/auth-interceptor';
 
 import { TakenAssessmentComponent } from './assessment-engine/taken-assessment/taken-assessment.component';
+import { ViewAttachmentComponent } from './shared/attachment/view-attachment/view-attachment.component';
 
 
 @NgModule({
@@ -138,7 +139,8 @@ import { TakenAssessmentComponent } from './assessment-engine/taken-assessment/t
     LoginViewComponent,
     LoginCreateComponent,
     HomepageComponent,
-    TakenAssessmentComponent
+    TakenAssessmentComponent,
+    ViewAttachmentComponent
   ],
   imports: [
     BrowserModule,
