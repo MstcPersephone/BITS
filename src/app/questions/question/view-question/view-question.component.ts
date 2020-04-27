@@ -32,10 +32,7 @@ export class ViewQuestionComponent implements OnInit {
     this.questionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
     .subscribe((questionsArray: Question[]) => {
       this.questions = questionsArray;
-      // this.currentQuestion = this.questions[0];
     });
-
-    this.assessmentService.getQuestionsByIds(this.assessmentService.mockQuestionIds);
 
     // Sets up a question listener to get a new question
     // Gets the question based on the passed in id

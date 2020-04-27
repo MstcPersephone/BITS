@@ -35,6 +35,9 @@ const multipleChoiceSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
+  studentAnswer: {
+    type: String
+  },
   duration: {
     type: Number,
     default: 0
