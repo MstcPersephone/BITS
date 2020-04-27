@@ -52,7 +52,7 @@ export class FooterComponent implements OnInit {
 
     // If the student form has passed validation, start the assessment
     if (studentFormIsValid) {
-      this.currentStudentSubscription = this.assessmentEngineService.getCurrentStudentUpdateListener()
+      this.currentStudentSubscription = this.assessmentEngineService.getAssessmentStudentUpdateListener()
       .subscribe((student: Student) => {
         this.takenAssessment.student = student;
         this.assessmentEngineService.updateTakenAssessment(this.takenAssessment);

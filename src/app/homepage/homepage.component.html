@@ -21,20 +21,20 @@
 
     <!-- The Student button -->
     <mat-grid-tile [colspan]='1'>
-      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['']">
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/student/list']">
         <mat-icon>portrait</mat-icon>
       </section>
       <mat-grid-tile-footer>
         <section class="homePageButtonFooterContainer flexContainer">
-          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['']">
-            <p>Student</p>
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/student/list']">
+            <p>View Student Results</p>
           </section>
         </section>
       </mat-grid-tile-footer>
     </mat-grid-tile>
 
     <!-- The Manage Categories button -->
-    <mat-grid-tile [colspan]='1'>
+    <mat-grid-tile *ngIf="this.loginService.isAdmin" [colspan]='1'>
       <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/category']">
         <mat-icon>subject</mat-icon>
       </section>
@@ -48,13 +48,13 @@
     </mat-grid-tile>
 
     <!-- The Create New User button -->
-    <mat-grid-tile [colspan]='1'>
-      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['']">
+    <mat-grid-tile *ngIf="this.loginService.isAdmin" [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/user/create']">
         <mat-icon>group_add</mat-icon>
       </section>
       <mat-grid-tile-footer>
         <section class="homePageButtonFooterContainer flexContainer">
-          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['']">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/user/create']">
             <p>Create New User</p>
           </section>
         </section>
@@ -62,7 +62,7 @@
     </mat-grid-tile>
 
     <!-- The Create Question button -->
-    <mat-grid-tile [colspan]='1'>
+    <mat-grid-tile  *ngIf="this.loginService.isAdmin" [colspan]='1'>
       <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/question/create']">
         <mat-icon>library_add</mat-icon>
       </section>
@@ -76,7 +76,7 @@
     </mat-grid-tile>
 
     <!-- The View Questions button -->
-    <mat-grid-tile [colspan]='1'>
+    <mat-grid-tile *ngIf="this.loginService.isAdmin" [colspan]='1'>
       <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/question/list']">
         <mat-icon>library_books</mat-icon>
       </section>
@@ -90,7 +90,7 @@
     </mat-grid-tile>
 
     <!-- The Create Assessment button -->
-    <mat-grid-tile [colspan]='1'>
+    <mat-grid-tile *ngIf="this.loginService.isAdmin" [colspan]='1'>
       <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/assessment/create']">
         <mat-icon>description</mat-icon>
       </section>
@@ -104,7 +104,7 @@
     </mat-grid-tile>
 
     <!-- The View Assessments button -->
-    <mat-grid-tile [colspan]='1'>
+    <mat-grid-tile *ngIf="this.loginService.isAdmin" [colspan]='1'>
       <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/assessment/list']">
         <mat-icon>file_copy</mat-icon>
       </section>
@@ -116,6 +116,20 @@
         </section>
       </mat-grid-tile-footer>
     </mat-grid-tile>
+
+       <!-- The View Assessments button -->
+       <mat-grid-tile [colspan]='1'>
+        <section class="homePageButtonClicker homePageButtonContainer flexContainer" (click)="this.loginService.logout()">
+          <mat-icon>meeting_room</mat-icon>
+        </section>
+        <mat-grid-tile-footer>
+          <section class="homePageButtonFooterContainer flexContainer">
+            <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" (click)="this.loginService.logout()">
+              <p>Logout</p>
+            </section>
+          </section>
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
 
   </mat-grid-list>
   <br>

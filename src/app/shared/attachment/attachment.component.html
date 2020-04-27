@@ -8,10 +8,20 @@
 <button type="button" (click)="uploader.click()" *ngIf="this.attachmentService.hasAttachments" mat-raised-button
   color="accent" class="mt-20">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
 
-<div *ngFor="let a of this.attachmentService.getAttachments()" class="thumbnail">
-  <button mat-mini-fab type="button" (click)="this.attachmentService.removeAttachment(a)">
-    <mat-icon>close</mat-icon>
-  </button>
-    <img *ngIf="this.attachmentService.checkForImageFileType(a.fileType)" [src]="a.content" (click)="this.attachmentService.openImageInNewTab(a)" />
-    <p>{{ a.name }}</p>
+<div class="thumbnailFlex">
+  <div *ngFor="let a of this.attachmentService.getAttachments()" class="thumbnail">
+    <div class="thumbnailContainer">
+      <img *ngIf="this.attachmentService.checkForImageFileType(a.fileType)" [src]="a.content" (click)="this.attachmentService.openImageInNewTab(a)" />
+      <div class="noThumbnailContainer">
+        <mat-icon *ngIf="!this.attachmentService.checkForImageFileType(a.fileType)">
+          description
+        </mat-icon>
+      </div>
+      <p>{{ a.name }}</p>
+    </div>
+    <button class="closeIcon" mat-mini-fab type="button" (click)="this.attachmentService.removeAttachment(a)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 </div>
+<br>

@@ -248,23 +248,61 @@ div.buttonContainer button:nth-of-type(2){
   margin-left: 15px;
 }
 
-.thumbnail {
-  max-width: 200px;
+/* Styles applied to the attachment thumbnail previews */
+.thumbnailFlex{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
-
+.thumbnail {
+  border-radius: 4px;
+  width: 275px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 10px;
+  margin-right: 20px;
+}
+.thumbnail .closeIcon{
+  margin: 0;
+  margin-top: 10px;
+  margin-left: -50px;
+}
 .thumbnail p {
   text-align: center;
+  width: 200px;
+  margin: 10px;
 }
-
-.thumbnail img {
-  cursor: pointer;
+.thumbnail .thumbnailContainer{
   border: 1px solid #ddd;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.thumbnail .thumbnailContainer img {
+  cursor: pointer;
   border-radius: 4px;
   padding: 5px;
-  max-width: 200px;
-  margin-top: 15px;
+  width: 225px;
+  height: 225px;
+  min-width: 225px;
+}
+/* Styles applied to the "document" icon shown for attachments that are not images. */
+.noThumbnailContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.noThumbnailContainer mat-icon {
+  cursor: default;
+  text-align: center;
+  width: 225px;
+  height: 225px;
+  font-size: 225px;
 }
 
-.thumbnail img:hover {
-  box-shadow: 0px 0px 2px 1px rgba(130, 20, 45, 0.5);
+/* Makes hyperlink text appear as regular text. */
+a.hiddenLink{
+  text-decoration: none;
+  color: black;
 }

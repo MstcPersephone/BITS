@@ -23,37 +23,45 @@ import { CreateStudentComponent } from './student/create-student/create-student.
 import { EditStudentComponent } from './student/edit-student/edit-student.component';
 import { ListStudentComponent } from './student/list-student/list-student.component';
 import { ViewStudentComponent } from './student/view-student/view-student.component';
+import { AssessmentEngineComponent } from '../app/assessment-engine/assessment-engine/assessment-engine.component';
 
-import { AssessmentEngineComponent } from './assessment-engine/assessment-engine/assessment-engine.component';
+import { LoginCreateComponent } from './login/login-create/login-create.component';
+import { LoginViewComponent } from './login/login-view/login-view.component';
+
 import { TakenAssessmentComponent } from './assessment-engine/taken-assessment/taken-assessment.component';
+import { AuthGuard } from './login/auth-guard';
+import { AdminGuard } from './login/admin-guard';
 
 
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
-  { path: '', component: AssessmentListComponent },
-  { path: 'assessment/create', component: CreateAssessmentComponent },
-  { path: 'assessment/edit/:assessmentId', component: EditAssessmentComponent },
-  { path: 'assessment/list', component: AssessmentListComponent },
-  { path: 'assessment/view/:assessmentId', component: ViewAssessmentComponent },
+  { path: '', component: AssessmentListComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'assessment/create', component: CreateAssessmentComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'assessment/edit/:assessmentId', component: EditAssessmentComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'assessment/list', component: AssessmentListComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'assessment/view/:assessmentId', component: ViewAssessmentComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'assessment/take/:takenAssessmentId', component: AssessmentEngineComponent },
-  { path: 'category', component: ManageCategoryComponent },
-  { path: 'category/edit/:categoryId', component: EditCategoryComponent },
-  { path: 'match/create', component: CreateExactMatchComponent },
-  { path: 'option/create', component: CreateOptionComponent },
-  { path: 'question/create', component: CreateQuestionComponent },
-  { path: 'question/edit/:questionId', component: EditQuestionComponent },
-  { path: 'question/list', component: ListQuestionsComponent },
-  { path: 'question/view/:questionId', component: ViewQuestionComponent },
-  { path: 'student/create', component: CreateStudentComponent },
-  { path: 'student/edit', component: EditStudentComponent },
-  { path: 'student/list', component: ListStudentComponent },
-  { path: 'student/view', component: ViewStudentComponent },
-  { path: 'assessment/generate', component: TakenAssessmentComponent },
-  { path: 'home', component: HomepageComponent }
+  { path: 'category', component: ManageCategoryComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'category/edit/:categoryId', component: EditCategoryComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'match/create', component: CreateExactMatchComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'option/create', component: CreateOptionComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'question/create', component: CreateQuestionComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'question/edit/:questionId', component: EditQuestionComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'question/list', component: ListQuestionsComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'question/view/:questionId', component: ViewQuestionComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'student/create', component: CreateStudentComponent, canActivate: [AuthGuard] },
+  { path: 'student/edit', component: EditStudentComponent, canActivate: [AuthGuard] },
+  { path: 'student/list', component: ListStudentComponent, canActivate: [AuthGuard] },
+  { path: 'student/view', component: ViewStudentComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomepageComponent, canActivate: [AuthGuard] },
+  { path: 'user/create', component: LoginCreateComponent, canActivate: [AuthGuard, AdminGuard]},
+  { path: 'login', component: LoginViewComponent},
+  { path: 'assessment/generate', component: TakenAssessmentComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard, AdminGuard]
 })
 export class AppRoutingModule {}
