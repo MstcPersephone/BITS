@@ -1,20 +1,30 @@
 <!-- Submit Button for student form to start assessment: This will only show on the student webform -->
-<button color="primary" *ngIf="!this.assessmentEngineService.assessmentStarted" mat-raised-button type="button"
-  (click)="startAssessment()">Start Assessment&nbsp;<mat-icon>save</mat-icon></button>
-
+<div class="buttonContainer" *ngIf="!this.assessmentEngineService.assessmentStarted">
+  <button color="primary" mat-raised-button type="button" (click)="startAssessment()">
+    Start Assessment&nbsp;<mat-icon>save</mat-icon>
+  </button>
+</div>
 <!-- Starts the assessment when student clicks button, only after form validation has passed -->
-<div *ngIf="this.assessmentEngineService.assessmentStarted">
+<div class="buttonContainer" *ngIf="this.assessmentEngineService.assessmentStarted">
 
   <!-- Saves current answer and loads the next question -->
-  <button *ngIf="this.assessmentEngineService.questions !== undefined && this.assessmentEngineService.hasQuestionsRemaining()" class="mt-20 saveButton" mat-raised-button
-    type="button" (click)="this.assessmentEngineService.acceptAnswer()">Save Answer&nbsp;<mat-icon>save</mat-icon></button>
+  <button *ngIf="this.assessmentEngineService.questions !== undefined && this.assessmentEngineService.hasQuestionsRemaining()"
+  class="saveButton" mat-raised-button type="button" (click)="this.assessmentEngineService.acceptAnswer()">
+    Save Answer&nbsp;<mat-icon>save</mat-icon>
+  </button>
 
   <!-- Finishes the assessment while saving the last the answer provided -->
-  <button *ngIf="this.assessmentEngineService.questions !== undefined && !this.assessmentEngineService.hasQuestionsRemaining()" class="mt-20 saveButton" mat-raised-button
-    type="button" (click)="this.assessmentEngineService.acceptAnswer()">Finish Assessment&nbsp;<mat-icon>save</mat-icon></button>
-
-    <!-- Ends the assessment early by student clicking the quit button -->
-    <button *ngIf="this.assessmentEngineService.questions !== undefined && this.assessmentEngineService.hasQuestionsRemaining()" class="mt-20 saveButton" mat-raised-button
-  type="button" (click)="this.assessmentEngineService.acceptAnswer(true)">Quit Assessment&nbsp;<mat-icon>cancel</mat-icon></button>
+  <button *ngIf="this.assessmentEngineService.questions !== undefined && !this.assessmentEngineService.hasQuestionsRemaining()"
+  class="saveButton" mat-raised-button type="button" (click)="this.assessmentEngineService.acceptAnswer()">
+    Finish Assessment&nbsp;<mat-icon>save</mat-icon>
+  </button>
 
 </div>
+
+<!-- Ends the assessment early by student clicking the quit button -->
+<a *ngIf="this.assessmentEngineService.assessmentStarted &&
+          this.assessmentEngineService.questions !== undefined &&
+          this.assessmentEngineService.hasQuestionsRemaining()"
+          class="quitAssessment" (click)="this.assessmentEngineService.acceptAnswer(true)">
+  Quit Assessment
+</a>
