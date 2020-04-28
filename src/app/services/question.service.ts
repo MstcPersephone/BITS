@@ -240,6 +240,19 @@ export class QuestionService {
     this.helperService.openSnackBar('Option Removed.', 'Close', 'success-dialog', 5000);
   }
 
+  // Removes an option from the list based on its index
+  deleteMatchbyIndex(match: ExactMatch, i: any) {
+    const index = this.exactMatches.indexOf(match, i);
+    console.log(index);
+    console.log('%c Deleting Exact Match', 'color: red');
+    this.exactMatches.splice(index, 1);
+    console.table(this.exactMatches);
+    this.exactMatchesUpdated.next([...this.exactMatches]);
+
+    // Open snackbar to display message stating that the option has been removed.
+    this.helperService.openSnackBar('Option Removed.', 'Close', 'success-dialog', 5000);
+  }
+
   // Gets copy of the matches.
   // Used for attaching the matches to a question before saving it.
   getMatches() {
@@ -414,15 +427,15 @@ export class QuestionService {
 
   // Removes an option from the list based on its index
   deleteOptionbyIndex(option: Option, i: any) {
-    // const index = this.options.indexOf(option[i]);
-    // console.log(index);
-    // console.log('%c Deleting Option', 'color: red');
-    // this.options.splice(i, 1);
-    // console.table(this.options);
-    // this.optionsUpdated.next([...this.options]);
+    const index = this.options.indexOf(option, i);
+    console.log(index);
+    console.log('%c Deleting Option', 'color: red');
+    this.options.splice(index, 1);
+    console.table(this.options);
+    this.optionsUpdated.next([...this.options]);
 
-    // // Open snackbar to display message stating that the option has been removed.
-    // this.helperService.openSnackBar('Option Removed.', 'Close', 'success-dialog', 5000);
+    // Open snackbar to display message stating that the option has been removed.
+    this.helperService.openSnackBar('Option Removed.', 'Close', 'success-dialog', 5000);
   }
 
   // Gets a copy of the options.
