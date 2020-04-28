@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { AssessmentEngineService } from '../../services/assessment-engine.service';
 import { TakenAssessment } from 'src/app/models/taken-assessment.model';
+import { HelperService } from 'src/app/services/helper.service';
+import { LoginEngineService } from 'src/app/services/login.service';
 
 
 @Component({
@@ -21,7 +23,9 @@ export class AssessmentEngineComponent implements OnInit {
   constructor(
     public assessmentEngineService: AssessmentEngineService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private helperService: HelperService,
+    private loginService: LoginEngineService) {
     this.answerForm = this.formBuilder.group({});
    }
 
@@ -38,6 +42,8 @@ export class AssessmentEngineComponent implements OnInit {
         }
       });
     this.assessmentEngineService.getTakenAssessmentById(this.route.snapshot.params.takenAssessmentId);
+    this.helperService.isActiveAssessment = true;
+    this.loginService.logout();
   }
 
   onSubmit(formData) {

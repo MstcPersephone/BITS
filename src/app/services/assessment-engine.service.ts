@@ -611,7 +611,7 @@ export class AssessmentEngineService {
           console.log(responseData.updatedTakenAssessment);
           console.table(responseData.updatedTakenAssessment);
           if (this.takenAssessment.studentPassed !== null) {
-            this.loginService.logout();
+            this.helperService.refreshComponentById('assessment/updateTaken/', takenAssessment._id);
         }
         },
         error => {

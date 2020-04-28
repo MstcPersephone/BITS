@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class HelperService {
   public isLoading = false;
+  public isActiveAssessment = false;
 
   constructor(
     private snackBar: MatSnackBar,
