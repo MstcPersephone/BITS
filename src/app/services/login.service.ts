@@ -22,8 +22,6 @@ export class LoginEngineService {
   // The timer for the expiration of the token
   private tokenTimer: any;
 
-  isLoading = false;
-
   constructor(
     private http: HttpClient,
     private helperService: HelperService,
@@ -47,17 +45,19 @@ export class LoginEngineService {
   // The function to create a new user
   createUser(user: User) {
     console.log(user);
+    this.helperService.isLoading = true;
     this.http.post(environment.apiUrl + 'user/create', user)
     .subscribe(response => {
       console.log(response);
       this.helperService.openSnackBar('User creation successful!', 'Close', 'success-dialog', 5000);
       this.router.navigate(['/home']);
+      this.helperService.isLoading = false;
     });
   }
 
   // The function to log in a user
   loginUser(username: string, password: string) {
-    this.isLoading = true;
+    this.helperService.isLoading = true;
     // Pass username and password values to the backend
     const authUser: AuthData = {username, password};
     this.http.post<{token: string, expiresIn: number, isAdmin: boolean}>(environment.apiUrl + 'user/login', authUser)
@@ -77,11 +77,11 @@ export class LoginEngineService {
         const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
         this.saveAuthData(token, expirationDate, response.isAdmin);
         this.router.navigate(['/home']);
-        this.isLoading = false;
+        this.helperService.isLoading = false;
        }
       },
     error => {
-      this.isLoading = false;
+      this.helperService.isLoading = false;
       this.helperService.openSnackBar('Username and password do not match', 'Close', 'error-dialog', 5000);
     });
   }
