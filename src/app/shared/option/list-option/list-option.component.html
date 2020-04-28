@@ -18,10 +18,8 @@
           <!-- The text displayed within the option. -->
           <span class="optionListItem">{{option.optionText}}</span>
 
-          <!-- Section which houses the commands used on the list item (edit and delete buttons, for example). -->
+          <!-- Section which houses the command to delete the list item. -->
           <section class="optionButtonContainer">
-            <!-- This will become the link to EditOption component -->
-            <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
             <mat-icon class="deleteIcon iconButton" matListIcon (click)="this.questionService.deleteOption(i)">delete</mat-icon>
           </section>
         </mat-list-item>

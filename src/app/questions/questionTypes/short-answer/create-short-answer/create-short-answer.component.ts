@@ -35,22 +35,28 @@ export class CreateShortAnswerComponent implements OnInit {
   ngOnInit(): void {
     // Clear the attachments on init for when the form reloads
     this.attachmentService.resetAttachments();
-    // Sets the form to visible on initial load
+    // show the exact match webform on load
     this.questionService.showCreateMatch = true;
-
     this.questionService.exactMatches = [];
   }
 
   clickAdd() {
-    // If the child form is loaded, calls validation on the child form when add button is clicked
+    // Will call validation when the exact match webform is visible
     if (this.questionService.showCreateMatch) {
       document.getElementById('validateExactMatches').click();
       this.isValid = this.questionService.exactMatchIsValid;
+
+      if (this.isValid) {
+        // If the form passed validation hide the form and the cancel button
+        this.showCancelButton = false;
+        this.questionService.showCreateMatch = false;
+      }
+
+    } else {
+      // If the webform is invalid, keep form and cancel button visible.
+      this.questionService.showCreateMatch = true;
+      this.showCancelButton = true;
     }
-    // sets the form to remain as visible
-    this.questionService.showCreateMatch = true;
-    // sets the cancel button to visible
-    this.showCancelButton = true;
   }
 
   clickCancel() {

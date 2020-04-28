@@ -12,8 +12,14 @@
 
   <mat-card>
     <h3>Options</h3>
+
+    <!-- This displays the options when option is saved by add option click -->
+    <app-list-option></app-list-option>
+
+    <!-- Calls the webform to create a new option.  Visisble on load. -->
     <app-create-option *ngIf="this.questionService.showCreateOption"></app-create-option>
 
+    <!-- Buttons that control when the option webform is displayed -->
     <div class="buttonContainer">
       <!-- Cancel Button : If clicked will close the add acceptable answer form -->
       <button class="closeAddOption" *ngIf="this.showCancelButton" mat-raised-button (click)="this.clickCancel()">
@@ -25,12 +31,13 @@
       </button>
     </div>
 
-    <app-list-option></app-list-option>
+
   </mat-card>
 
   <!-- Submit Button : calls validation on all forms controllers when clicked -->
   <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
 
   <!-- Cancel Button : Cancels the save and send user back to question list -->
-  <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">Cancel&nbsp;<mat-icon>close</mat-icon></button>
+  <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">Cancel&nbsp;<mat-icon>close
+    </mat-icon></button>
 </form>
