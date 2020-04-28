@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material';
 import { QuestionType } from '../enums/questionType.enum';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -124,7 +125,7 @@ export class AssessmentService {
   // ******************************************************** //
 
   // Sets the the available questions by category on create-assessment
-  setCategoryCollections(event: any, selectObject: any, selectCategoryForm: any) {
+  setCategoryCollections(event: any) {
     this.selectedCategory = event.value;
     this.selectedCategoryName = this.selectedCategory.name;
   }
@@ -253,7 +254,7 @@ export class AssessmentService {
       if (result) {
         this.helperService.isLoading = true;
         console.log(assessment);
-        this.http.post<{ message: string }>('http://localhost:3000/api/assessment/delete', assessment)
+        this.http.post<{ message: string }>(environment.apiUrl + 'assessment/delete', assessment)
           .subscribe(responseData => {
             setTimeout(() => {
               console.log(responseData);
@@ -278,7 +279,7 @@ export class AssessmentService {
     this.helperService.isLoading = true;
     this.http
       .get<{ message: string, assessments: Assessment[] }>(
-        'http://localhost:3000/api/assessments'
+        environment.apiUrl + 'assessments'
       )
       .subscribe((assessmentData) => {
         this.assessments = assessmentData.assessments.reverse();
@@ -299,7 +300,7 @@ export class AssessmentService {
     this.helperService.isLoading = true;
     this.http
       .get<{ message: string, assessment: Assessment }>(
-        'http://localhost:3000/api/assessment/' + assessmentId
+        environment.apiUrl + 'assessment/' + assessmentId
       )
       .subscribe((assessmentData) => {
         // mongoose always returns an array with find()
@@ -324,7 +325,7 @@ export class AssessmentService {
   getQuestionsByIds(questionIds: string[]) {
     this.helperService.isLoading = true;
     this.http
-      .post<{ message: string, questions: Question[] }>('http://localhost:3000/api/assessment/questions/', { questionIds })
+      .post<{ message: string, questions: Question[] }>(environment.apiUrl + 'assessment/questions/', { questionIds })
       .subscribe(
         responseData => {
           this.questions = responseData.questions;
@@ -354,7 +355,7 @@ export class AssessmentService {
 
       console.log('Complete Assessment', completeAssessment);
 
-      this.http.post<{ message: string, assesment: Assessment }>('http://localhost:3000/api/assessment/save', completeAssessment)
+      this.http.post<{ message: string, assesment: Assessment }>(environment.apiUrl + 'assessment/save', completeAssessment)
         .subscribe(
           responseData => {
             this.helperService.openSnackBar(completeAssessment.name + ' Assessment Saved Successfully!', 'Close', 'success-dialog', 5000);
@@ -388,7 +389,7 @@ export class AssessmentService {
     const maxTimeResponse = ValidationService.validateMaxTime(assessment.config);
 
     if (wrongStreakResponse.result && maxTimeResponse.result) {
-      this.http.post<{ message: string, updatedAssessment: Assessment }>('http://localhost:3000/api/assessment/update', assessment)
+      this.http.post<{ message: string, updatedAssessment: Assessment }>(environment.apiUrl + 'assessment/update', assessment)
         .subscribe(
           responseData => {
             // Success message at the bottom of the screen

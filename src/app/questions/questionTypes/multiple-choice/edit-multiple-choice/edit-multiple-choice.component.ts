@@ -77,7 +77,7 @@ export class EditMultipleChoiceComponent implements OnInit {
     const updatedMultipleChoiceQuestion: MultipleChoice = new MultipleChoice();
 
     // Calls validation on parent form controls when submit button is clicked
-    this.questionService.handleEditQuestionFormValidation(updatedMultipleChoiceQuestion);
+    this.questionService.handleEditQuestionFormValidation();
 
     // If the child create form is loaded, calls validation on the child form when submit button is clicked
     if (this.questionService.showCreateOption) {

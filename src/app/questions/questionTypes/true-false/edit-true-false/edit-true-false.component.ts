@@ -68,7 +68,7 @@ export class EditTrueFalseComponent implements OnInit {
     // Calls validation on parent form controls
     // If the parent forms are invalid, submit is not allowed
     // Marks all input as touched to show errors so user knows what requires valid input
-    this.questionService.handleEditQuestionFormValidation(updatedTrueFalseQuestion);
+    this.questionService.handleEditQuestionFormValidation();
     // console.log('Points are valid', this.questionService.pointsIsValid);
     // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
     // console.log('True False From is valid', this.createTrueFalseForm.valid);

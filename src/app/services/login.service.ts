@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 import { AuthData } from '../models/auth-data.model';
 import { HelperService } from './helper.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,7 @@ export class LoginEngineService {
   // The function to create a new user
   createUser(user: User) {
     console.log(user);
-    this.http.post('http://localhost:3000/api/user/create', user)
+    this.http.post(environment.apiUrl + 'user/create', user)
     .subscribe(response => {
       console.log(response);
       this.helperService.openSnackBar('User creation successful!', 'Close', 'success-dialog', 5000);
@@ -56,7 +57,7 @@ export class LoginEngineService {
   loginUser(username: string, password: string) {
     // Pass username and password values to the backend
     const authUser: AuthData = {username, password};
-    this.http.post<{token: string, expiresIn: number, isAdmin: boolean}>('http://localhost:3000/api/user/login', authUser)
+    this.http.post<{token: string, expiresIn: number, isAdmin: boolean}>(environment.apiUrl + 'user/login', authUser)
     .subscribe(response => {
       // Grab token from response and store in the service
       const token = response.token;

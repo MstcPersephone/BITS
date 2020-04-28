@@ -71,7 +71,7 @@ export class EditCheckboxComponent implements OnInit {
     const updatedCheckboxQuestion: Checkbox = new Checkbox();
 
     // Calls validation on parent form controls when submit button is clicked
-    this.questionService.handleEditQuestionFormValidation(updatedCheckboxQuestion);
+    this.questionService.handleEditQuestionFormValidation();
 
     // If the child create form is loaded, calls validation on the child form when submit button is clicked
     if (this.questionService.showCreateOption) {
