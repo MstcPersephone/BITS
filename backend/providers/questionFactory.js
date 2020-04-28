@@ -67,7 +67,7 @@ function createCheckbox(question, collectionName = 'questions') {
       // Generates an id for each option
       // Assigns question id to each option
       question.options.forEach((x) => {
-        x.id = mongoose.Types.ObjectId(),
+        x._id = mongoose.Types.ObjectId(),
           x.questionId = question._id;
       });
       // Set the question model to be the checkbox model
@@ -93,6 +93,14 @@ function createCheckbox(question, collectionName = 'questions') {
 }
 
 function updateCheckbox(question) {
+
+  question.options.forEach((x) => {
+    if (x._id === null) {
+      x._id = mongoose.Types.ObjectId(),
+      x.questionId = question._id;
+    }
+  });
+
   // creates an object for updating
   return {
     categories: question.categories,
@@ -120,7 +128,7 @@ function createMultipleChoice(question, collectionName = 'questions') {
       // Generates an id for each option
       // Assigns question id to each option
       question.options.forEach((x) => {
-        x.id = mongoose.Types.ObjectId(),
+        x._id = mongoose.Types.ObjectId(),
           x.questionId = question._id;
       });
       // Set the question model to be the checkbox model
@@ -146,6 +154,14 @@ function createMultipleChoice(question, collectionName = 'questions') {
 }
 
 function updateMultipleChoice(question) {
+
+  question.options.forEach((x) => {
+    if (x._id === null) {
+      x._id = mongoose.Types.ObjectId(),
+      x.questionId = question._id;
+    }
+  });
+
   // creates an object for updating
   return {
     categories: question.categories,
@@ -174,7 +190,7 @@ function createShortAnswer(question, collectionName = 'questions') {
      // Generates an id for each option
      // Assigns question id to each option
      question.matches.forEach((x) => {
-       x.id = mongoose.Types.ObjectId(),
+       x._id = mongoose.Types.ObjectId(),
          x.questionId = question._id;
      });
      // Set the question model to be the checkbox model
@@ -202,6 +218,15 @@ function createShortAnswer(question, collectionName = 'questions') {
 }
 
 function updateShortAnswer(question) {
+
+  question.matches.forEach((x) => {
+    if (x._id === null) {
+      x._id = mongoose.Types.ObjectId(),
+      x.questionId = question._id;
+    }
+  });
+
+
   // creates an object for updating
   return {
     categories: question.categories,
