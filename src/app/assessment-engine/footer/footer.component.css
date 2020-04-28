@@ -1,1 +1,16 @@
+/* Importing global styles. */
 @import "../../../styles.css";
+
+/* Hides the background color of the button container. */
+.buttonContainer{
+  background-color: #fff;
+}
+
+/* Hides the quit assessment text using a lighter color to prevent a user from mistakenly selecting it. */
+.quitAssessment{
+  padding: 0;
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.3);
+  text-decoration: underline;
+  cursor: pointer;
+}
