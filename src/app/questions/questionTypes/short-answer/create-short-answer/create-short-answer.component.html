@@ -15,11 +15,21 @@
     sensitive?
   </mat-checkbox>
   <br>
+
   <mat-card>
     <h3>Acceptable Answers</h3>
-    <section class="addAnswerContainer">
+
+    <!-- This displays the exact matches when match is saved by add acceptable answer click -->
+    <app-list-exact-match></app-list-exact-match>
+
+    <!-- <section class="addAnswerContainer"> -->
+    <!-- Orion, wrapping the exact match is different than option, are you ok with not doing this here
+      so it is more consistent in matching the options for checkbox and mutiple choice? -->
+
+    <!-- Calls the webform to create a new match.  Visisble on load. -->
     <app-create-exact-match *ngIf="this.questionService.showCreateMatch"></app-create-exact-match>
 
+    <!-- Buttons that control when the exact match webform is displayed -->
     <div class="buttonContainer">
       <!-- Cancel Button : If clicked will close the add acceptable answer form -->
       <button class="closeAddOption cancelOption" *ngIf="this.showCancelButton" mat-raised-button (click)="this.clickCancel()">
@@ -30,9 +40,9 @@
         Add Acceptable Answer<mat-icon>&nbsp;add</mat-icon>
       </button>
     </div>
-    </section>
 
-    <app-list-exact-match></app-list-exact-match>
+    <!-- </section> -->
+
   </mat-card>
   <br>
 

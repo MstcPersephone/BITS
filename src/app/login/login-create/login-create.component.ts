@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { LoginEngineService } from '../../services/login.service';
 import { User } from '../../models/user.model';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-login-create',
@@ -14,7 +15,8 @@ export class LoginCreateComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    public loginService: LoginEngineService
+    public loginService: LoginEngineService,
+    public helperService: HelperService
     ) {
       this.signupForm = this.formBuilder.group({
         username: '',
@@ -28,11 +30,11 @@ export class LoginCreateComponent implements OnInit {
   }
 
   onSignup(formData) {
-    let username = formData.username.toLowerCase();
+    const username = formData.username.toLowerCase();
 
     // Check that the passwords match and create new user if they do
     if (formData.password1 === formData.password2) {
-    this.isLoading = true;
+
     const user = new User();
     user.username = username;
     user.password = formData.password1;
@@ -43,8 +45,7 @@ export class LoginCreateComponent implements OnInit {
     }
 
     this.loginService.createUser(user);
-    this.isLoading = false;
-    } else {
+   } else {
       alert('Passwords don\'t match, please try again');
     }
   }

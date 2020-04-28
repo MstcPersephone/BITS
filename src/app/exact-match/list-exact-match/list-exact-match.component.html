@@ -1,4 +1,3 @@
-<br>
   <mat-card class="matchListContainer">
     <mat-list *ngIf="exactMatches.length > 0">
       <div *ngFor="let exactMatch of exactMatches; let i = index">
@@ -14,10 +13,8 @@
           <!-- The text displayed within the match. -->
           <span class="matchListItem">{{exactMatch.matchText}}</span>
 
-          <!-- Section which houses the commands used on the list item (edit and delete buttons, for example). -->
+          <!-- Section which houses the command to delete the list item. -->
           <section class="matchButtonContainer">
-            <!-- This will become the link to EditExactMatch component -->
-            <mat-icon class="editIcon iconButton" matListIcon>edit</mat-icon>
             <mat-icon class="deleteIcon iconButton" (click)="this.questionService.deleteMatch(i)" matListIcon>delete</mat-icon>
           </section>
 
