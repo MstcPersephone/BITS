@@ -44,19 +44,27 @@ export class EditShortAnswerComponent implements OnInit {
     } else {
       this.attachmentService.attachments = [];
     }
+    // Hide the add exact match webform on load
     this.questionService.showCreateMatch = false;
   }
 
   clickAdd() {
-    // If the child form is loaded, calls validation on the child form when add button is clicked
+    // Will call validation when the exact match webform is visible
     if (this.questionService.showCreateMatch) {
       document.getElementById('validateExactMatches').click();
       this.isValid = this.questionService.exactMatchIsValid;
+
+      if (this.isValid) {
+        // If the form passed validation hide the form and the cancel button
+        this.showCancelButton = false;
+        this.questionService.showCreateMatch = false;
+      }
+
+    } else {
+      // If the webform is invalid, keep form and cancel button visible.
+      this.questionService.showCreateMatch = true;
+      this.showCancelButton = true;
     }
-    // sets the form to remain as visible
-    this.questionService.showCreateMatch = true;
-    // sets the cancel button to visible
-    this.showCancelButton = true;
   }
 
   clickCancel() {
@@ -70,8 +78,6 @@ export class EditShortAnswerComponent implements OnInit {
     this.questionService.showCreateMatch = false;
     this.questionService.exactMatchIsValid = this.isValid;
   }
-
-
 
   // Form data passed through to update the question using the edited information
   onSubmit(formData) {
@@ -99,11 +105,11 @@ export class EditShortAnswerComponent implements OnInit {
       });
     // }
 
-    console.log('Points are valid', this.questionService.pointsIsValid);
-    console.log('Categoriess are valid', this.questionService.categoriesIsValid);
-    console.log('Sort Answer form is valid', this.editShortAnswerForm.valid);
-    console.log('Exact Match form is valid', this.questionService.exactMatchIsValid);
-    console.log('Edit Exact Match has an invalid input', this.questionService.editExactMatchInvalid);
+    // console.log('Points are valid', this.questionService.pointsIsValid);
+    // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
+    // console.log('Sort Answer form is valid', this.editShortAnswerForm.valid);
+    // console.log('Exact Match form is valid', this.questionService.exactMatchIsValid);
+    // console.log('Edit Exact Match has an invalid input', this.questionService.editExactMatchInvalid);
 
     // Calls validation on the current form when submit button is clicked
     if (!this.editShortAnswerForm.valid) {
@@ -133,14 +139,8 @@ export class EditShortAnswerComponent implements OnInit {
       const attachmentResponse = ValidationService.validateAttachments(updatedShortAnswerQuestion as Question);
 
       if (attachmentResponse.result) {
-
         // Sends the data to the quesiton service to handle passing data for updating in database
         this.questionService.updateQuestionById(updatedShortAnswerQuestion);
-
-        // Resets both current form and cancel button to not visible
-        this.questionService.showCreateMatch = false;
-        this.showCancelButton = false;
-
       } else {
         this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
       }
