@@ -12,12 +12,13 @@ import { ExactMatch } from 'src/app/models/shared/exact-match.model';
 export class EditExactMatchComponent implements OnInit {
   // The match to be edited
   @Input() exactMatch: ExactMatch;
+  @Input() i: any;
   // The form used to pass the exact match data to update the match
   editExactMatchForm;
 
   constructor(
     private formBuilder: FormBuilder,
-    private questionService: QuestionService
+    public questionService: QuestionService
   ) {
     this.editExactMatchForm = this.formBuilder.group({
       matchText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]]

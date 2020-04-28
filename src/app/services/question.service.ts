@@ -412,6 +412,19 @@ export class QuestionService {
     this.helperService.openSnackBar('Option Removed.', 'Close', 'success-dialog', 5000);
   }
 
+  // Removes an option from the list based on its index
+  deleteOptionbyIndex(option: Option, i: any) {
+    // const index = this.options.indexOf(option[i]);
+    // console.log(index);
+    // console.log('%c Deleting Option', 'color: red');
+    // this.options.splice(i, 1);
+    // console.table(this.options);
+    // this.optionsUpdated.next([...this.options]);
+
+    // // Open snackbar to display message stating that the option has been removed.
+    // this.helperService.openSnackBar('Option Removed.', 'Close', 'success-dialog', 5000);
+  }
+
   // Gets a copy of the options.
   // Used for attaching the options to a question before saving it.
   getOptions() {
