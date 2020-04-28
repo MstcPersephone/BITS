@@ -40,18 +40,26 @@ export class EditCheckboxComponent implements OnInit {
     } else {
       this.attachmentService.attachments = [];
     }
+    // Hide the add option webform on load
+    this.questionService.showCreateOption = false;
   }
 
   clickAdd() {
-    // If the child form is loaded, calls validation on the child form when add button is clicked
+    // Will call validation when the option webform is visible
     if (this.questionService.showCreateOption) {
       document.getElementById('validateOption').click();
       this.isValid = this.questionService.optionIsValid;
+
+      if (this.isValid) {
+        // If the form passed validation hide the form and the cancel button
+        this.showCancelButton = false;
+        this.questionService.showCreateOption = false;
+      }
+    } else {
+      // If the webform is invalid, keep form and cancel button visible.
+      this.questionService.showCreateOption = true;
+      this.showCancelButton = true;
     }
-    // sets the form to remain as visible
-    this.questionService.showCreateOption = true;
-    // sets the cancel button to visible
-    this.showCancelButton = true;
   }
 
   clickCancel() {
