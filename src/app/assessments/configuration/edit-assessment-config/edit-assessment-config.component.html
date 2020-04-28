@@ -21,7 +21,7 @@
     id="isTimed"
     [checked]="this.assessmentService.isTimed"
     class="mt-20"
-    (change)="this.assessmentService.isTimedChanged($event)"
+    (change)="this.assessmentService.isTimedChanged()"
     formControlName="isTimed"
     [value]="this.isTimed">
     Is this a timed assessment?

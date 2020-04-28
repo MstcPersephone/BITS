@@ -40,6 +40,6 @@ export class AssessmentEngineComponent implements OnInit {
     this.assessmentEngineService.getTakenAssessmentById(this.route.snapshot.params.takenAssessmentId);
   }
 
-  onSubmit() {
+  onSubmit(formData) {
   }
 }

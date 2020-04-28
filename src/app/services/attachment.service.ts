@@ -67,7 +67,7 @@ export class AttachmentService {
   }
 
   // Remove attachment from question
-  removeAttachment(a: Attachment, uploadType: string) {
+  removeAttachment(a: Attachment, uploadType: string = 'attachment') {
     let index: number;
     switch (uploadType) {
       case UploadType.StudentAnswer:
@@ -102,7 +102,7 @@ export class AttachmentService {
 
   // Convert JS file into Attachment.
   // Convert file content to binary string.
-  uploadFiles($event: Event, uploadType: string) {
+  uploadFiles($event: Event, uploadType: string = 'attachment') {
 
     // Convert the uploaded files into an array of files to loop through.
     const files = Array.from(($event.target as HTMLInputElement).files);
