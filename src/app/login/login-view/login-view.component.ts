@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { LoginEngineService } from '../../services/login.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-login-view',
@@ -8,11 +9,11 @@ import { LoginEngineService } from '../../services/login.service';
   styleUrls: ['./login-view.component.css']
 })
 export class LoginViewComponent implements OnInit {
-  isLoading = false;
   loginForm;
   constructor(
     private formBuilder: FormBuilder,
-    public loginService: LoginEngineService
+    public loginService: LoginEngineService,
+    public helperService: HelperService
   ) {
     this.loginForm = this.formBuilder.group({
       username: '',
@@ -24,10 +25,8 @@ export class LoginViewComponent implements OnInit {
   }
 
   onLogin(formData) {
-    let username = formData.username.toLowerCase();
-    this.isLoading = true;
+    const username = formData.username.toLowerCase();
     this.loginService.loginUser(username, formData.password);
-    this.isLoading = false;
     this.loginForm.reset();
   }
 }
