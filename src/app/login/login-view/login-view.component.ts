@@ -8,7 +8,6 @@ import { LoginEngineService } from '../../services/login.service';
   styleUrls: ['./login-view.component.css']
 })
 export class LoginViewComponent implements OnInit {
-  isLoading = false;
   loginForm;
   constructor(
     private formBuilder: FormBuilder,
@@ -24,10 +23,8 @@ export class LoginViewComponent implements OnInit {
   }
 
   onLogin(formData) {
-    let username = formData.username.toLowerCase();
-    this.isLoading = true;
+    const username = formData.username.toLowerCase();
     this.loginService.loginUser(username, formData.password);
-    this.isLoading = false;
     this.loginForm.reset();
   }
 }
