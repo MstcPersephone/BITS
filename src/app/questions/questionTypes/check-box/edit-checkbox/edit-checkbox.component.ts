@@ -114,7 +114,6 @@ export class EditCheckboxComponent implements OnInit {
       updatedCheckboxQuestion.hasAttachments = this.attachmentService.hasAttachments;
       updatedCheckboxQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : [];
       updatedCheckboxQuestion.isAnswered = false;
-      updatedCheckboxQuestion.studentAnswers = null;
       updatedCheckboxQuestion.duration = 0;
       updatedCheckboxQuestion.assessmentIds = null;
 
