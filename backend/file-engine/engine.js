@@ -35,10 +35,7 @@ const makeDirectory = () => {
 
 const copyFile = (tempFilePath, file) => {
   const newPath = tempFilePath + file.name;
-  const uint8Array = Uint8Array.from(file.content);
-  let readResult = fs.readFileSync(uint8Array);
-  // fs.writeFileSync(newPath, readResult);
-  // fs.writeFileSync(newPath, '777', Buffer.from(file.content, 'base64'));
+  fs.writeFileSync(newPath, new Buffer(file.content, 'base64'));
 }
 
 // Reads a directory
