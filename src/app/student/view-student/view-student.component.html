@@ -63,7 +63,6 @@
 
     <!-- Point value on question -->
     <h4>Point Value: {{ question.points }}</h4>
-    <p><b>{{this.question.questionType}}</b></p>
 
     <!-- Question Text Display -->
     <p class="questionTextContent">{{ question.questionText }}</p>
@@ -80,7 +79,7 @@
         <div *ngFor="let option of this.questionService.asCheckbox(question).options; let i = index">
 
           <div *ngIf="this.question.isAnsweredCorrectly">
-            <div class="optionContainer" [ngClass]="option.isAnswer ? 'correct' : '' ">
+            <div class="optionContainer optionDisplay" [ngClass]="option.isAnswer ? 'correct' : '' ">
               <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
               <span class="optionListItem">{{option.optionText}}</span>
             </div>
