@@ -178,6 +178,12 @@ div.correct, mat-list-item.correct, .success-dialog{
   color: black;
 }
 
+/* Styles applied to any "wrong" options */
+div.wrong{
+  background-color: #F5B7B1;
+  color: black;
+}
+
 /* Styles applied to the correct answer checkmark */
 .isAnswerIcon{
   color: black;

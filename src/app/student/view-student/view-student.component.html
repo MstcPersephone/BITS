@@ -63,10 +63,26 @@
     <!-- Question Option Tile -->
     <div class="optionListContainer" *ngIf="this.questionService.asCheckbox(question).options.length > 0">
       <div *ngFor="let option of this.questionService.asCheckbox(question).options; let i = index">
-        <div class="optionContainer" [ngClass]="option.isAnswer ? 'correct' : '' ">
-          <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
-          <span class="optionListItem">{{option.optionText}}</span>
+
+        <div *ngIf="this.question.isAnsweredCorrectly">
+          <div class="optionContainer" [ngClass]="option.isAnswer ? 'correct' : '' ">
+            <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
+            <span class="optionListItem">{{option.optionText}}</span>
+          </div>
         </div>
+
+        <div *ngIf="!this.question.isAnsweredCorrectly">
+          <div class="optionContainer" [ngClass]="option.isAnswer ? 'correct' : '' ">
+            <div class="optionContainer" [ngClass]="option.optionIsSelected ? 'wrong' : '' ">
+              <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
+              <mat-icon [ngClass]="option.optionIsSelected ? 'isAnswerIcon' : 'isNotAnswerIcon' ">cancel</mat-icon>
+              <span class="optionListItem">{{option.optionText}}</span>
+            </div>
+          </div>
+        </div>
+
+
+
       </div>
     </div>
   </div>
@@ -79,11 +95,24 @@
     <hr>
 
     <!-- Acceptable Option Tile-->
-    <div class="matchListContainer" *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
-      <div *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; let i = index">
-        <div class="optionContainer correct">
-          <mat-icon class="isAnswerIcon">check_circle</mat-icon>
-          <span class="matchListItem">{{exactMatch.matchText}}</span>
+    <div *ngIf="this.question.isAnsweredCorrectly">
+          <div class="optionContainer correct">
+            <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+            <span class="matchListItem">{{this.questionService.asShortAnswer(question).studentAnswer}}</span>
+          </div>
+    </div>
+
+    <div *ngIf="!this.question.isAnsweredCorrectly">
+      <div class="matchListContainer" *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
+        <div *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; let i = index">
+          <div class="optionContainer correct">
+            <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+            <span class="matchListItem">{{exactMatch.matchText}}</span>
+          </div>
+          <div class="optionContainer wrong">
+            <mat-icon class="isAnswerIcon">cancel</mat-icon>
+            <span class="matchListItem">{{this.questionService.asShortAnswer(question).studentAnswer}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -99,7 +128,7 @@
 
     <!-- Correct Answer Tile-->
     <div class="optionListContainer">
-      <div>
+      <div *ngIf="this.question.isAnsweredCorrectly">
         <div class="optionContainer correct" *ngIf="this.questionService.asTrueFalse(question).answer">
           <mat-icon class="isAnswerIcon">check_circle</mat-icon>
           <span class="optionListItem">True</span>
@@ -109,6 +138,28 @@
           <span class="optionListItem">False</span>
         </div>
       </div>
+
+      <div *ngIf="!this.question.isAnsweredCorrectly">
+        <div class="optionContainer wrong" *ngIf="this.questionService.asTrueFalse(question).studentAnswer">
+          <mat-icon class="isAnswerIcon">cancel</mat-icon>
+          <span class="optionListItem">True</span>
+        </div>
+        <div class="optionContainer correct" *ngIf="this.questionService.asTrueFalse(question).answer">
+          <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+          <span class="optionListItem">True</span>
+        </div>
+        <div class="optionContainer wrong" *ngIf="!this.questionService.asTrueFalse(question).studentAnswer">
+          <mat-icon class="isAnswerIcon">cancel</mat-icon>
+          <span class="optionListItem">False</span>
+        </div>
+        <div class="optionContainer correct" *ngIf="!this.questionService.asTrueFalse(question).answer">
+          <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+          <span class="optionListItem">False</span>
+        </div>
+      </div>
     </div>
   </div>
 </mat-card>
+
+<!-- Cancel Button : Cancels the save and send user back to question list -->
+<button class="returnButton" mat-raised-button [routerLink]="['/student/list']">Return to Student Results</button>
