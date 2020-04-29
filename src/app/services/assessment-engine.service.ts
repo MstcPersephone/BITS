@@ -137,7 +137,7 @@ export class AssessmentEngineService {
 
   checkShortAnswer(question: ShortAnswer) {
 
-    // TODO: add space checks for validation
+    // TODO: [PER-169] add space checks for validation
     let isCorrect = false;
     const exactMatches = [];
 
@@ -157,11 +157,13 @@ export class AssessmentEngineService {
 
       // Not case sensetive, so making everything lowercase
       question.matches.forEach((m) => {
+        console.log('Exact Answer', m.matchText);
         exactMatches.push(m.matchText.toLowerCase());
       });
 
       // Also make student answer all lower case
-      if (exactMatches.includes(question.studentAnswer.toLowerCase)) {
+      if (exactMatches.includes(question.studentAnswer.toLowerCase())) {
+        console.log('student answer', question.studentAnswer.toLowerCase());
         isCorrect = true;
       }
     }
