@@ -1,0 +1,13 @@
+/* Importing global styles */
+@import "../../../styles.css";
+
+
+mat-grid-tile mat-grid-tile-header{
+  height: 30px !important;
+}
+
+mat-grid-tile, .attachmentContainer{
+  height: 90px !important;
+}
+
+
