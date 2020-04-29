@@ -17,7 +17,7 @@ import { TakenAssessment } from 'src/app/models/taken-assessment.model';
   styleUrls: ['./view-student.component.css']
 })
 export class ViewStudentComponent implements OnInit {
-  takenAssessment: TakenAssessment;
+  takenAssessment: any;
   private takenAssessmentSubscription: Subscription;
   dateTaken: any;
 
@@ -33,7 +33,7 @@ export class ViewStudentComponent implements OnInit {
 
   ngOnInit() {
     this.takenAssessmentSubscription = this.assessmentEngineService.getTakenAssessmentUpdateListener()
-      .subscribe((takenAssessment: TakenAssessment) => {
+      .subscribe((takenAssessment: any) => {
         console.log('Taken Assessment', takenAssessment);
         this.takenAssessment = takenAssessment;
       });
