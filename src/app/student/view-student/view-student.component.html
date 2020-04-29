@@ -103,15 +103,15 @@
     </div>
 
     <div *ngIf="!this.question.isAnsweredCorrectly">
+      <div class="optionContainer wrong">
+        <mat-icon class="isAnswerIcon">cancel</mat-icon>
+        <span class="matchListItem">{{this.questionService.asShortAnswer(question).studentAnswer}}</span>
+      </div>
       <div class="matchListContainer" *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
         <div *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; let i = index">
           <div class="optionContainer correct">
             <mat-icon class="isAnswerIcon">check_circle</mat-icon>
             <span class="matchListItem">{{exactMatch.matchText}}</span>
-          </div>
-          <div class="optionContainer wrong">
-            <mat-icon class="isAnswerIcon">cancel</mat-icon>
-            <span class="matchListItem">{{this.questionService.asShortAnswer(question).studentAnswer}}</span>
           </div>
         </div>
       </div>
