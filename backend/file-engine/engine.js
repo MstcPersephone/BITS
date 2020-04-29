@@ -35,7 +35,8 @@ const makeDirectory = () => {
 
 const copyFile = (tempFilePath, file) => {
   const newPath = tempFilePath + file.name;
-  fs.writeFileSync(newPath, new Buffer(file.content, 'base64'));
+  const fileString = file.content.split(',')[1];
+  fs.writeFileSync(newPath, fileString, {encoding: 'base64'});
 }
 
 // Reads a directory
@@ -50,23 +51,20 @@ const readFileContents = (filePath) => {
 
 // Removes a temp directory
 const removeDirectory = (tempPath) => {
+  console.log('Removing', tempPath);
   fs.rmdirSync(tempPath, { recursive: true });
 }
 
 // Unzips folder to temp directory
 const unzipFolder = function (sourcePath, destinationPath) {
-  // const rs = fs.createReadStream(sourcePath).pipe(zip.Extract({
-  //   path: destinationPath
-  // }));
-  // rs.on('error', (error) => {
-  //   console.log('ERROR', error.message);
-  // })
-  console.log('SOURCE_PATH: ', sourcePath);
-  console.log('DESTINATION_PATH: ', destinationPath);
-  // const zippedFile = new zip(sourcePath);
-  // console.log('ZIPPED FILE', zippedFile);
-  // console.log('READ_AS_TEXT', zippedFile.readAsTextAsync(sourcePath));
-  // zippedFile.extractAllToAsync(destinationPath);
+  // create zip object from zip file
+  const z = new zip(sourcePath);
+
+  // extract all files to the same folder
+  z.extractAllToAsync(destinationPath);
+
+  // delete the zipped file
+  fs.unlinkSync(sourcePath);
 }
 
 module.exports = {

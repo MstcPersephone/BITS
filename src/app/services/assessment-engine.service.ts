@@ -107,7 +107,10 @@ export class AssessmentEngineService {
       case QuestionType.TrueFalse:
         return this.checkTrueFalse(question as TrueFalse);
       case QuestionType.Upload:
-        return this.checkUpload(question as Upload);
+        const result = this.checkUpload(question as Upload);
+        this.attachmentService.studentAnswers = [];
+        this.attachmentService.correctAnswers = [];
+        return result;
     }
   }
 

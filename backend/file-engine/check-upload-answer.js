@@ -76,7 +76,7 @@ const checkUploadAnswer = function (question) {
   setTimeout(() => {
     engine.removeDirectory(correctAnswerPath);
     engine.removeDirectory(submittedAnswerPath);
-  }, 20000);
+  }, 50000);
 
   return isMatch;
 }
