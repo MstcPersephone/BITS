@@ -1,1 +1,7 @@
+/* Importing global styles. */
 @import "../../../styles.css";
+
+/* Hides the background on the form. */
+form{
+  background-color: #fff;
+}

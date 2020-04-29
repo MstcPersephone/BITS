@@ -8,8 +8,6 @@ import { Assessment } from '../../models/assessment.model';
 import { Student } from '../../models/student.model';
 import { Question } from '../../models/question.interface';
 
-
-
 @Component({
   selector: 'app-taken-assessment',
   templateUrl: './taken-assessment.component.html',

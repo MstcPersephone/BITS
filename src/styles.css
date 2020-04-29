@@ -178,6 +178,12 @@ div.correct, mat-list-item.correct, .success-dialog{
   color: black;
 }
 
+/* Styles applied to any "wrong" options */
+div.wrong{
+  background-color: #F5B7B1;
+  color: black;
+}
+
 /* Styles applied to the correct answer checkmark */
 .isAnswerIcon{
   color: black;
@@ -305,4 +311,9 @@ div.buttonContainer button:nth-of-type(2){
 a.hiddenLink{
   text-decoration: none;
   color: black;
+}
+
+/* Removes the unusual top margin applied to the next button on the calendar. */
+.mat-calendar-next-button{
+  margin-top: 0 !important;
 }

@@ -11,10 +11,12 @@ import { Option } from 'src/app/models/shared/option.model';
 })
 export class EditOptionComponent implements OnInit {
   @Input() option: Option;
+  @Input() i: any;
   editOptionForm;
+
   constructor(
     private formBuilder: FormBuilder,
-    private questionService: QuestionService
+    public questionService: QuestionService
   ) {
     this.editOptionForm = this.formBuilder.group({
       optionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],

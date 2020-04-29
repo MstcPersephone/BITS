@@ -118,9 +118,9 @@ export class ValidationService {
   static invalidWhiteSpaceOnly(control) {
 
     // This stops validation error messages from populating on load.
-    if (control.value !== '') {
-      control.markAsTouched();
-    }
+    // if (control.value !== '') {
+    //   control.markAsTouched();
+    // }
 
     // if the value does not pass validation, the property is assigned true, else null
     if (control.touched) {

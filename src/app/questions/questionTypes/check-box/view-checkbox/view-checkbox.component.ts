@@ -33,8 +33,6 @@ export class ViewCheckboxComponent implements OnInit {
 
   onChangeOption($event, i) {
     this.question.options[i].optionIsSelected = $event.checked;
-    this.studentAnswers.push(this.question.options[i].optionText);
-    this.question.studentAnswers = this.studentAnswers;
 
     console.log(this.question.options);
   }

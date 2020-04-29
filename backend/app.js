@@ -110,7 +110,7 @@ app.post("/api/assessment/delete", checkAuth, (request, response, next) => {
     config: assessment.config,
     questionIds: assessment.questionIds,
     status: assessment.status,
-    createdOn: Date.now()
+    modifiedOn: new Date(Date.now())
   });
 
 
@@ -488,7 +488,7 @@ app.post("/api/assessment/save", checkAuth, (request, response, next) => {
     config: assessment.config,
     questionIds: assessment.questionIds,
     status: assessment.status,
-    createdOn: Date.now()
+    modifiedOn: new Date(Date.now())
   });
 
   // Saves the assessment object to the database.
@@ -528,7 +528,7 @@ app.post("/api/categories/save", checkAuth, (request, response, next) => {
   const categoryToSaveModel = new categoryCollection({
     id: categoryId,
     name: category.name,
-    createdOn: Date.now()
+    modifiedOn: new Date(Date.now())
   });
 
   // Saves the category object to the database.
@@ -632,7 +632,7 @@ app.post("/api/student/save", (request, response, next) => {
           campusLocation: student.campusLocation,
           lastAssessmentDate: student.lastAssessmentDate,
           previousScores: student.previousScores,
-          modifiedOn: Date.now()
+          modifiedOn: new Date(Date.now())
         });
 
         // Saves the student object to the database.
@@ -686,7 +686,7 @@ app.post("/api/assessment/generate", (request, response, next) => {
     questions: takenAssessment.questions,
     score: takenAssessment.score,
     studentPassed: takenAssessment.studentPassed,
-    modifiedOn: Date.now()
+    modifiedOn: new Date(Date.now())
   });
 
   // Saves the assessment object to the database.
@@ -726,7 +726,7 @@ app.post("/api/assessment/update/", checkAuth, (request, response, next) => {
     config: requestedUpdate.config,
     questionIds: requestedUpdate.questionIds,
     status: requestedUpdate.status,
-    createdOn: Date.now()
+    modifiedOn: new Date(Date.now())
   };
 
   // passes the data to the database to update a specific assessment by id

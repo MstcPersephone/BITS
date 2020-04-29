@@ -6,32 +6,44 @@
   Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
   occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 </p>
-<mat-card>
 
-  <h4>Add Student Information</h4>
 
   <form [formGroup]="createStudentForm" (ngSubmit)="onSubmit(createStudentForm.value)">
+    <h3>Enter Your Information</h3><br>
 
     <mat-checkbox id="hasStudentId" [checked]="this.hasStudentId" class="mt-20" (change)="this.hasStudentIdChanged()"
       formControlName="hasStudentId">
       Do you have a student Id?
     </mat-checkbox>
 
-
     <!-- Student Input -->
-    <div *ngIf="this.hasStudentId">
+    <div class="studentIdInput" *ngIf="this.hasStudentId">
       <mat-form-field appearance="standard">
-        <mat-label color="primary" class="label-header">Change Student ID</mat-label>
+        <mat-label color="primary" class="label-header">Your Student ID</mat-label>
         <input matInput id="studentId" type="text" formControlName="studentId">
       </mat-form-field>
       <app-validation-messages [control]="createStudentForm.get('studentId')"></app-validation-messages>
     </div>
 
+    <!-- First Name Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Your First Name</mat-label>
+      <input matInput id="firstName" type="text" formControlName="firstName">
+    </mat-form-field>
+    <app-validation-messages [control]="createStudentForm.get('firstName')"></app-validation-messages>
+
+
+    <!-- Last Name Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Your Last Name</mat-label>
+      <input matInput id="lastName" type="text" formControlName="lastName">
+    </mat-form-field>
+    <app-validation-messages [control]="createStudentForm.get('lastName')"></app-validation-messages>
     <br>
 
     <!-- Campus Location Dropdown -->
     <mat-form-field class="questionTypeInput">
-      <mat-label>Select Campus Location</mat-label>
+      <mat-label>Select Your Campus Location</mat-label>
       <mat-select (selectionChange)="onCampusLocationSelected($event)" formControlName="campusLocation">
         <mat-option value="Stevens Point">Stevens Point</mat-option>
         <mat-option value="Wisconsin Rapids">Wisconsin Rapids</mat-option>
@@ -39,28 +51,10 @@
     </mat-form-field>
     <app-validation-messages [control]="createStudentForm.get('campusLocation')"></app-validation-messages>
 
-    <br>
 
-    <!-- First Name Input -->
-    <mat-form-field appearance="standard">
-      <mat-label color="primary" class="label-header">Enter first name</mat-label>
-      <input matInput id="firstName" type="text" formControlName="firstName">
-    </mat-form-field>
-    <app-validation-messages [control]="createStudentForm.get('firstName')"></app-validation-messages>
-
-    <br>
-
-    <!-- Last Name Input -->
-    <mat-form-field appearance="standard">
-      <mat-label color="primary" class="label-header">Enter last name</mat-label>
-      <input matInput id="lastName" type="text" formControlName="lastName">
-    </mat-form-field>
-    <app-validation-messages [control]="createStudentForm.get('lastName')"></app-validation-messages>
-
-    <br>
-
+    <!-- Date of Birth Input-->
     <mat-form-field class="date" appearance="standard">
-      <mat-label color="primary" class="label-header">Choose date of birth</mat-label>
+      <mat-label color="primary" class="label-header">Your Date of Birth</mat-label>
       <input matInput id="dateOfBirth" [matDatepicker]="picker" formControlName="dateOfBirth" [min]="minDate"
         [max]="maxDate" readonly="readonly">
       <mat-datepicker-toggle matSuffix [for]="picker" startView="year"></mat-datepicker-toggle>
@@ -69,9 +63,7 @@
     <app-validation-messages [control]="createStudentForm.get('dateOfBirth')"></app-validation-messages>
 
 
-
     <!-- Submit Button -->
     <!-- This button will not display: click is simulated in helping validate the form -->
     <button class="simulatedButton" id="validateStudentForm" type="submit"></button>
   </form>
-</mat-card>

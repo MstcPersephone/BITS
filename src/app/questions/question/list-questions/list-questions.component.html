@@ -14,6 +14,7 @@
         <mat-panel-title>{{category.key}} Questions</mat-panel-title>
       </mat-expansion-panel-header>
       <mat-card *ngFor="let question of category.value">
+        <!-- First row of tiles in grid display -->
         <mat-grid-list [cols]="16" gutterSize="5px" rowHeight="30px">
           <!-- Tiles utilize space as follows: -->
           <!-- QT = Question Text Header -->
@@ -22,25 +23,26 @@
           <!-- [QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT][QT] [DI] [EI] -->
           <!-- [                        QT h3 object                            ] -->
 
+          <!-- Question Text Header Tile -->
           <mat-grid-tile [colspan]="14" [rowspan]="1">
             <mat-grid-tile-header>
               <h5>Question Text</h5>
             </mat-grid-tile-header>
           </mat-grid-tile>
 
-
+          <!-- Delete / Edit Icon Tiles -->
           <mat-grid-tile class="iconContainer" [colspan]="1" [rowspan]="1">
             <mat-icon class="deleteIcon" matListIcon (click)="this.questionService.deleteQuestionById(question)">delete</mat-icon>
           </mat-grid-tile>
-
-
           <mat-grid-tile class="iconContainer" [colspan]="1" [rowspan]="1">
             <mat-icon class="editIcon" [routerLink]="['/question/edit', question._id]" matListIcon>edit</mat-icon>
           </mat-grid-tile>
-          </mat-grid-list>
+        </mat-grid-list>
 
+        <!-- Question Text Display -->
         <h3 class="questionTextContent">{{ question.questionText }}</h3>
 
+        <!-- Second row of tiles in question display -->
         <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
           <!-- Tiles utilize space as follows: -->
           <!-- QT = Question Type -->
@@ -48,68 +50,96 @@
           <!-- AT = Attachments -->
           <!-- [QT][QT] [PV][PV] [AT][AT][AT][AT] -->
           <!-- [QT][QT] [PV][PV] [AT][AT][AT][AT] -->
+          <!-- [               ] [AT][AT][AT][AT] (Additional Attachments past the first are displayed beneath the first. -->
           <!-- (second row is the space devoted to the actual content, not header) -->
 
+          <!-- Spacer Tile -->
           <mat-grid-tile [colspan]="8" [rowspan]="1">
           </mat-grid-tile>
 
+          <!-- Question Type Header Tile-->
           <mat-grid-tile [colspan]="2" [rowspan]="1">
             <mat-grid-tile-header>
               <h5>Question Type</h5>
             </mat-grid-tile-header>
           </mat-grid-tile>
 
+          <!-- Point Value Header Tile -->
           <mat-grid-tile [colspan]="2" [rowspan]="1">
             <mat-grid-tile-header>
               <h5>Point Value</h5>
             </mat-grid-tile-header>
           </mat-grid-tile>
 
+          <!-- Attachments Header Tile -->
           <mat-grid-tile [colspan]="4" [rowspan]="1">
             <mat-grid-tile-header>
               <h5>Attachments</h5>
             </mat-grid-tile-header>
           </mat-grid-tile>
 
+          <!-- Question Type Display Tile -->
           <mat-grid-tile [colspan]="2" [rowspan]="1">
             <p> {{ question.questionType }} </p>
           </mat-grid-tile>
 
+          <!-- Point Value Display Tile -->
           <mat-grid-tile [colspan]="2" [rowspan]="1">
             <p> {{ question.points }} </p>
           </mat-grid-tile>
 
+          <!-- Attachment Container - Displays the first attachment tied to the question.-->
+          <!-- Additional attachments will be displayed in a new row beneath this row. -->
           <mat-grid-tile class="attachmentContainer" [colspan]="4" [rowspan]="1">
-            <div class="attachmentsContent" *ngIf="question.hasAttachments === true">
-              <div *ngFor="let attachment of question.attachments">
+            <!-- Displays a button for the first attachment IF one or more attachments exist-->
+            <div class="attachmentsContent" *ngIf="question.hasAttachments === true && question.attachments.length >= 1">
+              <div *ngFor="let attachment of question.attachments; let i=index">
+                <button *ngIf="i == 0" class="uploadAnswer" mat-raised-button
+                  (click)="this.attachmentService.downloadAttachment(attachment)">
+                  {{attachment.name}} &nbsp;<mat-icon>cloud_download</mat-icon>
+                </button>
+              </div>
+            </div>
+            <!-- Displays a N/A message if there are no attachments associated with the question. -->
+            <div class="attachmentsContent" *ngIf="question.hasAttachments === false">
+              <p>N/A</p>
+            </div>
+          </mat-grid-tile>
+          <!-- Additional rows that are used to to display attachments past the first one. -->
+          <mat-grid-tile [colspan]="4" [rowspan]="1" *ngIf="question.hasAttachments === true && question.attachments.length > 1">
+          </mat-grid-tile>
+          <!-- Displays a button for attachments past the first one if there are multiple attachments associated with the question. -->
+          <mat-grid-tile class="attachmentContainer additionalAttachments" [colspan]="4" [rowspan]="1">
+            <div class="attachmentsContent" *ngIf="question.hasAttachments === true && question.attachments.length > 1">
+              <div *ngFor="let attachment of question.attachments | slice: 1">
                 <button class="uploadAnswer" mat-raised-button
                   (click)="this.attachmentService.downloadAttachment(attachment)">
                   {{attachment.name}} &nbsp;<mat-icon>cloud_download</mat-icon>
                 </button>
               </div>
             </div>
-            <div class="attachmentsContent" *ngIf="question.hasAttachments === false">
-              <p>N/A</p>
-            </div>
           </mat-grid-tile>
-
+          <!-- Spacing row added beneath the additional attachments.-->
+          <mat-grid-tile [colspan]="8" [rowspan]="1" *ngIf="question.hasAttachments === true && question.attachments.length > 1">
+          </mat-grid-tile>
         </mat-grid-list>
 
+        <!-- Third Row - Devoted to Question Responses and answers based on question type. -->
+        <!-- IF the question type is Checkbox or Multiple Choice, displays a Selectable Options row. -->
         <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'"
           class="optionList">
 
+          <!-- Selectable Options Header Tile -->
           <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
-
             <mat-grid-tile [colspan]="8" [rowspan]="1">
               <mat-grid-tile-header>
                 <h5>Selectable Options</h5>
               </mat-grid-tile-header>
             </mat-grid-tile>
-
-
           </mat-grid-list>
-          <div class="optionListContainer" *ngIf="this.questionService.asCheckbox(question).options.length > 0">
 
+          <!-- Question Option Tile -->
+          <div class="optionListContainer" *ngIf="this.questionService.asCheckbox(question).options.length > 0">
             <div *ngFor="let option of this.questionService.asCheckbox(question).options; let i = index">
               <div class="optionContainer" [ngClass]="option.isAnswer ? 'correct' : '' ">
                 <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
@@ -117,25 +147,23 @@
               </div>
             </div>
           </div>
-
         </div>
 
 
-        <!-- If Short Answer displays the exact matches -->
+        <!-- IF the question type is Short Answer, displays an Acceptable Answers row. -->
         <div class="matchList" *ngIf="question.questionType == 'Short Answer'">
-
+          <!-- Acceptable Answers Header Tile-->
           <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
-
             <mat-grid-tile [colspan]="8" [rowspan]="1">
               <mat-grid-tile-header>
                 <h5 *ngIf="this.questionService.asShortAnswer(question).isCaseSensitive">Acceptable Answers (Case Sensitive)</h5>
                 <h5 *ngIf="!this.questionService.asShortAnswer(question).isCaseSensitive">Acceptable Answers</h5>
               </mat-grid-tile-header>
             </mat-grid-tile>
-
           </mat-grid-list>
-          <div class="matchListContainer" *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
 
+          <!-- Acceptable Option Tile-->
+          <div class="matchListContainer" *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
             <div *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; let i = index">
               <div class="optionContainer correct">
                 <mat-icon class="isAnswerIcon">check_circle</mat-icon>
@@ -146,23 +174,19 @@
 
         </div>
 
-        <!-- If True False displays the answer -->
-        <div *ngIf="question.questionType === 'True False'">
-          <br>
-          <br>
 
-
+        <!-- IF the question type is True False, displays a Correct Answer row. -->
+        <div *ngIf="question.questionType === 'True False'"><br><br>
+          <!-- Correct Answer Header Tile-->
           <mat-grid-list [cols]="8" gutterSize="5px" rowHeight="30px">
-
             <mat-grid-tile [colspan]="8" [rowspan]="1">
               <mat-grid-tile-header>
                 <h5>Correct Answer</h5>
               </mat-grid-tile-header>
             </mat-grid-tile>
-
           </mat-grid-list>
 
-
+          <!-- Correct Answer Tile-->
           <div class="optionListContainer">
             <div>
               <div class="optionContainer correct" *ngIf="this.questionService.asTrueFalse(question).answer">
@@ -176,12 +200,8 @@
             </div>
           </div>
         </div>
-
-
-
       </mat-card>
     </mat-expansion-panel>
-
   </div>
 </mat-card>
 <br>

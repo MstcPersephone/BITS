@@ -1,1 +1,202 @@
-<p>view-student works!</p>
+<mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
+<br>
+<mat-card *ngIf="!this.helperService.isLoading">
+
+  <!-- Displaying page header - "[Student Full Name]'s Assessment Results"-->
+  <h1 class="mat-display-1">{{this.takenAssessment.student.firstName}} {{this.takenAssessment.student.lastName}}'s Assessment Results</h1>
+
+  <!-- Creating "header" table displaying assessment information. -->
+  <mat-grid-list cols="6" gutterSize="5px" rowHeight="30px">
+    <!-- Assessment Name Tile -->
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+      <mat-grid-tile-header>
+        <h4>Assessment Name</h4>
+      </mat-grid-tile-header>
+      <p>{{takenAssessment.assessment.name}}</p>
+    </mat-grid-tile>
+
+    <!-- Score Tile -->
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <mat-grid-tile-header>
+        <h4>Score</h4>
+      </mat-grid-tile-header>
+      <p>{{takenAssessment.score}}%</p>
+    </mat-grid-tile>
+
+    <!-- Assessment Results Tile -->
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+      <mat-grid-tile-header>
+        <h4>Assessment Results</h4>
+      </mat-grid-tile-header>
+      <div *ngIf="takenAssessment.studentPassed !== null">
+        <!-- If they passed, displays 'No BITS Required' -->
+        <div *ngIf="takenAssessment.studentPassed">
+          <p>No BITS Required</p>
+        </div>
+        <!-- If they didn't pass, displays 'BITS Required' -->
+        <div *ngIf="!takenAssessment.studentPassed">
+          <p>BITS Required</p>
+        </div>
+      </div>
+    </mat-grid-tile>
+
+    <!-- Date Taken Tile -->
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <mat-grid-tile-header>
+        <h4>Date Taken</h4>
+      </mat-grid-tile-header>
+      <p>{{takenAssessment.modifiedOn | date:'MM/d/yyyy'}}</p>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <br>
+  <br>
+  <br>
+
+<!-- Student Question Details Section -->
+<!-- Displays info about each question they were asked and their responses. -->
+<div  *ngIf="!this.helperService.isLoading">
+  <!-- Looping through each question in the assessment. -->
+  <mat-card class="questionContainer" *ngFor="let question of takenAssessment.questions; let i=index">
+    <!-- Question Number in assessment -->
+    <h2>Question {{i + 1}}</h2>
+
+    <!-- Point value on question -->
+    <h4>Point Value: {{ question.points }}</h4>
+
+    <!-- Question Text Display -->
+    <p class="questionTextContent">{{ question.questionText }}</p>
+
+    <!-- Displays responses based on question type -->
+    <!-- IF the question type is Checkbox or Multiple Choice, displays a Selectable Options row. -->
+    <div *ngIf="question.questionType == 'Checkbox' || question.questionType == 'Multiple Choice'" class="optionList">
+
+      <!-- Question/Answer divider -->
+      <hr>
+
+      <!-- Question Option Tile -->
+      <div class="optionListContainer" *ngIf="this.questionService.asCheckbox(question).options.length > 0">
+        <div *ngFor="let option of this.questionService.asCheckbox(question).options; let i = index">
+
+          <div *ngIf="this.question.isAnsweredCorrectly">
+            <div class="optionContainer optionDisplay" [ngClass]="option.isAnswer ? 'correct' : '' ">
+              <mat-icon [ngClass]="option.isAnswer ? 'isAnswerIcon' : 'isNotAnswerIcon' ">check_circle</mat-icon>
+              <span class="optionListItem">{{option.optionText}}</span>
+            </div>
+          </div>
+
+          <div *ngIf="!this.question.isAnsweredCorrectly">
+            <!-- If the option is the correct answer, set the background to green. -->
+            <div class="optionContainer" [ngClass]="option.isAnswer ? 'correct' : '' ">
+              <!-- If the option is the correct answer AND the option was NOT selected OR
+                   if the option is NOT the correct answer AND the option WAS selected, set the background to red. -->
+              <div class="optionContainer optionDisplay"
+                [ngClass]="option.isAnswer && !option.optionIsSelected && this.question.questionType == 'Checkbox' ||
+                           !option.isAnswer && option.optionIsSelected ? 'wrong' : '' ">
+                <!-- If the option IS the correct answer, display a checkmark. -->
+                <mat-icon *ngIf="option.isAnswer">
+                  check_circle
+                </mat-icon>
+                <!-- If the option is NOT the correct answer, display an X.
+                     If the option was NOT selected, hide the icon.-->
+                <mat-icon *ngIf="!option.isAnswer" [ngClass]="!option.optionIsSelected ? 'isNotAnswerIcon' : '' ">
+                  cancel
+                </mat-icon>
+
+                <!-- If the question is a Checkbox question, displays checkboxes indicating the student's selections -->
+                <mat-icon class="checkboxIcon" *ngIf="this.question.questionType == 'Checkbox' && option.optionIsSelected">
+                  check_box
+                </mat-icon>
+                <mat-icon class="checkboxIcon" *ngIf="this.question.questionType == 'Checkbox' && !option.optionIsSelected">
+                  check_box_outline_blank
+                </mat-icon>
+
+                <span class="optionListItem">{{option.optionText}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- IF the question type is Short Answer, displays an Acceptable Answers row. -->
+    <div class="matchList" *ngIf="question.questionType == 'Short Answer'">
+
+      <!-- Question/Answer divider -->
+      <hr>
+
+      <!-- Acceptable Option Tile-->
+      <div *ngIf="this.question.isAnsweredCorrectly">
+            <div class="optionContainer correct optionDisplay">
+              <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+              <span class="matchListItem">{{this.questionService.asShortAnswer(question).studentAnswer}}</span>
+            </div>
+      </div>
+
+      <div *ngIf="!this.question.isAnsweredCorrectly">
+        <div class="optionContainer wrong optionDisplay">
+          <mat-icon class="isAnswerIcon">cancel</mat-icon>
+          <span class="matchListItem">{{this.questionService.asShortAnswer(question).studentAnswer}}</span>
+        </div>
+        <h4 class="acceptableAnswersHeader">Acceptable Answers:</h4>
+        <div class="matchListContainer" *ngIf="this.questionService.asShortAnswer(question).matches.length > 0">
+          <div *ngFor="let exactMatch of this.questionService.asShortAnswer(question).matches; let i = index">
+            <div class="optionContainer correct optionDisplay">
+              <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+              <span class="matchListItem">{{exactMatch.matchText}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- IF the question type is True False, displays a Correct Answer row. -->
+    <div *ngIf="question.questionType === 'True False'">
+
+      <!-- Question/Answer divider -->
+      <hr>
+
+      <!-- Correct Answer Tile-->
+      <div class="optionListContainer">
+        <div *ngIf="this.question.isAnsweredCorrectly">
+          <div class="optionContainer correct optionDisplay" *ngIf="this.questionService.asTrueFalse(question).answer">
+            <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+            <span class="optionListItem">True</span>
+          </div>
+          <div class="optionContainer correct optionDisplay" *ngIf="!this.questionService.asTrueFalse(question).answer">
+            <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+            <span class="optionListItem">False</span>
+          </div>
+        </div>
+
+        <div *ngIf="!this.question.isAnsweredCorrectly">
+          <div class="optionContainer wrong optionDisplay" *ngIf="this.questionService.asTrueFalse(question).studentAnswer">
+            <mat-icon class="isAnswerIcon">cancel</mat-icon>
+            <span class="optionListItem">True</span>
+          </div>
+          <div class="optionContainer correct optionDisplay" *ngIf="this.questionService.asTrueFalse(question).answer">
+            <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+            <span class="optionListItem">True</span>
+          </div>
+          <div class="optionContainer wrong optionDisplay" *ngIf="!this.questionService.asTrueFalse(question).studentAnswer">
+            <mat-icon class="isAnswerIcon">cancel</mat-icon>
+            <span class="optionListItem">False</span>
+          </div>
+          <div class="optionContainer correct optionDisplay" *ngIf="!this.questionService.asTrueFalse(question).answer">
+            <mat-icon class="isAnswerIcon">check_circle</mat-icon>
+            <span class="optionListItem">False</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </mat-card>
+</div>
+
+<!-- Cancel Button : Cancels the save and send user back to question list -->
+<button class="returnButton" mat-raised-button [routerLink]="['/student/list']">Return to Student Results</button>
+
+</mat-card>
+<br>

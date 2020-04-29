@@ -21,10 +21,10 @@ export class ListStudentComponent implements OnInit {
   showTableData = false;
   private takenAssessmentsSubscription: Subscription;
   // tslint:disable-next-line: max-line-length
-  public displayedColumns: string[] = ['studentId', 'campusLocation', 'studentName', 'dateOfBirth', 'score', 'studentPassed', 'modifiedOn', 'assessmentName'];
+  public displayedColumns: string[] = ['studentId', 'campusLocation', 'studentName', 'dateOfBirth', 'score', 'studentPassed', 'modifiedOn', 'assessmentName', 'detailLink'];
   public dataSource = new MatTableDataSource<TakenAssessment>();
   // tslint:disable-next-line: max-line-length
-  public columnsToDisplay = ['studentId', 'campusLocation', 'studentName', 'dateOfBirth', 'score', 'studentPassed', 'modifiedOn', 'assessmentName'];
+  public columnsToDisplay = ['studentId', 'campusLocation', 'studentName', 'dateOfBirth', 'score', 'studentPassed', 'modifiedOn', 'assessmentName', 'detailLink'];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
 

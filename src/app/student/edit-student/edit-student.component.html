@@ -1,22 +1,39 @@
 <mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
-<mat-card  *ngIf="!this.helperService.isLoading">
+<br>
+<mat-card *ngIf="!this.helperService.isLoading">
 
-  <h4>Edit Student Information</h4>
+  <h1 class="mat-display-1">Edit Student Information</h1>
 
   <form [formGroup]="editStudentForm" (ngSubmit)="onSubmit(editStudentForm.value)">
 
     <!-- Student Input -->
     <mat-form-field appearance="standard">
-      <mat-label color="primary" class="label-header">Edit Student ID</mat-label>
+      <mat-label color="primary" class="label-header">Student ID</mat-label>
       <input matInput id="studentId" type="text" formControlName="studentId" value="{{ student.studentId }}">
     </mat-form-field>
     <app-validation-messages [control]="editStudentForm.get('studentId')"></app-validation-messages>
+
+
+    <!-- First Name Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">First Name</mat-label>
+      <input matInput id="firstName" type="text" formControlName="firstName" value="{{ student.firstName }}">
+    </mat-form-field>
+    <app-validation-messages [control]="editStudentForm.get('firstName')"></app-validation-messages>
+
+
+    <!-- Last Name Input -->
+    <mat-form-field appearance="standard">
+      <mat-label color="primary" class="label-header">Last Name</mat-label>
+      <input matInput id="lastName" type="text" formControlName="lastName" value="{{ student.lastName }}">
+    </mat-form-field>
+    <app-validation-messages [control]="editStudentForm.get('lastName')"></app-validation-messages>
 
     <br>
 
     <!-- Campus Location Dropdown -->
     <mat-form-field class="questionTypeInput">
-      <mat-label>Select Campus Location</mat-label>
+      <mat-label>Campus Location</mat-label>
       <mat-select (selectionChange)="onCampusLocationSelected($event)" formControlName="campusLocation"
       [(value)]="campusLocationSelected">
         <mat-option value="Stevens Point">Stevens Point</mat-option>
@@ -25,28 +42,9 @@
     </mat-form-field>
     <app-validation-messages [control]="editStudentForm.get('campusLocation')"></app-validation-messages>
 
-    <br>
-
-    <!-- First Name Input -->
-    <mat-form-field appearance="standard">
-      <mat-label color="primary" class="label-header">Edit first name</mat-label>
-      <input matInput id="firstName" type="text" formControlName="firstName" value="{{ student.firstName }}">
-    </mat-form-field>
-    <app-validation-messages [control]="editStudentForm.get('firstName')"></app-validation-messages>
-
-    <br>
-
-    <!-- Last Name Input -->
-    <mat-form-field appearance="standard">
-      <mat-label color="primary" class="label-header">Edit last name</mat-label>
-      <input matInput id="lastName" type="text" formControlName="lastName" value="{{ student.lastName }}">
-    </mat-form-field>
-    <app-validation-messages [control]="editStudentForm.get('lastName')"></app-validation-messages>
-
-    <br>
 
     <mat-form-field class="date" appearance="standard">
-      <mat-label color="primary" class="label-header">Choose date of birth</mat-label>
+      <mat-label color="primary" class="label-header">Date of Birth</mat-label>
       <input matInput id="dateOfBirth" [matDatepicker]="picker" formControlName="dateOfBirth" [min]="minDate"
         [max]="maxDate" readonly="readonly" value="{{ student.dateOfBirth }}">
       <mat-datepicker-toggle matSuffix [for]="picker" startView="year"></mat-datepicker-toggle>
@@ -54,7 +52,6 @@
     </mat-form-field>
     <app-validation-messages [control]="editStudentForm.get('dateOfBirth')"></app-validation-messages>
 
-    <br>
 
     <!-- Submit Button : Saves the edited Student  -->
     <button class="saveButton" mat-raised-button type="submit">

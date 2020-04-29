@@ -52,7 +52,7 @@ const routes: Routes = [
   { path: 'student/create', component: CreateStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/edit/:studentsId', component: EditStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/list', component: ListStudentComponent, canActivate: [AuthGuard] },
-  { path: 'student/view', component: ViewStudentComponent, canActivate: [AuthGuard] },
+  { path: 'student/view/:takenAssessmentId', component: ViewStudentComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomepageComponent, canActivate: [AuthGuard] },
   { path: 'user/create', component: LoginCreateComponent, canActivate: [AuthGuard, AdminGuard]},
   { path: 'login', component: LoginViewComponent},
