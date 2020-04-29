@@ -488,33 +488,33 @@ export class AssessmentEngineService {
     this.helperService.isLoading = true;
     this.http
       .post<{ message: string, takenAssessments: TakenAssessment[] }>(
-        environment.apiUrl + 'filterTakenAssessments/', {searchParameters})
-        .subscribe(
-          responseData => {
-            this.takenAssessments = responseData.takenAssessments;
-            this.takenAssessmentsUpdated.next(this.takenAssessments);
-            // Done loading. Remove the loading spinner
-            this.helperService.isLoading = false;
-            console.log(responseData.message);
-            console.log(this.takenAssessments);
-          },
-          error => {
-            console.log('%c' + error.error.message, 'color: red;');
-          });
-    }
+        environment.apiUrl + 'filterTakenAssessments/', { searchParameters })
+      .subscribe(
+        responseData => {
+          this.takenAssessments = responseData.takenAssessments;
+          this.takenAssessmentsUpdated.next(this.takenAssessments);
+          // Done loading. Remove the loading spinner
+          this.helperService.isLoading = false;
+          console.log(responseData.message);
+          console.log(this.takenAssessments);
+        },
+        error => {
+          console.log('%c' + error.error.message, 'color: red;');
+        });
+  }
 
   // ************************************************* //
   // *************  GET: STUDENT BY ID  ************** //
   // ************************************************* //
   getStudentbyId(studentsId: string) {
-      this.helperService.isLoading = true;
-      this.http.get<{ message: string, student: Student }>(environment.apiUrl + 'student/' + studentsId)
-        .subscribe((studentData) => {
-          this.currentStudent = studentData.student[0];
-          this.currentStudentUpdated.next(this.currentStudent);
-          this.helperService.isLoading = false;
-        });
-    }
+    this.helperService.isLoading = true;
+    this.http.get<{ message: string, student: Student }>(environment.apiUrl + 'student/' + studentsId)
+      .subscribe((studentData) => {
+        this.currentStudent = studentData.student[0];
+        this.currentStudentUpdated.next(this.currentStudent);
+        this.helperService.isLoading = false;
+      });
+  }
 
   // ************************************************* //
   // ***************  SAVE: STUDENT  ***************** //
@@ -605,14 +605,12 @@ export class AssessmentEngineService {
           // Success message at the bottom of the screen
           // console log information about the response for debugging
           this.helperService.openSnackBar(takenAssessment.assessment.name + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
-          this.helperService.isLoading = false;
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.updatedTakenAssessment);
           console.table(responseData.updatedTakenAssessment);
-          if (this.takenAssessment.studentPassed !== null) {
-            this.helperService.refreshComponentById('assessment/updateTaken/', takenAssessment._id);
-        }
+          this.helperService.refreshComponentById('assessment/take/', takenAssessment._id);
+          this.helperService.isLoading = false;
         },
         error => {
           // log error message from server
