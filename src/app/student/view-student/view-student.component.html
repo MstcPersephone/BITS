@@ -45,7 +45,7 @@
 <br>
 <br>
 <br>
-
+<div  *ngIf="!this.helperService.isLoading">
 <mat-card *ngFor="let question of takenAssessment.questions; let i=index">
   <h2>Question {{i + 1}}</h2>
   <h4>Possible Points: {{ question.points }}</h4>
@@ -160,6 +160,7 @@
     </div>
   </div>
 </mat-card>
+</div>
 
 <!-- Cancel Button : Cancels the save and send user back to question list -->
 <button class="returnButton" mat-raised-button [routerLink]="['/student/list']">Return to Student Results</button>
