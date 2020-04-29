@@ -939,7 +939,7 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
     questions: requestedUpdate.questions,
     score: requestedUpdate.score,
     studentPassed: requestedUpdate.studentPassed,
-    modifiedOn: Date.now()
+    modifiedOn: new Date(Date.now())
   };
 
   // passes the data to the database to update a specific assessment by id
