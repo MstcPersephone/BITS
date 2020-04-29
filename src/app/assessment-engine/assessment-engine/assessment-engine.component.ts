@@ -24,7 +24,7 @@ export class AssessmentEngineComponent implements OnInit {
     public assessmentEngineService: AssessmentEngineService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private loginService: LoginEngineService) {
     this.answerForm = this.formBuilder.group({});
    }
@@ -44,6 +44,7 @@ export class AssessmentEngineComponent implements OnInit {
     this.assessmentEngineService.getTakenAssessmentById(this.route.snapshot.params.takenAssessmentId);
     this.helperService.isActiveAssessment = true;
     this.loginService.logout();
+    this.helperService.isLoading = false;
   }
 
   onSubmit(formData) {

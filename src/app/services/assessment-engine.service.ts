@@ -609,7 +609,7 @@ export class AssessmentEngineService {
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.updatedTakenAssessment);
           console.table(responseData.updatedTakenAssessment);
-          this.helperService.refreshComponentById('assessment/take/', takenAssessment._id);
+          this.helperService.refreshComponentById('assessment/take', takenAssessment._id);
           this.helperService.isLoading = false;
         },
         error => {
