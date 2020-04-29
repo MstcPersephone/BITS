@@ -15,7 +15,6 @@ export class MultipleChoice implements Question {
   hasAttachments: boolean;
   attachments: Attachment[];
   isAnswered: boolean;
-  studentAnswer: string;
   duration: number;
   points: number;
   isAnsweredCorrectly: boolean; // whether the user has provided the correct answer

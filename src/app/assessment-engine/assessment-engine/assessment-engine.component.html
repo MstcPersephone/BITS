@@ -1,7 +1,10 @@
-<!-- The div group for taking an assessment -->
-<div *ngIf="!this.assessmentTaken">
+<br>
+<!-- The mat-card displayed before and during an assessment -->
+<mat-card *ngIf="!this.assessmentTaken">
+  <!-- The "Starting [assessment name] Assessment" header - displays before the assessment has been started. -->
+  <h1 class="mat-display-1" *ngIf="!this.assessmentEngineService.assessmentStarted">Starting {{this.takenAssessment.assessment.name}} Assessment</h1>
 
-  <!-- Create student form which hides on submit -->
+  <!-- The Enter Student Information form - displays before the assessment has been started. -->
   <app-create-student *ngIf="!this.assessmentEngineService.assessmentStarted"></app-create-student>
 
   <!-- The form used for the student answer -->
@@ -14,9 +17,17 @@
       <!-- The footer view which contains all the button controls -->
     <app-footer></app-footer>
   </form>
-</div>
+</mat-card>
 
-<!-- The div group let user know assessment can only be taken once. -->
-<div *ngIf="this.assessmentTaken">
-  <p>This assessment has already been taken and cannot be taken again.</p>
-</div>
+<!-- The mat-card displayed after taking an assessment. -->
+<mat-card *ngIf="this.assessmentTaken">
+  <!-- Page Header -->
+  <h1 class="mat-display-1">Assessment Complete</h1>
+  <p>Thank you, {{this.takenAssessment.student.firstName}}. You have completed the {{this.takenAssessment.assessment.name}} assessment.
+     Your submission has been saved.</p>
+  <p>You may close this webpage and return to your advisor.</p>
+  <br>
+  <p><b>Name:</b> {{this.takenAssessment.student.firstName}} {{this.takenAssessment.student.lastName}}</p>
+  <p><b>Assessment:</b> {{this.takenAssessment.assessment.name}}</p>
+  <br>
+</mat-card>

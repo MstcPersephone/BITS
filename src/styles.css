@@ -306,3 +306,8 @@ a.hiddenLink{
   text-decoration: none;
   color: black;
 }
+
+/* Removes the unusual top margin applied to the next button on the calendar. */
+.mat-calendar-next-button{
+  margin-top: 0 !important;
+}

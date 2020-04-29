@@ -28,11 +28,14 @@ export class ViewMultipleChoiceComponent implements OnInit {
   }
 
   onChangeOption($event, i) {
+     // reset all optionIsSelected to false
     this.question.options.forEach(element => {
       element.optionIsSelected = false;
     });
+
+    // set the current selected to optionIsSelected
     this.question.options[i].optionIsSelected = true;
-    this.question.studentAnswer = this.question.options[i].optionText;
+
     console.log(this.question.options);
   }
 }

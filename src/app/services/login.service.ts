@@ -112,7 +112,9 @@ export class LoginEngineService {
     this.authStatusListener.next(false);
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
-    this.router.navigate(['/login']);
+    if (this.helperService.isActiveAssessment === false) {
+      this.router.navigate(['/login']);
+    }
   }
 
   // Sets the timer for the token

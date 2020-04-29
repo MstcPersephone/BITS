@@ -1,6 +1,10 @@
 /* Importing global styles */
 @import '../../../styles.css';
 
+/* Hides the background color of the form. */
+.generateAssessmentUrlForm{
+  background-color: #fff;
+}
 /* Removing the increased top-margin from the Generate Assessment button */
 .generateAssessmentUrlForm button{
   margin-top: 0;

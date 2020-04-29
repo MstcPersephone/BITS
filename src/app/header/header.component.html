@@ -5,7 +5,7 @@
     <p (click)="this.helperService.refreshComponent('/home')">Basic IT Software Assessment</p>
 
     <!-- Navigation Menu Button-->
-    <button color="accent" mat-raised-button [matMenuTriggerFor]="menu">
+    <button color="accent" *ngIf="!this.helperService.isActiveAssessment" mat-raised-button [matMenuTriggerFor]="menu">
       <mat-icon>menu</mat-icon>
     </button>
     <!-- Navigation Menu Options -->
