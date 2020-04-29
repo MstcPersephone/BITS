@@ -136,25 +136,36 @@ export class AssessmentEngineService {
   }
 
   checkShortAnswer(question: ShortAnswer) {
+
     // TODO: [PER-169] add space checks for validation
-    let isCorrect = true;
+    let isCorrect = false;
+    const exactMatches = [];
 
     // If question is case sensetive, leave strings alone when doing the check
     if (question.isCaseSensitive) {
 
       // Create an array of the exact match strings
       question.matches.forEach((m) => {
-        if (m.matchText !== question.studentAnswer) {
-          isCorrect = false;
-        }
+        exactMatches.push(m.matchText);
       });
+
+      // Check to see if the student answer is in the exact matches string array
+      if (exactMatches.includes(question.studentAnswer)) {
+        isCorrect = true;
+      }
     } else {
-      // Not case sensitive, so making everything lowercase
+
+      // Not case sensetive, so making everything lowercase
       question.matches.forEach((m) => {
-        if (m.matchText.toLowerCase() !== question.studentAnswer.toLowerCase()) {
-          isCorrect = false;
-        }
+        console.log('Exact Answer', m.matchText);
+        exactMatches.push(m.matchText.toLowerCase());
       });
+
+      // Also make student answer all lower case
+      if (exactMatches.includes(question.studentAnswer.toLowerCase())) {
+        console.log('student answer', question.studentAnswer.toLowerCase());
+        isCorrect = true;
+      }
     }
 
     return isCorrect;
