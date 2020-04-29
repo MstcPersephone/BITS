@@ -8,3 +8,30 @@ mat-card{
 ::ng-deep .mat-sort-header-arrow {
   color: #fff;
 }
+
+/* Styles appied to the search and result forms */
+.findStudentForm, .findStudentResults{
+  background-color: #f5f5f5;
+  padding: 15px;
+}
+.findStudentForm form h3, .findStudentResults h3{
+  margin-top: 0;
+  padding: 0;
+}
+
+/* Setting the width of the table headers */
+th{
+  width: 5%;
+}
+th.idColumn, th.resultDetailColumn{
+  width: 1% !important;
+}
+
+/* Increasing the size of the result link icon to span the container */
+td div mat-icon{
+  margin: auto;
+  padding: 10px;
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
