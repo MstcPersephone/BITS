@@ -4,7 +4,7 @@
 <mat-card>
   <h3>Enter Search Criteria</h3>
 
-  <form [formGroup]="findStudentForm" >
+  <form [formGroup]="findStudentForm">
 
     <!-- Student Id Input -->
     <mat-form-field appearance="standard">
@@ -91,16 +91,16 @@
       </td>
     </ng-container>
 
-        <!-- Description Column -->
-        <ng-container matColumnDef="studentPassed">
-          <th class="columnHeader" mat-header-cell *matHeaderCellDef mat-sort-header>Student Result</th>
-          <td mat-cell *matCellDef="let takenAssessment">
-            <div *ngIf="takenAssessment.studentPassed !== null">
-              <div *ngIf="takenAssessment.studentPassed">No BITS Required</div>
-              <div *ngIf="!takenAssessment.studentPassed">BITS Required</div>
-            </div>
-          </td>
-        </ng-container>
+    <!-- Description Column -->
+    <ng-container matColumnDef="studentPassed">
+      <th class="columnHeader" mat-header-cell *matHeaderCellDef mat-sort-header>Student Result</th>
+      <td mat-cell *matCellDef="let takenAssessment">
+        <div *ngIf="takenAssessment.studentPassed !== null">
+          <div *ngIf="takenAssessment.studentPassed">No BITS Required</div>
+          <div *ngIf="!takenAssessment.studentPassed">BITS Required</div>
+        </div>
+      </td>
+    </ng-container>
 
 
     <!-- Student Name Column -->
@@ -111,17 +111,25 @@
       </td>
     </ng-container>
 
-        <!-- Description Column -->
-        <ng-container matColumnDef="assessmentName">
-          <th class="columnHeader" mat-header-cell *matHeaderCellDef mat-sort-header>Student Result</th>
-          <td mat-cell *matCellDef="let takenAssessment">
-            <div *ngIf="takenAssessment.assessment.name !== null">
-              {{takenAssessment.assessment.name}}
-            </div>
-          </td>
-        </ng-container>
+    <!-- Description Column -->
+    <ng-container matColumnDef="assessmentName">
+      <th class="columnHeader" mat-header-cell *matHeaderCellDef mat-sort-header>Student Result</th>
+      <td mat-cell *matCellDef="let takenAssessment">
+        <div *ngIf="takenAssessment.assessment.name !== null">
+          {{takenAssessment.assessment.name}}
+        </div>
+      </td>
+    </ng-container>
 
-
+    <!-- View Assessment Detail Link Column -->
+    <ng-container matColumnDef="detailLink">
+      <th class="columnHeader" mat-header-cell *matHeaderCellDef mat-sort-header>Student Result</th>
+      <td mat-cell *matCellDef="let takenAssessment" (click)="$event.stopPropagation()">
+        <div *ngIf="takenAssessment.student.studentPassed !== null">
+          <mat-icon class="iconButton" matListIcon [routerLink]="['/student/view', takenAssessment._id]">link</mat-icon>
+        </div>
+      </td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns; Index as i"

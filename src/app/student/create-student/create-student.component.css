@@ -1,15 +1,27 @@
-.mat-form-field + .mat-form-field {
-  margin-left: 50px;
+/* Importing global styles. */
+@import '../../../styles.css';
+
+/* Styles applied to the form */
+form{
+  width: 60%;
+  margin: auto;
 }
 
-.mat-form-field + button {
-  margin-left: 50px;
+/* Styles applied to the form's header*/
+form h3{
+  margin-top: 0;
 }
 
-.mat-form-field {
-  width: 320px;
+/* Styles applied to the Student ID input, which displays when the user selects that they have a student ID. */
+.studentIdInput{
+  margin-left: 25px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  background-color: #fff;
 }
-
-.simulatedButton {
-  display: none;
+.studentIdInput mat-form-field, .studentIdInput mat-form-field input{
+  padding: 0;
 }

@@ -103,6 +103,7 @@ export class CreateShortAnswerComponent implements OnInit {
       shortAnswerQuestion.hasAttachments = this.attachmentService.hasAttachments;
       shortAnswerQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
       shortAnswerQuestion.isAnswered = false;
+      shortAnswerQuestion.studentAnswer = null;
       shortAnswerQuestion.matches = this.questionService.getMatches();
       shortAnswerQuestion.assessmentIds = null;
       shortAnswerQuestion.isCaseSensitive = this.questionService.isCaseSensitive;

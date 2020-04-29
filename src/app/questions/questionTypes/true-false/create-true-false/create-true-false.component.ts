@@ -71,6 +71,7 @@ export class CreateTrueFalseComponent implements OnInit {
       trueFalseQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
       trueFalseQuestion.isAnswered = false;
       trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
+      trueFalseQuestion.studentAnswer = null;
       trueFalseQuestion.duration = 0;
       trueFalseQuestion.assessmentIds = null;
 
