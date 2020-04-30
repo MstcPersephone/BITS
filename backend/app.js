@@ -876,7 +876,6 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
   // passes the data to the database to update a specific assessment by id
   mongoose.connection.db.collection('takenAssessments').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedTakenAssessment) {
 
-    console.log('STUDENT PASSED: ', requestedUpdate.studenPassed);
     // If the assessment has been taken
     if (requestedUpdate.studentPassed !== null) {
       sendEmailOfResults(requestedUpdate);
@@ -940,7 +939,7 @@ function updateTakenAssessmentStudents(updatedStudent) {
 function sendEmailOfResults(takenAssessment) {
   console.log('SENDING EMAIL');
   const transporter = nodemailer.createTransport({
-    host: 'smtp.mstc.edu',
+    host: 'mail.mstc.edu',
     secure: true,
     auth: {
       user: '16686110@mstc.edu',
@@ -968,7 +967,6 @@ function sendEmailOfResults(takenAssessment) {
 
 // Gets the appropriate email address via backend/providers/constants.js
 function getEmailAddress(campusLocation) {
-  console.log('CAMPUS LOCATION: ', campusLocation);
   switch (campusLocation) {
     case 'Wisconsin Rapids':
       return Constants.EmailTestResults.WisconsinRapids;
