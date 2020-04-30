@@ -1,0 +1,13 @@
+<div class="attachmentsContent" *ngIf="question.hasAttachments">
+  <div *ngFor="let attachment of question.attachments">
+    <button class="uploadAnswer" mat-raised-button (click)="this.attachmentService.downloadAttachment(attachment)">
+      {{attachment.name}} &nbsp;<mat-icon>cloud_download</mat-icon>
+    </button>
+    <img *ngIf="this.attachmentService.checkForImageFileType(attachment.fileType)" [src]="attachment.content" (click)="this.attachmentService.openImageInNewTab(attachment)" />
+    <div class="noThumbnailContainer">
+      <mat-icon *ngIf="!this.attachmentService.checkForImageFileType(attachment.fileType)">
+        description
+      </mat-icon>
+    </div>
+  </div>
+</div>

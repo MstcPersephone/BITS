@@ -1,31 +1,32 @@
-<h1>Student Assessment Results</h1>
-
+<br>
 <!-- This card displays the webform for the criteria to be searched for -->
 <mat-card>
-  <h3>Enter Search Criteria</h3>
-
+  <h1 class="mat-display-1">View Student Results</h1>
+  <mat-card class="findStudentForm">
   <form [formGroup]="findStudentForm">
+    <h3>Enter Student Search Criteria</h3>
 
     <!-- Student Id Input -->
     <mat-form-field appearance="standard">
-      <mat-label color="primary" class="label-header">Add Student ID</mat-label>
+      <mat-label color="primary" class="label-header">Student ID</mat-label>
       <input matInput id="studentId" type="text" formControlName="studentId">
     </mat-form-field>
 
     <!-- First Name Input -->
     <mat-form-field appearance="standard">
-      <mat-label color="primary" class="label-header">Add first name</mat-label>
+      <mat-label color="primary" class="label-header">Student's First Name</mat-label>
       <input matInput id="firstName" type="text" formControlName="firstName">
     </mat-form-field>
 
     <!-- Last Name Input -->
     <mat-form-field appearance="standard">
-      <mat-label color="primary" class="label-header">Add last name</mat-label>
+      <mat-label color="primary" class="label-header">Student's Last Name</mat-label>
       <input matInput id="lastName" type="text" formControlName="lastName">
     </mat-form-field>
 
+    <!-- Birth Date Input-->
     <mat-form-field class="date" appearance="standard">
-      <mat-label color="primary" class="label-header">Add date of birth</mat-label>
+      <mat-label color="primary" class="label-header">Student's Date of Birth</mat-label>
       <input matInput id="dateOfBirth" [matDatepicker]="picker" formControlName="dateOfBirth" [min]="minDate"
         [max]="maxDate" readonly="readonly">
       <mat-datepicker-toggle matSuffix [for]="picker" startView="year"></mat-datepicker-toggle>
@@ -43,15 +44,15 @@
 <br>
 
 <!-- This card displays the output generated based upon the search criteria -->
-<mat-card *ngIf="showTableData">
+<mat-card class="findStudentResults" *ngIf="showTableData">
   <!-- Page Header -->
-  <h3>Student Assessment Results</h3>
+  <h3>Student Search Results</h3>
 
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <!-- Student Id Column -->
     <ng-container matColumnDef="studentId">
-      <th class="columnHeader" mat-header-cell *matHeaderCellDef mat-sort-header>Student ID</th>
+      <th class="columnHeader idColumn" mat-header-cell *matHeaderCellDef mat-sort-header>Student ID</th>
       <td mat-cell *matCellDef="let takenAssessment">
         <div *ngIf="takenAssessment.student !== null">{{takenAssessment.student.studentId}}</div>
       </td>
@@ -113,7 +114,7 @@
 
     <!-- Description Column -->
     <ng-container matColumnDef="assessmentName">
-      <th class="columnHeader" mat-header-cell *matHeaderCellDef mat-sort-header>Student Result</th>
+      <th class="columnHeader" mat-header-cell *matHeaderCellDef mat-sort-header>Assessment</th>
       <td mat-cell *matCellDef="let takenAssessment">
         <div *ngIf="takenAssessment.assessment.name !== null">
           {{takenAssessment.assessment.name}}
@@ -123,7 +124,7 @@
 
     <!-- View Assessment Detail Link Column -->
     <ng-container matColumnDef="detailLink">
-      <th class="columnHeader" mat-header-cell *matHeaderCellDef mat-sort-header>Result Details</th>
+      <th class="columnHeader resultDetailColumn" mat-header-cell *matHeaderCellDef mat-sort-header>Result Details</th>
       <td mat-cell *matCellDef="let takenAssessment" (click)="$event.stopPropagation()">
         <div *ngIf="takenAssessment.student.studentPassed !== null">
           <mat-icon class="iconButton" matListIcon [routerLink]="['/student/view', takenAssessment._id]">link</mat-icon>
@@ -135,5 +136,6 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns; Index as i"
       [routerLink]="['/student/edit', row.student._id]"></tr>
   </table>
+</mat-card>
 </mat-card>
 <br>

@@ -55,7 +55,7 @@ export class CreateUploadComponent implements OnInit {
       && this.questionService.categoriesIsValid) {
       uploadQuestion._id = null;
       uploadQuestion.questionText = uploadData.questionText;
-      uploadQuestion.hasAttachments = true;
+      uploadQuestion.hasAttachments = this.attachmentService.hasAttachments;
       uploadQuestion.attachments = this.attachmentService.getAttachments();
       uploadQuestion.isAnswered = false;
       uploadQuestion.duration = 0;

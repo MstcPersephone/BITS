@@ -3,6 +3,7 @@ import { Checkbox } from 'src/app/models/question-types/checkbox.model';
 import { FormBuilder } from '@angular/forms';
 import { AssessmentService } from 'src/app/services/assessment.service';
 import { AssessmentEngineService } from 'src/app/services/assessment-engine.service';
+import { AttachmentService } from 'src/app/services/attachment.service';
 
 @Component({
   selector: 'app-view-checkbox',
@@ -17,7 +18,8 @@ export class ViewCheckboxComponent implements OnInit {
   constructor(
     public assessmentService: AssessmentService,
     private assessmentEngineService: AssessmentEngineService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public attachmentService: AttachmentService
   ) {
     // Although there are no fields,
     // We still want to create the form and use angular forms

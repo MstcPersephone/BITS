@@ -73,11 +73,11 @@ const checkUploadAnswer = function (question) {
   });
 
   // Remove the temp directories now that compare is done
-  // 20 second timeout is for demoing. (TODO: server)
+  // TODO: Remove after demoing on server
   setTimeout(() => {
     engine.removeDirectory(correctAnswerPath);
     engine.removeDirectory(submittedAnswerPath);
-  }, 20000);
+  }, 50000);
 
   return isMatch;
 }
