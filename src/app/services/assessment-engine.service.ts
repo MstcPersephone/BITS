@@ -454,7 +454,10 @@ export class AssessmentEngineService {
   }
 
   startTimer(duration: number) {
-    // timer logic
+    const durationInMilliseconds = duration * 60000;
+    setTimeout(() => {
+      this.checkAssessment();
+    }, durationInMilliseconds);
   }
 
   // ******************************************************** //
