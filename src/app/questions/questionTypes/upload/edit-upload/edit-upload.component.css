@@ -1,2 +1,17 @@
 /* Importing the task-specific styling. */
 @import "../../_taskStyles/editStyles.css";
+
+/* Sets the Upload Answer button to display as a block */
+.uploadAnswer {
+  display: block;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* Adjusts the save button's margins to anchor in a similar manner to the True False question component. */
+/* The Upload Answer button is larger than the True/False answer choice,
+   which would cause the button to be nudged down when switching to/from True False. */
+.saveButton{
+  margin-top: 35px;
+  margin-bottom: 10px;
+}

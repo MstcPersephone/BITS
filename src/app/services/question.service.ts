@@ -326,7 +326,6 @@ export class QuestionService {
 
     document.getElementById('validatePoints').click();
     document.getElementById('validateCategories').click();
-    console.log('ok, buttons clicked and errors showing, now what?');
   }
 
   // This function is called by save question button click
@@ -728,6 +727,7 @@ export class QuestionService {
 
   // Makes a call to the server to update a question based on its id
   updateQuestionById(question: Question) {
+    console.log(question);
     // isLoading is used to add a spinner
     this.helperService.isLoading = true;
     // Add points and categories from the service
