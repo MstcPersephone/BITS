@@ -940,10 +940,11 @@ function updateTakenAssessmentStudents(updatedStudent) {
 function sendEmailOfResults(takenAssessment) {
   console.log('SENDING EMAIL');
   const transporter = nodemailer.createTransport({
-    service: 'Gmail',
+    host: 'smtp.mstc.edu',
+    secure: true,
     auth: {
-      user: 'derekkandler@gmail.com',
-      pass: 'Janitor144'
+      user: '16686110@mstc.edu',
+      pass: 'Br@ndnew144634!'
     }
   });
 
