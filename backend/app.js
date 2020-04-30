@@ -940,7 +940,7 @@ function updateTakenAssessmentStudents(updatedStudent) {
 function sendEmailOfResults(takenAssessment) {
   console.log('SENDING EMAIL');
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: 'Gmail',
     auth: {
       user: 'derekkandler@gmail.com',
       pass: 'Janitor144'
