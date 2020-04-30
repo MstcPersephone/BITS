@@ -122,7 +122,7 @@ app.post("/api/assessment/delete", checkAuth, (request, response, next) => {
     // pass the original assessment to the delete function
     deleteById('assessments', { _id: objectId }, function (resp, error) {
       if (error) {
-        console.log('ERROR1', error.message);
+        console.log('ERROR', error.message);
         response.status(400).json({
           message: error.message
         })
@@ -135,7 +135,7 @@ app.post("/api/assessment/delete", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR2', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message
       })
@@ -166,7 +166,7 @@ app.post("/api/question/delete", checkAuth, (request, response, next) => {
     const objectId = mongoose.Types.ObjectId(questionObjectToArchive._id);
     deleteById('questions', { _id: objectId }, function (resp, error) {
       if (error) {
-        console.log('ERROR3', error.message);
+        console.log('ERROR', error.message);
         response.status(400).json({
           message: error.message,
           question: question
@@ -180,7 +180,7 @@ app.post("/api/question/delete", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR4', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         question: question
@@ -200,7 +200,7 @@ app.get("/api/assessments", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR5', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         assignments: null
@@ -219,7 +219,7 @@ app.get("/api/assessment/:id", (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR6', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         assessment: null
@@ -243,7 +243,7 @@ app.post("/api/filterTakenAssessments/", (request, response, next) => {
 
   takenAssessmentCollection.find({ $and: spArray }).then((takenAssessments, error) => {
     if (error) {
-      console.log('ERROR7', error.message);
+      console.log('ERROR', error.message);
     } else {
       response.status(200).json({
         message: 'Student Results fetched successfully!',
@@ -264,7 +264,7 @@ app.get("/api/assessment/take/:id", (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR8', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         takenAssessment: null
@@ -289,7 +289,7 @@ app.get("/api/categories", checkAuth, (request, response, next) => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a categories array (if anything)
-    console.log('ERROR9', error.message);
+    console.log('ERROR', error.message);
     response.status(400).json({
       message: error.message,
       categories: categories
@@ -308,7 +308,7 @@ app.get("/api/category/:id", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR10', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         category: null
@@ -330,7 +330,7 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   // Performs the search
   questionCollection.find({ _id: { $in: objectIds } }, (error, questions) => {
     if (error) {
-      console.log('ERROR11', error.message);
+      console.log('ERROR', error.message);
     }
     else {
       // Send a successful response message and an array of questions to work with.
@@ -420,7 +420,7 @@ app.get("/api/questions/:questionType", checkAuth, (request, response, next) => 
     });
   },
     error => {
-      console.log('ERROR12', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         questions: null
@@ -439,7 +439,7 @@ app.get("/api/question/:id", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR13', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         question: null
@@ -459,7 +459,7 @@ app.get("/api/student/:id", (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR14', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         student: null
@@ -503,7 +503,7 @@ app.post("/api/assessment/save", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR15', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         assessment: assessment
@@ -543,7 +543,7 @@ app.post("/api/categories/save", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR16', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         category: category
@@ -601,7 +601,7 @@ app.post("/api/question/save", checkAuth, (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR17', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         question: question
@@ -647,7 +647,7 @@ app.post("/api/student/save", (request, response, next) => {
           });
         },
           error => {
-            console.log('ERROR18', error.message);
+            console.log('ERROR', error.message);
             response.status(400).json({
               message: error.message,
               student: Object
@@ -701,7 +701,7 @@ app.post("/api/assessment/generate", (request, response, next) => {
     });
   },
     error => {
-      console.log('ERROR19', error.message);
+      console.log('ERROR', error.message);
       response.status(400).json({
         message: error.message,
         takenAssessmentId: takenAssessment._id
@@ -741,7 +741,7 @@ app.post("/api/assessment/update/", checkAuth, (request, response, next) => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a categories array (if anything)
-    console.log('ERROR20', error.message);
+    console.log('ERROR', error.message);
     response.status(400).json({
       message: error.message,
       updatedAssessment: updatedAssessment
@@ -763,7 +763,7 @@ app.post("/api/category/update", checkAuth, (request, response, next) => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a categories array (if anything)
-    console.log('ERROR21', error.message);
+    console.log('ERROR', error.message);
     response.status(400).json({
       message: error.message,
       updatedCategory: updatedCategory
@@ -796,7 +796,7 @@ app.post("/api/question/update/", checkAuth, (request, response, next) => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a question array (if anything)
-    console.log('ERROR22', error.message);
+    console.log('ERROR', error.message);
     response.status(400).json({
       message: error.message,
       updatedQuestion: updatedQuestion
@@ -842,7 +842,7 @@ app.post("/api/student/update/", (request, response, next) => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a student (if anything)
-    console.log('ERROR23', error.message);
+    console.log('ERROR', error.message);
     response.status(400).json({
       message: error.message,
       updatedStudent: updatedStudent
@@ -883,7 +883,7 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
     // Logs error message.
     // Sends an error status back to requestor.
     // Includes what was pulled for a categories array (if anything)
-    console.log('ERROR24', error.message);
+    console.log('ERROR', error.message);
     response.status(400).json({
       message: error.message,
       updatedAssessment: updatedTakenAssessment
