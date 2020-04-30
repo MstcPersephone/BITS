@@ -939,7 +939,7 @@ function updateTakenAssessmentStudents(updatedStudent) {
 function sendEmailOfResults(takenAssessment) {
   console.log('SENDING EMAIL');
   const transporter = nodemailer.createTransport({
-    host: 'mail.mstc.edu',
+    host: 'outlook.office365.com',
     secure: true,
     auth: {
       user: '16686110@mstc.edu',
