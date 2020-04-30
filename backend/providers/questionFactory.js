@@ -51,6 +51,8 @@ const editQuestionFactory = function (question) {
       return updateMultipleChoice(question);
     case "True False":
       return updateTrueFalse(question);
+    case "Upload":
+      return updateUpload(question);
   }
 }
 
@@ -320,6 +322,24 @@ function createUpload(question, collectionName = 'questions') {
     q.createdOn = Date.now();
 
   return q;
+}
+
+function updateUpload(question) {
+  return {
+    categories: question.categories,
+    questionText: question.questionText,
+    questionType: question.questionType,
+    hasAttachments: question.hasAttachments,
+    attachments: question.attachments,
+    isAnswered: question.isAnswered,
+    correctAnswer: question.correctAnswer,
+    submittedAnswer: question.submittedAnswer,
+    duration: question.duration,
+    points: question.points,
+    assessmentIds: question.assessmentIds,
+    isAnsweredCorrectly: question.isAnsweredCorrectly,
+    createdOn: question.createdOn
+  }
 }
 
 // Exports the question object with all properties attached to it.

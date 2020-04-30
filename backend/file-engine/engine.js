@@ -1,5 +1,5 @@
 const fs = require('fs');
-const unzipper = require('unzipper');
+const zip = require('adm-zip');
 const guid = require('../providers/guidFactory');
 const Constants = require('../providers/constants');
 
@@ -9,12 +9,12 @@ const compareFiles = function(firstFile, secondFile) {
   // Read contents of first file
   console.log('first file', firstFile);
   const firstFileResults = readFileContents(firstFile);
-  console.log('CONTENTS', firstFileResults);
+  // console.log('CONTENTS', firstFileResults);
 
   // Read contents of second file
   console.log('second file', secondFile);
   const secondFileResults = readFileContents(secondFile);
-  console.log('CONTENTS', secondFileResults);
+  // console.log('CONTENTS', secondFileResults);
 
   // Compare the contents of the two files
   var result = firstFileResults === secondFileResults;
@@ -27,16 +27,16 @@ const makeDirectory = () => {
 
   // Create a folder with a GUID as a name
   const tempPath = 'backend/temp/' + guid.createGuid() + '/';
-  fs.mkdirSync(tempPath, {recursive: true});
+  fs.mkdirSync(tempPath, '777', {recursive: true});
 
   // Return the newly created path as a string to use with other functions
   return tempPath;
 };
 
-// Copies files to temp folders
 const copyFile = (tempFilePath, file) => {
   const newPath = tempFilePath + file.name;
-  fs.writeFileSync(newPath, Buffer.from(file.content, 'base64'));
+  const fileString = file.content.split(',')[1];
+  fs.writeFileSync(newPath, fileString, {encoding: 'base64'});
 }
 
 // Reads a directory
@@ -51,16 +51,20 @@ const readFileContents = (filePath) => {
 
 // Removes a temp directory
 const removeDirectory = (tempPath) => {
+  console.log('Removing', tempPath);
   fs.rmdirSync(tempPath, { recursive: true });
 }
 
 // Unzips folder to temp directory
 const unzipFolder = function (sourcePath, destinationPath) {
-  fs.createReadStream(sourcePath).on('error', function(error) {
-    console.log('Error', error.message);
-  }).pipe(unzipper.Extract({
-    path: destinationPath
-  }))
+  // create zip object from zip file
+  const z = new zip(sourcePath);
+
+  // extract all files to the same folder
+  z.extractAllToAsync(destinationPath);
+
+  // delete the zipped file
+  fs.unlinkSync(sourcePath);
 }
 
 module.exports = {

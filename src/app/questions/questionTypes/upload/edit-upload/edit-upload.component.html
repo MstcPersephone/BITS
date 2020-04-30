@@ -1,11 +1,35 @@
-<p>edit-upload works!</p>
+<form [formGroup]="editUploadForm" (ngSubmit)="onSubmit(editUploadForm.value)">
+  <h3>Upload question details</h3>
+  <!-- Question Text Input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Enter Question Text</mat-label>
+    <input matInput id="questionText" type="text" formControlName="questionText">
+  </mat-form-field>
+  <app-validation-messages [control]="editUploadForm.get('questionText')"></app-validation-messages>
 
 
-<!-- Lists the correct answers -->
-<!-- <div *ngFor="let a of this.attachmentService.getCorrectAnswers()" class="thumbnail">
-  <button mat-mini-fab type="button" (click)="this.attachmentService.removeAttachment(a, 'correctAnswer')">
-    <mat-icon>close</mat-icon>
+  <!-- Attachment Component for uploading files -->
+  <app-attachment></app-attachment>
+
+  <!-- Upload Answer section, including the header and the correct answer upload button -->
+  <h3>Upload the answer to this question:</h3>
+  <input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event, 'correctAnswer')" />
+  <button type="button" (click)="uploader.click()"
+   mat-raised-button color="accent" class="uploadAnswer">
+      Upload Correct Answer &nbsp;<mat-icon>cloud_upload</mat-icon>
   </button>
-    <img *ngIf="this.attachmentService.checkForImageFileType(a.fileType)" [src]="a.content" (click)="this.attachmentService.openImageInNewTab(a)" />
-    <p>{{ a.name }}</p>
-</div> -->
+
+  <!-- Lists the correct answers -->
+  <div *ngIf="this.attachmentService.correctAnswers.length > 0">
+    <div *ngFor="let a of this.attachmentService.getCorrectAnswers()" class="thumbnail">
+      <button mat-mini-fab type="button" (click)="this.attachmentService.removeAttachment(a, 'correctAnswer')">
+        <mat-icon>close</mat-icon>
+      </button>
+        <img *ngIf="this.attachmentService.checkForImageFileType(a.fileType)" [src]="a.content" (click)="this.attachmentService.openImageInNewTab(a)" />
+        <p>{{ a.name }}</p>
+    </div>
+
+  </div>
+  <!-- Submit Button -->
+  <button class="saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+</form>

@@ -3,7 +3,8 @@ const Constants = {
     ZIP: 'application/x-zip-compressed'
   },
   Encoding: {
-    UTF_8: 'utf-8'
+    UTF_8: 'utf-8',
+    BASE64_MARKER: ';base64,'
   },
   EmailTestResults: {
     WisconsinRapids: '',

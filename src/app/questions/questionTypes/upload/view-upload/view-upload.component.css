@@ -1,5 +1,6 @@
 /* Importing shared task styles */
 @import "../../_taskStyles/viewStyles.css";
+@import "../../_taskStyles/createStyles.css";
 
 /* Adjusting the display of the button container to display the buttons on the left. */
 div.buttonContainer button{

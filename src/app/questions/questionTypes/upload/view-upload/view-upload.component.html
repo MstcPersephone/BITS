@@ -1,5 +1,6 @@
 <h3>{{ question.questionText }}</h3>
 <br>
+<app-view-attachment [question]="question"></app-view-attachment>
 <br>
 
 <h3>Please upload the answer to this question:</h3>
@@ -10,11 +11,15 @@
   <button type="button" (click)="uploader.click()" mat-raised-button color="accent" class="mt-20">
     Upload File &nbsp;<mat-icon>cloud_upload</mat-icon>
   </button>
-  <button class="checkAnswerButton" type="button" (click)="onSubmit()" mat-raised-button color="accent">
-    Check Answer &nbsp;<mat-icon>done_outline</mat-icon>
-  </button>
 </div>
-
+<div *ngIf="this.attachmentService.studentAnswers.length > 0">
+  <div *ngFor="let attachment of this.attachmentService.studentAnswers">
+    {{ attachment.name }}
+    <button class="closeIcon" mat-mini-fab type="button" (click)="this.attachmentService.removeAttachment(attachment, 'studentAnswer')">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
 <br>
 
 

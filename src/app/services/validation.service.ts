@@ -138,6 +138,7 @@ export class ValidationService {
   // Validation to ensure an attachment is included if has attachment is checked
   static validateAttachments(question: Question): ValidationResponse {
     const response = new ValidationResponse();
+    debugger;
     if (question.hasAttachments) {
       if (question.attachments.length !== 0) {
         response.message = 'Attachments are uploaded and validated';

@@ -1,5 +1,6 @@
 <h3>{{ question.questionText }}</h3>
 
+<app-view-attachment [question]="question"></app-view-attachment>
 <mat-checkbox *ngFor="let option of question.options; index as i;" [value]="option.optionIsSelected"
   [checked]="option.optionIsSelected" (change)="onChangeOption($event, i)">{{ option.optionText }}</mat-checkbox>
 <!-- This button is for instructors view assessment questions only / not required for taking an assessment -->

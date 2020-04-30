@@ -16,6 +16,7 @@ import { Upload } from '../models/question-types/upload.model';
 import { AssessmentService } from './assessment.service';
 import { environment } from '../../environments/environment';
 import { LoginEngineService } from './login.service';
+import { AttachmentService } from './attachment.service';
 
 
 @Injectable({
@@ -68,7 +69,8 @@ export class AssessmentEngineService {
     private router: Router,
     private helperService: HelperService,
     private assessmentService: AssessmentService,
-    public loginService: LoginEngineService) { }
+    public loginService: LoginEngineService,
+    public attachmentService: AttachmentService) { }
 
   // **************************************** //
   // *********  ASSESSMENT OBJECTS  ********* //
@@ -105,7 +107,10 @@ export class AssessmentEngineService {
       case QuestionType.TrueFalse:
         return this.checkTrueFalse(question as TrueFalse);
       case QuestionType.Upload:
-        return this.checkUpload(question as Upload);
+        const result = this.checkUpload(question as Upload);
+        this.attachmentService.studentAnswers = [];
+        this.attachmentService.correctAnswers = [];
+        return result;
     }
   }
 
@@ -180,6 +185,7 @@ export class AssessmentEngineService {
   // Makes a call to the back end to extract (if necessary), store, and compare file contents
   // Returns an object that contains a true/false result
   checkUpload(question: Question) {
+    (question as Upload).submittedAnswer = this.attachmentService.studentAnswers;
     console.log(question);
     this.http.post<{ message: string, result: boolean }>(environment.apiUrl + 'assessment/checkUpload', question)
       .subscribe((responseData) => {
@@ -409,8 +415,6 @@ export class AssessmentEngineService {
         if (this.wrongAnswerStreak === this.maxWrongStreak) {
           this.checkAssessment();
 
-          alert('Hit the wrong streak');
-
           // stop the rest of the function execution
           return;
         }
@@ -418,8 +422,6 @@ export class AssessmentEngineService {
 
       if (isQuitAssessment) {
         this.checkAssessment();
-
-        alert('Quit assessment button clicked');
 
         // stop the rest of the function execution
         return;
@@ -448,7 +450,10 @@ export class AssessmentEngineService {
   }
 
   startTimer(duration: number) {
-    // timer logic
+    const durationInMilliseconds = duration * 60000;
+    setTimeout(() => {
+      this.checkAssessment();
+    }, durationInMilliseconds);
   }
 
   // ******************************************************** //
