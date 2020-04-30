@@ -252,6 +252,7 @@ export class AssessmentEngineService {
 
     // Add the questions to the students taken assessment with answers included
     this.takenAssessment.questions = this.questions;
+
     // Add the students score to the taken assessment
     console.log('prescore', this.completedAssessmentScore);
     this.takenAssessment.score = parseFloat(this.completedAssessmentScore);
