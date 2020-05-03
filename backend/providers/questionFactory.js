@@ -319,6 +319,7 @@ function createUpload(question, collectionName = 'questions') {
     q.submittedAnswer = question.submittedAnswer;
     q.assessmentIds = question.assessmentIds;
     q.duration = question.duration;
+    q.isAnsweredCorrectly = question.isAnsweredCorrectly;
     q.createdOn = Date.now();
 
   return q;

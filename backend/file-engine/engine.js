@@ -5,7 +5,6 @@ const Constants = require('../providers/constants');
 
 // Compares two files and returns the results
 const compareFiles = function(firstFile, secondFile) {
-
   // Read contents of first file
   console.log('first file', firstFile);
   const firstFileResults = readFileContents(firstFile);
@@ -61,7 +60,7 @@ const unzipFolder = function (sourcePath, destinationPath) {
   const z = new zip(sourcePath);
 
   // extract all files to the same folder
-  z.extractAllToAsync(destinationPath);
+  z.extractAllTo(destinationPath);
 
   // delete the zipped file
   fs.unlinkSync(sourcePath);
