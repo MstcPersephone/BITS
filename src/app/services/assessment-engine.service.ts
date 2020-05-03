@@ -416,8 +416,6 @@ export class AssessmentEngineService {
         if (this.wrongAnswerStreak === this.maxWrongStreak) {
           this.checkAssessment();
 
-          alert('Hit the wrong streak');
-
           // stop the rest of the function execution
           return;
         }
@@ -425,8 +423,6 @@ export class AssessmentEngineService {
 
       if (isQuitAssessment) {
         this.checkAssessment();
-
-        alert('Quit assessment button clicked');
 
         // stop the rest of the function execution
         return;
