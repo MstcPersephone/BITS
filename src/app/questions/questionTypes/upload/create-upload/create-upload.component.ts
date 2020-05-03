@@ -13,7 +13,7 @@ import { HelperService } from 'src/app/services/helper.service';
   templateUrl: './create-upload.component.html',
   styleUrls: ['./create-upload.component.css']
 })
-export class CreateUploadComponent implements OnInit {
+export class CreateUploadComponent implements OnInit, OnDestroy {
   createUploadForm;
   constructor(
     private formBuilder: FormBuilder,
@@ -80,5 +80,10 @@ export class CreateUploadComponent implements OnInit {
         }
       }
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
   }
 }

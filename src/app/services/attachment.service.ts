@@ -9,7 +9,6 @@ import { UploadType } from '../enums/uploadType.enum';
 export class AttachmentService {
   // Array of attachments that are uploaded
   attachments: Attachment[] = [];
-  attachmentsFileNames: string;
   hasAttachments = false;
 
   correctAnswers: Attachment[] = [];
@@ -59,11 +58,6 @@ export class AttachmentService {
   // Gets the student answers array
   getStudentAnswers() {
     return [...this.studentAnswers];
-  }
-
-  // Gets the attachment file names
-  getAttachmentsFileNames() {
-    return this.attachmentsFileNames;
   }
 
   // Remove attachment from question
@@ -187,5 +181,13 @@ export class AttachmentService {
     const blob = new Blob([ab], { type: mimeString });
 
     return blob;
+  }
+
+  // Resets all properties that are initially set at the top of the service.
+  resetService() {
+    this.attachments = [];
+    this.hasAttachments = false;
+    this.correctAnswers = [];
+    this.studentAnswers = [];
   }
 }

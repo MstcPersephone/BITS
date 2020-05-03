@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { AttachmentService } from 'src/app/services/attachment.service';
 import { Question } from 'src/app/models/question.interface';
 
@@ -7,7 +7,7 @@ import { Question } from 'src/app/models/question.interface';
   templateUrl: './view-attachment.component.html',
   styleUrls: ['./view-attachment.component.css']
 })
-export class ViewAttachmentComponent implements OnInit {
+export class ViewAttachmentComponent implements OnInit, OnDestroy {
 
   @Input() question: Question;
 
@@ -18,4 +18,8 @@ export class ViewAttachmentComponent implements OnInit {
   ngOnInit() {
   }
 
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
+  }
 }

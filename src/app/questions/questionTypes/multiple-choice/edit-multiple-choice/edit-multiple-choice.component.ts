@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Question } from 'src/app/models/question.interface';
 import { FormBuilder, Validators } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
@@ -12,7 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
   templateUrl: './edit-multiple-choice.component.html',
   styleUrls: ['./edit-multiple-choice.component.css']
 })
-export class EditMultipleChoiceComponent implements OnInit {
+export class EditMultipleChoiceComponent implements OnInit, OnDestroy {
   @Input() question: Question;
   isValid; // stores the validation set in the question service
   showCancelButton = false;
@@ -154,6 +154,11 @@ export class EditMultipleChoiceComponent implements OnInit {
       // For testing, we can remove later.
       console.log('Question to save', updatedMultipleChoiceQuestion);
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
   }
 
 }

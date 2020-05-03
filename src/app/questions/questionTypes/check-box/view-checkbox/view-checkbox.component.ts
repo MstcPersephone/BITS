@@ -10,7 +10,7 @@ import { AttachmentService } from 'src/app/services/attachment.service';
   templateUrl: './view-checkbox.component.html',
   styleUrls: ['./view-checkbox.component.css']
 })
-export class ViewCheckboxComponent implements OnInit {
+export class ViewCheckboxComponent implements OnInit, OnDestroy {
   answerForm;
   public studentAnswers = [];
 
@@ -35,5 +35,10 @@ export class ViewCheckboxComponent implements OnInit {
     this.question.options[i].optionIsSelected = $event.checked;
 
     console.log(this.question.options);
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
   }
 }

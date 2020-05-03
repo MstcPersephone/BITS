@@ -12,7 +12,7 @@ import { Question } from 'src/app/models/question.interface';
   templateUrl: './create-checkbox.component.html',
   styleUrls: ['./create-checkbox.component.css']
 })
-export class CreateCheckboxComponent implements OnInit {
+export class CreateCheckboxComponent implements OnInit, OnDestroy {
   createCheckboxForm;
   isValid; // stores the validation set in the question service
   showCancelButton = false;
@@ -129,5 +129,10 @@ export class CreateCheckboxComponent implements OnInit {
       // For testing, we can remove later.
       console.log(checkboxQuestion);
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
   }
 }

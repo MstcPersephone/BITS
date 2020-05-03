@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Question } from 'src/app/models/question.interface';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
@@ -12,7 +12,7 @@ import { TrueFalse } from 'src/app/models/question-types/true-false.model';
   templateUrl: './edit-true-false.component.html',
   styleUrls: ['./edit-true-false.component.css']
 })
-export class EditTrueFalseComponent implements OnInit {
+export class EditTrueFalseComponent implements OnInit, OnDestroy {
   // The question being edited
   @Input() question: TrueFalse;
   // The true false edit form used to update the quesiton
@@ -108,5 +108,10 @@ export class EditTrueFalseComponent implements OnInit {
       // For testing, we can remove later.
       // console.log('Question to save', updatedTrueFalseQuestion);
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
   }
 }

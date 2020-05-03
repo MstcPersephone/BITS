@@ -13,7 +13,7 @@ import { HelperService } from 'src/app/services/helper.service';
   templateUrl: './create-multiple-choice.component.html',
   styleUrls: ['./create-multiple-choice.component.css']
 })
-export class CreateMultipleChoiceComponent implements OnInit {
+export class CreateMultipleChoiceComponent implements OnInit, OnDestroy {
   createMultipleChoiceForm;
   isValid; // stores the validation set in the question service
   showCancelButton = false;
@@ -129,5 +129,10 @@ export class CreateMultipleChoiceComponent implements OnInit {
       // For testing, we can remove later.
       // console.log(multipleChoiceQuestion);
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
   }
 }
