@@ -9,10 +9,14 @@
 }
 
 /* Styles applied to the header text ("Basic IT Software Assessment") */
-.headerContainer p{
+.headerContainer p, .headerContainer img{
   cursor: pointer;
   margin: auto;
   margin-left: 0;
+}
+.headerContainer img{
+  margin-right: 20px;
+  width: 40px;
 }
 
 /* Styles applied to the navigation menu */

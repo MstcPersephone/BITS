@@ -2,10 +2,10 @@
 <mat-card>
   <h1 class="mat-display-1">Manage Categories</h1>
   <mat-card>
-    <h3>Add new category</h3>
+    <h3>Add New Category</h3>
 
     <!-- This is the form for adding a new category -->
-    <form [formGroup]="createCategoryForm" (ngSubmit)="onSubmit(createCategoryForm.value)">
+    <form class="createCategoryForm" [formGroup]="createCategoryForm" (ngSubmit)="onSubmit(createCategoryForm.value)">
       <mat-form-field appearance="standard">
         <mat-label>Category Name</mat-label>
         <input matInput id="categoryName" type="text" formControlName="categoryName">
@@ -24,6 +24,7 @@
       <h3>Category List</h3>
     </section>
     <mat-card class="categoryListContainer">
+      <!-- If there are categories defined, displays each category in the category list as a div within the mat-list. -->
       <mat-list *ngIf="categoryList.length > 0">
         <div *ngFor="let category of categoryList; let i = index">
 
@@ -52,4 +53,7 @@
         </div>
       </mat-list>
     </mat-card>
+    <br>
   </div>
+</mat-card>
+<br>
