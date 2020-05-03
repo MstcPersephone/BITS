@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Checkbox } from 'src/app/models/question-types/checkbox.model';
 import { FormBuilder } from '@angular/forms';
 import { AssessmentService } from 'src/app/services/assessment.service';

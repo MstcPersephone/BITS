@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MultipleChoice } from 'src/app/models/question-types/multiple-choice.model';
 import { QuestionService } from 'src/app/services/question.service';

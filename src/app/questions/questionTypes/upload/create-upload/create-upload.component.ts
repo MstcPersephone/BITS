@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Upload } from 'src/app/models/question-types/upload.model';
 import { AttachmentService } from 'src/app/services/attachment.service';
