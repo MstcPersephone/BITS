@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HelperService } from '../../../services/helper.service';
 import { ValidationService } from '../../../services/validation.service';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './create-question.component.html',
   styleUrls: ['./create-question.component.css']
 })
-export class CreateQuestionComponent implements OnInit {
+export class CreateQuestionComponent implements OnInit, OnDestroy {
   questionSelectionFormGroup;
   addPointForm;
   pointSubscription: Subscription;
@@ -60,4 +60,9 @@ export class CreateQuestionComponent implements OnInit {
     }
   }
 
+    // Reset services so they can be used by a new component
+    ngOnDestroy() {
+      this.questionService.resetService();
+      this.pointSubscription.unsubscribe();
+    }
 }

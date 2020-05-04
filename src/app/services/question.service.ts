@@ -762,12 +762,13 @@ export class QuestionService {
   // ************************************************************* //
   // Resets all properties that are initially set at the top of the service.
   resetService() {
-    this.question = null;
+    // Do not reset:  this.categoriesLoaded, this.showHideCreateCategory
+    this.questions = null;
     this.category = null;
     this.categories = [];
     this.selectedCategories = [];
-    this.categoriesLoaded = false;
-    this.showHideCreateCategory = false;
+    // this.categoriesLoaded = false;
+    // this.showHideCreateCategory = false;
     this.exactMatches = [];
     this.hasMatches = false;
     this.showCreateMatch = false;

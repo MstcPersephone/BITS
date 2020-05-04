@@ -45,9 +45,6 @@ export class CreateAssessmentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // resets all properties that might have stored values in the assessment service.
-    this.assessmentService.resetService();
-
     // gets the call to api end point to collect all categories from database
     this.questionService.getAllCategories();
     this.categorySubscription = this.questionService.getCategoriesListener()

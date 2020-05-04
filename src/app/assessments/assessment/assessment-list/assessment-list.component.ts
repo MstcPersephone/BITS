@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { AssessmentService } from '../../../services/assessment.service';
-import { QuestionService } from '../../../services/question.service';
 import { Subscription } from 'rxjs';
 import { Assessment } from 'src/app/models/assessment.model';
-import { Question } from 'src/app/models/question.interface';
 import { Router } from '@angular/router';
 import { MatSort, MatTableDataSource } from '@angular/material';
 
@@ -14,7 +12,6 @@ import { MatSort, MatTableDataSource } from '@angular/material';
 })
 
 export class AssessmentListComponent implements OnInit, AfterViewInit, OnDestroy {
-  // questions: Question[] = [];
   private assessmentsSubscription: Subscription;
   public displayedColumns: string[] = ['name', 'description', 'status'];
   public dataSource = new MatTableDataSource<Assessment>();
@@ -23,7 +20,6 @@ export class AssessmentListComponent implements OnInit, AfterViewInit, OnDestroy
 
   constructor(
     public assessmentService: AssessmentService,
-    // public questionsService: QuestionService,
     private router: Router) { }
 
   ngOnInit() {
