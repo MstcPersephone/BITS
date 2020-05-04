@@ -333,6 +333,13 @@ app.post("/api/assessment/questions/", (request, response, next) => {
       console.log('ERROR', error.message);
     }
     else {
+      // Sort the questions to match the original id list
+      questions.sort((a, b) => {
+        return questionIds.indexOf(a) - questionIds.indexOf(b);
+      });
+
+      questions.reverse();
+
       // Send a successful response message and an array of questions to work with.
       response.status(200).json({
         message: 'Question Fetched Successfully!',
@@ -718,6 +725,7 @@ app.post("/api/assessment/update/", checkAuth, (request, response, next) => {
   // Stores data for updating backend properties
   const requestedUpdate = request.body;
 
+  console.log(requestedUpdate.questionIds);
   // Stores the updated assessment data
   const update = {
     id: requestedUpdate._id,

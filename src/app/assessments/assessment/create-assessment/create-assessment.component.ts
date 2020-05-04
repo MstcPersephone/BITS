@@ -112,6 +112,7 @@ export class CreateAssessmentComponent implements OnInit {
         this.questionIds.push(q._id);
       }
     });
+
     const assessment: Assessment = new Assessment();
 
     // Calls validation on the current form when submit button is clicked
