@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -16,7 +16,7 @@ import { AssessmentConfig } from 'src/app/models/assessment-config.model';
   templateUrl: './create-assessment.component.html',
   styleUrls: ['./create-assessment.component.css']
 })
-export class CreateAssessmentComponent implements OnInit {
+export class CreateAssessmentComponent implements OnInit, OnDestroy {
   isEditMode: boolean;
   public categories: Category[] = [];
   private categorySubscription: Subscription;
@@ -24,7 +24,6 @@ export class CreateAssessmentComponent implements OnInit {
   public organizedQuestions = {};
   private questionSubscription: Subscription;
   public assessmentQuestions = [];
-  private assessmentQuestionsSubscription: Subscription;
   public questionIds = [];
   selectCategoryForm;
   createAssessmentForm;
@@ -46,12 +45,16 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
+    // resets all properties that might have stored values in the assessment service.
+    this.assessmentService.resetService();
+
     // gets the call to api end point to collect all categories from database
     this.questionService.getAllCategories();
     this.categorySubscription = this.questionService.getCategoriesListener()
       .subscribe((categoriesArray: Category[]) => {
         this.categories = categoriesArray;
       });
+
     // gets the call to api end point to collect all questions from database
     this.questionService.getAllQuestions();
     // subsribe to observer to get question array changes
@@ -66,6 +69,7 @@ export class CreateAssessmentComponent implements OnInit {
       });
   }
 
+  // The function that handles the questions dropped into the assessment questions
   dropToAssessment(event: any) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -90,6 +94,7 @@ export class CreateAssessmentComponent implements OnInit {
     }
   }
 
+  // The function that handles the loaded questions that are available to move to the assessment questions
   dropToQuestionList(event: any) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -102,16 +107,20 @@ export class CreateAssessmentComponent implements OnInit {
     }
   }
 
+  // Refreshes the list of questions that are available for moving to the assessment questions
   refreshFilteredQuestions() {
     this.organizedQuestions = JSON.parse(JSON.stringify(this.originalOrganizedQuestions));
   }
 
   onSubmit(assessmentData) {
+    // Takes all the assessment questions and passes the ids to be stored in a new Assessment
     this.assessmentQuestions.forEach((q) => {
       if (!this.questionIds.includes(q._id)) {
         this.questionIds.push(q._id);
       }
     });
+
+    // Initializes the new AssessmentConfig to be created
     const assessment: Assessment = new Assessment();
 
     // Calls validation on the current form when submit button is clicked
@@ -133,7 +142,7 @@ export class CreateAssessmentComponent implements OnInit {
       const status = this.assessmentService.getStatus();
 
       // If a question is selected, allow the Save Button to be clicked
-      // Else, throw a snackbar and stay on the page
+      // Else, throw a snackbar validation error and stay on the page
       if (status === 'Complete') {
         const response = ValidationService.validateMinimumQuestions(assessment);
         if (response.result) {
@@ -146,6 +155,13 @@ export class CreateAssessmentComponent implements OnInit {
         this.assessmentService.saveAssessment(assessment);
       }
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.categorySubscription.unsubscribe();
+    this.questionSubscription.unsubscribe();
+    this.assessmentService.resetService();
   }
 }
 

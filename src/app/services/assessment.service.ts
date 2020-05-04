@@ -62,7 +62,7 @@ export class AssessmentService {
   // ****  CATEGORY PROPERTIES  **** //
   // ******************************* //
   public selectedCategory: Category;
-  public selectedName: any;
+  // public selectedName: any;
   public selectedCategoryName: string;
 
   // ******************************* //
@@ -234,6 +234,7 @@ export class AssessmentService {
   getAssessmentQuestionsUpdatedListener() {
     return this.assessmentQuestionsUpdated.asObservable();
   }
+
 
   // ******************************************************** //
   // ***************  API CALLS TO BACKEND  ***************** //
@@ -420,4 +421,34 @@ export class AssessmentService {
     }
   }
 
+  // ************************************************************* //
+  // ****************  CLEARING SERVICE MEMORY  ****************** //
+  // ************************************************************* //
+  // Resets all properties that are initially set at the top of the service.
+  resetService() {
+    this.assessment = null;
+    this.assessments = null;
+    this.status = '';
+    this.assessmentConfig = null;
+    this.isRandom = false;
+    this.isTimed = false;
+    this.maxTime = 0;
+    this.wrongStreak = 0;
+    this.minimumScore = 75;
+    this.selectedCategory = null;
+    this.questionIds = [];
+    this.questions = [];
+    this.currentQuestion = null;
+    this.showBackButton = false;
+    this.currentQuestionId = null;
+  }
+
+  unsubscribeToServiceListeners() {
+    this.assessmentUpdated.unsubscribe();
+    this.assessmentsUpdated.unsubscribe();
+    this.assessmentConfigUpdated.unsubscribe();
+    this.isTimedUpdated.unsubscribe();
+    this.changedMinScoreUpdated.unsubscribe();
+    this.assessmentQuestionsUpdated.unsubscribe();
+  }
 }
