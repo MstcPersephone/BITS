@@ -465,7 +465,6 @@ export class AssessmentEngineService {
   // *********  GET: TAKEN ASSESSMENT BY ID   ******** //
   // ************************************************* //
   getTakenAssessmentById(takeAssessmentId: string) {
-    this.helperService.isLoading = true;
     this.http
       .get<{ message: string, takenAssessment: TakenAssessment }>(
         environment.apiUrl + 'assessment/take/' + takeAssessmentId
@@ -483,9 +482,6 @@ export class AssessmentEngineService {
         // this.assessmentUpdated.next(this.assessment);
 
         this.takenAssessmentUpdated.next(this.takenAssessment);
-
-        // Done loading. Remove the loading spinner
-        this.helperService.isLoading = false;
       });
   }
 

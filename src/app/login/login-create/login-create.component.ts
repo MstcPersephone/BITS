@@ -10,7 +10,6 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./login-create.component.css']
 })
 export class LoginCreateComponent implements OnInit {
-  isLoading = false;
   signupForm;
 
   constructor(
