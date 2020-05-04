@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { AssessmentService } from '../../../services/assessment.service';
 import { QuestionService } from '../../../services/question.service';
 import { Subscription } from 'rxjs';
@@ -13,9 +13,8 @@ import { MatSort, MatTableDataSource } from '@angular/material';
   styleUrls: ['./assessment-list.component.css']
 })
 
-export class AssessmentListComponent implements OnInit, AfterViewInit {
+export class AssessmentListComponent implements OnInit, AfterViewInit, OnDestroy {
   questions: Question[] = [];
-  private questionsSubscription: Subscription;
   private assessmentsSubscription: Subscription;
   public displayedColumns: string[] = ['name', 'description', 'status'];
   public dataSource = new MatTableDataSource<Assessment>();
@@ -32,7 +31,6 @@ export class AssessmentListComponent implements OnInit, AfterViewInit {
     this.assessmentsSubscription = this.assessmentService.getAssessmentsUpdateListener()
       .subscribe((assessmentArray: any) => {
         this.dataSource.data = assessmentArray;
-        // console.table(this.dataSource.data);
         this.dataSource.sort = this.sort;
       });
   }
@@ -41,4 +39,10 @@ export class AssessmentListComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  // Reset service property values so they can be used by a new component
+  // Unsubscribes component from the current observable event listeners.
+  ngOnDestroy() {
+    // this.assessmentsSubscription.unsubscribe();
+    this.assessmentService.resetService();
+  }
 }

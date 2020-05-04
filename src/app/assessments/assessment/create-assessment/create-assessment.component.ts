@@ -157,7 +157,8 @@ export class CreateAssessmentComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Reset services so they can be used by a new component
+  // Reset service property values so they can be used by a new component
+  // Unsubscribes component from the current observable event listeners.
   ngOnDestroy() {
     this.categorySubscription.unsubscribe();
     this.questionSubscription.unsubscribe();

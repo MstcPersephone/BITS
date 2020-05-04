@@ -177,7 +177,6 @@ export class AssessmentService {
   isTimedChanged() {
     this.isTimed = !this.isTimed;
     this.maxTime = 0;
-    console.log(this.isTimed);
     return this.isTimed;
   }
 
@@ -443,12 +442,12 @@ export class AssessmentService {
     this.currentQuestionId = null;
   }
 
-  unsubscribeToServiceListeners() {
-    this.assessmentUpdated.unsubscribe();
-    this.assessmentsUpdated.unsubscribe();
-    this.assessmentConfigUpdated.unsubscribe();
-    this.isTimedUpdated.unsubscribe();
-    this.changedMinScoreUpdated.unsubscribe();
-    this.assessmentQuestionsUpdated.unsubscribe();
-  }
+  // unsubscribeToServiceListeners() {
+  //   this.assessmentUpdated.unsubscribe();
+  //   this.assessmentsUpdated.unsubscribe();
+  //   this.assessmentConfigUpdated.unsubscribe();
+  //   this.isTimedUpdated.unsubscribe();
+  //   this.changedMinScoreUpdated.unsubscribe();
+  //   this.assessmentQuestionsUpdated.unsubscribe();
+  // }
 }

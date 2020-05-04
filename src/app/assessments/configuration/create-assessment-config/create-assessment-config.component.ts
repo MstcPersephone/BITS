@@ -18,6 +18,7 @@ export class CreateAssessmentConfigComponent implements OnInit, OnDestroy {
   createConfigurationForm;
   maxTime: number;
   wrongStreak: number;
+  public value: any;
 
   constructor(
     public questionService: QuestionService,
@@ -70,9 +71,9 @@ export class CreateAssessmentConfigComponent implements OnInit, OnDestroy {
     this.assessmentService.createAssessmentConfiguration(config);
   }
 
-    // Reset service property values so they can be used by a new component
-    ngOnDestroy() {
-      this.assessmentService.resetService();
-    }
+  // Reset service property values so they can be used by a new component
+  ngOnDestroy() {
+    this.assessmentService.resetService();
+  }
 
 }
