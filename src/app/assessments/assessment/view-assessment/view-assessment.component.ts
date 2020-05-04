@@ -41,8 +41,8 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
       .subscribe((assessment: Assessment) => {
         this.assessment = assessment;
         // console.log('Assessment by Id', this.assessment);
-        if (this.assessmentService.questionIds !== null) {
-        this.assessmentService.getQuestionsByIds(this.assessmentService.questionIds);
+        if (this.assessment.questionIds !== null) {
+        this.assessmentService.getQuestionsByIds(this.assessment.questionIds);
         }
         this.questionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
           .subscribe((questionsArray: any) => {

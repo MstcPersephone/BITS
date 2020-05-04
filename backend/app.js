@@ -324,7 +324,8 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   const objectIds = [];
   // Turns the string ids into ObjectIds
   if (questionIds !== null && questionIds !== undefined) {
-    questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
+    questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) });
+    objectIds.reverse();
   }
 
   // Performs the search
@@ -335,7 +336,7 @@ app.post("/api/assessment/questions/", (request, response, next) => {
     else {
       // Sort the questions to match the original id list
       questions.sort((a, b) => {
-        return questionIds.indexOf(a) - questionIds.indexOf(b);
+        return objectIds.indexOf(a) - objectIds.indexOf(b);
       });
 
       questions.reverse();
