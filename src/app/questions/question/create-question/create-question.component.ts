@@ -62,7 +62,7 @@ export class CreateQuestionComponent implements OnInit, OnDestroy {
 
     // Reset services so they can be used by a new component
     ngOnDestroy() {
-      this.questionService.resetService();
       this.pointSubscription.unsubscribe();
+      this.questionService.resetService();
     }
 }

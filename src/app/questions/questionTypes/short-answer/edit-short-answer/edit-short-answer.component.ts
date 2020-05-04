@@ -101,8 +101,8 @@ export class EditShortAnswerComponent implements OnInit, OnDestroy {
     // if (matches.length > 0) {
     const matchElements = Array.from(document.getElementsByClassName('simulatedButtonSAClass'));
     matchElements.forEach((m) => {
-        (m as HTMLButtonElement).click();
-      });
+      (m as HTMLButtonElement).click();
+    });
     // }
 
     // console.log('Points are valid', this.questionService.pointsIsValid);
@@ -153,5 +153,6 @@ export class EditShortAnswerComponent implements OnInit, OnDestroy {
   // Reset services so they can be used by a new component
   ngOnDestroy() {
     this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 }

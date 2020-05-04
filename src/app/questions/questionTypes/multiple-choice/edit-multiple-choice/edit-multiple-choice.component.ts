@@ -159,6 +159,7 @@ export class EditMultipleChoiceComponent implements OnInit, OnDestroy {
   // Reset services so they can be used by a new component
   ngOnDestroy() {
     this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 
 }

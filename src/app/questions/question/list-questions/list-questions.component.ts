@@ -36,6 +36,8 @@ export class ListQuestionsComponent implements OnInit, OnDestroy {
 
   // Reset services so they can be used by a new component
   ngOnDestroy() {
+    this.questionSubscription.unsubscribe();
     this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 }

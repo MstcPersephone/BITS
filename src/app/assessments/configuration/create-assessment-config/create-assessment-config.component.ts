@@ -35,8 +35,6 @@ export class CreateAssessmentConfigComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // resets all properties that might have stored values in the assessment service.
-    this.assessmentService.resetService();
     // sets the default values
     this.maxTime = 0;
     this.wrongStreak = 0;
