@@ -163,6 +163,7 @@ export class CreateAssessmentComponent implements OnInit, OnDestroy {
     this.categorySubscription.unsubscribe();
     this.questionSubscription.unsubscribe();
     this.assessmentService.resetService();
+    this.questionService.resetService();
   }
 }
 

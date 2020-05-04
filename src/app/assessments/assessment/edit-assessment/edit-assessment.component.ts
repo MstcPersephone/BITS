@@ -179,5 +179,6 @@ export class EditAssessmentComponent implements OnInit, OnDestroy {
     this.questionSubscription.unsubscribe();
     this.assessmentQuestionsSubscription.unsubscribe();
     this.assessmentService.resetService();
+    this.questionService.resetService();
   }
 }

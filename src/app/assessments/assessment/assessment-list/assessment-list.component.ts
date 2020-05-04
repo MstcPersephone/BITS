@@ -14,7 +14,7 @@ import { MatSort, MatTableDataSource } from '@angular/material';
 })
 
 export class AssessmentListComponent implements OnInit, AfterViewInit, OnDestroy {
-  questions: Question[] = [];
+  // questions: Question[] = [];
   private assessmentsSubscription: Subscription;
   public displayedColumns: string[] = ['name', 'description', 'status'];
   public dataSource = new MatTableDataSource<Assessment>();
@@ -23,7 +23,7 @@ export class AssessmentListComponent implements OnInit, AfterViewInit, OnDestroy
 
   constructor(
     public assessmentService: AssessmentService,
-    public questionsService: QuestionService,
+    // public questionsService: QuestionService,
     private router: Router) { }
 
   ngOnInit() {

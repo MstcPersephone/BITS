@@ -425,6 +425,7 @@ export class AssessmentService {
   // ************************************************************* //
   // Resets all properties that are initially set at the top of the service.
   resetService() {
+    // Do not reset:  this.showBackButton
     this.assessment = null;
     this.assessments = null;
     this.status = '';
@@ -438,7 +439,6 @@ export class AssessmentService {
     this.questionIds = [];
     this.questions = [];
     this.currentQuestion = null;
-    this.showBackButton = false;
     this.currentQuestionId = null;
   }
 
