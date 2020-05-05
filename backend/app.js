@@ -84,17 +84,15 @@ app.use((request, response, next) => {
   next();
 });
 
+// Runs our file-engine logic to extract and examine submitted files
 app.post("/api/assessment/checkUpload", (request, response, next) => {
 
   // The question object to check.
   const question = request.body;
   const result = checkUploadAnswer.checkUploadAnswer(question);
 
-  const responseMessage = result === true ? 'The file contents match' : 'The file contents do not match';
-
   // Send message message back to front end.
   response.status(200).json({
-    message: responseMessage,
     result: result
   });
 });
@@ -877,9 +875,9 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
   mongoose.connection.db.collection('takenAssessments').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedTakenAssessment) {
 
     // If the assessment has been taken
-    if (requestedUpdate.studentPassed !== null) {
-      sendEmailOfResults(requestedUpdate);
-    }
+    // if (requestedUpdate.studentPassed !== null) {
+    //   sendEmailOfResults(requestedUpdate);
+    // }
 
     // Send a successful response message
     response.status(200).json({

@@ -94,23 +94,20 @@ export class AssessmentEngineService {
   // ********************************************** //
   // *********  ASSESSMENT: SCORING   ********* //
   // ********************************************** //
-  checkAnswer(question: Question) {
+  async checkAnswer(question: Question) {
     console.log(question);
 
     switch (question.questionType) {
       case QuestionType.CheckBox:
-        return this.checkQuestionsWithOptions(question as Checkbox);
+        return await this.checkQuestionsWithOptions(question as Checkbox);
       case QuestionType.MultipleChoice:
-        return this.checkQuestionsWithOptions(question as MultipleChoice);
+        return await this.checkQuestionsWithOptions(question as MultipleChoice);
       case QuestionType.ShortAnswer:
-        return this.checkShortAnswer(question as ShortAnswer);
+        return await this.checkShortAnswer(question as ShortAnswer);
       case QuestionType.TrueFalse:
-        return this.checkTrueFalse(question as TrueFalse);
+        return await this.checkTrueFalse(question as TrueFalse);
       case QuestionType.Upload:
-        const result = this.checkUpload(question as Upload);
-        this.attachmentService.studentAnswers = [];
-        this.attachmentService.correctAnswers = [];
-        return result;
+        return await this.checkUpload(question as Upload);
     }
   }
 
@@ -137,7 +134,9 @@ export class AssessmentEngineService {
       }
     });
 
-    return isCorrect;
+    return new Promise((resolve, reject) => {
+      resolve({result: isCorrect});
+    });
   }
 
   checkShortAnswer(question: ShortAnswer) {
@@ -173,25 +172,27 @@ export class AssessmentEngineService {
       }
     }
 
-    return isCorrect;
+    return new Promise((resolve, reject) => {
+      resolve({result: isCorrect});
+    });
   }
 
   // Checks to see if the student answer matches correct answer
   // Both properties are booleans
   checkTrueFalse(question: TrueFalse) {
-    return question.studentAnswer === question.answer ? true : false;
+    const isCorrect = question.studentAnswer === question.answer ? true : false;
+    return new Promise((resolve, reject) => {
+      resolve({result: isCorrect});
+    });
   }
 
   // Makes a call to the back end to extract (if necessary), store, and compare file contents
   // Returns an object that contains a true/false result
   checkUpload(question: Question) {
     (question as Upload).submittedAnswer = this.attachmentService.studentAnswers;
-    console.log(question);
-    this.http.post<{ message: string, result: boolean }>(environment.apiUrl + 'assessment/checkUpload', question)
-      .subscribe((responseData) => {
-        console.log(responseData);
-        return responseData.result;
-      });
+    this.attachmentService.studentAnswers = [];
+    this.attachmentService.correctAnswers = [];
+    return this.http.post(environment.apiUrl + 'assessment/checkUpload', question).toPromise();
   }
 
   getPossiblePoints(points: number) {
@@ -381,10 +382,14 @@ export class AssessmentEngineService {
     question.isAnswered = isQuitAssessment ? false : true;
 
     // Check to see if the answer is correct
-    const isCorrect = this.checkAnswer(question);
+    const checkResult = this.checkAnswer(question).then((val) => {
+      return val;
+    });
 
-    // If the answer is correct
-    if (isCorrect) {
+    checkResult.then((response: any) => {
+      const isCorrect = response.result;
+      // If the answer is correct
+      if (isCorrect) {
 
       // Mark the question as having a correct answer
       question.isAnsweredCorrectly = true;
@@ -396,13 +401,13 @@ export class AssessmentEngineService {
     }
 
     // Update the submitted question in the array so it can be saved when submitting
-    this.questions[this.currentQuestionIndex] = question;
+      this.questions[this.currentQuestionIndex] = question;
 
     // const hasQuestionsRemaining = true;
     // this.hasQuestionsRemaining();
 
     // Check to see if there are more questions
-    if (this.hasQuestionsRemaining()) {
+      if (this.hasQuestionsRemaining()) {
 
       // Reset wrong streak
       if (this.isWrongStreak && isCorrect) {
@@ -435,6 +440,7 @@ export class AssessmentEngineService {
     } else {
       this.checkAssessment();
     }
+    });
   }
 
   // Updates the current question and notifies subscribers
