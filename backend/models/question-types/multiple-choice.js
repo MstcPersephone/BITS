@@ -47,9 +47,6 @@ const multipleChoiceSchema = mongoose.Schema({
     type: Boolean,
     required: false
   },
-  assessmentIds: {
-    type: [String]
-  },
   createdOn: {
     type: Date,
     default: Date.now

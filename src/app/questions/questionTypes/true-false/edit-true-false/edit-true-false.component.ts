@@ -93,7 +93,6 @@ export class EditTrueFalseComponent implements OnInit {
       updatedTrueFalseQuestion.isAnswered = false;
       updatedTrueFalseQuestion.studentAnswer = null;
       updatedTrueFalseQuestion.duration = 0;
-      updatedTrueFalseQuestion.assessmentIds = null;
 
       // Do a final check on attachments to make sure they exist and are valid files
       const attachmentResponse = ValidationService.validateAttachments(updatedTrueFalseQuestion as Question);

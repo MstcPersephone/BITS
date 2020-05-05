@@ -133,7 +133,6 @@ export class EditShortAnswerComponent implements OnInit {
       updatedShortAnswerQuestion.studentAnswer = null;
       updatedShortAnswerQuestion.isCaseSensitive = this.questionService.isCaseSensitive;
       updatedShortAnswerQuestion.duration = 0;
-      updatedShortAnswerQuestion.assessmentIds = null;
 
       // Do a final check on attachments to make sure they exist and are valid files
       const attachmentResponse = ValidationService.validateAttachments(updatedShortAnswerQuestion as Question);
