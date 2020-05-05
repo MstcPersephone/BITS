@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Upload } from 'src/app/models/question-types/upload.model';
 import { AttachmentService } from 'src/app/services/attachment.service';
@@ -13,7 +13,7 @@ import { HelperService } from 'src/app/services/helper.service';
   templateUrl: './create-upload.component.html',
   styleUrls: ['./create-upload.component.css']
 })
-export class CreateUploadComponent implements OnInit {
+export class CreateUploadComponent implements OnInit, OnDestroy {
   createUploadForm;
   constructor(
     private formBuilder: FormBuilder,
@@ -61,7 +61,6 @@ export class CreateUploadComponent implements OnInit {
       uploadQuestion.duration = 0;
       uploadQuestion.correctAnswer = this.attachmentService.getCorrectAnswers();
       uploadQuestion.submittedAnswer = null;
-      uploadQuestion.assessmentIds = null;
 
       // Do a final check on attachments to make sure they exist and are valid files
       const attachmentResponse = ValidationService.validateAttachments(uploadQuestion as Question);
@@ -80,5 +79,11 @@ export class CreateUploadComponent implements OnInit {
         }
       }
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 }

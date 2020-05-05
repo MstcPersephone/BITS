@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Category } from 'src/app/models/shared/category.model';
 import { QuestionService } from 'src/app/services/question.service';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { ValidationService } from 'src/app/services/validation.service';
   templateUrl: './manage-category.component.html',
   styleUrls: ['./manage-category.component.css']
 })
-export class ManageCategoryComponent implements OnInit {
+export class ManageCategoryComponent implements OnInit, OnDestroy {
   // The form object
   editCategoryForm;
   createCategoryForm;
@@ -76,5 +76,11 @@ export class ManageCategoryComponent implements OnInit {
       // For testing, we can remove later.
       console.log(category);
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.categorySubscription.unsubscribe();
+    this.questionService.resetService();
   }
 }

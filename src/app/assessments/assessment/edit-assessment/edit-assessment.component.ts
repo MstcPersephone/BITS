@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +17,7 @@ import { AssessmentConfig } from 'src/app/models/assessment-config.model';
   templateUrl: './edit-assessment.component.html',
   styleUrls: ['./edit-assessment.component.css']
 })
-export class EditAssessmentComponent implements OnInit {
+export class EditAssessmentComponent implements OnInit, OnDestroy {
   isEditMode: boolean;
   public categories: Category[] = [];
   private categorySubscription: Subscription;
@@ -172,4 +172,13 @@ export class EditAssessmentComponent implements OnInit {
     }
   }
 
+  // Reset service property values so they can be used by a new component
+  // Unsubscribes component from the current observable event listeners.
+  ngOnDestroy() {
+    this.categorySubscription.unsubscribe();
+    this.questionSubscription.unsubscribe();
+    this.assessmentQuestionsSubscription.unsubscribe();
+    this.assessmentService.resetService();
+    this.questionService.resetService();
+  }
 }

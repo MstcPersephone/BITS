@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AssessmentConfig } from 'src/app/models/assessment-config.model';
 import { AssessmentService } from 'src/app/services/assessment.service';
@@ -14,13 +14,11 @@ import { Subscription } from 'rxjs';
   templateUrl: './create-assessment-config.component.html',
   styleUrls: ['./create-assessment-config.component.css']
 })
-export class CreateAssessmentConfigComponent implements OnInit {
+export class CreateAssessmentConfigComponent implements OnInit, OnDestroy {
   createConfigurationForm;
-  public value: any;
-  maxTimeSubscription: Subscription;
   maxTime: number;
-  wrongStreakSubscription: Subscription;
   wrongStreak: number;
+  public value: any;
 
   constructor(
     public questionService: QuestionService,
@@ -37,16 +35,21 @@ export class CreateAssessmentConfigComponent implements OnInit {
   }
 
   ngOnInit() {
+    // sets the default values
     this.maxTime = 0;
     this.wrongStreak = 0;
   }
 
+  // Adds a percent to the value displayed in template
   formatMinScoreLabel(value: number) {
     return value + '%';
   }
 
   onSubmit(configurationdata) {
+    // Initializes the new AssessmentConfig to be created
     const config: AssessmentConfig = new AssessmentConfig();
+
+    // Adds all the form values to the properties of the new AssessmentConfig
     config.duration = null;
     config.isRandom = configurationdata.isRandom;
     config.isTimed = configurationdata.isTimed;
@@ -62,6 +65,13 @@ export class CreateAssessmentConfigComponent implements OnInit {
       });
     }
 
+    // Send the property values to the assessment service to include on the assessment
     this.assessmentService.createAssessmentConfiguration(config);
   }
+
+  // Reset service property values so they can be used by a new component
+  ngOnDestroy() {
+    this.assessmentService.resetService();
+  }
+
 }

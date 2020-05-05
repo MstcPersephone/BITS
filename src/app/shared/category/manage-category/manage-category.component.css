@@ -10,10 +10,15 @@ mat-card {
   margin: 20px auto;
 }
 
+/* Adjusts the background of the Add New Category and Category list cards. */
+mat-card mat-card{
+  background-color: #f0f0f0;
+}
+
 /* Adjusting the Add new Category form */
 form{
   padding: 10px;
-  background-color: #f5f5f5;
+  background-color: #f0f0f0;
   border-radius: 5px;
   overflow: hidden;
 }

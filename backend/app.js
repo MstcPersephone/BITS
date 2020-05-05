@@ -25,6 +25,9 @@ const checkUploadAnswer = require("./file-engine/check-upload-answer");
 const userRoutes = require("./routes/user");
 const checkAuth = require("../backend/middleware/check-auth");
 
+// built in email module
+const nodemailer = require('nodemailer');
+
 // ******************************************************** //
 // ***********   DATABASE COLLECTION OBJECTS   ************ //
 // ******************************************************** //
@@ -55,7 +58,7 @@ const app = express();
 // 02/18/2020: useNewUrlParser and useUnifiedTopology options are to avoid
 // soon-to-be depecrated features of mongoDb client
 mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority',
-  { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).then(() => {
       (error) => {
         console.log(error.reason);
       }
@@ -583,9 +586,6 @@ app.post("/api/question/save", checkAuth, (request, response, next) => {
   // Attach points to the question before saving.
   questionObjectToSave.points = question.points;
 
-  // Attach assessment Ids before saving.
-  questionObjectToSave.assessmentIds = question.assessmentIds;
-
   // Attach indication if question was answered correctly before saving.
   questionObjectToSave.isAnsweredCorrectly = question.isAnsweredCorrectly;
 
@@ -829,7 +829,6 @@ app.post("/api/student/update/", (request, response, next) => {
 
   // passes the data to the database to update a specific student by id
   mongoose.connection.db.collection('students').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedStudent) {
-
     // sends the updates to the taken assessments to update student data there as well.
     updateTakenAssessmentStudents(requestedUpdate);
 
@@ -873,6 +872,11 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
 
   // passes the data to the database to update a specific assessment by id
   mongoose.connection.db.collection('takenAssessments').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedTakenAssessment) {
+
+    // If the assessment has been taken
+    if (requestedUpdate.studentPassed !== null) {
+      sendEmailOfResults(requestedUpdate);
+    }
 
     // Send a successful response message
     response.status(200).json({
@@ -926,6 +930,46 @@ function updateTakenAssessmentStudents(updatedStudent) {
     "student.lastAssessmentDate": updatedStudent.lastAssessmentDate,
     "student.previousScores": updatedStudent.previousScores
   } });
+}
+
+// sends email of completed results
+function sendEmailOfResults(takenAssessment) {
+  console.log('SENDING EMAIL');
+  const transporter = nodemailer.createTransport({
+    host: 'outlook.office365.com',
+    secure: true,
+    auth: {
+      user: '16686110@mstc.edu',
+      pass: 'Br@ndnew144634!'
+    }
+  });
+
+  const subjectText = takenAssessment.student.firstName + ' ' + takenAssessment.student.lastName + '\'s' + takenAssessment.assessment.name + ' Results';
+
+  const mailOptions = {
+    from: '16686110@mstc.edu',
+    to: getEmailAddress(takenAssessment.student.campusLocation),
+    subject: subjectText,
+    text: 'Score: ' + takenAssessment.score + '\n' + 'Passed: ' + takenAssessment.studentPassed ? 'True' : 'False'
+  }
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent successfully: ' + info.response);
+    }
+  })
+}
+
+// Gets the appropriate email address via backend/providers/constants.js
+function getEmailAddress(campusLocation) {
+  switch (campusLocation) {
+    case 'Wisconsin Rapids':
+      return Constants.EmailTestResults.WisconsinRapids;
+    case 'Stevens Point':
+      return Constants.EmailTestResults.StevensPoint;
+  }
 }
 
 // use the user routes for login functions

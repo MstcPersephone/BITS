@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { QuestionService } from 'src/app/services/question.service';
@@ -13,7 +13,7 @@ import { ValidationService } from 'src/app/services/validation.service';
   templateUrl: './edit-category.component.html',
   styleUrls: ['./edit-category.component.css']
 })
-export class EditCategoryComponent implements OnInit {
+export class EditCategoryComponent implements OnInit, OnDestroy {
   categorySubscription: Subscription;
   category: Category;
 
@@ -51,5 +51,11 @@ export class EditCategoryComponent implements OnInit {
         control.markAsTouched();
       });
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.categorySubscription.unsubscribe();
+    this.questionService.resetService();
   }
 }

@@ -42,10 +42,6 @@ export class EditUploadComponent implements OnInit, OnDestroy {
     this.attachmentService.correctAnswers = this.question.correctAnswer;
   }
 
-  ngOnDestroy() {
-    this.attachmentService.resetAttachments();
-  }
-
   onSubmit(uploadData) {
     // Initializes a new Upload question to be saved
     const uploadQuestion: Upload = new Upload();
@@ -72,7 +68,6 @@ export class EditUploadComponent implements OnInit, OnDestroy {
       uploadQuestion.duration = 0;
       uploadQuestion.correctAnswer = this.attachmentService.getCorrectAnswers();
       uploadQuestion.submittedAnswer = null;
-      uploadQuestion.assessmentIds = null;
 
       // Do a final check on attachments to make sure they exist and are valid files
       const attachmentResponse = ValidationService.validateAttachments(uploadQuestion as Question);
@@ -93,4 +88,9 @@ export class EditUploadComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
+    this.questionService.resetService();
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { QuestionService } from 'src/app/services/question.service';
 import { Question } from 'src/app/models/question.interface';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { HelperService } from 'src/app/services/helper.service';
   templateUrl: './list-questions.component.html',
   styleUrls: ['./list-questions.component.css']
 })
-export class ListQuestionsComponent implements OnInit {
+export class ListQuestionsComponent implements OnInit, OnDestroy {
   // Object contains a property for each category
   // each property has an array of quesitons for a value
   public organizedQuestions = {};
@@ -32,5 +32,12 @@ export class ListQuestionsComponent implements OnInit {
       .subscribe((questionsArray: any) => {
         this.organizedQuestions = questionsArray;
       });
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.questionSubscription.unsubscribe();
+    this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 }
