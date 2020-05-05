@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Checkbox } from 'src/app/models/question-types/checkbox.model';
 import { QuestionService } from 'src/app/services/question.service';
@@ -12,7 +12,7 @@ import { Question } from 'src/app/models/question.interface';
   templateUrl: './create-checkbox.component.html',
   styleUrls: ['./create-checkbox.component.css']
 })
-export class CreateCheckboxComponent implements OnInit {
+export class CreateCheckboxComponent implements OnInit, OnDestroy {
   createCheckboxForm;
   isValid; // stores the validation set in the question service
   showCancelButton = false;
@@ -102,7 +102,6 @@ export class CreateCheckboxComponent implements OnInit {
       checkboxQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
       checkboxQuestion.isAnswered = false;
       checkboxQuestion.duration = 0;
-      checkboxQuestion.assessmentIds = null;
 
       // Do a final check on options to make sure min requirements are met
       const possibleAnswersResponse = ValidationService.validatePossibleAnswers(checkboxQuestion as Question);
@@ -129,5 +128,11 @@ export class CreateCheckboxComponent implements OnInit {
       // For testing, we can remove later.
       console.log(checkboxQuestion);
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 }

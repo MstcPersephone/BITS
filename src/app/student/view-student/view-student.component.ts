@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { TakenAssessment } from 'src/app/models/taken-assessment.model';
   templateUrl: './view-student.component.html',
   styleUrls: ['./view-student.component.css']
 })
-export class ViewStudentComponent implements OnInit {
+export class ViewStudentComponent implements OnInit, OnDestroy {
   takenAssessment: any;
   private takenAssessmentSubscription: Subscription;
   dateTaken: any;
@@ -38,7 +38,10 @@ export class ViewStudentComponent implements OnInit {
         this.takenAssessment = takenAssessment;
       });
     this.assessmentEngineService.getTakenAssessmentById(this.route.snapshot.params.takenAssessmentId);
-
   }
 
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
+  }
 }

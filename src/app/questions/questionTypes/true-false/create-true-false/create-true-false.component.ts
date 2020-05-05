@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TrueFalse } from 'src/app/models/question-types/true-false.model';
 import { QuestionService } from 'src/app/services/question.service';
@@ -14,7 +14,7 @@ import { Question } from 'src/app/models/question.interface';
   templateUrl: './create-true-false.component.html',
   styleUrls: ['./create-true-false.component.css']
 })
-export class CreateTrueFalseComponent implements OnInit {
+export class CreateTrueFalseComponent implements OnInit, OnDestroy {
   selectedAnswer = '';
   answers: any = [
     'True',
@@ -73,7 +73,6 @@ export class CreateTrueFalseComponent implements OnInit {
       trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
       trueFalseQuestion.studentAnswer = null;
       trueFalseQuestion.duration = 0;
-      trueFalseQuestion.assessmentIds = null;
 
       // Do a final check on attachments to make sure they exist and are valid files
       const attachmentResponse = ValidationService.validateAttachments(trueFalseQuestion as Question);
@@ -88,5 +87,11 @@ export class CreateTrueFalseComponent implements OnInit {
       // For testing, we can remove later.
       // console.log('Question to save', trueFalseQuestion);
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 }

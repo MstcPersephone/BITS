@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from 'src/app/services/question.service';
 import { ValidationService } from '../../../services/validation.service';
@@ -12,7 +12,7 @@ import { FormBuilder, Validators } from '@angular/forms';
   templateUrl: './edit-question.component.html',
   styleUrls: ['./edit-question.component.css']
 })
-export class EditQuestionComponent implements OnInit {
+export class EditQuestionComponent implements OnInit, OnDestroy {
   isEditMode: boolean;
   question: Question;
   questionSubscription: Subscription;
@@ -35,10 +35,10 @@ export class EditQuestionComponent implements OnInit {
     // Gets the question based on the passed in id
     // id is passed through the URL
     this.questionSubscription = this.questionService.getQuestionUpdatedListener()
-    .subscribe((question: Question) => {
-      this.question = question;
-      this.editPointForm.setValue({points: String(this.question.points) });
-    });
+      .subscribe((question: Question) => {
+        this.question = question;
+        this.editPointForm.setValue({ points: String(this.question.points) });
+      });
     this.questionService.getQuestionById(this.route.snapshot.params.questionId);
   }
 
@@ -54,4 +54,9 @@ export class EditQuestionComponent implements OnInit {
     }
   }
 
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.questionSubscription.unsubscribe();
+    this.questionService.resetService();
+  }
 }

@@ -1,5 +1,7 @@
 <h3>{{ question.questionText }}</h3>
 
+
+<app-view-attachment [question]="question"></app-view-attachment>
 <!-- Since the Short Answer uses a form field it requires binding to the form group with a new control added -->
 <div [formGroup]="answerForm">
   <mat-form-field>

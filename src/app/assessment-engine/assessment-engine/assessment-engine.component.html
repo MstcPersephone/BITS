@@ -3,7 +3,7 @@
 <!-- The mat-card displayed before and during an assessment -->
 <mat-card *ngIf="!this.helperService.isLoading && !this.assessmentTaken">
   <!-- The "Starting [assessment name] Assessment" header - displays before the assessment has been started. -->
-  <h1 class="mat-display-1" *ngIf="!this.assessmentEngineService.assessmentStarted">Starting {{this.takenAssessment.assessment.name}} Assessment</h1>
+  <!-- <h1 class="mat-display-1" *ngIf="!this.assessmentEngineService.assessmentStarted">Starting {{this.takenAssessment.assessment.name}} Assessment</h1> -->
 
   <!-- The Enter Student Information form - displays before the assessment has been started. -->
   <app-create-student *ngIf="!this.assessmentEngineService.assessmentStarted"></app-create-student>

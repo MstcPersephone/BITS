@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MultipleChoice } from 'src/app/models/question-types/multiple-choice.model';
 import { QuestionService } from 'src/app/services/question.service';
@@ -13,7 +13,7 @@ import { HelperService } from 'src/app/services/helper.service';
   templateUrl: './create-multiple-choice.component.html',
   styleUrls: ['./create-multiple-choice.component.css']
 })
-export class CreateMultipleChoiceComponent implements OnInit {
+export class CreateMultipleChoiceComponent implements OnInit, OnDestroy {
   createMultipleChoiceForm;
   isValid; // stores the validation set in the question service
   showCancelButton = false;
@@ -103,7 +103,6 @@ export class CreateMultipleChoiceComponent implements OnInit {
       multipleChoiceQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
       multipleChoiceQuestion.isAnswered = false;
       multipleChoiceQuestion.duration = 0;
-      multipleChoiceQuestion.assessmentIds = null;
 
       // Do a final check on options to make sure min requirements are met
       const possibleAnswersResponse = ValidationService.validatePossibleAnswers(multipleChoiceQuestion as Question);
@@ -129,5 +128,11 @@ export class CreateMultipleChoiceComponent implements OnInit {
       // For testing, we can remove later.
       // console.log(multipleChoiceQuestion);
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 }

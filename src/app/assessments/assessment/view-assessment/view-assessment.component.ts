@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
@@ -15,11 +15,10 @@ import { AssessmentConfig } from 'src/app/models/assessment-config.model';
   templateUrl: './view-assessment.component.html',
   styleUrls: ['./view-assessment.component.css']
 })
-export class ViewAssessmentComponent implements OnInit, AfterViewInit {
+export class ViewAssessmentComponent implements OnInit, AfterViewInit, OnDestroy {
   questions: Question[];
   question: Question;
   assessment: Assessment;
-  // id = this.route.snapshot.params.assessmentId;
   private questionsSubscription: Subscription;
   private assessmentSubscription: Subscription;
   public displayedColumns: string[] = ['questionType', 'questionText', 'points'];
@@ -36,6 +35,7 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+    // Gets the assessment to view based upon id passed into url
     this.assessmentService.getAssessmentById(this.route.snapshot.params.assessmentId);
     this.assessmentSubscription = this.assessmentService.getAssessmentUpdateListener()
       .subscribe((assessment: Assessment) => {
@@ -47,13 +47,12 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
         this.questionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
           .subscribe((questionsArray: any) => {
             this.dataSource.data = questionsArray;
-            // console.table(this.dataSource.data);
-            this.dataSource.sort = this.sort;
           });
       });
   }
 
   ngAfterViewInit(): void {
+    // this allows the columns to be sorted
     this.dataSource.sort = this.sort;
   }
 
@@ -62,5 +61,13 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit {
     this.assessmentService.showBackButton = true;
     // takes the user to the single question view passing the current question id
     this.router.navigate(['/question/view', questionId]);
+  }
+
+  // Reset service property values so they can be used by a new component
+  // Unsubscribes component from the current observable event listeners.
+  ngOnDestroy() {
+    this.questionsSubscription.unsubscribe();
+    this.assessmentSubscription.unsubscribe();
+    this.assessmentService.resetService();
   }
 }

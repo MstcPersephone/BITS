@@ -4,20 +4,59 @@ const guid = require('../providers/guidFactory');
 const Constants = require('../providers/constants');
 
 // Compares two files and returns the results
-const compareFiles = function(firstFile, secondFile) {
+const compareFiles = function(firstPath, secondPath) {
 
-  // Read contents of first file
-  console.log('first file', firstFile);
-  const firstFileResults = readFileContents(firstFile);
+  // Check to see if the paths are directories
+  firstPathIsDirectory = fs.lstatSync(firstPath).isDirectory();
+  secondPathIsDirectory = fs.lstatSync(secondPath).isDirectory();
+
+  // If either path is a directory, drill down and call compareFiles again
+  if (firstPathIsDirectory || secondPathIsDirectory) {
+
+    // If the answer and submission paths don't match (by type: file or directory)
+    if ((firstPathIsDirectory && !secondPathIsDirectory) || (!firstPathIsDirectory && secondPathIsDirectory)) {
+      return false;
+    }
+
+    // Set up new arrays to hold a string of paths
+    const correctPaths = [];
+    const submittedPaths = [];
+
+
+    readDirectory(firstPath).forEach((p) => {
+      correctPaths.push(p);
+    });
+
+    readDirectory(secondPath).forEach((p) => {
+      submittedPaths.push(p);
+    });
+
+    // Loop through the correct files and compare them to the submitted files
+    correctPaths.forEach((p, index) => {
+
+      // Compare correct file to submitted file
+      var result = compareFiles(p, submittedPaths[index]);
+
+      // If one file fails, the result is set to false and remains false
+      if (!result) {
+        return false;
+      }
+    });
+
+  }
+
+  // Read contents of first path
+  console.log('first file', firstPath);
+  const firstPathResults = readFileContents(firstPath);
   // console.log('CONTENTS', firstFileResults);
 
-  // Read contents of second file
-  console.log('second file', secondFile);
-  const secondFileResults = readFileContents(secondFile);
+  // Read contents of second path
+  console.log('second file', secondPath);
+  const secondPathResults = readFileContents(secondPath);
   // console.log('CONTENTS', secondFileResults);
 
   // Compare the contents of the two files
-  var result = firstFileResults === secondFileResults;
+  var result = firstPathResults === secondPathResults;
   console.log( result ? 'File contents match' : 'File contents do not match');
   return result;
 }
@@ -46,7 +85,7 @@ const readDirectory = (directory) => {
 
 // Reads a file and returns the contents as a string
 const readFileContents = (filePath) => {
-  return fs.readFileSync(filePath, Constants.Encoding.UTF_8);
+    return fs.readFileSync(filePath, Constants.Encoding.UTF_8);
 }
 
 // Removes a temp directory
@@ -61,7 +100,7 @@ const unzipFolder = function (sourcePath, destinationPath) {
   const z = new zip(sourcePath);
 
   // extract all files to the same folder
-  z.extractAllToAsync(destinationPath);
+  z.extractAllTo(destinationPath);
 
   // delete the zipped file
   fs.unlinkSync(sourcePath);

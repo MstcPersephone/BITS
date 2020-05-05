@@ -17,5 +17,4 @@ export class Upload implements Question {
   submittedAnswer: Attachment[];
   points: number;
   isAnsweredCorrectly: boolean; // whether the user has provided the correct answer
-  assessmentIds: string[];
 }

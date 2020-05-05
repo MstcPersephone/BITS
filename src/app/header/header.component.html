@@ -1,6 +1,9 @@
 <mat-toolbar color="primary">
   <section class="headerContainer">
 
+    <!-- Header Logo -->
+    <img (click)="this.helperService.refreshComponent('/home')" src="assets/mstc_logo_white_transparent.gif"/>
+
     <!-- Header Title Text -->
     <p (click)="this.helperService.refreshComponent('/home')">Basic IT Software Assessment</p>
 

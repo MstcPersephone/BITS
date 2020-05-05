@@ -11,7 +11,7 @@
   <!-- Add attachment component -->
   <app-attachment></app-attachment>
   <br>
-  <mat-checkbox class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">Are acceptable answers case
+  <mat-checkbox class="mt-20" [checked]="this.questionService.isCaseSensitive" (change)="this.questionService.hasCaseSensitivityChanged()">Are acceptable answers case
     sensitive?
   </mat-checkbox>
   <br>

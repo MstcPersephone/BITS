@@ -47,12 +47,9 @@ const checkboxSchema = mongoose.Schema({
     type: Boolean,
     required: false
   },
-  assessmentIds: {
-    type: [String]
-  },
-  createdOn: {
+  modifiedOn: {
     type: Date,
-    default: Date.now
+    default: new Date(Date.now())
   }
 });
 

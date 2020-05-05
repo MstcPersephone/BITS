@@ -13,5 +13,4 @@ export interface Question {
   duration: number; // how long it takes to answer the question
   points: number; // the point value for the question
   isAnsweredCorrectly: boolean; // whether the user has provided the correct answer
-  assessmentIds: string[]; // The array of assessment IDs the question is being used in
 }
