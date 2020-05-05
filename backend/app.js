@@ -325,7 +325,8 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   const objectIds = [];
   // Turns the string ids into ObjectIds
   if (questionIds !== null && questionIds !== undefined) {
-    questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
+    questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) });
+    objectIds.reverse();
   }
 
   // Performs the search
@@ -334,6 +335,13 @@ app.post("/api/assessment/questions/", (request, response, next) => {
       console.log('ERROR', error.message);
     }
     else {
+      // Sort the questions to match the original id list
+      questions.sort((a, b) => {
+        return objectIds.indexOf(a) - objectIds.indexOf(b);
+      });
+
+      questions.reverse();
+
       // Send a successful response message and an array of questions to work with.
       response.status(200).json({
         message: 'Question Fetched Successfully!',
@@ -716,6 +724,7 @@ app.post("/api/assessment/update/", checkAuth, (request, response, next) => {
   // Stores data for updating backend properties
   const requestedUpdate = request.body;
 
+  console.log(requestedUpdate.questionIds);
   // Stores the updated assessment data
   const update = {
     id: requestedUpdate._id,

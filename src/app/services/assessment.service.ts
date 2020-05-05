@@ -332,8 +332,6 @@ export class AssessmentService {
           this.assessmentQuestionsUpdated.next(this.questions);
           // Done loading. Remove the loading spinner
           this.helperService.isLoading = false;
-          console.log(responseData.message);
-          console.log(this.questions);
         },
         error => {
           console.log('%c' + error.error.message, 'color: red;');
