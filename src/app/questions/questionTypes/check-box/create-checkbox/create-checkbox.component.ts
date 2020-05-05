@@ -102,7 +102,6 @@ export class CreateCheckboxComponent implements OnInit {
       checkboxQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
       checkboxQuestion.isAnswered = false;
       checkboxQuestion.duration = 0;
-      checkboxQuestion.assessmentIds = null;
 
       // Do a final check on options to make sure min requirements are met
       const possibleAnswersResponse = ValidationService.validatePossibleAnswers(checkboxQuestion as Question);

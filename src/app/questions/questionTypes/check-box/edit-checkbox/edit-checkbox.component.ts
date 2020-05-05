@@ -123,7 +123,6 @@ export class EditCheckboxComponent implements OnInit {
       updatedCheckboxQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : [];
       updatedCheckboxQuestion.isAnswered = false;
       updatedCheckboxQuestion.duration = 0;
-      updatedCheckboxQuestion.assessmentIds = null;
 
       // Resets both current form and cancel button to not visible
       this.questionService.showCreateOption = false;

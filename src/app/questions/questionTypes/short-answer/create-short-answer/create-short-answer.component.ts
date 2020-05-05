@@ -105,7 +105,6 @@ export class CreateShortAnswerComponent implements OnInit {
       shortAnswerQuestion.isAnswered = false;
       shortAnswerQuestion.studentAnswer = null;
       shortAnswerQuestion.matches = this.questionService.getMatches();
-      shortAnswerQuestion.assessmentIds = null;
       shortAnswerQuestion.isCaseSensitive = this.questionService.isCaseSensitive;
       shortAnswerQuestion.duration = 0;
 

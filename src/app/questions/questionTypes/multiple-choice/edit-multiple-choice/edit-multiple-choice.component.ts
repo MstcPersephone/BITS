@@ -124,7 +124,6 @@ export class EditMultipleChoiceComponent implements OnInit {
       updatedMultipleChoiceQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : [];
       updatedMultipleChoiceQuestion.isAnswered = false;
       updatedMultipleChoiceQuestion.duration = 0;
-      updatedMultipleChoiceQuestion.assessmentIds = null;
 
       // Resets both current form and cancel button to not visible
       this.questionService.showCreateOption = false;

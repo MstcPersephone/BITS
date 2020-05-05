@@ -103,7 +103,6 @@ export class CreateMultipleChoiceComponent implements OnInit {
       multipleChoiceQuestion.attachments = this.attachmentService.hasAttachments ? this.attachmentService.getAttachments() : null;
       multipleChoiceQuestion.isAnswered = false;
       multipleChoiceQuestion.duration = 0;
-      multipleChoiceQuestion.assessmentIds = null;
 
       // Do a final check on options to make sure min requirements are met
       const possibleAnswersResponse = ValidationService.validatePossibleAnswers(multipleChoiceQuestion as Question);

@@ -72,7 +72,6 @@ export class EditUploadComponent implements OnInit, OnDestroy {
       uploadQuestion.duration = 0;
       uploadQuestion.correctAnswer = this.attachmentService.getCorrectAnswers();
       uploadQuestion.submittedAnswer = null;
-      uploadQuestion.assessmentIds = null;
 
       // Do a final check on attachments to make sure they exist and are valid files
       const attachmentResponse = ValidationService.validateAttachments(uploadQuestion as Question);

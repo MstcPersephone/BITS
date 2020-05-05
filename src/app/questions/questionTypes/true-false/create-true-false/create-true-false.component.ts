@@ -73,7 +73,6 @@ export class CreateTrueFalseComponent implements OnInit {
       trueFalseQuestion.answer = this.helperService.convertToTrueFalse(trueFalseData.answer);
       trueFalseQuestion.studentAnswer = null;
       trueFalseQuestion.duration = 0;
-      trueFalseQuestion.assessmentIds = null;
 
       // Do a final check on attachments to make sure they exist and are valid files
       const attachmentResponse = ValidationService.validateAttachments(trueFalseQuestion as Question);

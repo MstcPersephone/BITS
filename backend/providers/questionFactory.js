@@ -88,7 +88,6 @@ function createCheckbox(question, collectionName = 'questions') {
   q.hasAttachments = question.hasAttachments;
   q.attachments = question.attachments;
   q.isAnswered = question.isAnswered;
-  q.assessmentIds = question.assessmentIds;
   q.duration = question.duration;
   q.createdOn = Date.now();
   return q;
@@ -112,7 +111,6 @@ function updateCheckbox(question) {
     hasAttachments: question.hasAttachments,
     attachments: question.attachments,
     isAnswered: question.isAnswered,
-    assessmentIds: question.assessmentIds,
     duration: question.duration,
     points: question.points,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
@@ -148,7 +146,6 @@ function createMultipleChoice(question, collectionName = 'questions') {
     q.hasAttachments = question.hasAttachments;
     q.attachments = question.attachments;
     q.isAnswered = question.isAnswered;
-    q.assessmentIds = question.assessmentIds;
     q.duration = question.duration;
     q.createdOn = Date.now();
 
@@ -173,7 +170,6 @@ function updateMultipleChoice(question) {
     hasAttachments: question.hasAttachments,
     attachments: question.attachments,
     isAnswered: question.isAnswered,
-    assessmentIds: question.assessmentIds,
     duration: question.duration,
     points: question.points,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
@@ -211,7 +207,6 @@ function createShortAnswer(question, collectionName = 'questions') {
     q.isAnswered = question.isAnswered;
     q.studentAnswer = question.studentAnswer;
     q.matches = question.matches;
-    q.assessmentIds = question.assessmentIds;
     q.isCaseSensitive = question.isCaseSensitive;
     q.duration = question.duration;
     q.createdOn = Date.now();
@@ -241,7 +236,6 @@ function updateShortAnswer(question) {
     matches: question.matches,
     duration: question.duration,
     points: question.points,
-    assessmentIds: question.assessmentIds,
     isCaseSensitive: question.isCaseSensitive,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
     createdOn: question.createdOn
@@ -271,7 +265,6 @@ function createTrueFalse(question, collectionName = 'questions') {
     q.isAnswered = question.isAnswered;
     q.studentAnswer = question.studentAnswer;
     q.answer = question.answer;
-    q.assessmentIds = question.assessmentIds;
     q.duration = question.duration;
     q.createdOn = Date.now();
 
@@ -290,7 +283,6 @@ function updateTrueFalse(question) {
     studentAnswer: question.studentAnswer,
     duration: question.duration,
     points: question.points,
-    assessmentIds: question.assessmentIds,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
     createdOn: question.createdOn
   }
@@ -317,7 +309,6 @@ function createUpload(question, collectionName = 'questions') {
     q.isAnswered = question.isAnswered;
     q.correctAnswer = question.correctAnswer;
     q.submittedAnswer = question.submittedAnswer;
-    q.assessmentIds = question.assessmentIds;
     q.duration = question.duration;
     q.createdOn = Date.now();
 
@@ -336,7 +327,6 @@ function updateUpload(question) {
     submittedAnswer: question.submittedAnswer,
     duration: question.duration,
     points: question.points,
-    assessmentIds: question.assessmentIds,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
     createdOn: question.createdOn
   }

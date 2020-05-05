@@ -583,9 +583,6 @@ app.post("/api/question/save", checkAuth, (request, response, next) => {
   // Attach points to the question before saving.
   questionObjectToSave.points = question.points;
 
-  // Attach assessment Ids before saving.
-  questionObjectToSave.assessmentIds = question.assessmentIds;
-
   // Attach indication if question was answered correctly before saving.
   questionObjectToSave.isAnsweredCorrectly = question.isAnsweredCorrectly;
 
@@ -868,7 +865,7 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
     questions: requestedUpdate.questions,
     score: requestedUpdate.score,
     studentPassed: requestedUpdate.studentPassed,
-    modifiedOn: Date.now()
+    modifiedOn: new Date(Date.now())
   };
 
   // passes the data to the database to update a specific assessment by id
