@@ -33,6 +33,7 @@ export class EditCheckboxComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log(this.question);
     this.editCheckboxForm.get('questionText').setValue(this.question.questionText);
+    this.editCheckboxForm.get('hasAttachments').setValue(this.attachmentService.hasAttachments);
     // Pass the attachments off to the attachment service to be managed.
     if (this.question.hasAttachments) {
       this.attachmentService.attachments = this.question.attachments;

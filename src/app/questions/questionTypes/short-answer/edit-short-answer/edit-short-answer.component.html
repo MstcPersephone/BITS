@@ -13,7 +13,7 @@
   <br>
 
   <!-- Answer Case Sensitivity checkbox -->
-  <mat-checkbox class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">
+  <mat-checkbox [checked]="this.questionService.isCaseSensitive" class="mt-20" (change)="this.questionService.hasCaseSensitivityChanged()">
     Is student answer case sensitive?
   </mat-checkbox>
 

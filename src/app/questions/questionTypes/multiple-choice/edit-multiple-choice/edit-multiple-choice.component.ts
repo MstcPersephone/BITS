@@ -33,6 +33,8 @@ export class EditMultipleChoiceComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // console.log(this.question);
     this.editMultipleChoiceForm.get('questionText').setValue(this.question.questionText);
+    this.editMultipleChoiceForm.get('hasAttachments').setValue(this.attachmentService.hasAttachments);
+
     // Pass the attachments off to the attachment service to be managed.
     if (this.question.hasAttachments) {
       // If the form passed validation hide the form and the cancel button

@@ -37,6 +37,10 @@ export class EditShortAnswerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // console.log(this.question);
     this.editShortAnswerForm.get('questionText').setValue(this.question.questionText);
+    this.editShortAnswerForm.get('hasAttachments').setValue(this.attachmentService.hasAttachments);
+    this.editShortAnswerForm.get('isCaseSensitive').setValue(this.attachmentService.hasAttachments);
+
+
     // Pass the attachments off to the attachment service to be managed.
     if (this.question.hasAttachments) {
       this.attachmentService.attachments = this.question.attachments;
