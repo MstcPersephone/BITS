@@ -323,13 +323,24 @@ export class AssessmentService {
 
   // gets a list of questions from an array of ids
   getQuestionsByIds(questionIds: string[]) {
+    console.log('Passed in questionIds', questionIds);
     this.helperService.isLoading = true;
     this.http
       .post<{ message: string, questions: Question[] }>(environment.apiUrl + 'assessment/questions/', { questionIds })
       .subscribe(
         responseData => {
-          this.questions = responseData.questions;
+          const selectOrderQuestions = [];
+          // Change the order of questions to be what the instructor selected
+          questionIds.forEach((qId) => {
+            responseData.questions.forEach((q) => {
+              if (qId.toString() === q._id.toString()) {
+                selectOrderQuestions.push(q);
+              }
+            });
+          });
+          this.questions = selectOrderQuestions;
           this.assessmentQuestionsUpdated.next(this.questions);
+          console.log('this.questions', this.questions);
           // Done loading. Remove the loading spinner
           this.helperService.isLoading = false;
         },
