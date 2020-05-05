@@ -15,9 +15,9 @@ const attachmentSchema = mongoose.Schema({
     type: mongoose.Mixed,
     required: true
   },
-  createdOn: {
+  modifiedOn: {
     type: Date,
-    default: Date.now
+    default: new Date(Date.now())
   }
 });
 

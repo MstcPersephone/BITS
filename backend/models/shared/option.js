@@ -19,9 +19,9 @@ const optionSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
-  createdOn: {
+  modifiedOn: {
     type: Date,
-    default: Date.now()
+    default: new Date(Date.now())
   }
 });
 

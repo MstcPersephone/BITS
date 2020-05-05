@@ -90,7 +90,7 @@ function createCheckbox(question, collectionName = 'questions') {
   q.isAnswered = question.isAnswered;
   q.assessmentIds = question.assessmentIds;
   q.duration = question.duration;
-  q.createdOn = Date.now();
+  q.modifiedOn = new Date(Date.now());
   return q;
 }
 
@@ -116,7 +116,7 @@ function updateCheckbox(question) {
     duration: question.duration,
     points: question.points,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
-    createdOn: question.createdOn
+    qmodifiedOn: new Date(Date.now())
   }
 }
 
@@ -150,7 +150,7 @@ function createMultipleChoice(question, collectionName = 'questions') {
     q.isAnswered = question.isAnswered;
     q.assessmentIds = question.assessmentIds;
     q.duration = question.duration;
-    q.createdOn = Date.now();
+    q.modifiedOn = new Date(Date.now());
 
   return q;
 }
@@ -177,7 +177,7 @@ function updateMultipleChoice(question) {
     duration: question.duration,
     points: question.points,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
-    createdOn: question.createdOn
+    modifiedOn: new Date(Date.now())
   }
 }
 //**********************************************//
@@ -214,7 +214,7 @@ function createShortAnswer(question, collectionName = 'questions') {
     q.assessmentIds = question.assessmentIds;
     q.isCaseSensitive = question.isCaseSensitive;
     q.duration = question.duration;
-    q.createdOn = Date.now();
+    q.modifiedOn = new Date(Date.now());
 
   return q;
 }
@@ -244,7 +244,7 @@ function updateShortAnswer(question) {
     assessmentIds: question.assessmentIds,
     isCaseSensitive: question.isCaseSensitive,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
-    createdOn: question.createdOn
+    modifiedOn: new Date(Date.now())
   }
 }
 
@@ -273,7 +273,7 @@ function createTrueFalse(question, collectionName = 'questions') {
     q.answer = question.answer;
     q.assessmentIds = question.assessmentIds;
     q.duration = question.duration;
-    q.createdOn = Date.now();
+    q.modifiedOn = new Date(Date.now());
 
   return q;
 }
@@ -292,7 +292,7 @@ function updateTrueFalse(question) {
     points: question.points,
     assessmentIds: question.assessmentIds,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
-    createdOn: question.createdOn
+    modifiedOn: new Date(Date.now())
   }
 }
 //*************************************//
@@ -319,7 +319,7 @@ function createUpload(question, collectionName = 'questions') {
     q.submittedAnswer = question.submittedAnswer;
     q.assessmentIds = question.assessmentIds;
     q.duration = question.duration;
-    q.createdOn = Date.now();
+    q.modifiedOn = new Date(Date.now());
 
   return q;
 }
@@ -338,7 +338,7 @@ function updateUpload(question) {
     points: question.points,
     assessmentIds: question.assessmentIds,
     isAnsweredCorrectly: question.isAnsweredCorrectly,
-    createdOn: question.createdOn
+    modifiedOn: new Date(Date.now())
   }
 }
 
