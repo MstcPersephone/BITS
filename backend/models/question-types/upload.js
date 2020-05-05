@@ -48,9 +48,9 @@ const uploadSchema = mongoose.Schema({
     type: Boolean,
     required: false
   },
-  createdOn: {
+  modifiedOn: {
     type: Date,
-    default: Date.now
+    default: new Date(Date.now())
   }
 });
 

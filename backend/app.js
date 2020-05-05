@@ -396,8 +396,8 @@ app.get("/api/questions", checkAuth, (request, response, next) => {
       for (var category in organizedQuestions) {
         if (Object.prototype.hasOwnProperty.call(organizedQuestions, category)) {
           organizedQuestions[category].sort((a, b) => {
-            a = new Date(a.createdOn);
-            b = new Date(b.createdOn);
+            a = new Date(a.modifiedOn);
+            b = new Date(b.modifiedOn);
             return a > b ? -1 : a < b ? 1 : 0;
           })
         }

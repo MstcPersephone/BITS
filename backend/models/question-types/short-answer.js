@@ -53,9 +53,9 @@ const shortAnswerSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
-  createdOn: {
+  modifiedOn: {
     type: Date,
-    default: Date.now
+    default: new Date(Date.now())
   }
 });
 

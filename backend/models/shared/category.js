@@ -7,9 +7,9 @@ const categorySchema = mongoose.Schema({
     type: String,
     required: true
   },
-  createdOn: {
+  modifiedOn: {
     type: Date,
-    default: Date.now()
+    default:new Date(Date.now())
   }
 });
 
