@@ -293,13 +293,9 @@ export class QuestionService {
 
   // Changes the status of case sensitivity
   hasCaseSensitivityChanged() {
-    if (this.isCaseSensitive === false || this.isCaseSensitive === null) {
-      this.isCaseSensitive = true;
-      console.log(this.isCaseSensitive);
-    } else {
-      this.isCaseSensitive = false;
-      console.log(this.isCaseSensitive);
-    }
+    this.isCaseSensitive = !this.isCaseSensitive;
+    return this.isCaseSensitive;
+
   }
 
   // ******************************************** //
@@ -351,12 +347,12 @@ export class QuestionService {
     this.categoriesIsValid = true;
   }
 
-   // Sets the categories form to invalid
+  // Sets the categories form to invalid
   setCategoriesInvalid() {
     this.categoriesIsValid = false;
   }
 
-   // Sets the create exact form to valid
+  // Sets the create exact form to valid
   setExactMatchIsValid() {
     this.exactMatchIsValid = true;
   }
@@ -755,5 +751,30 @@ export class QuestionService {
           console.log('%c' + error.error.message, 'color: red;');
         }
       );
+  }
+
+  // ************************************************************* //
+  // ****************  CLEARING SERVICE MEMORY  ****************** //
+  // ************************************************************* //
+  // Resets all properties that are initially set at the top of the service.
+  resetService() {
+    // Do not reset:  this.categoriesLoaded, this.showHideCreateCategory
+    this.questions = null;
+    this.category = null;
+    this.categories = [];
+    this.selectedCategories = [];
+    // this.categoriesLoaded = false;
+    // this.showHideCreateCategory = false;
+    this.exactMatches = [];
+    this.hasMatches = false;
+    this.showCreateMatch = false;
+    this.options = [];
+    this.hasOptions = false;
+    this.showCreateOption = false;
+    this.enteredPoints = 0;
+    this.question = null;
+    this.categoryForm = null;
+    this.editExactMatchInvalid = false;
+    this.editOptionInvalid = false;
   }
 }

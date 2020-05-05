@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Upload } from 'src/app/models/question-types/upload.model';
 import { AttachmentService } from 'src/app/services/attachment.service';
@@ -13,7 +13,7 @@ import { HelperService } from 'src/app/services/helper.service';
   templateUrl: './create-upload.component.html',
   styleUrls: ['./create-upload.component.css']
 })
-export class CreateUploadComponent implements OnInit {
+export class CreateUploadComponent implements OnInit, OnDestroy {
   createUploadForm;
   constructor(
     private formBuilder: FormBuilder,
@@ -79,5 +79,11 @@ export class CreateUploadComponent implements OnInit {
         }
       }
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 }

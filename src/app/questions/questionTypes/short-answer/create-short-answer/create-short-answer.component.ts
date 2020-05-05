@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ShortAnswer } from 'src/app/models/question-types/short-answer.model';
 import { QuestionService } from 'src/app/services/question.service';
@@ -12,7 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
   templateUrl: './create-short-answer.component.html',
   styleUrls: ['./create-short-answer.component.css']
 })
-export class CreateShortAnswerComponent implements OnInit {
+export class CreateShortAnswerComponent implements OnInit, OnDestroy {
   // The form object
   createShortAnswerForm;
   isValid; // stores the validation set in the question service
@@ -28,7 +28,7 @@ export class CreateShortAnswerComponent implements OnInit {
     this.createShortAnswerForm = this.formBuilder.group({
       questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
       hasAttachments: '',
-      isCaseSensitive: ''
+      isCaseSensitive: false
     });
   }
 
@@ -126,5 +126,11 @@ export class CreateShortAnswerComponent implements OnInit {
       // For testing, we can remove later.
       // console.log('Question to save', shortAnswerQuestion);
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 }

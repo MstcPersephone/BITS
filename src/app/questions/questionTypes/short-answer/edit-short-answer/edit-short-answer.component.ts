@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Question } from 'src/app/models/question.interface';
 import { FormBuilder, Validators } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
@@ -13,7 +13,7 @@ import { ValidationService } from 'src/app/services/validation.service';
   templateUrl: './edit-short-answer.component.html',
   styleUrls: ['./edit-short-answer.component.css']
 })
-export class EditShortAnswerComponent implements OnInit {
+export class EditShortAnswerComponent implements OnInit, OnDestroy {
   // The question being edited
   @Input() question: Question;
   isValid; // stores the validation set in the question service
@@ -37,6 +37,10 @@ export class EditShortAnswerComponent implements OnInit {
   ngOnInit(): void {
     // console.log(this.question);
     this.editShortAnswerForm.get('questionText').setValue(this.question.questionText);
+    this.editShortAnswerForm.get('hasAttachments').setValue(this.attachmentService.hasAttachments);
+    this.editShortAnswerForm.get('isCaseSensitive').setValue(this.attachmentService.hasAttachments);
+
+
     // Pass the attachments off to the attachment service to be managed.
     if (this.question.hasAttachments) {
       this.attachmentService.attachments = this.question.attachments;
@@ -101,8 +105,8 @@ export class EditShortAnswerComponent implements OnInit {
     // if (matches.length > 0) {
     const matchElements = Array.from(document.getElementsByClassName('simulatedButtonSAClass'));
     matchElements.forEach((m) => {
-        (m as HTMLButtonElement).click();
-      });
+      (m as HTMLButtonElement).click();
+    });
     // }
 
     // console.log('Points are valid', this.questionService.pointsIsValid);
@@ -147,5 +151,11 @@ export class EditShortAnswerComponent implements OnInit {
       // For testing, we can remove later.
       console.log('Question to save', updatedShortAnswerQuestion);
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 }

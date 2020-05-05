@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Upload } from 'src/app/models/question-types/upload.model';
 import { FormBuilder } from '@angular/forms';
 import { AttachmentService } from 'src/app/services/attachment.service';
@@ -10,7 +10,7 @@ import { AssessmentEngineService } from 'src/app/services/assessment-engine.serv
   templateUrl: './view-upload.component.html',
   styleUrls: ['./view-upload.component.css']
 })
-export class ViewUploadComponent implements OnInit {
+export class ViewUploadComponent implements OnInit, OnDestroy {
   answerForm;
   @Input() question: Upload;
 
@@ -32,5 +32,10 @@ export class ViewUploadComponent implements OnInit {
     this.question.submittedAnswer = this.attachmentService.getStudentAnswers();
     this.attachmentService.clearStudentAnswers();
     this.assessmentEngineService.checkAnswer(this.question);
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
   }
 }

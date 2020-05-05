@@ -1,7 +1,8 @@
 <!-- The spinner object, displayed when the application is loading the questions -->
 <mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
 <br>
-<mat-card *ngIf="!this.helperService.isLoading">
+<!-- Note, table cannot be wrapped in ngIf condition or the sorting will not work -->
+<mat-card>
   <h1 class="mat-display-1">Manage Assessment</h1>
 
   <!-- Container holding the assessment details -->

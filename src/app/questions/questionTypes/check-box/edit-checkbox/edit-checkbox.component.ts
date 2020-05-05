@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Question } from 'src/app/models/question.interface';
 import { FormBuilder, Validators } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
@@ -12,7 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
   templateUrl: './edit-checkbox.component.html',
   styleUrls: ['./edit-checkbox.component.css']
 })
-export class EditCheckboxComponent implements OnInit {
+export class EditCheckboxComponent implements OnInit, OnDestroy {
   @Input() question: Question;
   isValid; // stores the validation set in the question service
   showCancelButton = false;
@@ -33,6 +33,7 @@ export class EditCheckboxComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.question);
     this.editCheckboxForm.get('questionText').setValue(this.question.questionText);
+    this.editCheckboxForm.get('hasAttachments').setValue(this.attachmentService.hasAttachments);
     // Pass the attachments off to the attachment service to be managed.
     if (this.question.hasAttachments) {
       this.attachmentService.attachments = this.question.attachments;
@@ -153,5 +154,11 @@ export class EditCheckboxComponent implements OnInit {
       // For testing, we can remove later
       console.log('Question to save', updatedCheckboxQuestion);
     }
+  }
+
+  // Reset services so they can be used by a new component
+  ngOnDestroy() {
+    this.attachmentService.resetService();
+    this.questionService.resetService();
   }
 }
