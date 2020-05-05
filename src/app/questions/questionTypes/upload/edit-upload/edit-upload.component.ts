@@ -29,7 +29,6 @@ export class EditUploadComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.editUploadForm.get('questionText').setValue(this.question.questionText);
-    this.editUploadForm.get('hasAttachments').setValue(this.attachmentService.hasAttachments);
 
     // Set attachments if any
     if (this.question.hasAttachments) {

@@ -28,7 +28,7 @@ export class CreateShortAnswerComponent implements OnInit, OnDestroy {
     this.createShortAnswerForm = this.formBuilder.group({
       questionText: ['', [Validators.required, ValidationService.invalidWhiteSpaceOnly]],
       hasAttachments: '',
-      isCaseSensitive: ''
+      isCaseSensitive: false
     });
   }
 
