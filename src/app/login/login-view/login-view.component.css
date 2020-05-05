@@ -1,1 +1,7 @@
-@import "../../questions/questionTypes/_taskStyles/createStyles.css";
+/* Importing global styling. */
+@import "../../../styles.css";
+
+/* Removing the form background. */
+form{
+  background-color: #fff;
+}
