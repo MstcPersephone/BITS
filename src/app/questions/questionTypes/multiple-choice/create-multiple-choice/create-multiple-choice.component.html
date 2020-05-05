@@ -1,5 +1,5 @@
 <form [formGroup]="createMultipleChoiceForm" (ngSubmit)="onSubmit(createMultipleChoiceForm.value)">
-  <h3>Multiple Choice question details</h3>
+  <h3>Multiple Choice Question Details</h3>
   <!-- Question Name Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Enter Question Text</mat-label>
@@ -11,7 +11,7 @@
   <app-attachment></app-attachment>
 
   <mat-card>
-    <h3>Options</h3>
+    <h3>Selectable Options</h3>
 
     <!-- This displays the options when option is saved by add option click -->
     <app-list-option></app-list-option>
@@ -22,8 +22,8 @@
     <!-- Buttons that control when the option webform is displayed -->
     <div class="buttonContainer">
       <!-- Cancel Button : If clicked will close the add acceptable answer form -->
-      <button class="closeAddOption" *ngIf="this.showCancelButton" mat-raised-button (click)="this.clickCancel()">
-        Cancel<mat-icon>&nbsp;close</mat-icon>
+      <button class="cancelOption" *ngIf="this.showCancelButton" mat-raised-button (click)="this.clickCancel()">
+        Cancel Add Option<mat-icon>&nbsp;close</mat-icon>
       </button>
       <!-- Add Option button; used to display the Create Option form above -->
       <button class="addOption" mat-raised-button type="button" (click)="this.clickAdd()">
@@ -38,6 +38,6 @@
   <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
 
   <!-- Cancel Button : Cancels the save and send user back to question list -->
-  <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">Cancel&nbsp;<mat-icon>close
+  <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">Cancel Create Question&nbsp;<mat-icon>close
     </mat-icon></button>
 </form>

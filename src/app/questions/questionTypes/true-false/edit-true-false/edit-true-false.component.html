@@ -1,5 +1,5 @@
 <form [formGroup]="editTrueFalseForm" (ngSubmit)="onSubmit(editTrueFalseForm.value)">
-  <h3>True False question details</h3>
+  <h3>True False Question Details</h3>
 
   <!-- Question Text Input -->
   <mat-form-field appearance="standard">
@@ -31,5 +31,5 @@
   <button class="saveButton" mat-raised-button type="submit" (click)="this.questionService.handleEditQuestionFormValidation()">Save Question&nbsp;<mat-icon>save</mat-icon></button>
 
   <!-- Cancel Button : Cancels the save and send user back to question list -->
-  <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">Cancel&nbsp;<mat-icon>close</mat-icon></button>
+  <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">Cancel Edit Question&nbsp;<mat-icon>close</mat-icon></button>
 </form>

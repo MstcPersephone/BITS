@@ -18,7 +18,7 @@
 .homePageButtonContainer{
   background-color: #82142D;
   border-radius: 10px;
-  width: 160px;
+  width: 180px;
 }
 
 /* Styles applied to the footer container of the button. */
@@ -32,7 +32,7 @@
   white-space: nowrap;
 }
 .homePageButtonFooterContent{
-  width: 160px;
+  width: 180px;
 }
 
 /* Styles applied to the button icons. */
@@ -40,8 +40,8 @@ mat-grid-tile mat-icon{
   color: white;
   font-size: 100px;
   width:100px;
-  height:100px;
-  padding-top: 10px;
+  height:110px;
+  padding-top: 20px;
   padding-bottom: 40px;
   padding-left: 25px;
   padding-right: 25px;

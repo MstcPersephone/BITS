@@ -1,10 +1,12 @@
 <form class="editMatchContainer" [formGroup]="editExactMatchForm" (ngSubmit)="onSubmit(editExactMatchForm.value)">
+  <section class="optionDetails">
   <!-- Exact Match Text Input -->
   <mat-form-field appearance="standard">
-    <mat-label>Match Text</mat-label>
+    <mat-label>Acceptable Answer Text</mat-label>
     <input matInput id="matchText" type="text" formControlName="matchText" value="{{exactMatch.matchText}}">
   </mat-form-field>
   <app-validation-messages [control]="editExactMatchForm.get('matchText')"></app-validation-messages>
+  </section>
 
   <!-- Section which houses the command to delete the list item. -->
   <section class="matchButtonContainer">

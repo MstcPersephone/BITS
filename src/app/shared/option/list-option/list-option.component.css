@@ -20,13 +20,18 @@ mat-list-item {
   margin-right: 20px;
 }
 
+.optionList{
+  width: 100%;
+}
+
 /* Styles applied to the option list (which holds each individual option) */
-.optionList, .matchList, .categoryList{
+.matchList, .categoryList{
   margin-top: 40px;
 }
 
 /* Styles applied to the containers for each option */
 .optionListContainer, .matchListContainer, .categoryContainer{
+  margin-top: 15px;
   padding-top: 0px;
   padding-bottom: 0px;
 }
@@ -39,7 +44,6 @@ mat-list-item {
 /* Styles applied to the option's button container (holding the Edit/Delete buttons) */
 .optionButtonContainer, .matchButtonContainer, .categoryButtonContainer, .questionButtonContainer{
   margin-left: auto;
-  min-width: 65px;
   margin-right: 0;
 }
 
