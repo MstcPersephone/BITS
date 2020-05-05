@@ -76,8 +76,8 @@ export class LoginEngineService {
         const now = new Date();
         const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
         this.saveAuthData(token, expirationDate, response.isAdmin);
-        this.router.navigate(['/home']);
         this.helperService.isLoading = false;
+        this.router.navigate(['/home']);
        }
       },
     error => {

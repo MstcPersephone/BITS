@@ -157,12 +157,14 @@
       <div *ngIf="question.questionType === 'Upload'">
         <p *ngIf="question.isAnsweredCorrectly">Correct</p>
         <p *ngIf="!question.isAnsweredCorrectly">Incorrect</p>
+        <p>Submitted Answers</p>
         <div *ngFor="let a of question.submittedAnswer">
           <button class="uploadAnswer" mat-raised-button (click)="this.attachmentService.downloadAttachment(a)">
             {{a.name}} &nbsp;<mat-icon>cloud_download</mat-icon>
           </button>
         </div>
 
+        <p>Correct Answers</p>
         <div *ngFor="let a of question.correctAnswer">
           <button class="uploadAnswer" mat-raised-button (click)="this.attachmentService.downloadAttachment(a)">
             {{a.name}} &nbsp;<mat-icon>cloud_download</mat-icon>

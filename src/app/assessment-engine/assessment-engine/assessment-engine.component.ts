@@ -44,7 +44,6 @@ export class AssessmentEngineComponent implements OnInit {
     this.assessmentEngineService.getTakenAssessmentById(this.route.snapshot.params.takenAssessmentId);
     this.helperService.isActiveAssessment = true;
     this.loginService.logout();
-    this.helperService.isLoading = false;
   }
 
   onSubmit(formData) {
