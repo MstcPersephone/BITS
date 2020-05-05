@@ -78,12 +78,10 @@ export class EditAssessmentComponent implements OnInit, OnDestroy {
         this.assessment = assessment;
         this.updateAssessmentForm.get('name').setValue(this.assessment.name);
         this.updateAssessmentForm.get('description').setValue(this.assessment.description);
-        console.log('QUESTIONIDS', assessment.questionIds);
         this.assessmentService.getQuestionsByIds(assessment.questionIds);
       });
     this.assessmentQuestionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
       .subscribe((questionsArray) => {
-        console.log('QUESTIONS ARRAY', questionsArray);
         this.assessmentQuestions = questionsArray;
       });
   }
@@ -91,6 +89,7 @@ export class EditAssessmentComponent implements OnInit, OnDestroy {
   dropToAssessment(event: any) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      console.log('ORDER CHANGED', this.assessmentQuestions);
     } else {
       const question = event.item.data;
       let canMove = true;
@@ -130,11 +129,15 @@ export class EditAssessmentComponent implements OnInit, OnDestroy {
 
   onSubmit(assessmentData) {
 
+    console.log('SUBMITTED Assessment Questions: ', this.assessmentQuestions);
+
     // Reset questionIds after validation (once validation in place)
     this.questionIds = [];
     this.assessmentQuestions.forEach((q) => {
       this.questionIds.push(q._id);
     });
+
+    console.log('QUESTION IDs', this.questionIds);
 
     const updatedAssessment: Assessment = new Assessment();
 

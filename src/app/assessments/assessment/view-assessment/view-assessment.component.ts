@@ -40,13 +40,14 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit, OnDestroy
     this.assessmentSubscription = this.assessmentService.getAssessmentUpdateListener()
       .subscribe((assessment: Assessment) => {
         this.assessment = assessment;
-        if (this.assessmentService.questionIds !== null) {
-          this.assessmentService.getQuestionsByIds(this.assessmentService.questionIds);
-          this.questionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
+        // console.log('Assessment by Id', this.assessment);
+        if (this.assessment.questionIds !== null) {
+        this.assessmentService.getQuestionsByIds(this.assessment.questionIds);
+        }
+        this.questionsSubscription = this.assessmentService.getAssessmentQuestionsUpdatedListener()
           .subscribe((questionsArray: any) => {
             this.dataSource.data = questionsArray;
           });
-        }
       });
   }
 

@@ -59,9 +59,9 @@ const app = express();
 // soon-to-be depecrated features of mongoDb client
 mongoose.connect('mongodb+srv://expressApp:Ohi6uDbGMZLBt56X@cluster0-bomls.mongodb.net/test?retryWrites=true&w=majority',
   { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).then(() => {
-      (error) => {
-        console.log(error.reason);
-      }
+    (error) => {
+      console.log(error.reason);
+    }
   });
 
 // Middleware for parsing json data and urlencoded data on requests
@@ -239,7 +239,7 @@ app.post("/api/filterTakenAssessments/", (request, response, next) => {
 
   searchParameters.forEach(sp => {
     const regEx = new RegExp(sp);
-    spArray.push({ "student.uniqueStudentIdentifier":  regEx  });
+    spArray.push({ "student.uniqueStudentIdentifier": regEx });
   });
 
   takenAssessmentCollection.find({ $and: spArray }).then((takenAssessments, error) => {
@@ -325,7 +325,8 @@ app.post("/api/assessment/questions/", (request, response, next) => {
   const objectIds = [];
   // Turns the string ids into ObjectIds
   if (questionIds !== null && questionIds !== undefined) {
-    questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) })
+    questionIds.forEach((qId) => { objectIds.push(mongoose.Types.ObjectId(qId)) });
+    objectIds;
   }
 
   // Performs the search
@@ -716,6 +717,7 @@ app.post("/api/assessment/update/", checkAuth, (request, response, next) => {
   // Stores data for updating backend properties
   const requestedUpdate = request.body;
 
+  console.log(requestedUpdate.questionIds);
   // Stores the updated assessment data
   const update = {
     id: requestedUpdate._id,
@@ -917,17 +919,19 @@ function updateQuestionCategories(updatedCategory) {
 // Updates all taken assessments student data when the student collection document is updated.
 function updateTakenAssessmentStudents(updatedStudent) {
   mongoose.connection.db.collection('takenAssessments')
-  .updateMany( { "student._id": { $eq: updatedStudent._id } },
-  { $set: {
-    "student.uniqueStudentIdentifier": updatedStudent.uniqueStudentIdentifier,
-    "student.studentId": updatedStudent.studentId,
-    "student.firstName": updatedStudent.firstName,
-    "student.lastName": updatedStudent.lastName,
-    "student.dateOfBirth": updatedStudent.dateOfBirth,
-    "student.campusLocation": updatedStudent.campusLocation,
-    "student.lastAssessmentDate": updatedStudent.lastAssessmentDate,
-    "student.previousScores": updatedStudent.previousScores
-  } });
+    .updateMany({ "student._id": { $eq: updatedStudent._id } },
+      {
+        $set: {
+          "student.uniqueStudentIdentifier": updatedStudent.uniqueStudentIdentifier,
+          "student.studentId": updatedStudent.studentId,
+          "student.firstName": updatedStudent.firstName,
+          "student.lastName": updatedStudent.lastName,
+          "student.dateOfBirth": updatedStudent.dateOfBirth,
+          "student.campusLocation": updatedStudent.campusLocation,
+          "student.lastAssessmentDate": updatedStudent.lastAssessmentDate,
+          "student.previousScores": updatedStudent.previousScores
+        }
+      });
 }
 
 // sends email of completed results
@@ -951,7 +955,7 @@ function sendEmailOfResults(takenAssessment) {
     text: 'Score: ' + takenAssessment.score + '\n' + 'Passed: ' + takenAssessment.studentPassed ? 'True' : 'False'
   }
 
-  transporter.sendMail(mailOptions, function(error, info) {
+  transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
     } else {

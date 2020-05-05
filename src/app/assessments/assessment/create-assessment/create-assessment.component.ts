@@ -112,10 +112,14 @@ export class CreateAssessmentComponent implements OnInit, OnDestroy {
   onSubmit(assessmentData) {
     // Takes all the assessment questions and passes the ids to be stored in a new Assessment
     this.assessmentQuestions.forEach((q) => {
+      console.log('The current question at top of sort', q);
       if (!this.questionIds.includes(q._id)) {
         this.questionIds.push(q._id);
+        console.log('question order after push', this.questionIds);
       }
     });
+
+    console.log('In submit', this.assessmentQuestions);
 
     // Initializes the new AssessmentConfig to be created
     const assessment: Assessment = new Assessment();
