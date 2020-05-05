@@ -32,4 +32,7 @@
   </div>
   <!-- Submit Button -->
   <button class="saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
+
+  <!-- Cancel Button : Cancels the save and send user back to question list -->
+  <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">Cancel&nbsp;<mat-icon>close</mat-icon></button>
 </form>
