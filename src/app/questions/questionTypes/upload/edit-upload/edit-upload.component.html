@@ -1,5 +1,5 @@
 <form [formGroup]="editUploadForm" (ngSubmit)="onSubmit(editUploadForm.value)">
-  <h3>Upload question details</h3>
+  <h3>Upload Question Details</h3>
   <!-- Question Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Enter Question Text</mat-label>
@@ -34,5 +34,5 @@
   <button class="saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
 
   <!-- Cancel Button : Cancels the save and send user back to question list -->
-  <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">Cancel&nbsp;<mat-icon>close</mat-icon></button>
+  <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">Cancel Edit Question&nbsp;<mat-icon>close</mat-icon></button>
 </form>

@@ -3,7 +3,7 @@
 <mat-card class="homePageCard">
   <h1 class="mat-display-1">Home</h1>
 
-  <mat-grid-list [cols]='4' gutterSize='40px' rowHeight="160px">
+  <mat-grid-list [cols]='4' gutterSize='10px' rowHeight="180px">
 
     <!-- The Start Assessment button -->
     <mat-grid-tile [colspan]='1'>
@@ -69,7 +69,7 @@
       <mat-grid-tile-footer>
         <section class="homePageButtonFooterContainer flexContainer">
           <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/question/create']">
-            <p>Create Question</p>
+            <p>Create New Question</p>
           </section>
         </section>
       </mat-grid-tile-footer>
@@ -97,7 +97,7 @@
       <mat-grid-tile-footer>
         <section class="homePageButtonFooterContainer flexContainer">
           <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/assessment/create']">
-            <p>Create Assessment</p>
+            <p>Create New Assessment</p>
           </section>
         </section>
       </mat-grid-tile-footer>

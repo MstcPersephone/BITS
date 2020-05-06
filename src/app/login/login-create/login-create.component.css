@@ -1,2 +1,2 @@
-/* Importing the task-specific styling. */
-@import "../../questions/questionTypes/_taskStyles/createStyles.css";
+/* Importing Login View Styles, which are shared. */
+@import '../login-view/login-view.component.css';

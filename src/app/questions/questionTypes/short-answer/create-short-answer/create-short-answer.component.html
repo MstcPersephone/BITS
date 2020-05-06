@@ -1,5 +1,5 @@
 <form [formGroup]="createShortAnswerForm" (ngSubmit)="onSubmit(createShortAnswerForm.value)">
-  <h3>Short Answer question details</h3>
+  <h3>Short Answer Question Details</h3>
   <!-- Question Text Input -->
   <mat-form-field appearance="standard">
     <mat-label>Enter Question Text:</mat-label>
@@ -33,7 +33,7 @@
     <div class="buttonContainer">
       <!-- Cancel Button : If clicked will close the add acceptable answer form -->
       <button class="closeAddOption cancelOption" *ngIf="this.showCancelButton" mat-raised-button (click)="this.clickCancel()">
-        Cancel<mat-icon>&nbsp;close</mat-icon>
+        Cancel Add Answer<mat-icon>&nbsp;close</mat-icon>
       </button>
       <!-- Add Option button; used to display the Create Option form above -->
       <button class="addOption" mat-raised-button type="button" (click)="this.clickAdd()">
@@ -53,6 +53,6 @@
 
   <!-- Cancel Button : Cancels the save and send user back to question list -->
   <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">
-    Cancel&nbsp;<mat-icon>close</mat-icon>
+    Cancel Create Question&nbsp;<mat-icon>close</mat-icon>
   </button>
 </form>

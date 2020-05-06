@@ -2,13 +2,9 @@
 
 @import "../../../exact-match/create-exact-match/create-exact-match.component.css";
 
-mat-card {
-  width: 90%;
-  margin: auto;
-  background-color: #f0f0f0;
-}
-
 form {
+  width: 72%;
+  margin:auto;
   background-color: #f0f0f0;
   overflow: hidden;
 }

@@ -1,4 +1,6 @@
+<br>
 <mat-card>
+  <h1 class="mat-display-1">Login</h1>
   <mat-spinner *ngIf="this.helperService.isLoading"></mat-spinner>
   <form [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm.value)" *ngIf="!this.helperService.isLoading">
     <mat-form-field>
@@ -9,6 +11,6 @@
       <input type="password" name="password"  matInput placeholder="Password" formControlName="password" required>
 
     </mat-form-field>
-    <button mat-raised-button color="accent" type="submit">Login</button>
+    <button mat-raised-button class="addOption" type="submit">Login</button>
   </form>
 </mat-card>

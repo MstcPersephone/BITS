@@ -1,5 +1,6 @@
 
   <form class="editShortAnswerContainer" [formGroup]="createExactMatchForm" (ngSubmit)="onSubmit(createExactMatchForm.value)">
+    <section class="optionDetails">
 
     <!-- Exact match Text Input -->
     <mat-form-field class="newExactMatch" appearance="standard">
@@ -7,6 +8,7 @@
       <input matInput id="matchText" type="text" formControlName="matchText">
     </mat-form-field>
     <app-validation-messages [control]="createExactMatchForm.get('matchText')"></app-validation-messages>
+    </section>
 
     <!-- This button will not display: click is simulated in helping validate the form and save value -->
     <button class="simulatedButton" id="validateExactMatches" type="submit"></button>

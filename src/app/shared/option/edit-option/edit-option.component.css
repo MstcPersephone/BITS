@@ -5,6 +5,13 @@
 /* Styles applied to the Edit Option container*/
 .editOptionContainer, .editMatchContainer, .editShortAnswerContainer, .newOptionContainer{
   padding: 15px;
+  margin: auto;
   margin-bottom: 15px;
   border: 1px solid rgba(0,0,0,0.1);
+  width: 72%;
+  display: flex;
+}
+.optionDetails{
+  margin: auto;
+  width: 100%;
 }

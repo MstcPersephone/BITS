@@ -1,15 +1,17 @@
 
   <form class="newOptionContainer" [formGroup]="createOptionForm" (ngSubmit)="onSubmit(createOptionForm.value)">
+    <section class="optionDetails">
 
     <!-- Option Text Input -->
     <mat-form-field appearance="standard">
-      <mat-label>Enter New Option</mat-label>
+      <mat-label>Enter Option Text</mat-label>
       <input matInput id="optionText" #formcontrol type="text" formControlName="optionText">
     </mat-form-field>
     <app-validation-messages [control]="createOptionForm.get('optionText')"></app-validation-messages>
 
     <!-- Is Answer Checkbox -->
     <mat-checkbox formControlName="isAnswer">Is this a correct answer?</mat-checkbox>
+    </section>
 
     <!-- This button will not display: click is simulated in helping validate the form and save value -->
     <button class="simulatedButton" type="submit" id="validateOption"></button>

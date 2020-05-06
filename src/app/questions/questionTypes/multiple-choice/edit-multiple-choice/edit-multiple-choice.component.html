@@ -1,5 +1,5 @@
 <form [formGroup]="editMultipleChoiceForm" (ngSubmit)="onSubmit(editMultipleChoiceForm.value)">
-  <h3>Multiple Choice question details</h3>
+  <h3>Multiple Choice Question Details</h3>
 
   <!-- Question Text Input -->
   <mat-form-field appearance="standard">
@@ -14,7 +14,7 @@
 
   <!-- Container that displays the question's currently existing options -->
   <mat-card class="currentOptionsSection">
-    <h3>Edit Question Options</h3>
+    <h3>Edit Selectable Options</h3>
     <br>
 
     <!-- Call to Edit Option; displays the options currently attached to the question -->
@@ -28,7 +28,7 @@
       <div class="buttonContainer">
         <!-- Cancel Button : If clicked will close the add acceptable answer form -->
         <button class="closeAddOption" *ngIf="this.showCancelButton" mat-raised-button (click)="this.clickCancel()">
-          Cancel<mat-icon>&nbsp;close</mat-icon>
+          Cancel Add Option<mat-icon>&nbsp;close</mat-icon>
         </button>
         <!-- Add Option button; used to display the Create Option form above -->
         <button class="addOption" mat-raised-button type="button" (click)="this.clickAdd()">
@@ -43,5 +43,5 @@
 
   <!-- Cancel Button : Cancels the save and send user back to question list -->
   <button class="mt-20 cancelOption" mat-raised-button [routerLink]="['/question/list']">
-    Cancel&nbsp;<mat-icon>close</mat-icon></button>
+    Cancel Edit Question&nbsp;<mat-icon>close</mat-icon></button>
 </form>

@@ -45,7 +45,7 @@
 
       <!-- Create Question Button - displays if user is logged in AND is an admin -->
       <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/question/create')">
-        <a>Create Question</a>
+        <a>Create New Question</a>
       </button>
 
       <!-- View Questions Button - displays if user is logged in AND is an admin -->
@@ -55,7 +55,7 @@
 
       <!-- Create Assessment Button - displays if user is logged in AND is an admin -->
       <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/assessment/create')">
-        <a>Create Assessment</a>
+        <a>Create New Assessment</a>
       </button>
 
       <!-- View Assessments Button - displays if user is logged in AND is an admin -->

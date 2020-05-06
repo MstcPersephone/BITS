@@ -8,10 +8,9 @@
   margin-right: auto;
 }
 
-/* Adjusts the save button's margins to anchor in a similar manner to the True False question component. */
+/* Adjusts the save and cancel button's margins to anchor in a similar manner to the True False question component. */
 /* The Upload Answer button is larger than the True/False answer choice,
-   which would cause the button to be nudged down when switching to/from True False. */
-.saveButton{
-  margin-top: 35px;
-  margin-bottom: 10px;
+   which would cause the buttons to be nudged down when switching to/from True False. */
+.saveButton, .cancelOption{
+  margin-top: 54px;
 }
