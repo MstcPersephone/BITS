@@ -3,7 +3,15 @@
 <!-- The mat-card displayed before and during an assessment -->
 <mat-card *ngIf="!this.helperService.isLoading && !this.assessmentTaken">
   <!-- The "Starting [assessment name] Assessment" header - displays before the assessment has been started. -->
-  <!-- <h1 class="mat-display-1" *ngIf="!this.assessmentEngineService.assessmentStarted">Starting {{this.takenAssessment.assessment.name}} Assessment</h1> -->
+  <h1 class="mat-display-1" *ngIf="!this.assessmentEngineService.assessmentStarted">Starting {{this.takenAssessment.assessment.name}}</h1>
+  <p>
+    Please enter your information in the form below.
+    When you're ready to start your test, click the Start Assessment button at the bottom of the page.
+  </p>
+  <p>
+    Answer each question to the best of your ability.
+  </p>
+  <br>
 
   <!-- The Enter Student Information form - displays before the assessment has been started. -->
   <app-create-student *ngIf="!this.assessmentEngineService.assessmentStarted"></app-create-student>
@@ -24,11 +32,11 @@
 <mat-card *ngIf="!this.helperService.isLoading && this.assessmentTaken">
   <!-- Page Header -->
   <h1 class="mat-display-1">Assessment Complete</h1>
-  <p>Thank you, {{this.takenAssessment.student.firstName}}. You have completed the {{this.takenAssessment.assessment.name}} assessment.
-     Your submission has been saved.</p>
+  <p>Thank you, {{this.takenAssessment.student.firstName}}. Your submission has been saved.</p>
   <p>You may close this webpage and return to your advisor.</p>
   <br>
   <p><b>Name:</b> {{this.takenAssessment.student.firstName}} {{this.takenAssessment.student.lastName}}</p>
   <p><b>Assessment:</b> {{this.takenAssessment.assessment.name}}</p>
   <br>
 </mat-card>
+<br>
