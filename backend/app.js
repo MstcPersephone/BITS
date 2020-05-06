@@ -7,6 +7,7 @@ const multipleChoiceModels = require("./models/question-types/multiple-choice");
 const trueFalseModels = require("./models/question-types/true-false");
 const shortAnswerModels = require("./models/question-types/short-answer");
 const uploadModels = require("./models/question-types/upload");
+const email = require("./providers/email");
 
 const checkBoxModel = checkBoxModels.question;
 const checkboxArchiveModel = checkBoxModels.archive;
@@ -24,9 +25,6 @@ const checkUploadAnswer = require("./file-engine/check-upload-answer");
 
 const userRoutes = require("./routes/user");
 const checkAuth = require("../backend/middleware/check-auth");
-
-// built in email module
-const nodemailer = require('nodemailer');
 
 // ******************************************************** //
 // ***********   DATABASE COLLECTION OBJECTS   ************ //
@@ -875,7 +873,7 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
 
     // If the assessment has been taken
     if (requestedUpdate.studentPassed !== null) {
-      sendEmailOfResults(requestedUpdate);
+      email.sendEmailOfResults(requestedUpdate);
     }
 
     // Send a successful response message
@@ -932,57 +930,6 @@ function updateTakenAssessmentStudents(updatedStudent) {
           "student.previousScores": updatedStudent.previousScores
         }
       });
-}
-
-// sends email of completed results
-function sendEmailOfResults(takenAssessment) {
-  console.log('SENDING EMAIL');
-  const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-      user: 'derekkandler@gmail.com',
-      pass: 'Janitor144'
-    }
-  });
-
-  // Subject
-  const subjectText = takenAssessment.student.firstName + ' ' + takenAssessment.student.lastName + '\'s ' + takenAssessment.assessment.name + ' Results';
-
-  // Body
-  let body = 'Score: ' + takenAssessment.score + '% \n';
-  const studentPassedToString = takenAssessment.studentPassed ? 'True \n' : 'False \n';
-  body += 'Passed: ' + studentPassedToString;
-  const modifiedOn = new Date(takenAssessment.modifiedOn);
-  const dateTaken = formatDate(modifiedOn);
-
-  const mailOptions = {
-    from: 'derekkandler@gmail.com',
-    to: getEmailAddress(takenAssessment.student.campusLocation),
-    subject: subjectText,
-    text: 'Score: ' + takenAssessment.score + '\n' + 'Passed: ' + takenAssessment.studentPassed ? 'True' : 'False'
-  }
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent successfully: ' + info.response);
-    }
-  })
-}
-
-// Gets the appropriate email address via backend/providers/constants.js
-function getEmailAddress(campusLocation) {
-  switch (campusLocation) {
-    case 'Wisconsin Rapids':
-      return Constants.EmailTestResults.WisconsinRapids;
-    case 'Stevens Point':
-      return Constants.EmailTestResults.StevensPoint;
-  }
-}
-
-function formatDate(date) {
-  return
 }
 
 // use the user routes for login functions
