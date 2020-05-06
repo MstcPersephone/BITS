@@ -22,7 +22,7 @@ import { AttachmentService } from './attachment.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AssessmentEngineService implements  OnDestroy  {
+export class AssessmentEngineService implements OnDestroy {
 
   public studentShortAnswer = '';
   // Keeping track of question points and assessment score
@@ -135,7 +135,7 @@ export class AssessmentEngineService implements  OnDestroy  {
     });
 
     return new Promise((resolve, reject) => {
-      resolve({result: isCorrect});
+      resolve({ result: isCorrect });
     });
   }
 
@@ -173,7 +173,7 @@ export class AssessmentEngineService implements  OnDestroy  {
     }
 
     return new Promise((resolve, reject) => {
-      resolve({result: isCorrect});
+      resolve({ result: isCorrect });
     });
   }
 
@@ -182,7 +182,7 @@ export class AssessmentEngineService implements  OnDestroy  {
   checkTrueFalse(question: TrueFalse) {
     const isCorrect = question.studentAnswer === question.answer ? true : false;
     return new Promise((resolve, reject) => {
-      resolve({result: isCorrect});
+      resolve({ result: isCorrect });
     });
   }
 
@@ -391,55 +391,55 @@ export class AssessmentEngineService implements  OnDestroy  {
       // If the answer is correct
       if (isCorrect) {
 
-      // Mark the question as having a correct answer
-      question.isAnsweredCorrectly = true;
+        // Mark the question as having a correct answer
+        question.isAnsweredCorrectly = true;
 
-      // If the answer is wrong
-    } else {
-      // Mark the question object as having the wrong answer
-      question.isAnsweredCorrectly = false;
-    }
+        // If the answer is wrong
+      } else {
+        // Mark the question object as having the wrong answer
+        question.isAnsweredCorrectly = false;
+      }
 
-    // Update the submitted question in the array so it can be saved when submitting
+      // Update the submitted question in the array so it can be saved when submitting
       this.questions[this.currentQuestionIndex] = question;
 
-    // const hasQuestionsRemaining = true;
-    // this.hasQuestionsRemaining();
+      // const hasQuestionsRemaining = true;
+      // this.hasQuestionsRemaining();
 
-    // Check to see if there are more questions
+      // Check to see if there are more questions
       if (this.hasQuestionsRemaining()) {
 
-      // Reset wrong streak
-      if (this.isWrongStreak && isCorrect) {
-        this.wrongAnswerStreak = 0;
+        // Reset wrong streak
+        if (this.isWrongStreak && isCorrect) {
+          this.wrongAnswerStreak = 0;
 
-        // Or increase wrong streak
-      } else if (this.isWrongStreak && !isCorrect) {
-        this.wrongAnswerStreak++;
+          // Or increase wrong streak
+        } else if (this.isWrongStreak && !isCorrect) {
+          this.wrongAnswerStreak++;
 
-        // Check to see if max wrong streak is reached
-        if (this.wrongAnswerStreak === this.maxWrongStreak) {
+          // Check to see if max wrong streak is reached
+          if (this.wrongAnswerStreak === this.maxWrongStreak) {
+            this.checkAssessment();
+
+            // stop the rest of the function execution
+            return;
+          }
+        }
+
+        if (isQuitAssessment) {
           this.checkAssessment();
 
           // stop the rest of the function execution
           return;
         }
-      }
 
-      if (isQuitAssessment) {
+        // Go to next question
+        this.goToNextQuestion();
+
+        // Else, there are no more questions, and the assessment needs to submit
+      } else {
         this.checkAssessment();
-
-        // stop the rest of the function execution
-        return;
       }
-
-      // Go to next question
-      this.goToNextQuestion();
-
-      // Else, there are no more questions, and the assessment needs to submit
-    } else {
-      this.checkAssessment();
-    }
     });
   }
 
@@ -631,5 +631,24 @@ export class AssessmentEngineService implements  OnDestroy  {
 
   ngOnDestroy() {
     console.log('Assessment Engine SERVICE ngOnDestroy Invoked');
-  }
+    this.studentShortAnswer = '';
+    this.possiblePoints = 0;
+    this.receivedPoints = 0;
+    this.completedAssessmentScore = 0;
+    this.studentPassedCurrentAssessment = false;
+    this.previousScores = [];
+    this.assessment = null;
+    this.questions = [];
+    this.wrongAnswerStreak = 0;
+    this.isWrongStreak = false;
+    this.maxWrongStreak = 0;
+    this.isTimed = false;
+    this.takenAssessments = null;
+    this.takenAssessment = null;
+    this.takenAssessmentId = '';
+    this.currentQuestion = null;
+    this.currentQuestionIndex = 0;
+    this.currentStudent = null;
+    this.assessmentStudent = null;
+    }
 }

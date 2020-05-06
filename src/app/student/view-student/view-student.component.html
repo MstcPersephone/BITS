@@ -1,6 +1,5 @@
-<mat-spinner color="primary" *ngIf="this.helperService.isLoading"></mat-spinner>
 <br>
-<mat-card *ngIf="!this.helperService.isLoading">
+<mat-card *ngIf="takenAssessment !== undefined">
 
   <!-- Displaying page header - "[Student Full Name]'s Assessment Results"-->
   <h1 class="mat-display-1">{{this.takenAssessment.student.firstName}} {{this.takenAssessment.student.lastName}}'s
