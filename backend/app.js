@@ -874,9 +874,9 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
   mongoose.connection.db.collection('takenAssessments').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedTakenAssessment) {
 
     // If the assessment has been taken
-    // if (requestedUpdate.studentPassed !== null) {
-    //   sendEmailOfResults(requestedUpdate);
-    // }
+    if (requestedUpdate.studentPassed !== null) {
+      sendEmailOfResults(requestedUpdate);
+    }
 
     // Send a successful response message
     response.status(200).json({
@@ -938,18 +938,25 @@ function updateTakenAssessmentStudents(updatedStudent) {
 function sendEmailOfResults(takenAssessment) {
   console.log('SENDING EMAIL');
   const transporter = nodemailer.createTransport({
-    host: 'outlook.office365.com',
-    secure: true,
+    service: 'Gmail',
     auth: {
-      user: '16686110@mstc.edu',
-      pass: 'Br@ndnew144634!'
+      user: 'derekkandler@gmail.com',
+      pass: 'Janitor144'
     }
   });
 
-  const subjectText = takenAssessment.student.firstName + ' ' + takenAssessment.student.lastName + '\'s' + takenAssessment.assessment.name + ' Results';
+  // Subject
+  const subjectText = takenAssessment.student.firstName + ' ' + takenAssessment.student.lastName + '\'s ' + takenAssessment.assessment.name + ' Results';
+
+  // Body
+  let body = 'Score: ' + takenAssessment.score + '% \n';
+  const studentPassedToString = takenAssessment.studentPassed ? 'True \n' : 'False \n';
+  body += 'Passed: ' + studentPassedToString;
+  const modifiedOn = new Date(takenAssessment.modifiedOn);
+  const dateTaken = formatDate(modifiedOn);
 
   const mailOptions = {
-    from: '16686110@mstc.edu',
+    from: 'derekkandler@gmail.com',
     to: getEmailAddress(takenAssessment.student.campusLocation),
     subject: subjectText,
     text: 'Score: ' + takenAssessment.score + '\n' + 'Passed: ' + takenAssessment.studentPassed ? 'True' : 'False'
@@ -972,6 +979,10 @@ function getEmailAddress(campusLocation) {
     case 'Stevens Point':
       return Constants.EmailTestResults.StevensPoint;
   }
+}
+
+function formatDate(date) {
+  return
 }
 
 // use the user routes for login functions
