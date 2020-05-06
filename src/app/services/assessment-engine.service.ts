@@ -17,6 +17,8 @@ import { AssessmentService } from './assessment.service';
 import { environment } from '../../environments/environment';
 import { LoginEngineService } from './login.service';
 import { AttachmentService } from './attachment.service';
+import { MatDialog } from '@angular/material';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 
 
 @Injectable({
@@ -70,7 +72,8 @@ export class AssessmentEngineService implements OnDestroy {
     private helperService: HelperService,
     private assessmentService: AssessmentService,
     public loginService: LoginEngineService,
-    public attachmentService: AttachmentService) { }
+    public attachmentService: AttachmentService,
+    public dialog: MatDialog) { }
 
   // **************************************** //
   // *********  ASSESSMENT OBJECTS  ********* //
@@ -371,7 +374,6 @@ export class AssessmentEngineService implements OnDestroy {
   }
 
   acceptAnswer(isQuitAssessment = false) {
-
     const question = this.currentQuestion;
 
     if (question.questionType === QuestionType.ShortAnswer) {
@@ -439,6 +441,22 @@ export class AssessmentEngineService implements OnDestroy {
         // Else, there are no more questions, and the assessment needs to submit
       } else {
         this.checkAssessment();
+      }
+    });
+  }
+
+  // Opens a confirmation dialog box to confirm the student indeed wants to quit the assessment
+  quitAssessment() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Are you sure you wish to quit this assessment?',
+      hasBackdrop: true,
+      disableClose: true,
+      closeOnNavigation: true
+    });
+    // On closing dialog box either call the function to archive the question or cancel the deletion
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.acceptAnswer(true);
       }
     });
   }
