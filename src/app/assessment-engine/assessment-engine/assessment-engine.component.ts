@@ -11,7 +11,8 @@ import { LoginEngineService } from 'src/app/services/login.service';
 @Component({
   selector: 'app-assessment-engine',
   templateUrl: './assessment-engine.component.html',
-  styleUrls: ['./assessment-engine.component.css']
+  styleUrls: ['./assessment-engine.component.css'],
+  providers: [AssessmentEngineService]
 })
 export class AssessmentEngineComponent implements OnInit {
   public takenAssessment: TakenAssessment;
@@ -48,4 +49,5 @@ export class AssessmentEngineComponent implements OnInit {
 
   onSubmit(formData) {
   }
+
 }

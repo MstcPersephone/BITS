@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { AssessmentEngineService } from '../../services/assessment-engine.service';
 import { Question } from 'src/app/models/question.interface';
 import { Assessment } from 'src/app/models/assessment.model';
@@ -13,7 +13,7 @@ import { Student } from 'src/app/models/student.model';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css']
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent implements OnInit, OnDestroy {
   private takenAssessment: TakenAssessment;
   private takenAssessmentSubscription: Subscription;
   private currentStudent: Student;
@@ -62,5 +62,12 @@ export class FooterComponent implements OnInit {
 
   acceptAnswer() {
     this.assessmentEngineService.acceptAnswer();
+  }
+  ngOnDestroy() {
+    if (!this.assessmentEngineService.assessmentStarted) {
+    // this.currentStudentSubscription.unsubscribe();
+    this.takenAssessmentSubscription.unsubscribe();
+    console.log('Assessment Footer Component ngOnDestroy Invoked');
+    }
   }
 }
