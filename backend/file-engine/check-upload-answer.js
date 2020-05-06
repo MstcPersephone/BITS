@@ -98,8 +98,11 @@ function runCheck(correctAnswer, submittedAnswer) {
   });
 
   // Remove the temp directories now that compare is done
-  engine.removeDirectory(correctAnswerPath);
-  engine.removeDirectory(submittedAnswerPath);
+  // setTimeout to make sure compare cleanup is done first
+  setTimeout(() => {
+    engine.removeDirectory(correctAnswerPath);
+    engine.removeDirectory(submittedAnswerPath);
+  }, 2000);
 
   return isMatch;
 }
