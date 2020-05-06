@@ -33,9 +33,8 @@ const compareFiles = function(firstPath, secondPath) {
 
     // Loop through the correct files and compare them to the submitted files
     correctPaths.forEach((p, index) => {
-
       // Compare correct file to submitted file
-      var result = compareFiles(p, submittedPaths[index]);
+      var result = compareFiles(firstPath + '/' + p, secondPath + '/' + submittedPaths[index]);
 
       // If one file fails, the result is set to false and remains false
       if (!result) {
@@ -45,20 +44,23 @@ const compareFiles = function(firstPath, secondPath) {
 
   }
 
-  // Read contents of first path
-  console.log('first file', firstPath);
-  const firstPathResults = readFileContents(firstPath);
-  // console.log('CONTENTS', firstFileResults);
+  // Be sure to skip over directorires (needed for nested directories)
+  if (!firstPathIsDirectory && !secondPathIsDirectory) {
+    // Read contents of first path
+    console.log('first file', firstPath);
+    const firstPathResults = readFileContents(firstPath);
+    // console.log('CONTENTS', firstFileResults);
 
-  // Read contents of second path
-  console.log('second file', secondPath);
-  const secondPathResults = readFileContents(secondPath);
-  // console.log('CONTENTS', secondFileResults);
+    // Read contents of second path
+    console.log('second file', secondPath);
+    const secondPathResults = readFileContents(secondPath);
+    // console.log('CONTENTS', secondFileResults);
 
-  // Compare the contents of the two files
-  var result = firstPathResults === secondPathResults;
-  console.log( result ? 'File contents match' : 'File contents do not match');
-  return result;
+    // Compare the contents of the two files
+    var result = firstPathResults === secondPathResults;
+    console.log( result ? 'File contents match' : 'File contents do not match');
+    return result;
+  }
 }
 
 // Makes a new temp directory
@@ -85,7 +87,13 @@ const readDirectory = (directory) => {
 
 // Reads a file and returns the contents as a string
 const readFileContents = (filePath) => {
+  // Verify a directory did not come through (for handling nested and empty directories)
+  const isDirectory = fs.lstatSync(filePath).isDirectory();
+  if (!isDirectory) {
     return fs.readFileSync(filePath, Constants.Encoding.UTF_8);
+  } else {
+    return ""
+  }
 }
 
 // Removes a temp directory
