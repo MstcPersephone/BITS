@@ -25,6 +25,6 @@
 <a *ngIf="this.assessmentEngineService.assessmentStarted &&
           this.assessmentEngineService.questions !== undefined &&
           this.assessmentEngineService.hasQuestionsRemaining()"
-          class="quitAssessment" (click)="this.assessmentEngineService.acceptAnswer(true)">
+          class="quitAssessment" (click)="this.assessmentEngineService.quitAssessment()">
   Quit Assessment
 </a>
