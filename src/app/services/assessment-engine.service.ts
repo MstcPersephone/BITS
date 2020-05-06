@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject, Subscription, VirtualTimeScheduler } from 'rxjs';
 import { Router } from '@angular/router';
@@ -22,7 +22,7 @@ import { AttachmentService } from './attachment.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AssessmentEngineService {
+export class AssessmentEngineService implements  OnDestroy  {
 
   public studentShortAnswer = '';
   // Keeping track of question points and assessment score
@@ -471,6 +471,7 @@ export class AssessmentEngineService {
   // *********  GET: TAKEN ASSESSMENT BY ID   ******** //
   // ************************************************* //
   getTakenAssessmentById(takeAssessmentId: string) {
+    // this.helperService.isLoading = true;
     this.http
       .get<{ message: string, takenAssessment: TakenAssessment }>(
         environment.apiUrl + 'assessment/take/' + takeAssessmentId
@@ -488,6 +489,7 @@ export class AssessmentEngineService {
         // this.assessmentUpdated.next(this.assessment);
 
         this.takenAssessmentUpdated.next(this.takenAssessment);
+        // this.helperService.isLoading = false;
       });
   }
 
@@ -618,13 +620,16 @@ export class AssessmentEngineService {
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.updatedTakenAssessment);
-          console.table(responseData.updatedTakenAssessment);
-          this.helperService.refreshComponentById('assessment/take', takenAssessment._id);
+          // this.helperService.refreshComponentById('assessment/take', takenAssessment._id);
           this.helperService.isLoading = false;
         },
         error => {
           // log error message from server
           console.log('%c' + error.error.message, 'color: red;');
         });
+  }
+
+  ngOnDestroy() {
+    console.log('Assessment Engine SERVICE ngOnDestroy Invoked');
   }
 }

@@ -35,7 +35,7 @@ import { AdminGuard } from './login/admin-guard';
 
 // Path naming convention: item/action ie: assessment/create
 const routes: Routes = [
-  { path: '', component: AssessmentListComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: '', component: HomepageComponent, canActivate: [AuthGuard] },
   { path: 'assessment/create', component: CreateAssessmentComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'assessment/edit/:assessmentId', component: EditAssessmentComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'assessment/list', component: AssessmentListComponent, canActivate: [AuthGuard, AdminGuard] },
