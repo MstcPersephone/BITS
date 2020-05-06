@@ -373,21 +373,6 @@ export class AssessmentEngineService {
     this.assessmentStarted = true;
   }
 
-  quitAssessment() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'Are you sure you wish to quit this assessment?',
-      hasBackdrop: true,
-      disableClose: true,
-      closeOnNavigation: true
-    });
-    // On closing dialog box either call the function to archive the question or cancel the deletion
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.acceptAnswer(true);
-      }
-    });
-  }
-
   acceptAnswer(isQuitAssessment = false) {
     const question = this.currentQuestion;
 
@@ -460,6 +445,21 @@ export class AssessmentEngineService {
     });
   }
 
+  // Opens a confirmation dialog box to confirm the student indeed wants to quit the assessment
+  quitAssessment() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Are you sure you wish to quit this assessment?',
+      hasBackdrop: true,
+      disableClose: true,
+      closeOnNavigation: true
+    });
+    // On closing dialog box either call the function to archive the question or cancel the deletion
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.acceptAnswer(true);
+      }
+    });
+  }
 
   // Updates the current question and notifies subscribers
   goToNextQuestion() {
