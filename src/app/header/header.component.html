@@ -2,11 +2,11 @@
   <section class="headerContainer">
 
     <!-- Header Logo -->
-    <img (click)="this.helperService.refreshComponent('/home')" src="assets/mstc_logo_white_transparent.gif"/>
-
+    <img *ngIf="!this.helperService.isActiveAssessment" (click)="this.helperService.refreshComponent('/home')" src="assets/mstc_logo_white_transparent.gif"/>
+    <img *ngIf="this.helperService.isActiveAssessment" src="assets/mstc_logo_white_transparent.gif"/>
     <!-- Header Title Text -->
-    <p (click)="this.helperService.refreshComponent('/home')">Basic IT Software Assessment</p>
-
+    <p *ngIf="!this.helperService.isActiveAssessment" (click)="this.helperService.refreshComponent('/home')">Basic IT Software Assessment</p>
+    <p *ngIf="this.helperService.isActiveAssessment">Basic IT Software Assessment</p>
     <!-- Navigation Menu Button-->
     <button color="accent" *ngIf="!this.helperService.isActiveAssessment" mat-raised-button [matMenuTriggerFor]="menu">
       <mat-icon>menu</mat-icon>
