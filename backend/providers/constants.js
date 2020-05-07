@@ -7,7 +7,7 @@ const Constants = {
   },
   EmailTestResults: {
     WisconsinRapids: '16686110@mstc.edu',
-    StevensPoint: '16686110@mstc.edu'
+    StevensPoint: 'detert8076@mstc.edu'
   }
 }
 

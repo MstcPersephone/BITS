@@ -7,8 +7,8 @@ const sendEmailOfResults = (takenAssessment) => {
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-      user: 'derekkandler@gmail.com',
-      pass: 'Janitor144'
+      user: 'mstc.assessment.engine@gmail.com',
+      pass: 'wf2-)7MmXJ>_)&AK'
     }
   });
 
