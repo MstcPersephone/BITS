@@ -7,14 +7,16 @@
 <input class="hidden" hidden type="file" #uploader
   (change)="this.attachmentService.uploadFiles($event, 'studentAnswer')" />
 <br>
-<div class="buttonContainer">
-  <button type="button" (click)="uploader.click()" mat-raised-button color="accent" class="mt-20">
+<div class="buttonContainer" *ngIf="this.attachmentService.studentAnswers.length == 0">
+  <button class="uploadAnswer" type="button" (click)="uploader.click()" mat-raised-button color="accent">
     Upload File &nbsp;<mat-icon>cloud_upload</mat-icon>
   </button>
 </div>
-<div *ngIf="this.attachmentService.studentAnswers.length > 0">
-  <div *ngFor="let attachment of this.attachmentService.studentAnswers">
-    {{ attachment.name }}
+<div class="attachments" *ngIf="this.attachmentService.studentAnswers.length > 0">
+  <div class="attachmentContainer" *ngFor="let attachment of this.attachmentService.studentAnswers">
+    <span>
+      {{ attachment.name }}
+    </span>
     <button class="closeIcon" mat-mini-fab type="button" (click)="this.attachmentService.removeAttachment(attachment, 'studentAnswer')">
       <mat-icon>close</mat-icon>
     </button>
