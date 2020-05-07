@@ -7,6 +7,7 @@ const multipleChoiceModels = require("./models/question-types/multiple-choice");
 const trueFalseModels = require("./models/question-types/true-false");
 const shortAnswerModels = require("./models/question-types/short-answer");
 const uploadModels = require("./models/question-types/upload");
+const email = require("./providers/email");
 
 const checkBoxModel = checkBoxModels.question;
 const checkboxArchiveModel = checkBoxModels.archive;
@@ -29,7 +30,6 @@ const checkAuth = require("../backend/middleware/check-auth");
 
 // Importing built in email module
 const nodemailer = require('nodemailer');
-
 // ******************************************************** //
 // ***********   DATABASE COLLECTION OBJECTS   ************ //
 // ******************************************************** //
@@ -893,9 +893,9 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
   mongoose.connection.db.collection('takenAssessments').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: update }, { upsert: true }, function (error, updatedTakenAssessment) {
 
     // If the assessment has been taken
-    // if (requestedUpdate.studentPassed !== null) {
-    //   sendEmailOfResults(requestedUpdate);
-    // }
+    if (requestedUpdate.studentPassed !== null) {
+      email.sendEmailOfResults(requestedUpdate);
+    }
 
     // Send a successful response message
     response.status(200).json({
