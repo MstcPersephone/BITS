@@ -6,7 +6,7 @@
     Assessment Results</h1>
 
   <!-- Creating "header" table displaying assessment information. -->
-  <mat-grid-list cols="6" gutterSize="5px" rowHeight="30px">
+  <mat-grid-list cols="6" gutterSize="5px" rowHeight="60px">
     <!-- Assessment Name Tile -->
     <mat-grid-tile [colspan]="2" [rowspan]="1">
       <mat-grid-tile-header>
@@ -232,22 +232,24 @@
 
           <!-- Displays student provided answer -->
           <p><strong>Submitted Answer:</strong></p>
-          <div *ngFor="let a of question.submittedAnswer">
-            <button class="uploadAnswer" mat-raised-button (click)="this.attachmentService.downloadAttachment(a)">
+          <div class="buttonContainer" *ngFor="let a of question.submittedAnswer">
+            <button class="uploadAnswer downloadButton" mat-raised-button (click)="this.attachmentService.downloadAttachment(a)">
               {{a.name}} &nbsp;<mat-icon>cloud_download</mat-icon>
             </button>
           </div>
+          <br>
 
           <!-- Divider between Student answer / Correct Answer -->
           <hr>
 
           <!-- Displays instructor provided correct answer -->
           <p><strong>Correct Answer:</strong></p>
-          <div *ngFor="let a of question.correctAnswer">
-            <button class="uploadAnswer" mat-raised-button (click)="this.attachmentService.downloadAttachment(a)">
+          <div class="buttonContainer" *ngFor="let a of question.correctAnswer">
+            <button class="uploadAnswer downloadButton" mat-raised-button (click)="this.attachmentService.downloadAttachment(a)">
               {{a.name}} &nbsp;<mat-icon>cloud_download</mat-icon>
             </button>
           </div>
+          <br>
         </div>
       </div>
 

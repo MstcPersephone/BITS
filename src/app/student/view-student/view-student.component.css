@@ -18,6 +18,12 @@
   padding: 5px;
 }
 
+/* Inverting the download button margin settings to display it on the left. */
+.downloadButton{
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
 /* Reduces the space beneath the Acceptable Answers header on Short Answer questions. */
 .acceptableAnswersHeader{
   margin-bottom: 5px;
@@ -28,7 +34,7 @@ mat-grid-tile mat-grid-tile-header{
   height: 30px !important;
 }
 mat-grid-tile, .attachmentContainer{
-  height: 90px !important;
+  height: 120px !important;
 }
 
 

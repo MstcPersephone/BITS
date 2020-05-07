@@ -1,0 +1,31 @@
+/* Importing global styles. */
+@import '../..//../../styles.css';
+
+/* Setting the download button's color to blue, and setting some top/bottom margins. */
+.downloadButton{
+  background-color: #0b578a !important;
+}
+
+/* Setting the container div for attachments to display as a flexbox and it's items in a row. */
+.attachmentsContent div{
+  display: flex;
+  flex-direction: row;
+}
+
+/* Centering the container, setting the max width of the image attachments container to 500px, and displaying it's content (image and button) in a column. */
+.thumbnailAndButtonContainer{
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column !important;
+}
+
+/* Centering the image and button when used within the thumbnail and button container. */
+.attachmentImage, .fittedButton{
+  margin: auto;
+}
+
+/* Preventing the attachment image from being larger than 500px. */
+.attachmentImage{
+  max-width: 500px;
+}

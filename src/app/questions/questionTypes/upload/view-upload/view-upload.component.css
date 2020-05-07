@@ -2,16 +2,33 @@
 @import "../../_taskStyles/viewStyles.css";
 @import "../../_taskStyles/createStyles.css";
 
-/* Adjusting the display of the button container to display the buttons on the left. */
-div.buttonContainer button{
-  margin: auto;
-  margin-left: 0;
-  margin-right: 15px;
+/* Setting the width of the button container to fit the question form */
+.buttonContainer{
+  width: 100%;
 }
 
-/* Coloring the Check Answer button a gross color. */
-/* The button is used for testing, and it will be more obvious when we're removing these buttons later.*/
-button.checkAnswerButton{
-  background-color: springgreen;
-  color: black;
+/* Inverting the Upload Answer button's margin settings to display it on the left. */
+.uploadAnswer{
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.attachments{
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+}
+.attachmentContainer{
+  padding: 5px;
+  padding-bottom: 15px;
+  margin: 0;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+.attachmentContainer span{
+  padding: 0;
+  padding-right: 10px;
+}
+.attachmentContainer button{
+  padding: 0;
 }
