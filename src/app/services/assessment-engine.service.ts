@@ -555,7 +555,6 @@ export class AssessmentEngineService implements OnDestroy {
       .subscribe(
         responseData => {
           // tslint:disable-next-line: max-line-length
-          this.helperService.openSnackBar(student.uniqueStudentIdentifier + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.student);
@@ -632,9 +631,7 @@ export class AssessmentEngineService implements OnDestroy {
     this.http.post<{ message: string, updatedTakenAssessment: TakenAssessment }>(environment.apiUrl + 'assessment/updateTaken', takenAssessment)
       .subscribe(
         responseData => {
-          // Success message at the bottom of the screen
           // console log information about the response for debugging
-          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.updatedTakenAssessment);
