@@ -1,3 +1,4 @@
+// Importing Mongoose
 const mongoose = require('mongoose');
 
 // Create Score Schema (blueprint)

@@ -19,13 +19,15 @@ const shortAnswerArchiveModel = shortAnswerModels.archive;
 const uploadModel = uploadModels.question;
 const uploadArchiveModel = uploadModels.archive;
 
+// Importing the question factory and the engine used for checking Upload question answers.
 const questionFactory = require("./providers/questionFactory");
 const checkUploadAnswer = require("./file-engine/check-upload-answer");
 
+// Importing the user routes and the engine used for checking authentication.
 const userRoutes = require("./routes/user");
 const checkAuth = require("../backend/middleware/check-auth");
 
-// built in email module
+// Importing built in email module
 const nodemailer = require('nodemailer');
 
 // ******************************************************** //
@@ -213,6 +215,7 @@ app.get("/api/assessments", checkAuth, (request, response, next) => {
 // *********   GET: SINGLE ASSESSMENT BY ID    ************ //
 // ******************************************************** //
 app.get("/api/assessment/:id", (request, response, next) => {
+  // Gets an assessment from the database based on the provided ID.
   assessmentCollection.find({ _id: request.params.id }).then((assessment, error) => {
     response.status(200).json({
       message: request.params.id + ' Assessment fetched successfully!',
@@ -232,9 +235,8 @@ app.get("/api/assessment/:id", (request, response, next) => {
 // **********   GET: FILTERED TAKEN ASSESSMENTS  ********** //
 // ******************************************************** //
 app.post("/api/filterTakenAssessments/", (request, response, next) => {
-
+  // Gets assessments that have been taken based on provided parameter values.
   const searchParameters = request.body.searchParameters;
-
   const spArray = [];
 
   searchParameters.forEach(sp => {
@@ -258,6 +260,7 @@ app.post("/api/filterTakenAssessments/", (request, response, next) => {
 // *********   GET: SINGLE TAKEN ASSESSMENT BY ID    ************ //
 // ******************************************************** //
 app.get("/api/assessment/take/:id", (request, response, next) => {
+  // Gets an assessment that has been taken based on the provided ID.
   takenAssessmentCollection.find({ _id: request.params.id }).then((takenAssessment, error) => {
     response.status(200).json({
       message: request.params.id + ' Assessment fetched successfully!',
@@ -302,6 +305,7 @@ app.get("/api/categories", checkAuth, (request, response, next) => {
 // ******   GET: CATEGORY BY ID ******* //
 // ********************************************************** //
 app.get("/api/category/:id", checkAuth, (request, response, next) => {
+  // Gets a category based on the specified ID.
   categoryCollection.find({ _id: request.params.id }).then((category, error) => {
     response.status(200).json({
       message: request.params.id + ' Category fetched successfully!',
@@ -321,6 +325,7 @@ app.get("/api/category/:id", checkAuth, (request, response, next) => {
 // ******   GET: QUESTIONS (ALL) FOR ASSESSMENT USE   ******* //
 // ********************************************************** //
 app.post("/api/assessment/questions/", (request, response, next) => {
+  // Gets all questions used within a specific assessment
   const questionIds = request.body.questionIds;
   const objectIds = [];
   // Turns the string ids into ObjectIds
@@ -348,6 +353,8 @@ app.post("/api/assessment/questions/", (request, response, next) => {
 // ****   GET: QUESTION (ALL) FILTERED IN A CATEGORY ARRAY  **** //
 // ************************************************************* //
 app.get("/api/questions", checkAuth, (request, response, next) => {
+  // Gets all questions that fall under a specific category.
+
   // Create the shell of the array that will be returned
   const organizedQuestions = {};
   let allQuestions = null;
@@ -415,6 +422,7 @@ app.get("/api/questions", checkAuth, (request, response, next) => {
 // *******   GET: QUESTIONS ONLY OF A CERTAIN TYPE  ******* //
 // ******************************************************** //
 app.get("/api/questions/:questionType", checkAuth, (request, response, next) => {
+  // Gets all questions that fall under a specific question type (Multiple Choice, True or False, etc.)
   questionCollection.find({ questionType: request.params.questionType }).then((questions, error) => {
     response.status(200).json({
       message: request.params.questionType + ' Questions fetched successfully!',
@@ -434,6 +442,7 @@ app.get("/api/questions/:questionType", checkAuth, (request, response, next) => 
 // ************   GET: SINGLE QUESTION BY ID  ************* //
 // ******************************************************** //
 app.get("/api/question/:id", checkAuth, (request, response, next) => {
+  // Gets a specific question using a provided ID.
   questionCollection.find({ _id: request.params.id }).then((question, error) => {
     response.status(200).json({
       message: request.params.id + ' Question fetched successfully!',
@@ -454,6 +463,7 @@ app.get("/api/question/:id", checkAuth, (request, response, next) => {
 // **************   GET: STUDENT BY ID ************** //
 // ************************************************** //
 app.get("/api/student/:id", (request, response, next) => {
+  // Gets a specific studen using a provided ID.
   studentCollection.find({ _id: request.params.id }).then((student, error) => {
     response.status(200).json({
       message: request.params.id + ' Student fetched successfully!',
@@ -472,6 +482,7 @@ app.get("/api/student/:id", (request, response, next) => {
 // ******   SAVE: ASSESSMENT TO ASSESSMENT COLLECTION   ****** //
 // *********************************************************** //
 app.post("/api/assessment/save", checkAuth, (request, response, next) => {
+  // Saves the provided assessment to the assessment collection.
 
   // Request.body is the assessment that is passed through.
   const assessment = request.body;
@@ -517,6 +528,7 @@ app.post("/api/assessment/save", checkAuth, (request, response, next) => {
 // ******   SAVE: CATEGORY TO CATEGORY COLLECTION   ****** //
 // ******************************************************* //
 app.post("/api/categories/save", checkAuth, (request, response, next) => {
+  // Saves the provided category to the category collection.
 
   // Request.body is the category that is passed through.
   const category = request.body;
@@ -557,6 +569,7 @@ app.post("/api/categories/save", checkAuth, (request, response, next) => {
 // ******   SAVE: QUESTION TO QUESTION COLLECTION   ****** //
 // ******************************************************* //
 app.post("/api/question/save", checkAuth, (request, response, next) => {
+  // Saves the provided question to the question collection.
 
   // Request.body is the question that is passed through.
   const question = request.body;
@@ -612,6 +625,7 @@ app.post("/api/question/save", checkAuth, (request, response, next) => {
 // ******   SAVE: STUDENT TO STUDENT COLLECTION   ****** //
 // ***************************************************** //
 app.post("/api/student/save", (request, response, next) => {
+  // Saves the provided student to the student collection.
 
   // First check to validate if student already exists using uniqueStudentIdentifier
   studentCollection.findOne({ uniqueStudentIdentifier: request.body.uniqueStudentIdentifier })
@@ -667,6 +681,7 @@ app.post("/api/student/save", (request, response, next) => {
 // *************************************************************************** //
 // This will create the Taken Assessment record with only an assessment attached
 app.post("/api/assessment/generate", (request, response, next) => {
+  // Creates a taken assessment object and stores it in the assessment collection.
 
   // Request.body is the taken assessment that is passed through.
   const takenAssessment = request.body;
@@ -712,6 +727,7 @@ app.post("/api/assessment/generate", (request, response, next) => {
 // ***********   UPDATE ASSESSMENT COLLECTION   ************* //
 // ******************************************************** //
 app.post("/api/assessment/update/", checkAuth, (request, response, next) => {
+  // Updates the assessment collection.
 
   // Gets the assessment passed from the front end
   // Stores data for updating backend properties
@@ -775,6 +791,7 @@ app.post("/api/category/update", checkAuth, (request, response, next) => {
 // ***********   UPDATE QUESTION COLLECTION   ************* //
 // ******************************************************** //
 app.post("/api/question/update/", checkAuth, (request, response, next) => {
+  // Updates the question collection.
 
   // Gets the question passed from the front end
   // Stores data for updating backend properties
@@ -808,6 +825,7 @@ app.post("/api/question/update/", checkAuth, (request, response, next) => {
 // ************   UPDATE STUDENT COLLECTION   ************* //
 // ******************************************************** //
 app.post("/api/student/update/", (request, response, next) => {
+  // Updates the student collection.
 
   // Gets the student passed from the front end
   // Stores data for updating backend properties
@@ -853,6 +871,7 @@ app.post("/api/student/update/", (request, response, next) => {
 // ********   UPDATE TAKEN ASSESSMENT COLLECTION   ******** //
 // ******************************************************** //
 app.post("/api/assessment/updateTaken", (request, response, next) => {
+  // Updates the taken assessment collection.
 
   // Gets the assessment passed from the front end
   // Stores data for updating backend properties
@@ -900,12 +919,14 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
 // *********************************************************** //
 // Used for when we can't target a specific model.
 function find(name, query, callBack) {
+  // Finds a specific model based on the object's name.
   mongoose.connection.db.collection(name, function (error, collection) {
     collection.find(query).toArray(callBack);
   });
 }
 
 function deleteById(name, query, callBack) {
+  // Finds and deletes a model based on the object's ID.
   mongoose.connection.db.collection(name, function (error, collection) {
     collection.deleteOne(query).then(callBack);
   });
@@ -946,8 +967,11 @@ function sendEmailOfResults(takenAssessment) {
     }
   });
 
+  // Creates the subject text string based on the student.
+  // "[Student First Name] [Student Last Name]'s Results"
   const subjectText = takenAssessment.student.firstName + ' ' + takenAssessment.student.lastName + '\'s' + takenAssessment.assessment.name + ' Results';
 
+  // Sets up the mail options, including the sender, recipient, the subject text, and the email text content.
   const mailOptions = {
     from: '16686110@mstc.edu',
     to: getEmailAddress(takenAssessment.student.campusLocation),
@@ -955,6 +979,7 @@ function sendEmailOfResults(takenAssessment) {
     text: 'Score: ' + takenAssessment.score + '\n' + 'Passed: ' + takenAssessment.studentPassed ? 'True' : 'False'
   }
 
+  // Sends the email to the recipient.
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);

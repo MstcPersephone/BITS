@@ -1,5 +1,7 @@
+// Importing Mongoose
 const mongoose = require("mongoose");
 
+// Creating the User schema (blueprint)
 const userSchema = mongoose.Schema({
   username: {
     type: String,
@@ -14,4 +16,5 @@ const userSchema = mongoose.Schema({
   }
 });
 
+// Creating and exporting the User shell model
 module.exports = mongoose.model("User", userSchema);

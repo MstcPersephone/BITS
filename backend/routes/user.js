@@ -1,8 +1,10 @@
+// Importing required modules.
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
+// Defining the router constant.
 const router = express.Router();
 
 // The middleware to create a new user login
