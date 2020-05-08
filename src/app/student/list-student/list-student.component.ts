@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSort, MatTableDataSource } from '@angular/material';
@@ -14,7 +14,7 @@ import { HelperService } from '../../services/helper.service';
   templateUrl: './list-student.component.html',
   styleUrls: ['./list-student.component.css']
 })
-export class ListStudentComponent implements OnInit {
+export class ListStudentComponent implements OnInit, OnDestroy {
   findStudentForm;
   maxDate: Date;
   minDate: Date;
@@ -72,6 +72,10 @@ export class ListStudentComponent implements OnInit {
     if (tableEl != null) {
       tableEl.scrollIntoView();
     }
+  }
+
+  ngOnDestroy() {
+    this.showTableData = false;
   }
 
   clearForm() {
