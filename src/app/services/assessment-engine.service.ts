@@ -53,6 +53,7 @@ export class AssessmentEngineService implements OnDestroy {
   private takenAssessmentUpdated = new Subject<TakenAssessment>();
   private takenAssessmentId: string;
   private takenAssessmentIdUpdated = new Subject<string>();
+  public searchParameters: string[] = [];
 
   // Keeping track of questions
   public currentQuestion: Question;
@@ -610,7 +611,8 @@ export class AssessmentEngineService implements OnDestroy {
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.updatedStudent);
-          this.router.navigate(['/student/list']);
+          this.helperService.refreshComponent('student/list');
+          // this.router.navigate(['/student/list']);
         },
         error => {
           // log error message from server
