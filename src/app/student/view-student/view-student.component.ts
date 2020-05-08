@@ -20,6 +20,7 @@ export class ViewStudentComponent implements OnInit, OnDestroy {
   takenAssessment: any;
   private takenAssessmentSubscription: Subscription;
   dateTaken: any;
+  searchParameters: '';
 
 
   constructor(
@@ -32,12 +33,18 @@ export class ViewStudentComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    const params = this.route.snapshot.params;
     this.takenAssessmentSubscription = this.assessmentEngineService.getTakenAssessmentUpdateListener()
       .subscribe((takenAssessment: any) => {
         console.log('Taken Assessment', takenAssessment);
         this.takenAssessment = takenAssessment;
       });
-    this.assessmentEngineService.getTakenAssessmentById(this.route.snapshot.params.takenAssessmentId);
+    this.assessmentEngineService.getTakenAssessmentById(params.takenAssessmentId);
+
+    // If search parameters where passed, store them.
+    if (params.searchParameters !== '') {
+      this.searchParameters = params.searchParameters;
+    }
   }
 
   // Reset services so they can be used by a new component

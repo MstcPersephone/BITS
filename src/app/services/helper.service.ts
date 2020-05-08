@@ -98,4 +98,12 @@ export class HelperService {
 
     return uniqueId;
   }
+
+  convertSearchParametersToString(searchParameters: string[]) {
+    return searchParameters.join('_');
+  }
+
+  convertSearchParametersToArray(searchParameters: string) {
+    return searchParameters.split('_');
+  }
 }

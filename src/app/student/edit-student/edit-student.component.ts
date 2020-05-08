@@ -13,6 +13,7 @@ import { ValidationService } from '../../services/validation.service';
   styleUrls: ['./edit-student.component.css']
 })
 export class EditStudentComponent implements OnInit {
+  searchParameters = '';
   editStudentForm;
   studentSubscription: Subscription;
   student: Student;
@@ -42,6 +43,13 @@ export class EditStudentComponent implements OnInit {
   }
 
   ngOnInit() {
+    const params = this.route.snapshot.params;
+    console.log('searchParamters', params.searchParameters);
+    // If search parameters where passed, store them.
+    if (params.searchParameters !== '') {
+      this.searchParameters = params.searchParameters;
+    }
+
     this.studentSubscription = this.assessmentEngineService.getCurrentStudentUpdateListener()
       .subscribe((student: Student) => {
         this.student = student;
