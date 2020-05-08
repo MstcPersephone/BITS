@@ -6,8 +6,8 @@ const Constants = {
     UTF_8: 'utf-8'
   },
   EmailTestResults: {
-    WisconsinRapids: '16686110@mstc.edu',
-    StevensPoint: 'detert8076@mstc.edu'
+    WisconsinRapids: 'diane.andres@mstc.edu',
+    StevensPoint: 'juan.veloz@mstc.edu'
   }
 }
 
