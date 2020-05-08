@@ -48,7 +48,7 @@
   <!-- Page Header -->
   <h3>Student Search Results</h3>
 
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" id="resultsTable">
 
     <!-- Student Id Column -->
     <ng-container matColumnDef="studentId">
@@ -127,14 +127,14 @@
       <th class="columnHeader resultDetailColumn" mat-header-cell *matHeaderCellDef mat-sort-header>Result Details</th>
       <td mat-cell *matCellDef="let takenAssessment" (click)="$event.stopPropagation()">
         <div *ngIf="takenAssessment.student.studentPassed !== null">
-          <mat-icon class="iconButton" matListIcon [routerLink]="['/student/view', takenAssessment._id]">link</mat-icon>
+          <mat-icon class="iconButton" matListIcon [routerLink]="['/student/view', takenAssessment._id, getSearchParametersAsString()]">link</mat-icon>
         </div>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns; Index as i"
-      [routerLink]="['/student/edit', row.student._id]"></tr>
+      [routerLink]="['/student/edit', row.student._id, getSearchParametersAsString()]"></tr>
   </table>
 </mat-card>
 </mat-card>

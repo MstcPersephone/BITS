@@ -13,6 +13,7 @@ import { ValidationService } from '../../services/validation.service';
   styleUrls: ['./edit-student.component.css']
 })
 export class EditStudentComponent implements OnInit {
+  searchParameters = '';
   editStudentForm;
   studentSubscription: Subscription;
   student: Student;
@@ -42,6 +43,13 @@ export class EditStudentComponent implements OnInit {
   }
 
   ngOnInit() {
+    const params = this.route.snapshot.params;
+    console.log('searchParamters', params.searchParameters);
+    // If search parameters where passed, store them.
+    if (params.searchParameters !== '') {
+      this.searchParameters = params.searchParameters;
+    }
+
     this.studentSubscription = this.assessmentEngineService.getCurrentStudentUpdateListener()
       .subscribe((student: Student) => {
         this.student = student;
@@ -87,31 +95,6 @@ export class EditStudentComponent implements OnInit {
       updatedStudent.lastAssessmentDate = this.student.lastAssessmentDate;
       updatedStudent.previousScores = this.student.previousScores;
       updatedStudent.uniqueStudentIdentifier = this.helperService.generateUniqueStudentId(updatedStudent);
-
-
-
-      // This following will update the search parameters for reloading table results
-      studentData.firstName = this.helperService.convertName(studentData.firstName);
-      studentData.lastName = this.helperService.convertName(studentData.lastName);
-      if (studentData.dateOfBirth !== '') {
-        studentData.dateOfBirth = this.helperService.convertBirthdateToNumbers(studentData.dateOfBirth);
-      }
-      const paramArray: string[] = [];
-      paramArray.push(studentData.studentId);
-      paramArray.push(studentData.firstName);
-      paramArray.push(studentData.lastName);
-      paramArray.push(studentData.dateOfBirth);
-
-
-      const searchParameters: string[] = [];
-      Object.keys(paramArray).forEach((key) => {
-        if (paramArray[key] !== '') {
-          searchParameters.push(paramArray[key]);
-        }
-      });
-
-      this.assessmentEngineService.searchParameters = searchParameters;
-      console.log('AE Params', this.assessmentEngineService.searchParameters);
 
       // Sends the data to the service to handle passing data for saving in database
       this.assessmentEngineService.updateStudent(updatedStudent);

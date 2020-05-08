@@ -598,6 +598,9 @@ export class AssessmentEngineService implements OnDestroy {
     // isLoading is used to add a spinner
     this.helperService.isLoading = true;
 
+    // populateSearchParameters so the student's records display upon updating
+    const searchParameters = this.helperService.generateUniqueStudentId(student);
+
     console.log('In Service', student.studentId);
 
     // tslint:disable-next-line: max-line-length
@@ -607,12 +610,14 @@ export class AssessmentEngineService implements OnDestroy {
           // Success message at the bottom of the screen
           // console log information about the response for debugging
           this.helperService.openSnackBar(student.firstName + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
-          this.helperService.isLoading = false;
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.updatedStudent);
-          this.helperService.refreshComponent('student/list');
-          // this.router.navigate(['/student/list']);
+          this.helperService.isLoading = false;
+          // Give time for the updated student object to save to the database
+          setTimeout(() => {
+            this.router.navigate(['/student/list', searchParameters]);
+          }, 0);
         },
         error => {
           // log error message from server
