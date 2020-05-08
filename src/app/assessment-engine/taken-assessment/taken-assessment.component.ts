@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { AssessmentService } from 'src/app/services/assessment.service';
