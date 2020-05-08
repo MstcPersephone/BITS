@@ -88,7 +88,30 @@ export class EditStudentComponent implements OnInit {
       updatedStudent.previousScores = this.student.previousScores;
       updatedStudent.uniqueStudentIdentifier = this.helperService.generateUniqueStudentId(updatedStudent);
 
-      console.log(updatedStudent);
+
+
+      // This following will update the search parameters for reloading table results
+      studentData.firstName = this.helperService.convertName(studentData.firstName);
+      studentData.lastName = this.helperService.convertName(studentData.lastName);
+      if (studentData.dateOfBirth !== '') {
+        studentData.dateOfBirth = this.helperService.convertBirthdateToNumbers(studentData.dateOfBirth);
+      }
+      const paramArray: string[] = [];
+      paramArray.push(studentData.studentId);
+      paramArray.push(studentData.firstName);
+      paramArray.push(studentData.lastName);
+      paramArray.push(studentData.dateOfBirth);
+
+
+      const searchParameters: string[] = [];
+      Object.keys(paramArray).forEach((key) => {
+        if (paramArray[key] !== '') {
+          searchParameters.push(paramArray[key]);
+        }
+      });
+
+      this.assessmentEngineService.searchParameters = searchParameters;
+      console.log('AE Params', this.assessmentEngineService.searchParameters);
 
       // Sends the data to the service to handle passing data for saving in database
       this.assessmentEngineService.updateStudent(updatedStudent);

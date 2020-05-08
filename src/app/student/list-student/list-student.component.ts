@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSort, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -30,6 +31,7 @@ export class ListStudentComponent implements OnInit {
 
 
   constructor(
+    private router: Router,
     public assessmentEngineService: AssessmentEngineService,
     public helperService: HelperService,
     private formBuilder: FormBuilder) {
@@ -46,7 +48,18 @@ export class ListStudentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.showTableData = false;
+    if (this.assessmentEngineService.searchParameters !== []) {
+      this.assessmentEngineService.getFilteredTakenAssessment(this.assessmentEngineService.searchParameters);
+      this.takenAssessmentsSubscription = this.assessmentEngineService.getTakenAssessmentsUpdateListener()
+        .subscribe((takenAssessmentArray: any) => {
+          this.dataSource.data = takenAssessmentArray;
+          console.log(this.dataSource.data);
+          this.showTableData = true;
+        });
+
+    } else {
+      this.showTableData = false;
+    }
   }
 
   clearForm() {
@@ -75,6 +88,8 @@ export class ListStudentComponent implements OnInit {
     });
 
     console.log(searchParameters);
+
+    this.assessmentEngineService.searchParameters = searchParameters;
 
     this.assessmentEngineService.getFilteredTakenAssessment(searchParameters);
     this.takenAssessmentsSubscription = this.assessmentEngineService.getTakenAssessmentsUpdateListener()
