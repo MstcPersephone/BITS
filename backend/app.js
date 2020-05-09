@@ -31,6 +31,7 @@ const checkAuth = require("../backend/middleware/check-auth");
 // ******************************************************** //
 const questionCollections = require("./models/question");
 const categoryCollection = require("./models/shared/category");
+const archiveCategory = require('./models/shared/category-archive');
 const assessmentCollection = require("./models/assessment");
 const archiveAssessmentCollection = require("./models/assessment-archive");
 const studentCollection = require("./models/student");
@@ -129,6 +130,48 @@ app.post("/api/assessment/delete", checkAuth, (request, response, next) => {
       else {
         response.status(200).json({
           message: 'assessment archived successfully!'
+        });
+      }
+    });
+  },
+    error => {
+      console.log('ERROR', error.message);
+      response.status(400).json({
+        message: error.message
+      })
+    });
+});
+
+// *********************************************************** //
+// ******   ARCHIVE: CATEGORY FROM CATEGORY COLLECTION *** //
+// *********************************************************** //
+app.post("/api/category/delete", checkAuth, (request, response, next) => {
+  const category = request.body;
+
+  // Create archived model for the category
+  const categoryToArchive = new archiveCategory({
+    _id: category._id,
+    name: category.name,
+    modifiedOn: new Date(Date.now())
+  });
+
+
+  // Save the archive model to the archive category collection
+  categoryToArchive.save().then(() => {
+    // get the id of the original category
+    const objectId = mongoose.Types.ObjectId(category._id);
+
+    // pass the original category to the delete function
+    deleteById('categories', { _id: objectId }, function (resp, error) {
+      if (error) {
+        console.log('ERROR', error.message);
+        response.status(400).json({
+          message: error.message
+        })
+      }
+      else {
+        response.status(200).json({
+          message: 'category archived successfully!'
         });
       }
     });
