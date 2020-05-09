@@ -383,10 +383,13 @@ app.get("/api/questions", checkAuth, (request, response, next) => {
         if (q.categories !== undefined && q.categories.length > 0) {
           // for each category attached to the question
           q.categories.forEach((c) => {
-            console.log(q._id);
-            console.log(c);
-            // Find the proper category array and push the question
-            organizedQuestions[c.name].push(q);
+            if (organizedQuestions[c.name] !== undefined) {
+              // Find the proper category array and push the question
+              organizedQuestions[c.name].push(q);
+            } else {
+              console.log('Add question to sorted list failed: ', q);
+              console.log('Question contains a category that does not exist: ', c);
+            }
           });
         }
       });
@@ -913,7 +916,8 @@ function deleteById(name, query, callBack) {
 // Updates all questions that have the updated category with the updated name
 function updateQuestionCategories(updatedCategory) {
   console.log('UPDATED CATEGORY', updatedCategory);
-  mongoose.connection.db.collection('questions').updateMany({ categories: { $elemMatch: { _id: mongoose.Types.ObjectId(updatedCategory._id) } } }, { $set: { "categories.$.name": updatedCategory.name } });
+  const idStrings = [updatedCategory._id, mongoose.Types.ObjectId(updatedCategory._id)];
+  mongoose.connection.db.collection('questions').updateMany({ categories: { $elemMatch: { _id: {$in: idStrings} } } }, { $set: { "categories.$.name": updatedCategory.name } });
 }
 
 // Updates all taken assessments student data when the student collection document is updated.
