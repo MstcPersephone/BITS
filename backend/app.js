@@ -915,7 +915,6 @@ function deleteById(name, query, callBack) {
 
 // Updates all questions that have the updated category with the updated name
 function updateQuestionCategories(updatedCategory) {
-  console.log('UPDATED CATEGORY', updatedCategory);
   const idStrings = [updatedCategory._id, mongoose.Types.ObjectId(updatedCategory._id)];
   mongoose.connection.db.collection('questions').updateMany({ categories: { $elemMatch: { _id: {$in: idStrings} } } }, { $set: { "categories.$.name": updatedCategory.name } });
 }
