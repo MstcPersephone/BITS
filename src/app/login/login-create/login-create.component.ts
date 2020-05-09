@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { LoginEngineService } from '../../services/login.service';
 import { User } from '../../models/user.model';
 import { HelperService } from 'src/app/services/helper.service';
+import { ValidationService } from '../../services/validation.service';
 
 @Component({
   selector: 'app-login-create',
@@ -16,23 +17,20 @@ export class LoginCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     public loginService: LoginEngineService,
     public helperService: HelperService
-    ) {
-      this.signupForm = this.formBuilder.group({
-        username: '',
-        password1: '',
-        password2: '',
-        isAdmin: ''
-      });
-     }
+  ) {
+    this.signupForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.email]],
+      password1: ['', [Validators.required, Validators.minLength(8)]],
+      password2: ['', [Validators.required, Validators.minLength(8)]],
+      isAdmin: ''
+    });
+  }
 
   ngOnInit() {
   }
 
   onSignup(formData) {
     const username = formData.username.toLowerCase();
-
-    // Check that the passwords match and create new user if they do
-    if (formData.password1 === formData.password2) {
 
     const user = new User();
     user.username = username;
@@ -43,9 +41,29 @@ export class LoginCreateComponent implements OnInit {
       user.isAdmin = false;
     }
 
-    this.loginService.createUser(user);
-   } else {
-      alert('Passwords don\'t match, please try again');
+    // Calls validation errors on the current form when submit button is clicked
+    if (!this.signupForm.valid) {
+      // Marks all controls as touched so error messages may populate
+      (Object as any).values(this.signupForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
+
+    // Second pass at validation to ensure that the passwords match
+    if (this.signupForm.valid) {
+
+      const passwordMatchResponse = ValidationService.validatePasswordMatch(formData.password1, formData.password2);
+
+      if (passwordMatchResponse.result) {
+        // If the passwords match, send data to backend to store the new user
+        this.loginService.createUser(user);
+      } else {
+        if (!passwordMatchResponse.result) {
+          // If the passwords don't match, open snackbar error message
+          this.helperService.openSnackBar(passwordMatchResponse.message, 'OK', 'error-dialog', undefined);
+        }
+
+      }
     }
   }
 }
