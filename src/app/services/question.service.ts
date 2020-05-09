@@ -17,6 +17,7 @@ import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confi
 import { MatDialog } from '@angular/material';
 import { ok } from 'assert';
 import { environment } from '../../environments/environment';
+import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root',
@@ -104,8 +105,14 @@ export class QuestionService {
 
   // Archives a category
   deleteCategory(category: Category) {
-    console.log(category);
-    // Opens a dialog to confirm deletion of the question
+    console.log(category.name);
+
+    this.http.get<{ message: string, questions: Question[]}>(environment.apiUrl + 'category/questions')
+    .subscribe((responseData) => {
+      setTimeout(() => {
+        console.log(responseData);
+        if (responseData.questions === []) {
+            // Opens a dialog to confirm deletion of the question
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: 'Are you sure you wish to delete this category?',
       hasBackdrop: true,
@@ -118,9 +125,9 @@ export class QuestionService {
         this.helperService.isLoading = true;
         this.http
           .post<{ message: string }>(environment.apiUrl + 'category/delete', category)
-          .subscribe((responseData) => {
+          .subscribe((response) => {
             setTimeout(() => {
-              console.log(responseData);
+              console.log(response);
               // Displays a message informing that the question deletion has been successful.
               this.helperService.openSnackBar('Category Deleted.', 'Close', 'success-dialog', 5000);
               this.helperService.isLoading = false;
@@ -132,6 +139,14 @@ export class QuestionService {
             });
       }
     });
+       } else {
+         alert('Category in use and cannot be deleted at this time.');
+       }
+      }, 2000);
+    },
+      error => {
+        console.log('%c' + error.error.message, 'color: red;');
+      });
    }
 
   // Gets all categories from the database.

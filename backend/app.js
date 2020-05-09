@@ -155,7 +155,6 @@ app.post("/api/category/delete", checkAuth, (request, response, next) => {
     modifiedOn: new Date(Date.now())
   });
 
-
   // Save the archive model to the archive category collection
   categoryToArchive.save().then(() => {
     // get the id of the original category
@@ -338,6 +337,23 @@ app.get("/api/categories", checkAuth, (request, response, next) => {
     })
   });
 });
+
+app.get("/api/category/questions", checkAuth, (request, response, next) => {
+  mongoose.connection.db.collection('questions').find({ categories: { $elemMatch: { _id: request._id } }})
+  .then((questions, error) => {
+    response.status(200).json({
+      message: 'Questions',
+      questions: [questions]
+    });
+  }, error => {
+    console.log('ERROR', error.message);
+    response.status(400).json({
+      message: error.message,
+      questions: null
+    })
+  });
+
+  });
 
 // ********************************************************** //
 // ******   GET: CATEGORY BY ID ******* //
