@@ -6,7 +6,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { AssessmentListComponent } from './assessments/assessment/assessment-list/assessment-list.component';
 import { CreateAssessmentComponent } from './assessments/assessment/create-assessment/create-assessment.component';
@@ -151,8 +150,7 @@ import { ViewAttachmentComponent } from './shared/attachment/view-attachment/vie
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    DragDropModule,
-    ClipboardModule
+    DragDropModule
   ],
   entryComponents: [
     ConfirmationDialogComponent
