@@ -383,6 +383,8 @@ app.get("/api/questions", checkAuth, (request, response, next) => {
         if (q.categories !== undefined && q.categories.length > 0) {
           // for each category attached to the question
           q.categories.forEach((c) => {
+            console.log(q._id);
+            console.log(c);
             // Find the proper category array and push the question
             organizedQuestions[c.name].push(q);
           });
@@ -749,8 +751,8 @@ app.post("/api/assessment/update/", checkAuth, (request, response, next) => {
 
 app.post("/api/category/update", checkAuth, (request, response, next) => {
   const requestedUpdate = request.body;
-
-  mongoose.connection.db.collection('categories').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: { name: requestedUpdate.name } }, function (error, updatedCategory) {
+  console.log('Update Id Type: ', requestedUpdate._id);
+  mongoose.connection.db.collection('categories').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id) }, { $set: { name: requestedUpdate.name } }, function (error, updatedCategory) {
     updateQuestionCategories(requestedUpdate);
     // Send a successful response message and an array of categories to work with.
     response.status(200).json({
@@ -856,7 +858,6 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
   // Stores data for updating backend properties
   const requestedUpdate = request.body;
 
-
   // Stores the updated taken assessment data
   const update = {
     // id: requestedUpdate._id,
@@ -911,6 +912,7 @@ function deleteById(name, query, callBack) {
 
 // Updates all questions that have the updated category with the updated name
 function updateQuestionCategories(updatedCategory) {
+  console.log('UPDATED CATEGORY', updatedCategory);
   mongoose.connection.db.collection('questions').updateMany({ categories: { $elemMatch: { _id: mongoose.Types.ObjectId(updatedCategory._id) } } }, { $set: { "categories.$.name": updatedCategory.name } });
 }
 

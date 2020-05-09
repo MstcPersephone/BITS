@@ -17,6 +17,9 @@ const shortAnswerArchiveModel = shortAnswerModels.archive;
 const uploadModel = uploadModels.question;
 const uploadArchiveModel = uploadModels.archive;
 
+const categoryCollection = require("../models/shared/category");
+
+
 //*************************************************************//
 //****SWITCH STATEMENT TO FIND THE CORRECT QUESTION BY TYPE****//
 //*************************************************************//
@@ -102,9 +105,12 @@ function updateCheckbox(question) {
     }
   });
 
+  // Update categories to convert id strings to ObjectIds
+  const categories = updateCategories(question);
+
   // creates an object for updating
   return {
-    categories: question.categories,
+    categories: categories,
     questionText: question.questionText,
     questionType: question.questionType,
     options: question.options,
@@ -161,9 +167,12 @@ function updateMultipleChoice(question) {
     }
   });
 
+  // Update categories to convert id strings to ObjectIds
+  const categories = updateCategories(question);
+
   // creates an object for updating
   return {
-    categories: question.categories,
+    categories: categories,
     questionText: question.questionText,
     questionType: question.questionType,
     options: question.options,
@@ -223,10 +232,12 @@ function updateShortAnswer(question) {
     }
   });
 
+  // Update categories to convert id strings to ObjectIds
+  const categories = updateCategories(question);
 
   // creates an object for updating
   return {
-    categories: question.categories,
+    categories: categories,
     questionText: question.questionText,
     questionType: question.questionType,
     hasAttachments: question.hasAttachments,
@@ -272,8 +283,12 @@ function createTrueFalse(question, collectionName = 'questions') {
 }
 
 function updateTrueFalse(question) {
+
+  // Update categories to convert id strings to ObjectIds
+  const categories = updateCategories(question);
+
   return {
-    categories: question.categories,
+    categories: categories,
     questionText: question.questionText,
     questionType: question.questionType,
     hasAttachments: question.hasAttachments,
@@ -316,8 +331,12 @@ function createUpload(question, collectionName = 'questions') {
 }
 
 function updateUpload(question) {
+
+  // Update categories to convert id strings to ObjectIds
+  const categories = updateCategories(question);
+
   return {
-    categories: question.categories,
+    categories: categories,
     questionText: question.questionText,
     questionType: question.questionType,
     hasAttachments: question.hasAttachments,
@@ -330,6 +349,19 @@ function updateUpload(question) {
     isAnsweredCorrectly: question.isAnsweredCorrectly,
     modifiedOn: new Date(Date.now())
   }
+}
+
+// Translate id strings to ObjectIds
+function updateCategories(question) {
+  const categories = [];
+  question.categories.forEach((c) => {
+    const category = new categoryCollection();
+    category._id = mongoose.Types.ObjectId(c._id);
+    category.name = c.name;
+    categories.push(category);
+  });
+
+  return categories;
 }
 
 // Exports the question object with all properties attached to it.
