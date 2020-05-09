@@ -24,8 +24,8 @@ export class ValidationService {
   static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
     const config = {
       // validates email pattern (this is a anguluar built in validation)
-      email:
-        'Must use a valid email: xxx@xxx.xxx.',
+      invalidEmail:
+        'Must use a valid email: xxx@xxx.xx',
 
       // alpha and spaces only (custom validation)
       invalidAlpha:
@@ -44,7 +44,7 @@ export class ValidationService {
         'Must have valid input.',
 
       // validates the string length (this is a anguluar built in validation)
-      minlength: `Minimum length of ${validatorValue.requiredLength} required.`,
+      minlength: `Minimum length of ${validatorValue.requiredLength} letters, numbers or characters required.`,
 
       // required input (this is a anguluar built in validation)
       required:
@@ -70,6 +70,26 @@ export class ValidationService {
         return null;
       } else {
         return { invalidAlpha: true };
+      }
+    }
+  }
+
+  // called from the component.ts where the formbuilder is created
+  // ensures that value is not an empty string
+  static emailValidator(control) {
+    if (control.value !== '') {
+      control.markAsTouched();
+    }
+
+    // if the value does not pass validation, the property is assigned true, else null
+    if (control.touched) {
+      // tslint:disable-next-line: max-line-length
+      const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      // tslint:disable-next-line: max-line-length
+      if (control.value.match(reg)) {
+        return null;
+      } else {
+        return { invalidEmail: true };
       }
     }
   }
@@ -182,6 +202,27 @@ export class ValidationService {
       return response;
     }
   }
+
+    // Validation to ensure a that that an email is not already used for a login
+    static validateUserNameMatch(newUser: any, existingUser: any): ValidationResponse {
+      console.log('Validator user names: ', newUser, existingUser);
+
+      // The response object that will be returned within this function
+      const response = new ValidationResponse();
+
+      if (newUser === null || existingUser.username !== newUser.username) {
+        // If this login is not currently being used, valid newUser to create
+        response.result = true;
+        response.message = 'Valid';
+        return response;
+      } else {
+        // otherwise invalid login name
+        response.result = false;
+        response.message = 'This login is already being used.';
+        return response;
+      }
+    }
+
 
   // Validation to ensure the wrong streak selection of assessment does not exceed number of available questions
   static validateMaxWrongStreak(assessment: Assessment): ValidationResponse {

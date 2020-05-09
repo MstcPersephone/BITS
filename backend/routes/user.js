@@ -29,6 +29,7 @@ router.post("/create", (request, response, next) => {
   });
 });
 
+
 // The middleware to login a user
 router.post("/login", (request, response, next) => {
   let fetchedUser;
@@ -42,20 +43,20 @@ router.post("/login", (request, response, next) => {
       }
       fetchedUser = user;
       // Compare the user entered password with password in database
-     return bcrypt.compare(request.body.password, user.password);
+      return bcrypt.compare(request.body.password, user.password);
     })
     .then(result => {
-      if(!result) {
+      if (!result) {
         return response.status(401).json({
           message: "Password does not match."
-      });
-    }
-    // Create the token used to login - expires in 2 hours
-    const token = jwt.sign({ username: fetchedUser.username, userId: fetchedUser._id },
-      // TODO: [PER-163] create a better secret for the token
-      'secret_this_should_be_longer_replace_before_publication',
-      // TODO: [PER-159] figure out max time for token to last
-      { expiresIn: "2h" }
+        });
+      }
+      // Create the token used to login - expires in 2 hours
+      const token = jwt.sign({ username: fetchedUser.username, userId: fetchedUser._id },
+        // TODO: [PER-163] create a better secret for the token
+        'secret_this_should_be_longer_replace_before_publication',
+        // TODO: [PER-159] figure out max time for token to last
+        { expiresIn: "2h" }
       );
       response.status(200).json({
         token: token,
@@ -69,5 +70,26 @@ router.post("/login", (request, response, next) => {
       });
     });
 });
+
+// The middleware to find a username
+router.get("/find/:username", (request, response, next) => {
+  console.log('User To Find', request.params.username);
+  // Get all assessments from the database
+  User.findOne( { username: request.params.username } ).then((username, error) => {
+    console.log('User Found', username);
+    response.status(200).json({
+      message: 'User exists!',
+      username: username
+    });
+  },
+    error => {
+      console.log('User Not Found', error.message);
+      response.status(400).json({
+        message: error.message,
+        username: null
+      })
+    })
+});
+
 
 module.exports = router;

@@ -22,6 +22,9 @@ export class LoginEngineService {
   // The timer for the expiration of the token
   private tokenTimer: any;
 
+  public newUser: any = null;
+  private newUserUpdated = new Subject<any>();
+
   constructor(
     private http: HttpClient,
     private helperService: HelperService,
@@ -42,6 +45,11 @@ export class LoginEngineService {
     return this.token;
   }
 
+  // Gets the authentication status listener
+  getNewUserListener() {
+    return this.newUserUpdated.asObservable();
+  }
+
   // The function to create a new user
   createUser(user: User) {
     console.log(user);
@@ -51,6 +59,20 @@ export class LoginEngineService {
       console.log(response);
       this.helperService.openSnackBar('User creation successful!', 'Close', 'success-dialog', 5000);
       this.router.navigate(['/home']);
+      this.helperService.isLoading = false;
+    });
+  }
+
+  // The function to find a username
+  findLogin(username: string) {
+    console.log(username);
+    this.helperService.isLoading = true;
+
+    this.http.get(environment.apiUrl + 'user/find/' + username)
+    .subscribe(response => {
+      this.newUser = response.valueOf();
+      this.newUserUpdated.next(this.newUser);
+      this.helperService.openSnackBar('User found successful!', 'Close', 'success-dialog', 5000);
       this.helperService.isLoading = false;
     });
   }
