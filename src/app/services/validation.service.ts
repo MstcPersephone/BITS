@@ -25,15 +25,15 @@ export class ValidationService {
     const config = {
       // validates email pattern (this is a anguluar built in validation)
       email:
-        'Must use a valid email: xxx@xxx.xxx',
+        'Must use a valid email: xxx@xxx.xxx.',
 
       // alpha and spaces only (custom validation)
       invalidAlpha:
-        'Must be a valid name',
+        'Must be a valid name.',
 
       // whole numeric only allowed (custom validation)
       invalidNumbers:
-        'Must be a whole number',
+        'Must be a whole number.',
 
       // The required length of the student Id (custom validation)
       invalidStudentIdLength:
@@ -41,10 +41,10 @@ export class ValidationService {
 
       // no empty strings allowed (custom validation)
       invalidWhiteSpaceOnly:
-        'Must have valid input',
+        'Must have valid input.',
 
       // validates the string length (this is a anguluar built in validation)
-      minlength: `Minimum length of ${validatorValue.requiredLength} required`,
+      minlength: `Minimum length of ${validatorValue.requiredLength} required.`,
 
       // required input (this is a anguluar built in validation)
       required:
