@@ -102,16 +102,37 @@ export class QuestionService {
     this.categoriesUpdated.next([...this.categories]);
   }
 
-  // Removes an option from the list based on its index
-  // deleteCategory(i) {
-  //   console.log('%c Deleting Category', 'color: red');
-  //   this.categories.splice(i, 1);
-  //   console.table(this.categories);
-  //   this.categoriesUpdated.next([...this.categories]);
-
-  //   // Open snackbar to display message stating that the option has been removed.
-  //   this.helperService.openSnackBar('Category Deleted.', 'Close', 'success-dialog', 5000);
-  // }
+  // Archives a category
+  deleteCategory(category: Category) {
+    console.log(category);
+    // Opens a dialog to confirm deletion of the question
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Are you sure you wish to delete this category?',
+      hasBackdrop: true,
+      disableClose: true,
+      closeOnNavigation: true
+    });
+    // On closing dialog box either call the function to archive the question or cancel the deletion
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.helperService.isLoading = true;
+        this.http
+          .post<{ message: string }>(environment.apiUrl + 'category/delete', category)
+          .subscribe((responseData) => {
+            setTimeout(() => {
+              console.log(responseData);
+              // Displays a message informing that the question deletion has been successful.
+              this.helperService.openSnackBar('Category Deleted.', 'Close', 'success-dialog', 5000);
+              this.helperService.isLoading = false;
+              this.helperService.refreshComponent('category');
+            }, 2000);
+          },
+            error => {
+              console.log('%c' + error.error.message, 'color: red;');
+            });
+      }
+    });
+   }
 
   // Gets all categories from the database.
   getAllCategories() {
