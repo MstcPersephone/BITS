@@ -23,17 +23,17 @@ export class ValidationService {
   // this attaches the error message to be passed back to the form field
   static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
     const config = {
+      // validates email pattern (this is a anguluar built in validation)
+      email:
+        'Must use a valid email: xxx@xxx.xxx',
+
       // alpha and spaces only (custom validation)
       invalidAlpha:
         'Must be a valid name',
 
       // whole numeric only allowed (custom validation)
       invalidNumbers:
-        'Must be numeric value',
-
-      // The password regex pattern allowed (this is a anguluar built in validation)
-      invalidPassword:
-        'Invalid password. Password must be at least 6 characters long, and contain a number.',
+        'Must be a whole number',
 
       // The required length of the student Id (custom validation)
       invalidStudentIdLength:
@@ -44,8 +44,7 @@ export class ValidationService {
         'Must have valid input',
 
       // validates the string length (this is a anguluar built in validation)
-      minlength:
-        'Minimum length ${validatorValue.requiredLength}',
+      minlength: `Minimum length of ${validatorValue.requiredLength} required`,
 
       // required input (this is a anguluar built in validation)
       required:
@@ -116,11 +115,6 @@ export class ValidationService {
   // called from the component.ts where the formbuilder is created
   // ensures that value is not an empty string
   static invalidWhiteSpaceOnly(control) {
-
-    // This stops validation error messages from populating on load.
-    // if (control.value !== '') {
-    //   control.markAsTouched();
-    // }
 
     // if the value does not pass validation, the property is assigned true, else null
     if (control.touched) {
@@ -225,6 +219,25 @@ export class ValidationService {
     } else {
       response.result = true;
       response.message = 'Valid';
+      return response;
+    }
+  }
+
+  // Validation to ensure a that both passwords match when creating a new user
+  static validatePasswordMatch(password1: any, password2: any): ValidationResponse {
+
+    // The response object that will be returned within this function
+    const response = new ValidationResponse();
+
+    if (password1 === password2) {
+      // If the passwords match, is valid
+      response.result = true;
+      response.message = 'Valid';
+      return response;
+    } else {
+      // otherwise invalid
+      response.result = false;
+      response.message = 'Passwords do not match, please try again.';
       return response;
     }
   }
