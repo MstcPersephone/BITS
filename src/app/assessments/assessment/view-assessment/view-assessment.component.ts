@@ -59,8 +59,9 @@ export class ViewAssessmentComponent implements OnInit, AfterViewInit, OnDestroy
   selectRow(questionId) {
     // sets the return button to show on a single question view
     this.assessmentService.showBackButton = true;
+
     // takes the user to the single question view passing the current question id
-    this.router.navigate(['/question/view', questionId]);
+    this.router.navigate(['/assessmentQuestion/view', questionId]);
   }
 
   // Reset service property values so they can be used by a new component
