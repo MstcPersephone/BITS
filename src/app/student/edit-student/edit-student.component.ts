@@ -30,7 +30,7 @@ export class EditStudentComponent implements OnInit {
     public helperService: HelperService,
     private formBuilder: FormBuilder) {
     this.editStudentForm = this.formBuilder.group({
-      studentId: ['', [ValidationService.studentIdLength, ValidationService.numberValidator]],
+      studentId: ['', [ValidationService.studentIdLength, ValidationService.leadingZeros]],
       firstName: ['', [Validators.required, ValidationService.alphaValidator]],
       lastName: ['', [Validators.required, ValidationService.alphaValidator]],
       dateOfBirth: ['', [Validators.required]],
