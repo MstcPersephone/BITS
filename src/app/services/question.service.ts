@@ -17,6 +17,7 @@ import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confi
 import { MatDialog } from '@angular/material';
 import { ok } from 'assert';
 import { environment } from '../../environments/environment';
+import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root',
@@ -104,23 +105,30 @@ export class QuestionService {
 
   // Archives a category
   deleteCategory(category: Category) {
-    console.log(category);
-    // Opens a dialog to confirm deletion of the question
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'Are you sure you wish to delete this category?',
-      hasBackdrop: true,
-      disableClose: true,
-      closeOnNavigation: true
+    this.helperService.openSnackBar('Checking if category is in use...', 'Close', 'success-dialog', 5000);
+    this.helperService.isLoading = true;
+    this.http.get<{ message: string, questions: Question[]}>(environment.apiUrl + 'category/questions/' + category._id)
+    .subscribe((responseData) => {
+      setTimeout(() => {
+        console.log(responseData);
+        if (responseData.questions === null) {
+          this.helperService.isLoading = false;
+            // Opens a dialog to confirm deletion of the question
+          const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+             data: 'This category is not currently in use. Are you sure you wish to delete this category?',
+             hasBackdrop: true,
+             disableClose: true,
+             closeOnNavigation: true
     });
     // On closing dialog box either call the function to archive the question or cancel the deletion
-    dialogRef.afterClosed().subscribe(result => {
+          dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.helperService.isLoading = true;
         this.http
           .post<{ message: string }>(environment.apiUrl + 'category/delete', category)
-          .subscribe((responseData) => {
+          .subscribe((response) => {
             setTimeout(() => {
-              console.log(responseData);
+              console.log(response);
               // Displays a message informing that the question deletion has been successful.
               this.helperService.openSnackBar('Category Deleted.', 'Close', 'success-dialog', 5000);
               this.helperService.isLoading = false;
@@ -132,6 +140,14 @@ export class QuestionService {
             });
       }
     });
+       }
+      }, 2000);
+    },
+      error => {
+        this.helperService.isLoading = false;
+        console.log('%c' + error.error.message, 'color: red;');
+        this.helperService.openSnackBar('Category in use and cannot be deleted', 'Close', 'alert-dialog', 5000);
+      });
    }
 
   // Gets all categories from the database.
