@@ -35,7 +35,7 @@ const createQuestionTypeFactory = function (question, collectionName) {
     case "Short Answer":
       return createShortAnswer(question, collectionName);
 
-    case "True False":
+    case "True or False":
       return createTrueFalse(question, collectionName);
 
     case "Upload":
@@ -52,7 +52,7 @@ const editQuestionFactory = function (question) {
       return updateShortAnswer(question);
     case "Multiple Choice":
       return updateMultipleChoice(question);
-    case "True False":
+    case "True or False":
       return updateTrueFalse(question);
     case "Upload":
       return updateUpload(question);
