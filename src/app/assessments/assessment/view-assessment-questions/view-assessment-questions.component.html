@@ -1,0 +1,13 @@
+<br>
+<mat-card>
+<app-view-question [currentQuestion]=this.currentQuestion></app-view-question>
+
+  <!-- This button is for instructors view assessment questions only / not required for taking an assessment -->
+  <div class="returnSection">
+    <!-- Return to Assessment Button : Resets showBackButton to false and returns to the current assessment view -->
+    <button class="returnButton" mat-raised-button (click)="this.returnToAssessment()">
+      Return to Assessment
+    </button>
+  </div>
+
+</mat-card>

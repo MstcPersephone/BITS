@@ -20,12 +20,11 @@
     <button class="mt-20 saveButton" mat-raised-button type="submit">Generate Assessment Url</button>
   </form>
   <br>
-
+  <p *ngIf="this.takenAssessmentId !== undefined">Assessment URL has been copied to clipboard to be shared. <br/> Otherwise click the button below to start assessment from the current window.</p>
   <div class="generatedLinkContainer">
     <a mat-raised-button class="generatedLink" *ngIf="this.takenAssessmentId !== undefined" [routerLink]="['/assessment/take', this.takenAssessmentId]">
-      Start Assessment (or right-click to copy link)
+      Start Assessment
     </a>
-    <button  >Click here to copy to clipboard</button>
   </div>
 
 </mat-card>

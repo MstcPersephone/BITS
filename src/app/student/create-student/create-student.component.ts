@@ -53,7 +53,7 @@ export class CreateStudentComponent implements OnInit {
     this.hasStudentId = !this.hasStudentId;
     if (this.hasStudentId) {
       // tslint:disable-next-line: max-line-length
-      this.createStudentForm.addControl( 'studentId', new FormControl('', [ValidationService.studentIdLength, ValidationService.numberValidator]));
+      this.createStudentForm.addControl( 'studentId', new FormControl('', [ValidationService.studentIdLength, ValidationService.leadingZeros]));
     } else {
       this.createStudentForm.removeControl('studentId');
     }

@@ -4,6 +4,7 @@ import { QuestionService } from 'src/app/services/question.service';
 import { Subscription } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from 'src/app/services/validation.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-manage-category',
@@ -18,6 +19,7 @@ export class ManageCategoryComponent implements OnInit, OnDestroy {
   private categorySubscription: Subscription;
 
   constructor(
+    public helperService: HelperService,
     private formBuilder: FormBuilder,
     public questionService: QuestionService) {
     // Creates an object to hold form values.

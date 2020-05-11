@@ -1,9 +1,12 @@
-// built in email module
+// Importing built-in email module and constants collection.
 const nodemailer = require('nodemailer');
 const Constants = require("./constants");
 
+// Sends an email containing the student's results.
 const sendEmailOfResults = (takenAssessment) => {
   console.log('SENDING EMAIL');
+
+  // Creates the transporter object, defining the mail service and the user authentication details.
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -27,6 +30,7 @@ const sendEmailOfResults = (takenAssessment) => {
   // Add to Body
   body += 'Date Taken: ' + dateTaken;
 
+  // Creates the mailOptions object, containing the sender information, the recipient, the subject text and the body text.
   const mailOptions = {
     from: 'derekkandler@gmail.com',
     to: getEmailAddress(takenAssessment.student.campusLocation),
@@ -34,6 +38,7 @@ const sendEmailOfResults = (takenAssessment) => {
     text: body
   }
 
+  // Sends the email to the recipient.
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
@@ -68,6 +73,7 @@ function addZeroIfNeeded(n) {
   return (n < 10) ? '0' + n : n;
 }
 
+// Exporting the module.
 module.exports = {
   sendEmailOfResults: sendEmailOfResults
 }
