@@ -70,13 +70,15 @@ export class LoginEngineService {
 
     this.http.get(environment.apiUrl + 'user/find/' + username)
     .subscribe(response => {
-      this.newUser = response.valueOf();
+      this.newUser = response;
+      console.log ('Response:', response);
       this.newUserUpdated.next(this.newUser);
-      this.helperService.openSnackBar('User found successful!', 'Close', 'success-dialog', 5000);
+      // This is technically a success, but we do not want a user to be found to changed to style as error
+      this.helperService.openSnackBar('This user already exists!', 'Close', 'error-dialog', undefined);
       this.helperService.isLoading = false;
     },
     error => {
-      this.helperService.openSnackBar('User not found', 'Close', 'error-dialog', 5000);
+      this.helperService.openSnackBar('User not found', 'Close', 'success-dialog', 5000);
     });
   }
 

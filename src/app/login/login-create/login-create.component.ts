@@ -65,21 +65,23 @@ export class LoginCreateComponent implements OnInit {
 
           const loginMatchResponse = ValidationService.validateUserNameMatch(this.newUser, user);
 
+          if (passwordMatchResponse.result && loginMatchResponse.result) {
+            console.log('Ok to save');
+
+            // If the passwords match, send data to backend to store the new user
+            this.loginService.createUser(user);
+          }
           if (!passwordMatchResponse.result) {
             console.log('Passwords dont match');
 
             // If the passwords don't match, open snackbar error message
             this.helperService.openSnackBar(passwordMatchResponse.message, 'OK', 'error-dialog', undefined);
-          } else if (!loginMatchResponse.result) {
+          }
+          if (!loginMatchResponse.result) {
             console.log('User already exists');
 
             // If user already exists, open snackbar error message
             this.helperService.openSnackBar(loginMatchResponse.message, 'OK', 'error-dialog', undefined);
-          } else {
-            console.log('Ok to save');
-
-            // If the passwords match, send data to backend to store the new user
-            this.loginService.createUser(user);
           }
         });
     }
