@@ -1,4 +1,6 @@
+// Importing Mongoose.
 const mongoose = require('mongoose');
+
 // Import questionType mongoose objects for working with questions collection.
 const checkBoxModels = require("../models/question-types/checkbox");
 const multipleChoiceModels = require("../models/question-types/multiple-choice");
@@ -43,6 +45,7 @@ const createQuestionTypeFactory = function (question, collectionName) {
   }
 }
 
+// Switch Statement to find the correct update function when editing a question.
 const editQuestionFactory = function (question) {
   // Switch to internal fuction that updates an object.
   switch (question.questionType) {
@@ -96,8 +99,8 @@ function createCheckbox(question, collectionName = 'questions') {
   return q;
 }
 
+// Updates the provided checkbox question
 function updateCheckbox(question) {
-
   question.options.forEach((x) => {
     if (x._id === null) {
       x._id = mongoose.Types.ObjectId(),
@@ -158,8 +161,8 @@ function createMultipleChoice(question, collectionName = 'questions') {
   return q;
 }
 
+// Updates the provided Multiple Choice question.
 function updateMultipleChoice(question) {
-
   question.options.forEach((x) => {
     if (x._id === null) {
       x._id = mongoose.Types.ObjectId(),
@@ -189,7 +192,6 @@ function updateMultipleChoice(question) {
 //*************SHORT ANSWER OBJECT**************//
 //**********************************************//
 function createShortAnswer(question, collectionName = 'questions') {
-
  // The questionModel
  let q = null;
  switch (collectionName) {
@@ -223,8 +225,8 @@ function createShortAnswer(question, collectionName = 'questions') {
   return q;
 }
 
+// Updates the provided Short Answer question
 function updateShortAnswer(question) {
-
   question.matches.forEach((x) => {
     if (x._id === null) {
       x._id = mongoose.Types.ObjectId(),
@@ -282,6 +284,7 @@ function createTrueFalse(question, collectionName = 'questions') {
   return q;
 }
 
+// Updates the provided True False question.
 function updateTrueFalse(question) {
 
   // Update categories to convert id strings to ObjectIds
@@ -330,6 +333,7 @@ function createUpload(question, collectionName = 'questions') {
   return q;
 }
 
+// Updates the provided Upload question.
 function updateUpload(question) {
 
   // Update categories to convert id strings to ObjectIds
