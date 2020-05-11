@@ -53,6 +53,7 @@ export class AssessmentEngineService implements OnDestroy {
   private takenAssessmentUpdated = new Subject<TakenAssessment>();
   private takenAssessmentId: string;
   private takenAssessmentIdUpdated = new Subject<string>();
+  public searchParameters: string[] = [];
 
   // Keeping track of questions
   public currentQuestion: Question;
@@ -555,7 +556,6 @@ export class AssessmentEngineService implements OnDestroy {
       .subscribe(
         responseData => {
           // tslint:disable-next-line: max-line-length
-          this.helperService.openSnackBar(student.uniqueStudentIdentifier + ' Saved Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.student);
@@ -578,7 +578,7 @@ export class AssessmentEngineService implements OnDestroy {
       .subscribe(
         responseData => {
           // tslint:disable-next-line: max-line-length
-          this.helperService.openSnackBar(takenAssessment.assessment.name + ' URL has been created!', 'Close', 'success-dialog', 5000);
+          this.helperService.openSnackBar(takenAssessment.assessment.name + ' URL has been copied to clipboard!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData);
@@ -598,6 +598,9 @@ export class AssessmentEngineService implements OnDestroy {
     // isLoading is used to add a spinner
     this.helperService.isLoading = true;
 
+    // populateSearchParameters so the student's records display upon updating
+    const searchParameters = this.helperService.generateUniqueStudentId(student);
+
     console.log('In Service', student.studentId);
 
     // tslint:disable-next-line: max-line-length
@@ -607,11 +610,14 @@ export class AssessmentEngineService implements OnDestroy {
           // Success message at the bottom of the screen
           // console log information about the response for debugging
           this.helperService.openSnackBar(student.firstName + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
-          this.helperService.isLoading = false;
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.updatedStudent);
-          this.router.navigate(['/student/list']);
+          this.helperService.isLoading = false;
+          // Give time for the updated student object to save to the database
+          setTimeout(() => {
+            this.router.navigate(['/student/list', searchParameters]);
+          }, 0);
         },
         error => {
           // log error message from server
@@ -632,9 +638,7 @@ export class AssessmentEngineService implements OnDestroy {
     this.http.post<{ message: string, updatedTakenAssessment: TakenAssessment }>(environment.apiUrl + 'assessment/updateTaken', takenAssessment)
       .subscribe(
         responseData => {
-          // Success message at the bottom of the screen
           // console log information about the response for debugging
-          this.helperService.openSnackBar(takenAssessment.assessment.name + ' Updated Successfully!', 'Close', 'success-dialog', 5000);
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.updatedTakenAssessment);

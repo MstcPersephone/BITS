@@ -9,6 +9,7 @@ import { AssessmentListComponent } from './assessments/assessment/assessment-lis
 import { CreateAssessmentComponent} from './assessments/assessment/create-assessment/create-assessment.component';
 import { EditAssessmentComponent } from './assessments/assessment/edit-assessment/edit-assessment.component';
 import { ViewAssessmentComponent } from './assessments/assessment/view-assessment/view-assessment.component';
+import { ViewAssessmentQuestionsComponent } from './assessments/assessment/view-assessment-questions/view-assessment-questions.component';
 
 import { CreateQuestionComponent } from './questions/question/create-question/create-question.component';
 import { EditQuestionComponent } from './questions/question/edit-question/edit-question.component';
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'assessment/edit/:assessmentId', component: EditAssessmentComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'assessment/list', component: AssessmentListComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'assessment/view/:assessmentId', component: ViewAssessmentComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'assessmentQuestion/view/:questionId', component: ViewAssessmentQuestionsComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'assessment/take/:takenAssessmentId', component: AssessmentEngineComponent },
   { path: 'category', component: ManageCategoryComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'category/edit/:categoryId', component: EditCategoryComponent, canActivate: [AuthGuard, AdminGuard] },
@@ -51,8 +53,11 @@ const routes: Routes = [
   { path: 'question/view/:questionId', component: ViewQuestionComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'student/create', component: CreateStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/edit/:studentsId', component: EditStudentComponent, canActivate: [AuthGuard] },
+  { path: 'student/edit/:studentsId/:searchParameters', component: EditStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/list', component: ListStudentComponent, canActivate: [AuthGuard] },
+  { path: 'student/list/:searchParameters', component: ListStudentComponent, canActivate: [AuthGuard] },
   { path: 'student/view/:takenAssessmentId', component: ViewStudentComponent, canActivate: [AuthGuard] },
+  { path: 'student/view/:takenAssessmentId/:searchParameters', component: ViewStudentComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomepageComponent, canActivate: [AuthGuard] },
   { path: 'user/create', component: LoginCreateComponent, canActivate: [AuthGuard, AdminGuard]},
   { path: 'login', component: LoginViewComponent},

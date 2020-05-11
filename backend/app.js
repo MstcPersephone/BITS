@@ -35,6 +35,7 @@ const nodemailer = require('nodemailer');
 // ******************************************************** //
 const questionCollections = require("./models/question");
 const categoryCollection = require("./models/shared/category");
+const archiveCategory = require('./models/shared/category-archive');
 const assessmentCollection = require("./models/assessment");
 const archiveAssessmentCollection = require("./models/assessment-archive");
 const studentCollection = require("./models/student");
@@ -133,6 +134,48 @@ app.post("/api/assessment/delete", checkAuth, (request, response, next) => {
       else {
         response.status(200).json({
           message: 'assessment archived successfully!'
+        });
+      }
+    });
+  },
+    error => {
+      console.log('ERROR', error.message);
+      response.status(400).json({
+        message: error.message
+      })
+    });
+});
+
+// *********************************************************** //
+// ******   ARCHIVE: CATEGORY FROM CATEGORY COLLECTION *** //
+// *********************************************************** //
+app.post("/api/category/delete", checkAuth, (request, response, next) => {
+  const category = request.body;
+
+  // Create archived model for the category
+  const categoryToArchive = new archiveCategory({
+    _id: category._id,
+    name: category.name,
+    modifiedOn: new Date(Date.now())
+  });
+
+
+  // Save the archive model to the archive category collection
+  categoryToArchive.save().then(() => {
+    // get the id of the original category
+    const objectId = mongoose.Types.ObjectId(category._id);
+
+    // pass the original category to the delete function
+    deleteById('categories', { _id: objectId }, function (resp, error) {
+      if (error) {
+        console.log('ERROR', error.message);
+        response.status(400).json({
+          message: error.message
+        })
+      }
+      else {
+        response.status(200).json({
+          message: 'category archived successfully!'
         });
       }
     });
@@ -392,8 +435,13 @@ app.get("/api/questions", checkAuth, (request, response, next) => {
         if (q.categories !== undefined && q.categories.length > 0) {
           // for each category attached to the question
           q.categories.forEach((c) => {
-            // Find the proper category array and push the question
-            organizedQuestions[c.name].push(q);
+            if (organizedQuestions[c.name] !== undefined) {
+              // Find the proper category array and push the question
+              organizedQuestions[c.name].push(q);
+            } else {
+              console.log('Add question to sorted list failed: ', q);
+              console.log('Question contains a category that does not exist: ', c);
+            }
           });
         }
       });
@@ -767,8 +815,8 @@ app.post("/api/assessment/update/", checkAuth, (request, response, next) => {
 
 app.post("/api/category/update", checkAuth, (request, response, next) => {
   const requestedUpdate = request.body;
-
-  mongoose.connection.db.collection('categories').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id.toString()) }, { $set: { name: requestedUpdate.name } }, function (error, updatedCategory) {
+  console.log('Update Id Type: ', requestedUpdate._id);
+  mongoose.connection.db.collection('categories').updateOne({ _id: mongoose.Types.ObjectId(requestedUpdate._id) }, { $set: { name: requestedUpdate.name } }, function (error, updatedCategory) {
     updateQuestionCategories(requestedUpdate);
     // Send a successful response message and an array of categories to work with.
     response.status(200).json({
@@ -877,7 +925,6 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
   // Stores data for updating backend properties
   const requestedUpdate = request.body;
 
-
   // Stores the updated taken assessment data
   const update = {
     // id: requestedUpdate._id,
@@ -934,7 +981,8 @@ function deleteById(name, query, callBack) {
 
 // Updates all questions that have the updated category with the updated name
 function updateQuestionCategories(updatedCategory) {
-  mongoose.connection.db.collection('questions').updateMany({ categories: { $elemMatch: { _id: mongoose.Types.ObjectId(updatedCategory._id) } } }, { $set: { "categories.$.name": updatedCategory.name } });
+  const idStrings = [updatedCategory._id, mongoose.Types.ObjectId(updatedCategory._id)];
+  mongoose.connection.db.collection('questions').updateMany({ categories: { $elemMatch: { _id: {$in: idStrings} } } }, { $set: { "categories.$.name": updatedCategory.name } });
 }
 
 // Updates all taken assessments student data when the student collection document is updated.

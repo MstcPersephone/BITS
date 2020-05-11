@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { AssessmentService } from 'src/app/services/assessment.service';
@@ -7,6 +7,7 @@ import { TakenAssessment } from '../../models/taken-assessment.model';
 import { Assessment } from '../../models/assessment.model';
 import { Student } from '../../models/student.model';
 import { Question } from '../../models/question.interface';
+import * as copy from 'copy-to-clipboard';
 
 @Component({
   selector: 'app-taken-assessment',
@@ -20,7 +21,7 @@ export class TakenAssessmentComponent implements OnInit {
   public assessmentList: Assessment[] = [];
   takenAssessmentId;
   selectedAssessment: any;
-
+  generatedURL = '';
 
   constructor(
     private assessmentService: AssessmentService,
@@ -40,6 +41,8 @@ export class TakenAssessmentComponent implements OnInit {
     this.takenAssessmentIdSubscription = this.assessmentEngineService.getTakenAssessmentIdUpdateListener()
       .subscribe((takenAssessmentId: string) => {
         this.takenAssessmentId = takenAssessmentId;
+        this.generatedURL = location.origin + '/assessment/take/' + this.takenAssessmentId;
+        copy(this.generatedURL);
       });
   }
 
@@ -53,5 +56,4 @@ export class TakenAssessmentComponent implements OnInit {
     takenAssessment.studentPassed = null;
     this.assessmentEngineService.saveTakenAssessment(takenAssessment);
   }
-
 }

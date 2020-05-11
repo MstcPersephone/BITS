@@ -13,6 +13,7 @@ import { ValidationService } from '../../services/validation.service';
   styleUrls: ['./edit-student.component.css']
 })
 export class EditStudentComponent implements OnInit {
+  searchParameters = '';
   editStudentForm;
   studentSubscription: Subscription;
   student: Student;
@@ -29,7 +30,7 @@ export class EditStudentComponent implements OnInit {
     public helperService: HelperService,
     private formBuilder: FormBuilder) {
     this.editStudentForm = this.formBuilder.group({
-      studentId: ['', [ValidationService.studentIdLength, ValidationService.numberValidator]],
+      studentId: ['', [ValidationService.studentIdLength, ValidationService.leadingZeros]],
       firstName: ['', [Validators.required, ValidationService.alphaValidator]],
       lastName: ['', [Validators.required, ValidationService.alphaValidator]],
       dateOfBirth: ['', [Validators.required]],
@@ -42,6 +43,13 @@ export class EditStudentComponent implements OnInit {
   }
 
   ngOnInit() {
+    const params = this.route.snapshot.params;
+    console.log('searchParamters', params.searchParameters);
+    // If search parameters where passed, store them.
+    if (params.searchParameters !== '') {
+      this.searchParameters = params.searchParameters;
+    }
+
     this.studentSubscription = this.assessmentEngineService.getCurrentStudentUpdateListener()
       .subscribe((student: Student) => {
         this.student = student;
@@ -87,8 +95,6 @@ export class EditStudentComponent implements OnInit {
       updatedStudent.lastAssessmentDate = this.student.lastAssessmentDate;
       updatedStudent.previousScores = this.student.previousScores;
       updatedStudent.uniqueStudentIdentifier = this.helperService.generateUniqueStudentId(updatedStudent);
-
-      console.log(updatedStudent);
 
       // Sends the data to the service to handle passing data for saving in database
       this.assessmentEngineService.updateStudent(updatedStudent);

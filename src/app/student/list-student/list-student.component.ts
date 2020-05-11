@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSort, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -13,7 +14,7 @@ import { HelperService } from '../../services/helper.service';
   templateUrl: './list-student.component.html',
   styleUrls: ['./list-student.component.css']
 })
-export class ListStudentComponent implements OnInit {
+export class ListStudentComponent implements OnInit, OnDestroy {
   findStudentForm;
   maxDate: Date;
   minDate: Date;
@@ -30,6 +31,7 @@ export class ListStudentComponent implements OnInit {
 
 
   constructor(
+    private route: ActivatedRoute,
     public assessmentEngineService: AssessmentEngineService,
     public helperService: HelperService,
     private formBuilder: FormBuilder) {
@@ -46,6 +48,33 @@ export class ListStudentComponent implements OnInit {
   }
 
   ngOnInit() {
+    const params = this.route.snapshot.params;
+
+    if (params.searchParameters !== undefined && params.searchParameters !== '') {
+      this.assessmentEngineService.searchParameters = this.helperService.convertSearchParametersToArray(params.searchParameters);
+    }
+
+    if (this.assessmentEngineService.searchParameters !== []) {
+      this.assessmentEngineService.getFilteredTakenAssessment(this.assessmentEngineService.searchParameters);
+      this.takenAssessmentsSubscription = this.assessmentEngineService.getTakenAssessmentsUpdateListener()
+        .subscribe((takenAssessmentArray: any) => {
+          this.dataSource.data = takenAssessmentArray;
+          console.log(this.dataSource.data);
+          this.showTableData = true;
+        });
+
+    } else {
+      this.showTableData = false;
+    }
+
+    // Scrolls the window down to the table on page load (does not work for direct URL)
+    const tableEl = document.getElementById('resultsTable');
+    if (tableEl != null) {
+      tableEl.scrollIntoView();
+    }
+  }
+
+  ngOnDestroy() {
     this.showTableData = false;
   }
 
@@ -76,6 +105,8 @@ export class ListStudentComponent implements OnInit {
 
     console.log(searchParameters);
 
+    this.assessmentEngineService.searchParameters = searchParameters;
+
     this.assessmentEngineService.getFilteredTakenAssessment(searchParameters);
     this.takenAssessmentsSubscription = this.assessmentEngineService.getTakenAssessmentsUpdateListener()
       .subscribe((takenAssessmentArray: any) => {
@@ -84,6 +115,15 @@ export class ListStudentComponent implements OnInit {
       });
 
     this.dataSource.sort = this.sort;
+  }
+
+  getSearchParametersAsString() {
+    const sp = this.assessmentEngineService.searchParameters;
+    if (sp.length > 0) {
+      return this.helperService.convertSearchParametersToString(sp);
+    } else {
+      return '';
+    }
   }
 
 }

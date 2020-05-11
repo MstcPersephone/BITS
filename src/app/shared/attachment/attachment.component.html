@@ -1,24 +1,37 @@
+<!-- Attachment Component - Displays on the Create / Edit Question components. -->
+
+<!-- The "Does this question have attachments?" checkbox, which displays the Upload File button and the thumbnailFlex div when checked. -->
 <mat-checkbox [checked]="attachmentsLoaded == null ? this.attachmentService.hasAttachments : attachmentsLoaded"
   class="mt-20" (change)="this.attachmentService.hasAttachmentsChanged()">Does this question have attachments?
 </mat-checkbox>
 
+<!-- Hidden input used to upload the files. -->
 <input hidden type="file" #uploader (change)="this.attachmentService.uploadFiles($event)" multiple />
 
-
+<!-- The Upload File button - displays when the user clicks the attachments checkbox. -->
 <button type="button" (click)="uploader.click()" *ngIf="this.attachmentService.hasAttachments" mat-raised-button
   color="accent" class="mt-20">Upload File &nbsp;<mat-icon>cloud_upload</mat-icon></button>
 
+<!-- Flexbox used for displaying the attachments. -->
 <div class="thumbnailFlex">
+  <!-- For each attachment, adds a box display with the thumbnail and file name. -->
   <div *ngFor="let a of this.attachmentService.getAttachments()" class="thumbnail">
     <div class="thumbnailContainer">
+      <!-- If the attachment is an image, uses the image as the thumbnail. -->
       <img *ngIf="this.attachmentService.checkForImageFileType(a.fileType)" [src]="a.content" (click)="this.attachmentService.openImageInNewTab(a)" />
+
+      <!-- If the attachment is NOT an image, uses a mat-icon of a document as a thumbnail. -->
       <div class="noThumbnailContainer">
         <mat-icon *ngIf="!this.attachmentService.checkForImageFileType(a.fileType)">
           description
         </mat-icon>
       </div>
+
+      <!-- Displays the name of the attachment.-->
       <p>{{ a.name }}</p>
     </div>
+
+    <!-- The X button placed at the top-right of the thumbnail container. Used to remove the attachment from the question. -->
     <button class="closeIcon" mat-mini-fab type="button" (click)="this.attachmentService.removeAttachment(a)">
       <mat-icon>close</mat-icon>
     </button>

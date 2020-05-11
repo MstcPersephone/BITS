@@ -1,13 +1,23 @@
+<!-- View Attachment Component - used on the View Question component to display the download button and the image thumbnail when applicable. -->
+
+<!-- Div which holds the attachment content if the question has attachments. -->
 <div class="attachmentsContent" *ngIf="question.hasAttachments">
+  <!-- For each question, creates a div container for the attachment thumbnail and button display. -->
   <div *ngFor="let attachment of question.attachments">
-    <button class="uploadAnswer" mat-raised-button (click)="this.attachmentService.downloadAttachment(attachment)">
+
+    <div class="thumbnailAndButtonContainer" *ngIf="this.attachmentService.checkForImageFileType(attachment.fileType)">
+      <!-- If the attachment is an image, show the image within the question. -->
+      <img class="attachmentImage" [src]="attachment.content" (click)="this.attachmentService.openImageInNewTab(attachment)" />
+      <!-- Displaying the fitted download button for the attachment IF the attachmetn is an image. -->
+      <button class="downloadButton fittedButton" mat-raised-button (click)="this.attachmentService.downloadAttachment(attachment)">
+        {{attachment.name}} &nbsp;<mat-icon>cloud_download</mat-icon>
+      </button>
+    </div>
+
+    <!-- Displaying the small download button for the attachment IF the attachment is NOT an image. -->
+    <button *ngIf="!this.attachmentService.checkForImageFileType(attachment.fileType)" class="downloadButton"
+     mat-raised-button (click)="this.attachmentService.downloadAttachment(attachment)">
       {{attachment.name}} &nbsp;<mat-icon>cloud_download</mat-icon>
     </button>
-    <img *ngIf="this.attachmentService.checkForImageFileType(attachment.fileType)" [src]="attachment.content" (click)="this.attachmentService.openImageInNewTab(attachment)" />
-    <div class="noThumbnailContainer">
-      <mat-icon *ngIf="!this.attachmentService.checkForImageFileType(attachment.fileType)">
-        description
-      </mat-icon>
-    </div>
   </div>
 </div>

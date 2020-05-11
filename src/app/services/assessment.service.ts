@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Location } from '@angular/common';
 import { HelperService } from './helper.service';
 import { ValidationService } from './validation.service';
 import { Assessment } from '../models/assessment.model';
@@ -79,8 +78,7 @@ export class AssessmentService {
     private http: HttpClient,
     private router: Router,
     private helperService: HelperService,
-    public dialog: MatDialog,
-    private location: Location) { }
+    public dialog: MatDialog) { }
 
   // ******************************************************** //
   // ***************  ASSESSMENT FUNCTIONS  ***************** //
@@ -93,13 +91,6 @@ export class AssessmentService {
   getAssessmentsUpdateListener() {
     return this.assessmentsUpdated.asObservable();
   }
-
-  // A function to allow a user to return to an assessment view after viewing a single question from table
-  returnToAssessment() {
-    this.showBackButton = false;
-    this.location.back();
-  }
-
   // *************************************************** //
   // *********  ASSESSMENT: STATUS FUNCTIONS  ********** //
   // *************************************************** //
