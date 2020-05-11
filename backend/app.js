@@ -339,13 +339,18 @@ app.get("/api/categories", checkAuth, (request, response, next) => {
 });
 
 app.get("/api/category/questions/:id", checkAuth, (request, response, next) => {
+  // The category id coming from the front-end
   const categoryId = request.params.id;
+
+  // Converting the categoryId into both a string and ObjectId
+  // Mongoose sometimes saves nested document ids differently. This is a known issue on their end
+  // Accounting for both the string and ObjectId() takes care of any issues for us
   const idStrings = [categoryId, mongoose.Types.ObjectId(categoryId)];
   find('questions', { categories: { $elemMatch: { _id: {$in: idStrings} } } }, function (error, questions) {
     if (error) {
       throw error;
     }
-    // Assign questions to function-level variable
+    // If there are questions that come back, do not delete
     if (questions !== undefined && questions.length > 0) {
       // response.status(400).json({
       //   message: 'Cannot delete category that is attached to questions',
@@ -356,10 +361,12 @@ app.get("/api/category/questions/:id", checkAuth, (request, response, next) => {
       questions.forEach((q) => {
         console.log(q._id);
       })
-    } else {
+    }
+    // Else, you are ok to delete the category
+    else {
       console.log('NO QUESTIONS FOUND. OK TO DELETE CATEGORY');
       // DELETE LOGIC GOES HERE
-
+      // SUCCESS RESPONSE GOES HERE AFTER DELETE IS SUCCESSFUL
     }
 
   });
