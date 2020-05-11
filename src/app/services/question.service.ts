@@ -145,7 +145,7 @@ export class QuestionService {
       error => {
         this.helperService.isLoading = false;
         console.log('%c' + error.error.message, 'color: red;');
-        alert('Category in use and cannot be deleted at this time.');
+        this.helperService.openSnackBar('Category in use and cannot be deleted', 'Close', 'alert-dialog', 5000);
       });
    }
 
