@@ -107,7 +107,7 @@ export class QuestionService {
   deleteCategory(category: Category) {
     console.log(category.name);
 
-    this.http.get<{ message: string, questions: Question[]}>(environment.apiUrl + 'category/questions')
+    this.http.get<{ message: string, questions: Question[]}>(environment.apiUrl + 'category/questions/' + category._id)
     .subscribe((responseData) => {
       setTimeout(() => {
         console.log(responseData);

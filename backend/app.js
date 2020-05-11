@@ -338,21 +338,31 @@ app.get("/api/categories", checkAuth, (request, response, next) => {
   });
 });
 
-app.get("/api/category/questions", checkAuth, (request, response, next) => {
-  mongoose.connection.db.collection('questions').find({ categories: { $elemMatch: { _id: request._id } }})
-  .then((questions, error) => {
-    response.status(200).json({
-      message: 'Questions',
-      questions: [questions]
-    });
-  }, error => {
-    console.log('ERROR', error.message);
-    response.status(400).json({
-      message: error.message,
-      questions: null
-    })
-  });
+app.get("/api/category/questions/:id", checkAuth, (request, response, next) => {
+  const categoryId = request.params.id;
+  const idStrings = [categoryId, mongoose.Types.ObjectId(categoryId)];
+  find('questions', { categories: { $elemMatch: { _id: {$in: idStrings} } } }, function (error, questions) {
+    if (error) {
+      throw error;
+    }
+    // Assign questions to function-level variable
+    if (questions !== undefined && questions.length > 0) {
+      // response.status(400).json({
+      //   message: 'Cannot delete category that is attached to questions',
+      //   questions: questions
+      // });
+      console.log('QUESTIONS FOUND. CANNOT DELETE CATEGORY');
+      console.log('EXISTING QUESTION IDS: ')
+      questions.forEach((q) => {
+        console.log(q._id);
+      })
+    } else {
+      console.log('NO QUESTIONS FOUND. OK TO DELETE CATEGORY');
+      // DELETE LOGIC GOES HERE
 
+    }
+
+  });
   });
 
 // ********************************************************** //
