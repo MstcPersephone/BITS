@@ -74,6 +74,9 @@ export class LoginEngineService {
       this.newUserUpdated.next(this.newUser);
       this.helperService.openSnackBar('User found successful!', 'Close', 'success-dialog', 5000);
       this.helperService.isLoading = false;
+    },
+    error => {
+      this.helperService.openSnackBar('User not found', 'Close', 'error-dialog', 5000);
     });
   }
 

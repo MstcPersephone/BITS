@@ -13,8 +13,7 @@ router.post("/create", (request, response, next) => {
       password: hash,
       isAdmin: request.body.isAdmin
     });
-    user
-      .save()
+    user.save()
       .then(result => {
         response.status(201).json({
           message: "User created!",

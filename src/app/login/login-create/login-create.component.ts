@@ -33,10 +33,6 @@ export class LoginCreateComponent implements OnInit {
   ngOnInit() {
   }
 
-  findNewUser() {
-
-  }
-
   onSignup(formData) {
     const username = formData.username.toLowerCase();
 
@@ -59,8 +55,6 @@ export class LoginCreateComponent implements OnInit {
 
     // Second pass at validation to ensure that the passwords match
     if (this.signupForm.valid) {
-
-      this.findNewUser();
 
       this.loginService.findLogin(formData.username.toLowerCase());
       this.newUserSubscription = this.loginService.getNewUserListener()
