@@ -52,9 +52,7 @@ router.post("/login", (request, response, next) => {
     }
     // Create the token used to login - expires in 2 hours
     const token = jwt.sign({ username: fetchedUser.username, userId: fetchedUser._id },
-      // TODO: [PER-163] create a better secret for the token
-      'secret_this_should_be_longer_replace_before_publication',
-      // TODO: [PER-159] figure out max time for token to last
+      'this_is_a_secret_but_its_no_secret_this_application_was_built_by_the_fine_people_of_team_persephone_Janet_Derek_Orion_and_Tegan',
       { expiresIn: "2h" }
       );
       response.status(200).json({
