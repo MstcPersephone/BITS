@@ -105,22 +105,22 @@ export class QuestionService {
 
   // Archives a category
   deleteCategory(category: Category) {
-    console.log(category.name);
-
+    this.helperService.isLoading = true;
     this.http.get<{ message: string, questions: Question[]}>(environment.apiUrl + 'category/questions/' + category._id)
     .subscribe((responseData) => {
       setTimeout(() => {
         console.log(responseData);
-        if (responseData.questions === []) {
+        if (responseData.questions === null) {
+          this.helperService.isLoading = false;
             // Opens a dialog to confirm deletion of the question
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'Are you sure you wish to delete this category?',
-      hasBackdrop: true,
-      disableClose: true,
-      closeOnNavigation: true
+          const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+             data: 'Are you sure you wish to delete this category?',
+             hasBackdrop: true,
+             disableClose: true,
+             closeOnNavigation: true
     });
     // On closing dialog box either call the function to archive the question or cancel the deletion
-    dialogRef.afterClosed().subscribe(result => {
+          dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.helperService.isLoading = true;
         this.http
@@ -139,13 +139,13 @@ export class QuestionService {
             });
       }
     });
-       } else {
-         alert('Category in use and cannot be deleted at this time.');
        }
       }, 2000);
     },
       error => {
+        this.helperService.isLoading = false;
         console.log('%c' + error.error.message, 'color: red;');
+        alert('Category in use and cannot be deleted at this time.');
       });
    }
 

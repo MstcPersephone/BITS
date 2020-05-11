@@ -352,23 +352,19 @@ app.get("/api/category/questions/:id", checkAuth, (request, response, next) => {
     }
     // If there are questions that come back, do not delete
     if (questions !== undefined && questions.length > 0) {
-      // response.status(400).json({
-      //   message: 'Cannot delete category that is attached to questions',
-      //   questions: questions
-      // });
-      console.log('QUESTIONS FOUND. CANNOT DELETE CATEGORY');
-      console.log('EXISTING QUESTION IDS: ')
-      questions.forEach((q) => {
-        console.log(q._id);
-      })
+       response.status(400).json({
+        message: 'Cannot delete category that is attached to questions',
+        questions: questions
+       });
     }
     // Else, you are ok to delete the category
     else {
       console.log('NO QUESTIONS FOUND. OK TO DELETE CATEGORY');
-      // DELETE LOGIC GOES HERE
-      // SUCCESS RESPONSE GOES HERE AFTER DELETE IS SUCCESSFUL
+      response.status(200).json({
+        message: 'NO QUESTIONS FOUND. OK TO DELETE CATEGORY',
+        questions: null
+      });
     }
-
   });
   });
 
