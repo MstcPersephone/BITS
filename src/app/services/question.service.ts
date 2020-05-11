@@ -105,6 +105,7 @@ export class QuestionService {
 
   // Archives a category
   deleteCategory(category: Category) {
+    this.helperService.openSnackBar('Checking if category is in use...', 'Close', 'success-dialog', 5000);
     this.helperService.isLoading = true;
     this.http.get<{ message: string, questions: Question[]}>(environment.apiUrl + 'category/questions/' + category._id)
     .subscribe((responseData) => {
