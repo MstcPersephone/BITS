@@ -115,7 +115,7 @@ export class QuestionService {
           this.helperService.isLoading = false;
             // Opens a dialog to confirm deletion of the question
           const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-             data: 'Are you sure you wish to delete this category?',
+             data: 'This category is not currently in use. Are you sure you wish to delete this category?',
              hasBackdrop: true,
              disableClose: true,
              closeOnNavigation: true
