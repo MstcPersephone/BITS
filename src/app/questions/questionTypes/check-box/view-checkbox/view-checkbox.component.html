@@ -1,12 +1,7 @@
 <h3>{{ question.questionText }}</h3>
 
 <app-view-attachment [question]="question"></app-view-attachment>
+
 <mat-checkbox *ngFor="let option of question.options; index as i;" [value]="option.optionIsSelected"
   [checked]="option.optionIsSelected" (change)="onChangeOption($event, i)">{{ option.optionText }}</mat-checkbox>
-<!-- This button is for instructors view assessment questions only / not required for taking an assessment -->
-<div class="returnSection" *ngIf="this.assessmentService.showBackButton === true">
-  <!-- Return to Assessment Button : Resets showBackButton to false and returns to the current assessment view -->
-  <button class="returnButton" mat-raised-button (click)="this.assessmentService.returnToAssessment()">
-    Return to Assessment
-  </button>
-</div>
+  <br>
