@@ -36,9 +36,8 @@ export class LoginViewComponent implements OnInit {
       });
     }
 
-    if (!this.loginForm.valid) {
+    if (this.loginForm.valid) {
       this.loginService.loginUser(username, formData.password);
-      this.loginForm.reset();
     }
   }
 }
