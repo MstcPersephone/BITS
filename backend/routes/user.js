@@ -76,7 +76,7 @@ router.get("/find/:username", (request, response, next) => {
   console.log('User To Find', request.params.username);
   // Get all assessments from the database
   User.findOne( { username: request.params.username } ).then((user, error) => {
-    console.log('User Found', user.username);
+
     response.status(200).json({
       message: 'User exists!',
       username: user.username
