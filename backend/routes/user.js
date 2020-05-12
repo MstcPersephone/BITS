@@ -15,8 +15,7 @@ router.post("/create", (request, response, next) => {
       password: hash,
       isAdmin: request.body.isAdmin
     });
-    user
-      .save()
+    user.save()
       .then(result => {
         response.status(201).json({
           message: "User created!",
@@ -24,12 +23,14 @@ router.post("/create", (request, response, next) => {
         });
       })
       .catch(err => {
-        response.status(500).json({
-          error: err
-        });
+        response.status(400).json({
+          message: "This user name is already being used!",
+          result: null
+          });
       });
   });
 });
+
 
 // The middleware to login a user
 router.post("/login", (request, response, next) => {
@@ -44,10 +45,10 @@ router.post("/login", (request, response, next) => {
       }
       fetchedUser = user;
       // Compare the user entered password with password in database
-     return bcrypt.compare(request.body.password, user.password);
+      return bcrypt.compare(request.body.password, user.password);
     })
     .then(result => {
-      if(!result) {
+      if (!result) {
         return response.status(401).json({
           message: "Password does not match."
       });
@@ -69,5 +70,26 @@ router.post("/login", (request, response, next) => {
       });
     });
 });
+
+// The middleware to find a username
+router.get("/find/:username", (request, response, next) => {
+  console.log('User To Find', request.params.username);
+  // Get all assessments from the database
+  User.findOne( { username: request.params.username } ).then((user, error) => {
+    console.log('User Found', user.username);
+    response.status(200).json({
+      message: 'User exists!',
+      username: user.username
+    });
+  },
+    error => {
+      console.log('User Not Found', error.message);
+      response.status(400).json({
+        message: error.message,
+        username: null
+      })
+    })
+});
+
 
 module.exports = router;

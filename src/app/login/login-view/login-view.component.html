@@ -5,12 +5,16 @@
   <form [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm.value)" *ngIf="!this.helperService.isLoading">
     <mat-form-field>
       <input matInput name="username"  type="text" placeholder="Username" formControlName="username" required>
-
     </mat-form-field>
+    <app-validation-messages [control]="loginForm.get('username')"></app-validation-messages>
+
+
     <mat-form-field>
       <input type="password" name="password"  matInput placeholder="Password" formControlName="password" required>
-
     </mat-form-field>
+    <app-validation-messages [control]="loginForm.get('password')"></app-validation-messages>
+
+
     <button mat-raised-button class="addOption" type="submit">Login</button>
   </form>
 </mat-card>
