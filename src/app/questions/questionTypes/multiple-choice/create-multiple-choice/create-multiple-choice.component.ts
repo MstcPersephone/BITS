@@ -17,6 +17,7 @@ export class CreateMultipleChoiceComponent implements OnInit, OnDestroy {
   createMultipleChoiceForm;
   isValid; // stores the validation set in the question service
   showCancelButton = false;
+  showEditOption = false;
 
   constructor(
     public attachmentService: AttachmentService,
@@ -39,6 +40,9 @@ export class CreateMultipleChoiceComponent implements OnInit, OnDestroy {
   }
 
   clickAdd() {
+    // Show the saved options
+    this.showEditOption = true;
+
     // Will call validation when the option webform is visible
     if (this.questionService.showCreateOption) {
       document.getElementById('validateOption').click();
@@ -75,10 +79,23 @@ export class CreateMultipleChoiceComponent implements OnInit, OnDestroy {
     // Calls validation on parent form controls when submit button is clicked
     this.questionService.handleCreateQuestionFormValidation(multipleChoiceData);
 
-    // If the child form is loaded, calls validation on the child form when submit button is clicked
+    // If the child create form is loaded, calls validation on the child form when submit button is clicked
     if (this.questionService.showCreateOption) {
       document.getElementById('validateOption').click();
+    } else {
+      // Sets question service optionIsValid to true if the create option form was never opened
+      this.questionService.optionIsValid = true;
     }
+
+    // Calls validation on the edit child form when submit button is clicked
+    const options = this.questionService.getOptions();
+    if (options.length > 0) {
+      const optionElements = Array.from(document.getElementsByClassName('simulatedButtonMCClass'));
+      optionElements.forEach((o) => {
+        (o as HTMLButtonElement).click();
+      });
+    }
+
 
     // console.log('Points are valid', this.questionService.pointsIsValid);
     // console.log('Categories are valid', this.questionService.categoriesIsValid);
