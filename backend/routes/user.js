@@ -23,9 +23,10 @@ router.post("/create", (request, response, next) => {
         });
       })
       .catch(err => {
-        response.status(500).json({
-          error: err
-        });
+        response.status(400).json({
+          message: "This user name is already being used!",
+          result: null
+          });
       });
   });
 });
@@ -74,11 +75,11 @@ router.post("/login", (request, response, next) => {
 router.get("/find/:username", (request, response, next) => {
   console.log('User To Find', request.params.username);
   // Get all assessments from the database
-  User.findOne( { username: request.params.username } ).then((username, error) => {
-    console.log('User Found', username);
+  User.findOne( { username: request.params.username } ).then((user, error) => {
+    console.log('User Found', user.username);
     response.status(200).json({
       message: 'User exists!',
-      username: username
+      username: user.username
     });
   },
     error => {

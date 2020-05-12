@@ -34,8 +34,10 @@ export class LoginCreateComponent implements OnInit {
   }
 
   onSignup(formData) {
+    // convert form input value for username to lowercase
     const username = formData.username.toLowerCase();
 
+    // Create the new user from input values
     const user = new User();
     user.username = username;
     user.password = formData.password1;
@@ -53,37 +55,25 @@ export class LoginCreateComponent implements OnInit {
       });
     }
 
-    // Second pass at validation to ensure that the passwords match
     if (this.signupForm.valid) {
+      // Second pass at validation to ensure that the passwords match
+      const passwordMatchResponse = ValidationService.validatePasswordMatch(formData.password1, formData.password2);
 
-      this.loginService.findLogin(formData.username.toLowerCase());
-      this.newUserSubscription = this.loginService.getNewUserListener()
-        .subscribe((userData: any) => {
-          this.newUser = userData.username;
+      if (!passwordMatchResponse.result) {
+        // If the passwords don't match, open snackbar error message
+        this.helperService.openSnackBar(passwordMatchResponse.message, 'OK', 'error-dialog', undefined);
+      } else if (passwordMatchResponse.result) {
+        // if all other validation passes, next check if the username is already used
+        // Validation message will be called from service findLogin() if already exists
+        this.loginService.findLogin(formData.username.toLowerCase());
+        this.newUserSubscription = this.loginService.getNewUserListener()
+          .subscribe((userData: any) => {
+            this.newUser = userData.username;
+          });
 
-          const passwordMatchResponse = ValidationService.validatePasswordMatch(formData.password1, formData.password2);
-
-          const loginMatchResponse = ValidationService.validateUserNameMatch(this.newUser, user);
-
-          if (passwordMatchResponse.result && loginMatchResponse.result) {
-            console.log('Ok to save');
-
-            // If the passwords match, send data to backend to store the new user
-            this.loginService.createUser(user);
-          }
-          if (!passwordMatchResponse.result) {
-            console.log('Passwords dont match');
-
-            // If the passwords don't match, open snackbar error message
-            this.helperService.openSnackBar(passwordMatchResponse.message, 'OK', 'error-dialog', undefined);
-          }
-          if (!loginMatchResponse.result) {
-            console.log('User already exists');
-
-            // If user already exists, open snackbar error message
-            this.helperService.openSnackBar(loginMatchResponse.message, 'OK', 'error-dialog', undefined);
-          }
-        });
+        // If the username is not already in use, create the new user
+        this.loginService.createUser(user);
+      }
     }
   }
 }

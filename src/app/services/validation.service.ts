@@ -226,27 +226,6 @@ export class ValidationService {
     }
   }
 
-    // Validation to ensure a that that an email is not already used for a login
-    static validateUserNameMatch(newUser: any, existingUser: any): ValidationResponse {
-      console.log('Validator user names: ', newUser, existingUser);
-
-      // The response object that will be returned within this function
-      const response = new ValidationResponse();
-
-      if (newUser === null || existingUser.username !== newUser.username) {
-        // If this login is not currently being used, valid newUser to create
-        response.result = true;
-        response.message = 'Valid';
-        return response;
-      } else {
-        // otherwise invalid login name
-        response.result = false;
-        response.message = 'This login is already being used.';
-        return response;
-      }
-    }
-
-
   // Validation to ensure the wrong streak selection of assessment does not exceed number of available questions
   static validateMaxWrongStreak(assessment: Assessment): ValidationResponse {
 

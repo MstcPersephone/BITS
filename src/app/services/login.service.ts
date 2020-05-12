@@ -60,6 +60,10 @@ export class LoginEngineService {
       this.helperService.openSnackBar('User creation successful!', 'Close', 'success-dialog', 5000);
       this.router.navigate(['/home']);
       this.helperService.isLoading = false;
+    },
+    error => {
+      this.helperService.openSnackBar('User not created.', 'Close', 'error-dialog', 5000);
+
     });
   }
 
@@ -73,8 +77,8 @@ export class LoginEngineService {
       this.newUser = response;
       console.log ('Response:', response);
       this.newUserUpdated.next(this.newUser);
-      // This is technically a success, but we do not want a user to be found to changed to style as error
-      this.helperService.openSnackBar('This user already exists!', 'Close', 'error-dialog', undefined);
+      // Validation error message for username already in use
+      this.helperService.openSnackBar('This user name is already being used!', 'Close', 'error-dialog', undefined);
       this.helperService.isLoading = false;
     },
     error => {
