@@ -12,9 +12,14 @@
 
   <mat-card>
     <h3>Selectable Options</h3>
+    <br>
 
     <!-- This displays the options when option is saved by add option click -->
-    <app-list-option></app-list-option>
+    <div *ngIf="this.showEditOption">
+      <!-- This displays the options when option is saved by add option click -->
+      <app-edit-option *ngFor="let option of this.questionService.options; Index as i"
+        [option]="option" [i]="i"></app-edit-option>
+    </div>
 
     <!-- Calls the webform to create a new option.  Visisble on load. -->
     <app-create-option *ngIf="this.questionService.showCreateOption"></app-create-option>
@@ -36,6 +41,7 @@
   <button class="mt-20 saveButton" mat-raised-button type="submit">Save Question&nbsp;<mat-icon>save</mat-icon></button>
 
   <!-- Cancel Button : Cancels the save and send user back to question list -->
-  <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">Cancel Create Question&nbsp;<mat-icon>close
+  <button class="cancelOption" mat-raised-button [routerLink]="['/question/list']">Cancel Create Question&nbsp;
+    <mat-icon>close
     </mat-icon></button>
 </form>

@@ -101,11 +101,11 @@ export class EditMultipleChoiceComponent implements OnInit, OnDestroy {
       });
     }
 
-    console.log('Points are valid', this.questionService.pointsIsValid);
-    console.log('Categories are valid', this.questionService.categoriesIsValid);
-    console.log('Multiple Choice form is valid', this.editMultipleChoiceForm.valid);
-    console.log('Create Option form is valid', this.questionService.optionIsValid);
-    console.log('Edit Option has an invalid input', this.questionService.editOptionInvalid);
+    // console.log('Points are valid', this.questionService.pointsIsValid);
+    // console.log('Categories are valid', this.questionService.categoriesIsValid);
+    // console.log('Multiple Choice form is valid', this.editMultipleChoiceForm.valid);
+    // console.log('Create Option form is valid', this.questionService.optionIsValid);
+    // console.log('Edit Option has an invalid input', this.questionService.editOptionInvalid);
 
     // Calls validation on the current form when submit button is clicked
     if (!this.editMultipleChoiceForm.valid) {
