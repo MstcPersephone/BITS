@@ -6,7 +6,7 @@
 <div [formGroup]="answerForm">
   <mat-form-field>
     <mat-label>Enter Answer</mat-label>
-    <input matInput type="text" id="studentAnswer" formControlName="studentAnswer" (blur)="studentAnswer($event)">
+    <input matInput type="text" id="studentAnswer" formControlName="studentAnswer" (blur)="studentAnswer($event)" [value]="this.assessmentEngineService.studentShortAnswer">
   </mat-form-field>
 </div>
 <br>

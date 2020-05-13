@@ -26,6 +26,7 @@ import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confi
 })
 export class AssessmentEngineService implements OnDestroy {
 
+  public selectedTrueFalseAnswer: string;
   public studentShortAnswer = '';
   // Keeping track of question points and assessment score
   private possiblePoints = 0;
@@ -154,11 +155,11 @@ export class AssessmentEngineService implements OnDestroy {
 
       // Create an array of the exact match strings
       question.matches.forEach((m) => {
-        exactMatches.push(m.matchText);
+        exactMatches.push(m.matchText.trim());
       });
 
       // Check to see if the student answer is in the exact matches string array
-      if (exactMatches.includes(question.studentAnswer)) {
+      if (exactMatches.includes(question.studentAnswer.trim())) {
         isCorrect = true;
       }
     } else {
@@ -166,15 +167,17 @@ export class AssessmentEngineService implements OnDestroy {
       // Not case sensetive, so making everything lowercase
       question.matches.forEach((m) => {
         console.log('Exact Answer', m.matchText);
-        exactMatches.push(m.matchText.toLowerCase());
+        exactMatches.push(m.matchText.trim().toLowerCase());
       });
 
       // Also make student answer all lower case
-      if (exactMatches.includes(question.studentAnswer.toLowerCase())) {
-        console.log('student answer', question.studentAnswer.toLowerCase());
+      if (exactMatches.includes(question.studentAnswer.trim().toLowerCase())) {
+        console.log('student answer', question.studentAnswer.trim().toLowerCase());
         isCorrect = true;
       }
     }
+
+    this.studentShortAnswer = '';
 
     return new Promise((resolve, reject) => {
       resolve({ result: isCorrect });
@@ -185,6 +188,7 @@ export class AssessmentEngineService implements OnDestroy {
   // Both properties are booleans
   checkTrueFalse(question: TrueFalse) {
     const isCorrect = question.studentAnswer === question.answer ? true : false;
+    this.selectedTrueFalseAnswer = '';
     return new Promise((resolve, reject) => {
       resolve({ result: isCorrect });
     });

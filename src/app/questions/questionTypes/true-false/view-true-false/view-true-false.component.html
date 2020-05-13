@@ -1,7 +1,7 @@
 <h3>{{ question.questionText }}</h3>
 
 <app-view-attachment [question]="question"></app-view-attachment>
-<mat-radio-group>
+<mat-radio-group [(ngModel)]="this.assessmentEngineService.selectedTrueFalseAnswer">
   <mat-radio-button [value]="true" (change)="onChangeOption($event)">True</mat-radio-button>
   <mat-radio-button [value]="false" (change)="onChangeOption($event)">False</mat-radio-button>
 </mat-radio-group>
