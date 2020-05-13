@@ -16,7 +16,7 @@ answerForm;
 
   constructor(
     public assessmentService: AssessmentService,
-    private assessmentEngineService: AssessmentEngineService,
+    public assessmentEngineService: AssessmentEngineService,
     private formBuilder: FormBuilder
   ) {
     this.answerForm = this.formBuilder.group({

@@ -10,12 +10,13 @@ import { AssessmentEngineService } from 'src/app/services/assessment-engine.serv
   styleUrls: ['./view-true-false.component.css']
 })
 export class ViewTrueFalseComponent implements OnInit {
+
 answerForm;
 @Input() question: TrueFalse;
 
   constructor(
     public assessmentService: AssessmentService,
-    private assessmentEngineService: AssessmentEngineService,
+    public assessmentEngineService: AssessmentEngineService,
     private formBuilder: FormBuilder
   ) {
     this.answerForm = this.formBuilder.group({});
