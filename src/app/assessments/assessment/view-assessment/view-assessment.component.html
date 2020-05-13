@@ -6,10 +6,10 @@
   <h1 class="mat-display-1">Manage Assessment</h1>
 
   <!-- Container holding the assessment details -->
-  <mat-card class="assessmentDetailContainer">
+  <mat-card class="assessmentDetailContainer" *ngIf="this.assessment !== undefined">
 
     <!-- Assessment Detail Header - Assessment Name and Edit/Delete Options -->
-    <section class="assessmentDetailHeader">
+    <section class="assessmentDetailHeader" *ngIf="this.assessment !== undefined">
       <h3>{{ assessment.name }}</h3>
       <section class="optionContainer">
         <mat-icon class="deleteIcon" (click)="this.assessmentService.deleteAssessmentById(assessment)" matListIcon>delete</mat-icon>
@@ -81,8 +81,10 @@
     </mat-grid-tile>
 
   </mat-grid-list>
+</mat-card>
 
-  <h4>Assessment Questions</h4>
+
+  <h4>{{ assessment.name }} Questions</h4>
 
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
@@ -111,7 +113,6 @@
     (click)="selectRow(row._id)"></tr>
 
     </table>
-  </mat-card>
 
   <br>
 
