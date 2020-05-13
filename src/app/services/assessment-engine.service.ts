@@ -57,7 +57,7 @@ export class AssessmentEngineService implements OnDestroy {
 
   // Keeping track of questions
   public currentQuestion: Question;
-  private currentQuestionIndex = 0;
+  public currentQuestionIndex = 0;
   private currentQuestionUpdated = new Subject<Question>();
 
   // Keeping track of students

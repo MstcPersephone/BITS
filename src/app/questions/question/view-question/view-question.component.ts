@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { QuestionService } from 'src/app/services/question.service';
 import { AssessmentService } from 'src/app/services/assessment.service';
+import { AssessmentEngineService } from 'src/app/services/assessment-engine.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { Question } from 'src/app/models/question.interface';
 
@@ -22,6 +23,7 @@ export class ViewQuestionComponent implements OnInit {
   private questionsSubscription: Subscription;
   constructor(
     private assessmentService: AssessmentService,
+    public assessmentEngineService: AssessmentEngineService,
     public questionService: QuestionService,
     public helperService: HelperService,
     public route: ActivatedRoute,
