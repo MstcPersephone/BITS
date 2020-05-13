@@ -375,12 +375,15 @@ export class AssessmentEngineService implements OnDestroy {
   startAssessment(questions: Question[], assessment: Assessment) {
     this.currentQuestion = questions[0];
     this.assessmentStarted = true;
+    // on start assessment click starts the timer to track the students time spent on the current question
     this.startQuestionTimer();
   }
 
   acceptAnswer(isQuitAssessment = false) {
     const question = this.currentQuestion;
-    this.startQuestionTimer();
+
+    // on save question click stops the timer which tracks the students time spent on the current question
+    this.stopQuestionTimer();
 
     if (question.questionType === QuestionType.ShortAnswer) {
       (question as ShortAnswer).studentAnswer = this.studentShortAnswer;
@@ -435,6 +438,7 @@ export class AssessmentEngineService implements OnDestroy {
         }
 
         if (isQuitAssessment) {
+          // on quit assessment click stops the timer which tracks the students time spent on the current question
           this.stopQuestionTimer();
           this.checkAssessment();
 
@@ -447,6 +451,7 @@ export class AssessmentEngineService implements OnDestroy {
 
         // Else, there are no more questions, and the assessment needs to submit
       } else {
+        // on finish assessment click stops the timer which tracks the students time spent on the current question
         this.stopQuestionTimer();
         this.checkAssessment();
       }
@@ -471,13 +476,11 @@ export class AssessmentEngineService implements OnDestroy {
 
   // Updates the current question and notifies subscribers
   goToNextQuestion() {
-
-    this.stopQuestionTimer();
-
     const newQuestionIndex = this.currentQuestionIndex + 1;
     this.currentQuestion = this.questions[newQuestionIndex];
     this.currentQuestionIndex = newQuestionIndex;
     this.currentQuestionUpdated.next(this.currentQuestion);
+    // on save question click starts the timer to track the students time spent on the current question
     this.startQuestionTimer();
   }
 
@@ -486,6 +489,7 @@ export class AssessmentEngineService implements OnDestroy {
     return this.questions.length !== this.currentQuestionIndex + 1 ? true : false;
   }
 
+  // starts the timer to count down a timed test
   startTimer(duration: number) {
     const durationInMilliseconds = duration * 60000;
     setTimeout(() => {
@@ -493,6 +497,8 @@ export class AssessmentEngineService implements OnDestroy {
     }, durationInMilliseconds);
   }
 
+  // starts the timer to track the students time spent on the current question
+  // logic could allow for a "pause" but not currently implemented
   startQuestionTimer() {
     this.running = !this.running;
     if (this.running) {
@@ -503,6 +509,7 @@ export class AssessmentEngineService implements OnDestroy {
     }
   }
 
+  // stops the timer which tracks the students time spent on the current question
   stopQuestionTimer() {
     if (this.currentQuestion.isAnswered) {
       this.currentQuestion.duration = this.counter;
@@ -705,5 +712,5 @@ export class AssessmentEngineService implements OnDestroy {
     this.currentQuestionIndex = 0;
     this.currentStudent = null;
     this.assessmentStudent = null;
-    }
+  }
 }
