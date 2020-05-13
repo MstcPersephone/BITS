@@ -1,4 +1,6 @@
+// Importing Mongoose.
 const mongoose = require('mongoose');
+
 // Import questionType mongoose objects for working with questions collection.
 const checkBoxModels = require("../models/question-types/checkbox");
 const multipleChoiceModels = require("../models/question-types/multiple-choice");
@@ -17,6 +19,9 @@ const shortAnswerArchiveModel = shortAnswerModels.archive;
 const uploadModel = uploadModels.question;
 const uploadArchiveModel = uploadModels.archive;
 
+const categoryCollection = require("../models/shared/category");
+
+
 //*************************************************************//
 //****SWITCH STATEMENT TO FIND THE CORRECT QUESTION BY TYPE****//
 //*************************************************************//
@@ -32,7 +37,7 @@ const createQuestionTypeFactory = function (question, collectionName) {
     case "Short Answer":
       return createShortAnswer(question, collectionName);
 
-    case "True False":
+    case "True or False":
       return createTrueFalse(question, collectionName);
 
     case "Upload":
@@ -40,6 +45,7 @@ const createQuestionTypeFactory = function (question, collectionName) {
   }
 }
 
+// Switch Statement to find the correct update function when editing a question.
 const editQuestionFactory = function (question) {
   // Switch to internal fuction that updates an object.
   switch (question.questionType) {
@@ -49,7 +55,7 @@ const editQuestionFactory = function (question) {
       return updateShortAnswer(question);
     case "Multiple Choice":
       return updateMultipleChoice(question);
-    case "True False":
+    case "True or False":
       return updateTrueFalse(question);
     case "Upload":
       return updateUpload(question);
@@ -93,8 +99,8 @@ function createCheckbox(question, collectionName = 'questions') {
   return q;
 }
 
+// Updates the provided checkbox question
 function updateCheckbox(question) {
-
   question.options.forEach((x) => {
     if (x._id === null) {
       x._id = mongoose.Types.ObjectId(),
@@ -102,9 +108,12 @@ function updateCheckbox(question) {
     }
   });
 
+  // Update categories to convert id strings to ObjectIds
+  const categories = updateCategories(question);
+
   // creates an object for updating
   return {
-    categories: question.categories,
+    categories: categories,
     questionText: question.questionText,
     questionType: question.questionType,
     options: question.options,
@@ -152,8 +161,8 @@ function createMultipleChoice(question, collectionName = 'questions') {
   return q;
 }
 
+// Updates the provided Multiple Choice question.
 function updateMultipleChoice(question) {
-
   question.options.forEach((x) => {
     if (x._id === null) {
       x._id = mongoose.Types.ObjectId(),
@@ -161,9 +170,12 @@ function updateMultipleChoice(question) {
     }
   });
 
+  // Update categories to convert id strings to ObjectIds
+  const categories = updateCategories(question);
+
   // creates an object for updating
   return {
-    categories: question.categories,
+    categories: categories,
     questionText: question.questionText,
     questionType: question.questionType,
     options: question.options,
@@ -180,7 +192,6 @@ function updateMultipleChoice(question) {
 //*************SHORT ANSWER OBJECT**************//
 //**********************************************//
 function createShortAnswer(question, collectionName = 'questions') {
-
  // The questionModel
  let q = null;
  switch (collectionName) {
@@ -214,8 +225,8 @@ function createShortAnswer(question, collectionName = 'questions') {
   return q;
 }
 
+// Updates the provided Short Answer question
 function updateShortAnswer(question) {
-
   question.matches.forEach((x) => {
     if (x._id === null) {
       x._id = mongoose.Types.ObjectId(),
@@ -223,10 +234,12 @@ function updateShortAnswer(question) {
     }
   });
 
+  // Update categories to convert id strings to ObjectIds
+  const categories = updateCategories(question);
 
   // creates an object for updating
   return {
-    categories: question.categories,
+    categories: categories,
     questionText: question.questionText,
     questionType: question.questionType,
     hasAttachments: question.hasAttachments,
@@ -271,9 +284,14 @@ function createTrueFalse(question, collectionName = 'questions') {
   return q;
 }
 
+// Updates the provided True False question.
 function updateTrueFalse(question) {
+
+  // Update categories to convert id strings to ObjectIds
+  const categories = updateCategories(question);
+
   return {
-    categories: question.categories,
+    categories: categories,
     questionText: question.questionText,
     questionType: question.questionType,
     hasAttachments: question.hasAttachments,
@@ -315,9 +333,14 @@ function createUpload(question, collectionName = 'questions') {
   return q;
 }
 
+// Updates the provided Upload question.
 function updateUpload(question) {
+
+  // Update categories to convert id strings to ObjectIds
+  const categories = updateCategories(question);
+
   return {
-    categories: question.categories,
+    categories: categories,
     questionText: question.questionText,
     questionType: question.questionType,
     hasAttachments: question.hasAttachments,
@@ -330,6 +353,19 @@ function updateUpload(question) {
     isAnsweredCorrectly: question.isAnsweredCorrectly,
     modifiedOn: new Date(Date.now())
   }
+}
+
+// Translate id strings to ObjectIds
+function updateCategories(question) {
+  const categories = [];
+  question.categories.forEach((c) => {
+    const category = new categoryCollection();
+    category._id = mongoose.Types.ObjectId(c._id);
+    category.name = c.name;
+    categories.push(category);
+  });
+
+  return categories;
 }
 
 // Exports the question object with all properties attached to it.

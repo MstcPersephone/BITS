@@ -4,14 +4,14 @@
 <mat-card *ngIf="!this.helperService.isLoading && !this.assessmentTaken">
   <!-- The "Starting [assessment name] Assessment" header - displays before the assessment has been started. -->
   <h1 class="mat-display-1" *ngIf="!this.assessmentEngineService.assessmentStarted">Starting {{this.takenAssessment.assessment.name}}</h1>
-  <p>
+  <p *ngIf="!this.assessmentEngineService.assessmentStarted">
     Please enter your information in the form below.
     When you're ready to start your test, click the Start Assessment button at the bottom of the page.
   </p>
-  <p>
+  <p *ngIf="!this.assessmentEngineService.assessmentStarted">
     Answer each question to the best of your ability.
+    <br>
   </p>
-  <br>
 
   <!-- The Enter Student Information form - displays before the assessment has been started. -->
   <app-create-student *ngIf="!this.assessmentEngineService.assessmentStarted"></app-create-student>

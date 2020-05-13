@@ -12,10 +12,14 @@
 
   <mat-card>
     <h3>Selectable Options</h3>
+    <br>
 
     <!-- This displays the options when option is saved by add option click -->
-    <app-list-option></app-list-option>
-
+    <div *ngIf="this.showEditOption">
+      <!-- This displays the options when option is saved by add option click -->
+      <app-edit-option *ngFor="let option of this.questionService.options; Index as i"
+        [option]="option" [i]="i"></app-edit-option>
+    </div>
     <!-- Calls the webform to create a new option.  Visisble on load. -->
     <app-create-option *ngIf="this.questionService.showCreateOption"></app-create-option>
 

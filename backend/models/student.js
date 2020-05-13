@@ -1,3 +1,4 @@
+// Import Mongoose
 const mongoose = require('mongoose');
 
 // Import subdocument schemas

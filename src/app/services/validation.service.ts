@@ -24,8 +24,8 @@ export class ValidationService {
   static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
     const config = {
       // validates email pattern (this is a anguluar built in validation)
-      email:
-        'Must use a valid email: xxx@xxx.xxx.',
+      invalidEmail:
+        'Must use a valid email: xxx@xxx.xx',
 
       // alpha and spaces only (custom validation)
       invalidAlpha:
@@ -44,7 +44,11 @@ export class ValidationService {
         'Must have valid input.',
 
       // validates the string length (this is a anguluar built in validation)
-      minlength: `Minimum length of ${validatorValue.requiredLength} required.`,
+      minlength: `Minimum length of ${validatorValue.requiredLength} letters, numbers or characters required.`,
+
+      // numeric only allowed (custom validation)
+      numbersOnly:
+      'Must be numeric values only.',
 
       // required input (this is a anguluar built in validation)
       required:
@@ -75,6 +79,26 @@ export class ValidationService {
   }
 
   // called from the component.ts where the formbuilder is created
+  // ensures that value is not an empty string
+  static emailValidator(control) {
+    if (control.value !== '') {
+      control.markAsTouched();
+    }
+
+    // if the value does not pass validation, the property is assigned true, else null
+    if (control.touched) {
+      // tslint:disable-next-line: max-line-length
+      const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      // tslint:disable-next-line: max-line-length
+      if (control.value.match(reg)) {
+        return null;
+      } else {
+        return { invalidEmail: true };
+      }
+    }
+  }
+
+  // called from the component.ts where the formbuilder is created
   // validation for whole numeric value only
   static numberValidator(control) {
 
@@ -85,10 +109,29 @@ export class ValidationService {
 
     // if the value does not pass validation, the property is assigned true, else null
     if (control.touched) {
-      if (control.value.match(/^(0|[1-9][0-9]*)$/)) {
+      if (control.value.match(/\d{1,15}/)) {
         return null;
       } else {
-        return { invalidNumbers: true };
+        return { numbersOnly: true };
+      }
+    }
+  }
+
+  // called from the component.ts where the formbuilder is created
+  // validation for whole numeric value only
+  static leadingZeros(control) {
+
+    // This stops validation error messages from populating on load.
+    if (control.value !== '') {
+      control.markAsTouched();
+    }
+
+    // if the value does not pass validation, the property is assigned true, else null
+    if (control.touched) {
+      if (control.value.match(/^[0-9]{1,12}((\\.|,)[0-9]{0,2})?$/)) {
+        return null;
+      } else {
+        return { numbersOnly: true };
       }
     }
   }
