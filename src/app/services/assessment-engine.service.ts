@@ -480,7 +480,7 @@ export class AssessmentEngineService implements OnDestroy {
     this.currentQuestion = this.questions[newQuestionIndex];
     this.currentQuestionIndex = newQuestionIndex;
     this.currentQuestionUpdated.next(this.currentQuestion);
-    // on save question click starts the timer to track the students time spent on the current question
+    // when a next question is loaded starts the timer to track the students time spent on the current question
     this.startQuestionTimer();
   }
 
