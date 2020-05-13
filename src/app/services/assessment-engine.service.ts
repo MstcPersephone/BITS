@@ -214,9 +214,6 @@ export class AssessmentEngineService implements OnDestroy {
     this.assessmentStarted = false;
     const questions = this.questions;
 
-    // on save question click stops the timer which tracks the students time spent on the current question
-    this.stopQuestionTimer();
-
     // Loop through all the questions
     questions.forEach(q => {
       // If the student hit the quit button
@@ -444,7 +441,7 @@ export class AssessmentEngineService implements OnDestroy {
 
         if (isQuitAssessment) {
           // on quit assessment click stops the timer which tracks the students time spent on the current question
-          // this.stopQuestionTimer();
+          this.stopQuestionTimer();
           this.checkAssessment();
 
           // stop the rest of the function execution
@@ -457,7 +454,6 @@ export class AssessmentEngineService implements OnDestroy {
         // Else, there are no more questions, and the assessment needs to submit
       } else {
         // on finish assessment click stops the timer which tracks the students time spent on the current question
-        // this.startQuestionTimer();
         this.checkAssessment();
       }
     });
