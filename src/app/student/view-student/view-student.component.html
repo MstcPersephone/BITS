@@ -29,13 +29,13 @@
         <h4>Assessment Results</h4>
       </mat-grid-tile-header>
       <div *ngIf="takenAssessment.studentPassed !== null">
-        <!-- If they passed, displays 'No BITS Required' -->
+        <!-- If they passed, displays 'Course Not Required' -->
         <div *ngIf="takenAssessment.studentPassed">
-          <p>No BITS Required</p>
+          <p>Course Not Required</p>
         </div>
-        <!-- If they didn't pass, displays 'BITS Required' -->
+        <!-- If they didn't pass, displays 'Course Required' -->
         <div *ngIf="!takenAssessment.studentPassed">
-          <p>BITS Required</p>
+          <p>Course Required</p>
         </div>
       </div>
     </mat-grid-tile>

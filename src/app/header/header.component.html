@@ -5,8 +5,8 @@
     <img *ngIf="!this.helperService.isActiveAssessment" (click)="this.helperService.refreshComponent('/home')" src="assets/mstc_logo_white_transparent.gif"/>
     <img *ngIf="this.helperService.isActiveAssessment" src="assets/mstc_logo_white_transparent.gif"/>
     <!-- Header Title Text -->
-    <p *ngIf="!this.helperService.isActiveAssessment" (click)="this.helperService.refreshComponent('/home')">Basic IT Skills Assessment</p>
-    <p *ngIf="this.helperService.isActiveAssessment">Basic IT Skills Assessment</p>
+    <p *ngIf="!this.helperService.isActiveAssessment" (click)="this.helperService.refreshComponent('/home')">Skills Assessment</p>
+    <p *ngIf="this.helperService.isActiveAssessment">Skills Assessment</p>
     <!-- Navigation Menu Button-->
     <button color="accent" *ngIf="!this.helperService.isActiveAssessment" mat-raised-button [matMenuTriggerFor]="menu">
       <mat-icon>menu</mat-icon>
