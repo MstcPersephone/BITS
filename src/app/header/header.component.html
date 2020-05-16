@@ -23,6 +23,26 @@
         <a>Home</a>
       </button>
 
+      <!-- Create Question Button - displays if user is logged in AND is an admin -->
+      <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/question/create')">
+        <a>Create New Question</a>
+      </button>
+
+      <!-- View Questions Button - displays if user is logged in AND is an admin -->
+      <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/question/list')">
+        <a>View Questions</a>
+      </button>
+
+      <!-- Create Assessment Button - displays if user is logged in AND is an admin -->
+      <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/assessment/create')">
+        <a>Create New Assessment</a>
+      </button>
+
+      <!-- View Assessments Button - displays if user is logged in AND is an admin -->
+      <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/assessment/list')">
+        <a>View Assessments</a>
+      </button>
+
       <!-- Generate Assessment Button - displays if user is logged in -->
       <button mat-menu-item *ngIf="userIsAuthenticated" (click)="this.helperService.refreshComponent('/assessment/generate')">
         <a>Generate Assessment</a>
@@ -43,24 +63,9 @@
         <a>Create New User</a>
       </button>
 
-      <!-- Create Question Button - displays if user is logged in AND is an admin -->
-      <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/question/create')">
-        <a>Create New Question</a>
-      </button>
-
-      <!-- View Questions Button - displays if user is logged in AND is an admin -->
-      <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/question/list')">
-        <a>View Questions</a>
-      </button>
-
-      <!-- Create Assessment Button - displays if user is logged in AND is an admin -->
-      <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/assessment/create')">
-        <a>Create New Assessment</a>
-      </button>
-
-      <!-- View Assessments Button - displays if user is logged in AND is an admin -->
-      <button mat-menu-item *ngIf="userIsAuthenticated && this.loginService.isAdmin" (click)="this.helperService.refreshComponent('/assessment/list')">
-        <a>View Assessments</a>
+      <!-- Help Button - displays if user is logged in -->
+      <button mat-menu-item *ngIf="userIsAuthenticated" (click)="this.helperService.refreshComponent('/user/create')">
+        <a>Help</a>
       </button>
 
       <!-- Logout Button - displays if user is logged in -->

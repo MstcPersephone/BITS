@@ -5,62 +5,6 @@
 
   <mat-grid-list [cols]='4' gutterSize='10px' rowHeight="180px">
 
-    <!-- The Start Assessment button -->
-    <mat-grid-tile [colspan]='1'>
-      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/assessment/generate']">
-        <mat-icon>play_circle_outline</mat-icon>
-      </section>
-      <mat-grid-tile-footer>
-        <section class="homePageButtonFooterContainer flexContainer">
-          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/assessment/generate']">
-            <p>Generate Assessment</p>
-          </section>
-        </section>
-      </mat-grid-tile-footer>
-    </mat-grid-tile>
-
-    <!-- The Student button -->
-    <mat-grid-tile [colspan]='1'>
-      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/student/list']">
-        <mat-icon>portrait</mat-icon>
-      </section>
-      <mat-grid-tile-footer>
-        <section class="homePageButtonFooterContainer flexContainer">
-          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/student/list']">
-            <p>View Student Results</p>
-          </section>
-        </section>
-      </mat-grid-tile-footer>
-    </mat-grid-tile>
-
-    <!-- The Manage Categories button -->
-    <mat-grid-tile *ngIf="this.loginService.isAdmin" [colspan]='1'>
-      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/category']">
-        <mat-icon>subject</mat-icon>
-      </section>
-      <mat-grid-tile-footer>
-        <section class="homePageButtonFooterContainer flexContainer">
-          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/category']">
-            <p>Manage Categories</p>
-          </section>
-        </section>
-      </mat-grid-tile-footer>
-    </mat-grid-tile>
-
-    <!-- The Create New User button -->
-    <mat-grid-tile *ngIf="this.loginService.isAdmin" [colspan]='1'>
-      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/user/create']">
-        <mat-icon>group_add</mat-icon>
-      </section>
-      <mat-grid-tile-footer>
-        <section class="homePageButtonFooterContainer flexContainer">
-          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/user/create']">
-            <p>Create New User</p>
-          </section>
-        </section>
-      </mat-grid-tile-footer>
-    </mat-grid-tile>
-
     <!-- The Create Question button -->
     <mat-grid-tile  *ngIf="this.loginService.isAdmin" [colspan]='1'>
       <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/question/create']">
@@ -117,19 +61,89 @@
       </mat-grid-tile-footer>
     </mat-grid-tile>
 
-       <!-- The View Assessments button -->
+    <!-- The Generate Assessment button -->
+    <mat-grid-tile [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/assessment/generate']">
+        <mat-icon>play_circle_outline</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/assessment/generate']">
+            <p>Generate Assessment</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <!-- The Student button -->
+    <mat-grid-tile [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/student/list']">
+        <mat-icon>portrait</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/student/list']">
+            <p>View Student Results</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <!-- The Manage Categories button -->
+    <mat-grid-tile *ngIf="this.loginService.isAdmin" [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/category']">
+        <mat-icon>subject</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/category']">
+            <p>Manage Categories</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <!-- The Create New User button -->
+    <mat-grid-tile *ngIf="this.loginService.isAdmin" [colspan]='1'>
+      <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/user/create']">
+        <mat-icon>group_add</mat-icon>
+      </section>
+      <mat-grid-tile-footer>
+        <section class="homePageButtonFooterContainer flexContainer">
+          <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/user/create']">
+            <p>Create New User</p>
+          </section>
+        </section>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+
+    <!-- The Help button -->
        <mat-grid-tile [colspan]='1'>
-        <section class="homePageButtonClicker homePageButtonContainer flexContainer" (click)="this.loginService.logout()">
-          <mat-icon>meeting_room</mat-icon>
+        <section class="homePageButtonClicker homePageButtonContainer flexContainer" [routerLink]="['/user/create']">
+          <mat-icon>help_outline</mat-icon>
         </section>
         <mat-grid-tile-footer>
           <section class="homePageButtonFooterContainer flexContainer">
-            <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" (click)="this.loginService.logout()">
-              <p>Logout</p>
+            <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" [routerLink]="['/user/create']">
+              <p>Help</p>
             </section>
           </section>
         </mat-grid-tile-footer>
       </mat-grid-tile>
+
+      <!-- The View Assessments button -->
+         <mat-grid-tile [colspan]='1'>
+          <section class="homePageButtonClicker homePageButtonContainer flexContainer" (click)="this.loginService.logout()">
+            <mat-icon>meeting_room</mat-icon>
+          </section>
+          <mat-grid-tile-footer>
+            <section class="homePageButtonFooterContainer flexContainer">
+              <section class="homePageButtonFooterContent flexContainer homePageButtonClicker" (click)="this.loginService.logout()">
+                <p>Logout</p>
+              </section>
+            </section>
+          </mat-grid-tile-footer>
+        </mat-grid-tile>
 
   </mat-grid-list>
   <br>
