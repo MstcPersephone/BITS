@@ -97,8 +97,8 @@
       <th class="columnHeader" mat-header-cell *matHeaderCellDef mat-sort-header>Student Result</th>
       <td mat-cell *matCellDef="let takenAssessment">
         <div *ngIf="takenAssessment.studentPassed !== null">
-          <div *ngIf="takenAssessment.studentPassed">No BITS Required</div>
-          <div *ngIf="!takenAssessment.studentPassed">BITS Required</div>
+          <div *ngIf="takenAssessment.studentPassed">Course Not Required</div>
+          <div *ngIf="!takenAssessment.studentPassed">Course Required</div>
         </div>
       </td>
     </ng-container>
