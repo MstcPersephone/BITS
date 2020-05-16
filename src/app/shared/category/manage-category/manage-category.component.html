@@ -40,11 +40,11 @@
 
             <!-- Section containing the list item commands (Edit, Delete) -->
             <section class="categoryButtonContainer">
-              <mat-icon class="editIcon iconButton" matListIcon [routerLink]="['/category/edit', category._id]">edit
-              </mat-icon>
-
               <mat-icon class="deleteIcon iconButton" matListIcon (click)="this.questionService.deleteCategory(category)">
                 delete</mat-icon>
+
+              <mat-icon class="editIcon iconButton" matListIcon [routerLink]="['/category/edit', category._id]">edit
+              </mat-icon>
             </section>
           </mat-list-item>
 
