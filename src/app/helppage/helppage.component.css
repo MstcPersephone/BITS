@@ -1,0 +1,75 @@
+/* Importing global styles */
+@import '../../styles.css';
+
+/* Styles the expansion panel and it's related items. */
+mat-expansion-panel{
+  margin: auto;
+  width: 95%;
+  margin-bottom: 15px;
+  background-color: #f0f0f0;
+}
+mat-panel-title{
+  font-size: 18px;
+}
+
+/* Styles applied to the help content and the container for each help step. */
+.helpFlex, .helpStepFlex{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styles applied to the container for each help step. */
+.helpStepFlex{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+.helpStepFlex:last-of-type{
+  margin-bottom: 0;
+}
+
+/* Styles applied to the help step's text section (this is NOT the text itself) */
+.helpStepFlex .helpTextDiv{
+  width: 30%;
+  padding: 15px;
+  padding-right: 0;
+  margin-left: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styles applied to the help step's text. Text will be centered vertically within the step. */
+.helpStepFlex .helpTextDiv p{
+  font-size: 16px;
+  margin: auto;
+  margin-top: 0;
+  margin-bottom: 25px;
+}
+.helpStepFlex .helpTextDiv p:first-of-type{
+  margin-top: auto;
+}
+.helpStepFlex .helpTextDiv p:last-of-type{
+  margin-bottom: auto;
+}
+
+/* Styles applied to the help step's image section (this is NOT the image itself) */
+.helpStepFlex .helpImageDiv{
+  width: 70%;
+  padding: 15px;
+  margin-right: 0;
+  display: flex;
+  justify-items: center;
+}
+
+/* Styles applied to the help step's image. */
+.helpStepFlex .helpImageDiv img{
+  margin: auto;
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid #82142D;
+  border-radius: 5px;
+}
