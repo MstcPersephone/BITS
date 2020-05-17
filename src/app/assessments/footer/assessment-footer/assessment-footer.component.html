@@ -11,3 +11,8 @@
 <button *ngIf="isEditMode" class="cancelOption" mat-raised-button [routerLink]="['/assessment/view', assessment._id]">
   Cancel&nbsp;<mat-icon>close</mat-icon>
 </button>
+
+<button *ngIf="!isEditMode" class="cancelOption" mat-raised-button [routerLink]="['/assessment/list']">
+  Cancel&nbsp;<mat-icon>close</mat-icon>
+</button>
+
