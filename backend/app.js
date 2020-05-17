@@ -295,6 +295,11 @@ app.post("/api/filterTakenAssessments/", (request, response, next) => {
         takenAssessments: takenAssessments
       });
     }
+  })
+  .catch(err => {
+    return response.status(202).json({
+      message: "No search parameter required."
+    });
   });
 });
 
