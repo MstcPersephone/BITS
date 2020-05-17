@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginEngineService } from '../services/login.service';
+
 
 @Component({
   selector: 'app-helppage',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HelppageComponent implements OnInit {
 
-  constructor() { }
+  constructor(public loginService: LoginEngineService) { }
 
   ngOnInit() {
   }
