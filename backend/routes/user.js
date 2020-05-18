@@ -9,6 +9,7 @@ const router = express.Router();
 
 // The middleware to create a new user login
 router.post("/create", (request, response, next) => {
+  // Hash the password before creating user to store in database
   bcrypt.hash(request.body.password, 10).then(hash => {
     const user = new User({
       username: request.body.username,
