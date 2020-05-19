@@ -2,17 +2,31 @@
 <mat-spinner *ngIf="this.helperService.isLoading"></mat-spinner>
 <!-- The mat-card displayed before and during an assessment -->
 <mat-card *ngIf="!this.helperService.isLoading && !this.assessmentTaken">
+  <div *ngIf="this.takenAssessment !== undefined">
   <!-- The "Starting [assessment name] Assessment" header - displays before the assessment has been started. -->
-  <h1 class="mat-display-1" *ngIf="!this.assessmentEngineService.assessmentStarted">Starting
-    {{this.takenAssessment.assessment.name}}</h1>
-  <p *ngIf="!this.assessmentEngineService.assessmentStarted">
-    Please enter your information in the form below.
-    When you're ready to start your test, click the Start Assessment button at the bottom of the page.
-  </p>
-  <p *ngIf="!this.assessmentEngineService.assessmentStarted">
-    Answer each question to the best of your ability.
-    <br>
-  </p>
+  <h1 class="mat-display-1" *ngIf="!this.assessmentEngineService.assessmentStarted">
+    Starting {{this.takenAssessment.assessment.name}}
+  </h1>
+  <div *ngIf="!this.assessmentEngineService.assessmentStarted">
+    <p *ngIf="!this.takenAssessment.assessment.config.isTimed">
+      This assessment will consist of {{this.takenAssessment.assessment.questionIds.length}} questions. This assessment will not be timed.  You will NOT be able
+      to go back to previous questions, so make sure that you have answered the question correctly before moving
+      onto the next question. Take your time and read the questions completely providing answers to the best
+      of your ability.
+    </p>
+    <p *ngIf="this.takenAssessment.assessment.config.isTimed">
+      This assessment will consist of {{this.takenAssessment.assessment.questionIds.length}} questions to be
+      completed in {{this.takenAssessment.assessment.config.maxTime}} minutes.  You will NOT be able
+      to go back to previous questions, so make sure that you have answered the question correctly before moving
+      onto the next question. Take your time and read the questions completely providing answers to the best
+      of your ability.
+    </p>
+    <p>
+      Please enter your information in the form below.
+      When you're ready to start your test, click the Start Assessment button at the bottom of the page.
+      <br>
+    </p>
+  </div>
 
   <!-- The Enter Student Information form - displays before the assessment has been started. -->
   <app-create-student *ngIf="!this.assessmentEngineService.assessmentStarted"></app-create-student>
@@ -27,6 +41,7 @@
     <!-- The footer view which contains all the button controls -->
     <app-footer></app-footer>
   </form>
+</div>
 </mat-card>
 
 <!-- The mat-card displayed after taking an assessment. -->
