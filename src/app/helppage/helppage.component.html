@@ -235,6 +235,68 @@
     </div>
   </mat-expansion-panel>
 
+ <!-- The Creating a New Login expansion panel -->
+ <mat-expansion-panel *ngIf="this.loginService.isAdmin">
+  <!-- The panel header -->
+  <mat-expansion-panel-header>
+    <mat-panel-title>Creating a New Login</mat-panel-title>
+  </mat-expansion-panel-header>
+  <!-- The panel content body, displaying each step in a column layout. -->
+  <div class="helpFlex">
+    <!-- Step 1 -->
+    <div class="helpStepFlex">
+      <!-- Step 1's help text -->
+      <div class="helpTextDiv">
+        <p>From the Home Page, click the 'Create New User' button. This will open the Create New User page.</p>
+        <p>You can also select the 'Create New User' option from the navigation menu at the top-right of the page.</p>
+      </div>
+      <!-- Step 1's help image -->
+      <div class="helpImageDiv">
+        <img src="assets/helpImages/createUser/step1.PNG"/>
+      </div>
+    </div>
+    <!-- Step 2 -->
+    <div class="helpStepFlex">
+      <!-- Step 2's help text -->
+      <div class="helpTextDiv">
+        <p>On the Create New User Page, enter the username and you would like to create.
+           The username must be an email address.</p>
+        <p>The password must be at least 8 letters, numbers, or characters.</p>
+      </div>
+      <!-- Step 2's help image -->
+      <div class="helpImageDiv">
+        <img src="assets/helpImages/createUser/step2.PNG"/>
+      </div>
+    </div>
+    <!-- Step 3 -->
+    <div class="helpStepFlex">
+      <!-- Step 3's help text -->
+      <div class="helpTextDiv">
+        <p>Select the checkbox if the new user will have admin authorization.</p>
+        <p>Otherwise leave it unchecked to create an advisor,
+          who will be restricted to generating assessments and viewing student results</p>
+
+      </div>
+      <!-- Step 3's help image -->
+      <div class="helpImageDiv">
+        <img src="assets/helpImages/createUser/step3.PNG"/>
+      </div>
+    </div>
+    <!-- Step 4 -->
+    <div class="helpStepFlex">
+      <!-- Step 4's help text -->
+      <div class="helpTextDiv">
+        <p>Select the 'Add New User' button to finish creating the new user.</p>
+
+      </div>
+      <!-- Step 4's help image -->
+      <div class="helpImageDiv">
+        <img src="assets/helpImages/createUser/step4.PNG"/>
+      </div>
+    </div>
+
+  </div>
+</mat-expansion-panel>
 
 
   <!-- The Technical Documentation expansion panel-->
