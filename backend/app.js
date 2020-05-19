@@ -117,7 +117,6 @@ app.post("/api/assessment/delete", checkAuth, (request, response, next) => {
     modifiedOn: new Date(Date.now())
   });
 
-
   // Save the archive model to the archive assessment collection
   assessmentToArchive.save().then(() => {
     // get the id of the original assessment to find and delete from assessment collection
@@ -379,7 +378,7 @@ app.get("/api/category/questions/:id", checkAuth, (request, response, next) => {
   });
 
 // ********************************************************** //
-// ******   GET: CATEGORY BY ID ******* //
+// ***************   GET: CATEGORY BY ID   ****************** //
 // ********************************************************** //
 app.get("/api/category/:id", checkAuth, (request, response, next) => {
   // Gets a category based on the specified ID.
@@ -540,7 +539,6 @@ app.get("/api/question/:id", checkAuth, (request, response, next) => {
     })
 });
 
-
 // ************************************************** //
 // **************   GET: STUDENT BY ID ************** //
 // ************************************************** //
@@ -560,6 +558,7 @@ app.get("/api/student/:id", (request, response, next) => {
       })
     })
 });
+
 // *********************************************************** //
 // ******   SAVE: ASSESSMENT TO ASSESSMENT COLLECTION   ****** //
 // *********************************************************** //
@@ -847,6 +846,9 @@ app.post("/api/assessment/update/", checkAuth, (request, response, next) => {
   });
 });
 
+// ******************************************************** //
+// ***********   UPDATE CATEGORY COLLECTION   ************* //
+// ******************************************************** //
 app.post("/api/category/update", checkAuth, (request, response, next) => {
   const requestedUpdate = request.body;
   console.log('Update Id Type: ', requestedUpdate._id);
@@ -996,7 +998,7 @@ app.post("/api/assessment/updateTaken", (request, response, next) => {
 });
 
 // *********************************************************** //
-// *********   GET: COLLECTION BY GENERIC FUNCTION   ********* //
+// *****************   GENERIC FUNCTIONS   ******************* //
 // *********************************************************** //
 // Used for when we can't target a specific model.
 function find(name, query, callBack) {
@@ -1006,6 +1008,7 @@ function find(name, query, callBack) {
   });
 }
 
+// Deletes an object from a collection
 function deleteById(name, query, callBack) {
   // Finds and deletes a model based on the object's ID.
   mongoose.connection.db.collection(name, function (error, collection) {
