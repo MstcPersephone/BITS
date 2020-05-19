@@ -8,7 +8,6 @@ import { ValidationService } from 'src/app/services/validation.service';
 import { QuestionType } from 'src/app/enums/questionType.enum';
 import { Question } from 'src/app/models/question.interface';
 
-
 @Component({
   selector: 'app-create-true-false',
   templateUrl: './create-true-false.component.html',
@@ -50,10 +49,6 @@ export class CreateTrueFalseComponent implements OnInit, OnDestroy {
     // Calls validation on parent form controls when submit button is clicked
     this.questionService.handleCreateQuestionFormValidation(trueFalseQuestion);
 
-    // console.log('Points are valid', this.questionService.pointsIsValid);
-    // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
-    // console.log('True False From is valid', this.createTrueFalseForm.valid);
-
     // Calls validation on the current form when submit button is clicked
     if (!this.createTrueFalseForm.valid) {
       // Runs all validation on the createTrueFalse form controls
@@ -83,9 +78,6 @@ export class CreateTrueFalseComponent implements OnInit, OnDestroy {
       } else {
         this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
       }
-
-      // For testing, we can remove later.
-      // console.log('Question to save', trueFalseQuestion);
     }
   }
 

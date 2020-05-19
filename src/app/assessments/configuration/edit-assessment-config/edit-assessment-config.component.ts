@@ -39,12 +39,6 @@ export class EditAssessmentConfigComponent implements OnInit, OnDestroy {
     this.updateConfigurationForm.get('maxTime').setValue(this.assessment.config.maxTime);
     this.updateConfigurationForm.get('minimumScore').setValue(this.assessment.config.minimumScore);
     this.updateConfigurationForm.get('wrongStreak').setValue(this.assessment.config.wrongStreak);
-    // Sets up a maxTime listener
-    // this.isTimedSubscription = this.assessmentService.getIsTimedUpdateListener()
-    //   .subscribe((isTimed: boolean) => {
-    //     console.log(isTimed);
-    //     this.isTimed = isTimed;
-    //   });
   }
 
   formatMinScoreLabel(value: number) {

@@ -31,7 +31,7 @@ export class EditMultipleChoiceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // console.log(this.question);
+    // Sets the value of the form fields
     this.editMultipleChoiceForm.get('questionText').setValue(this.question.questionText);
     this.editMultipleChoiceForm.get('hasAttachments').setValue(this.attachmentService.hasAttachments);
 
@@ -100,12 +100,6 @@ export class EditMultipleChoiceComponent implements OnInit, OnDestroy {
         (o as HTMLButtonElement).click();
       });
     }
-
-    // console.log('Points are valid', this.questionService.pointsIsValid);
-    // console.log('Categories are valid', this.questionService.categoriesIsValid);
-    // console.log('Multiple Choice form is valid', this.editMultipleChoiceForm.valid);
-    // console.log('Create Option form is valid', this.questionService.optionIsValid);
-    // console.log('Edit Option has an invalid input', this.questionService.editOptionInvalid);
 
     // Calls validation on the current form when submit button is clicked
     if (!this.editMultipleChoiceForm.valid) {

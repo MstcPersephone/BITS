@@ -441,13 +441,4 @@ export class AssessmentService {
     this.currentQuestion = null;
     this.currentQuestionId = null;
   }
-
-  // unsubscribeToServiceListeners() {
-  //   this.assessmentUpdated.unsubscribe();
-  //   this.assessmentsUpdated.unsubscribe();
-  //   this.assessmentConfigUpdated.unsubscribe();
-  //   this.isTimedUpdated.unsubscribe();
-  //   this.changedMinScoreUpdated.unsubscribe();
-  //   this.assessmentQuestionsUpdated.unsubscribe();
-  // }
 }

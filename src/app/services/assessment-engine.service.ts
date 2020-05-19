@@ -20,7 +20,6 @@ import { AttachmentService } from './attachment.service';
 import { MatDialog } from '@angular/material';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -149,7 +148,6 @@ export class AssessmentEngineService implements OnDestroy {
 
   checkShortAnswer(question: ShortAnswer) {
 
-    // TODO: [PER-169] add space checks for validation
     let isCorrect = false;
     const exactMatches = [];
 
@@ -420,9 +418,6 @@ export class AssessmentEngineService implements OnDestroy {
       // Update the submitted question in the array so it can be saved when submitting
       this.questions[this.currentQuestionIndex] = question;
 
-      // const hasQuestionsRemaining = true;
-      // this.hasQuestionsRemaining();
-
       // Check to see if there are more questions
       if (this.hasQuestionsRemaining()) {
 
@@ -535,7 +530,7 @@ export class AssessmentEngineService implements OnDestroy {
   // *********  GET: TAKEN ASSESSMENT BY ID   ******** //
   // ************************************************* //
   getTakenAssessmentById(takeAssessmentId: string) {
-    // this.helperService.isLoading = true;
+
     this.http
       .get<{ message: string, takenAssessment: TakenAssessment }>(
         environment.apiUrl + 'assessment/take/' + takeAssessmentId
@@ -549,11 +544,8 @@ export class AssessmentEngineService implements OnDestroy {
         // grabbing the first (and only) assessment in array
         this.assessment = this.takenAssessment.assessment;
 
-        // // Subscribers get a copy of the assessment.
-        // this.assessmentUpdated.next(this.assessment);
-
         this.takenAssessmentUpdated.next(this.takenAssessment);
-        // this.helperService.isLoading = false;
+
       });
   }
 
@@ -600,7 +592,6 @@ export class AssessmentEngineService implements OnDestroy {
     this.http.post<{ message: string, student: Student }>(environment.apiUrl + 'student/save', student)
       .subscribe(
         responseData => {
-          // tslint:disable-next-line: max-line-length
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.student);
@@ -648,7 +639,6 @@ export class AssessmentEngineService implements OnDestroy {
 
     console.log('In Service', student.studentId);
 
-    // tslint:disable-next-line: max-line-length
     this.http.post<{ message: string, updatedStudent: Student }>(environment.apiUrl + 'student/update', student)
       .subscribe(
         responseData => {
@@ -687,7 +677,6 @@ export class AssessmentEngineService implements OnDestroy {
           console.log('%c' + responseData.message, 'color: green;');
           console.log('%c Database Object:', 'color: orange;');
           console.log(responseData.updatedTakenAssessment);
-          // this.helperService.refreshComponentById('assessment/take', takenAssessment._id);
           this.helperService.isLoading = false;
         },
         error => {

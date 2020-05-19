@@ -46,6 +46,7 @@ export class TakenAssessmentComponent implements OnInit {
       });
   }
 
+  // Creates taken assessment object to be sent to the backend
   onSubmit(takenAssessmentData) {
     const takenAssessment: TakenAssessment = new TakenAssessment();
     takenAssessment._id = null;

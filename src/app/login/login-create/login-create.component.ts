@@ -16,7 +16,6 @@ export class LoginCreateComponent implements OnInit {
   newUser: any;
   newUserSubscription: Subscription;
 
-
   constructor(
     private formBuilder: FormBuilder,
     public loginService: LoginEngineService,

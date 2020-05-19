@@ -71,9 +71,6 @@ export class EditTrueFalseComponent implements OnInit, OnDestroy {
     // If the parent forms are invalid, submit is not allowed
     // Marks all input as touched to show errors so user knows what requires valid input
     this.questionService.handleEditQuestionFormValidation();
-    // console.log('Points are valid', this.questionService.pointsIsValid);
-    // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
-    // console.log('True False From is valid', this.createTrueFalseForm.valid);
 
     // If the editTrueFalseForm is invalid, submit is not allowed
     // Marks all input as touched to show errors so user knows what requires valid input
@@ -105,9 +102,6 @@ export class EditTrueFalseComponent implements OnInit, OnDestroy {
       } else {
         this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
       }
-
-      // For testing, we can remove later.
-      // console.log('Question to save', updatedTrueFalseQuestion);
     }
   }
 

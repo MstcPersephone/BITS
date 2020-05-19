@@ -332,7 +332,6 @@ export class QuestionService {
   hasCaseSensitivityChanged() {
     this.isCaseSensitive = !this.isCaseSensitive;
     return this.isCaseSensitive;
-
   }
 
   // ******************************************** //
@@ -506,9 +505,7 @@ export class QuestionService {
 
     // Success Message
     this.helperService.openSnackBar('Option Updated Successfully!', 'Close', 'success-dialog', 5000);
-
   }
-
 
   // ********************************************** //
   // **************Points Functions**************** //
@@ -800,8 +797,6 @@ export class QuestionService {
     this.category = null;
     this.categories = [];
     this.selectedCategories = [];
-    // this.categoriesLoaded = false;
-    // this.showHideCreateCategory = false;
     this.exactMatches = [];
     this.hasMatches = false;
     this.showCreateMatch = false;
