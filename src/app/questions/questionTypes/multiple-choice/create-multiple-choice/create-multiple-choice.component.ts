@@ -96,12 +96,6 @@ export class CreateMultipleChoiceComponent implements OnInit, OnDestroy {
       });
     }
 
-
-    // console.log('Points are valid', this.questionService.pointsIsValid);
-    // console.log('Categories are valid', this.questionService.categoriesIsValid);
-    // console.log('Multiple Choice form is valid', this.createMultipleChoiceForm.valid);
-    // console.log('Option form is valid', this.questionService.optionIsValid);
-
     // Calls validation on the current form when submit button is clicked
     if (!this.createMultipleChoiceForm.valid) {
       // Runs all validation on the createShortAnswerForm form controls
@@ -141,9 +135,6 @@ export class CreateMultipleChoiceComponent implements OnInit, OnDestroy {
           this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
         }
       }
-
-      // For testing, we can remove later.
-      // console.log(multipleChoiceQuestion);
     }
   }
 

@@ -7,11 +7,11 @@
  (click)="assessmentService.changeInProgressStatus()">
  Finish Later&nbsp;<mat-icon>save</mat-icon>
 </button>
-
+<!-- Cancel Button in Edit Mode -->
 <button *ngIf="isEditMode" class="cancelOption" mat-raised-button [routerLink]="['/assessment/view', assessment._id]">
   Cancel&nbsp;<mat-icon>close</mat-icon>
 </button>
-
+<!-- Cancel Button when not in Edit Mode -->
 <button *ngIf="!isEditMode" class="cancelOption" mat-raised-button [routerLink]="['/assessment/list']">
   Cancel&nbsp;<mat-icon>close</mat-icon>
 </button>

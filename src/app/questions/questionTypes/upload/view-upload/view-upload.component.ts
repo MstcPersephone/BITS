@@ -28,6 +28,7 @@ export class ViewUploadComponent implements OnInit, OnDestroy {
     console.log('QUESTION', this.question);
   }
 
+  // Sets the submitted answer, clears student answers,
   onSubmit() {
     this.question.submittedAnswer = this.attachmentService.getStudentAnswers();
     this.attachmentService.clearStudentAnswers();

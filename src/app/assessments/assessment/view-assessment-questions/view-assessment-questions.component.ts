@@ -15,9 +15,6 @@ export class ViewAssessmentQuestionsComponent implements OnInit {
   public currentQuestion: Question;
   questionSubscription: Subscription;
 
-
-
-
   constructor(
     public questionService: QuestionService,
     public route: ActivatedRoute,

@@ -1,10 +1,10 @@
-
+<!-- If the assessment is active display the current question-->
   <h1 *ngIf="this.helperService.isActiveAssessment">
     Question {{this.assessmentEngineService.currentQuestionIndex + 1}} of {{this.questions.length}}
   </h1>
   <br>
 
-
+<!-- Switch case to display the correct question type for the current question -->
 <div *ngIf="currentQuestion != null" [ngSwitch]="currentQuestion.questionType">
   <app-view-checkbox *ngSwitchCase="'Checkbox'" [question]="currentQuestion"></app-view-checkbox>
   <app-view-multiple-choice *ngSwitchCase="'Multiple Choice'" [question]="currentQuestion"></app-view-multiple-choice>

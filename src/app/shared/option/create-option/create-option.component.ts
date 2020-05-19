@@ -67,10 +67,6 @@ export class CreateOptionComponent implements OnInit {
       // For testing, we can remove later.
       console.log(option);
     }
-    // (Object as any).values(this.createOptionForm.controls).forEach(control => {
-    //   control.markAsUntouched();
-    //   control.markAsPristine();
-    // });
 
   }
 }

@@ -44,6 +44,7 @@ export class AssessmentEngineComponent implements OnInit {
       });
     this.assessmentEngineService.getTakenAssessmentById(this.route.snapshot.params.takenAssessmentId);
     this.helperService.isActiveAssessment = true;
+    // Logout the user to restrict access while student takes assessment
     this.loginService.logout();
   }
 

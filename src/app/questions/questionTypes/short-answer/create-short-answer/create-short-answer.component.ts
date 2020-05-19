@@ -82,10 +82,6 @@ export class CreateShortAnswerComponent implements OnInit, OnDestroy {
     if (this.questionService.showCreateMatch) {
       document.getElementById('validateExactMatches').click();
     }
-    // console.log('Points are valid', this.questionService.pointsIsValid);
-    // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
-    // console.log('Sort Answer form is valid', this.createShortAnswerForm.valid);
-    // console.log('Exact Match form is valid', this.questionService.exactMatchIsValid);
 
     // Calls validation on the current form when submit button is clicked
     if (!this.createShortAnswerForm.valid) {
@@ -122,9 +118,6 @@ export class CreateShortAnswerComponent implements OnInit, OnDestroy {
       } else {
         this.helperService.openSnackBar(attachmentResponse.message, 'OK', 'error-dialog', undefined);
       }
-
-      // For testing, we can remove later.
-      // console.log('Question to save', shortAnswerQuestion);
     }
   }
 
