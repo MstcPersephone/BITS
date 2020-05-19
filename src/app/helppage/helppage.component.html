@@ -243,11 +243,28 @@
     <mat-expansion-panel-header>
       <mat-panel-title>View Technical Documentation</mat-panel-title>
     </mat-expansion-panel-header>
-    <!-- The panel content body, displaying each step in a column layout. -->
+    <!-- The panel content body. -->
     <div class="helpFlex">
       <h3>Please download the documentation using the button below:</h3>
       <a class="downloadButton" mat-raised-button href="assets/Technical Documentation.docx">
         Technical Documentation &nbsp;<mat-icon>cloud_download</mat-icon>
+      </a>
+    </div>
+  </mat-expansion-panel>
+
+
+
+  <!-- The Styling Documentation expansion panel-->
+  <mat-expansion-panel *ngIf="this.loginService.isAdmin">
+    <!-- The panel header -->
+    <mat-expansion-panel-header>
+      <mat-panel-title>View Styling Documentation</mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- The panel content body. -->
+    <div class="helpFlex">
+      <h3>Please download the documentation using the button below:</h3>
+      <a class="downloadButton" mat-raised-button href="assets/Styling Documentation.docx">
+        Styling Documentation &nbsp;<mat-icon>cloud_download</mat-icon>
       </a>
     </div>
   </mat-expansion-panel>
