@@ -271,6 +271,23 @@
 
 
 
+  <!-- The application class diagram expansion panel-->
+  <mat-expansion-panel *ngIf="this.loginService.isAdmin">
+    <!-- The panel header -->
+    <mat-expansion-panel-header>
+      <mat-panel-title>View Class Diagram</mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- The panel content body. -->
+    <div class="helpFlex">
+      <img class="classDiagram" src="assets/skillsAssessmentClassDiagram.png">
+      <a class="downloadButton diagramDownload" mat-raised-button href="assets/skillsAssessmentClassDiagram.png">
+        Class Diagram &nbsp;<mat-icon>cloud_download</mat-icon>
+      </a>
+    </div>
+  </mat-expansion-panel>
+
+
+
 
 
   <h3 *ngIf="this.loginService.isAdmin">Advisor-related help</h3>

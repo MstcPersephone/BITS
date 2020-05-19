@@ -11,11 +11,16 @@ h3{
   width: 100%;
 }
 
-/* Styling applied to the download button. */
+/* Styling applied to the download buttons. */
 .downloadButton{
   background-color: #0b578a;
   color: #fff;
-  width: 225px;
+  width: fit-content;
+}
+.diagramDownload{
+  margin: auto;
+  width: 30%;
+  margin-top: 15px;
 }
 
 /* Styles the expansion panel and it's related items. */
@@ -90,4 +95,10 @@ mat-panel-title{
   max-width: 500px;
   border: 1px solid #82142D;
   border-radius: 5px;
+}
+
+/* Styles applied to the inline class diagram display. */
+.classDiagram{
+  width: 95%;
+  margin: auto;
 }
