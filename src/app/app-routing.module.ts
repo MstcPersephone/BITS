@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomepageComponent } from './homepage/homepage.component';
 
+import { HelppageComponent } from './helppage/helppage.component';
+
 import { EditCategoryComponent } from './shared/category/edit-category/edit-category.component';
 
 import { AssessmentListComponent } from './assessments/assessment/assessment-list/assessment-list.component';
@@ -61,7 +63,8 @@ const routes: Routes = [
   { path: 'home', component: HomepageComponent, canActivate: [AuthGuard] },
   { path: 'user/create', component: LoginCreateComponent, canActivate: [AuthGuard, AdminGuard]},
   { path: 'login', component: LoginViewComponent},
-  { path: 'assessment/generate', component: TakenAssessmentComponent, canActivate: [AuthGuard] }
+  { path: 'assessment/generate', component: TakenAssessmentComponent, canActivate: [AuthGuard] },
+  { path: 'help', component: HelppageComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
