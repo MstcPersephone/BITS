@@ -57,7 +57,6 @@ export class FooterComponent implements OnInit, OnDestroy {
       this.assessmentEngineService.prepareAssessment(this.takenAssessment.assessment);
     });
   }
-  // this.assessmentEngineService.prepareAssessment(this.takenAssessment.assessment);
 }
 
   acceptAnswer() {
@@ -65,7 +64,6 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     if (!this.assessmentEngineService.assessmentStarted) {
-    // this.currentStudentSubscription.unsubscribe();
     this.takenAssessmentSubscription.unsubscribe();
     console.log('Assessment Footer Component ngOnDestroy Invoked');
     }

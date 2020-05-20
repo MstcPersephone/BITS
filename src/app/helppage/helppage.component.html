@@ -1,0 +1,480 @@
+<br>
+<!-- The main body of the help page -->
+<mat-card>
+  <h1 class="mat-display-1">Help</h1>
+
+  <h3 *ngIf="this.loginService.isAdmin">Admin-related help</h3>
+  <!-- The Create a Question expansion panel -->
+  <!-- This only displays for Admin users. -->
+  <mat-expansion-panel *ngIf="this.loginService.isAdmin">
+    <!-- The panel header -->
+    <mat-expansion-panel-header>
+      <mat-panel-title>Creating a New Question</mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- The panel content body, displaying each step in a column layout. -->
+    <div class="helpFlex">
+      <!-- Step 1 -->
+      <div class="helpStepFlex">
+        <!-- Step 1's help text -->
+        <div class="helpTextDiv">
+          <p>From the Home Page, click the 'Create New Question' button. This will open the Create New Question page.</p>
+          <p>You can also select the 'Create New Question' option from the navigation menu at the top-right of the page.</p>
+        </div>
+        <!-- Step 1's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAQuestion/step1.gif"/>
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div class="helpStepFlex">
+        <!-- Step 2's help text -->
+        <div class="helpTextDiv">
+          <p>On the Create New Question page, select the type of question you would like to create.
+             Once you provide a question type, additional options will be displayed below.
+          </p>
+          <p>Enter the question's point value in the Point Value input. You must provide a whole number point value.</p>
+        </div>
+        <!-- Step 2's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAQuestion/step2.gif"/>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div class="helpStepFlex">
+        <!-- Step 3's help text -->
+        <div class="helpTextDiv">
+          <p>Select one or more categories from the Categories dropdown.
+             You must provide at least one category for each question you create.</p>
+          <p>If your question does not fall under any of the available categories,
+             you can create a new category by selecting the 'Create New...' option from the dropdown.</p>
+        </div>
+        <!-- Step 3's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAQuestion/step3.gif"/>
+        </div>
+      </div>
+      <!-- Step 4 -->
+      <div class="helpStepFlex">
+        <!-- Step 4's help text -->
+        <div class="helpTextDiv">
+          <p>Additional options will be displayed after selecting a question type.
+             These will vary based on the type of question you plan to create.</p>
+          <p>Enter the question text in the prompt below the Question Details header.
+             This value is the question being asked of the student.</p>
+        </div>
+        <!-- Step 4's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAQuestion/step4.gif"/>
+        </div>
+      </div>
+      <!-- Step 5 -->
+      <div class="helpStepFlex">
+        <!-- Step 5's help text -->
+        <div class="helpTextDiv">
+          <p>If you would like to provide an attachment for the question, select the 'Does this question have attachments?' checkbox.
+             This will display an 'Upload File' button you can use to locate your attachment.</p>
+          <p>If you upload an image attachment, the image will be displayed within the question window.</p>
+        </div>
+        <!-- Step 5's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAQuestion/step5.gif"/>
+        </div>
+      </div>
+      <!-- Step 6 -->
+      <div class="helpStepFlex">
+        <!-- Step 6's help text -->
+        <div class="helpTextDiv">
+          <p>For <b>Multiple Choice</b> and <b>Checkbox</b> questions, you will need to provide selectable options.</p>
+          <p>Within the 'Selectable Options' section, enter your options using the 'Add Option' button.</p>
+          <p>Select the 'Is this a correct answer?' checkbox for any correct answers.
+             You must provide at least one correct option for each question.</p>
+          <p>For <b>Checkbox</b> questions, you may select more than one correct option.
+             Students will need to select each correct option for their response to be considered correct.</p>
+        </div>
+        <!-- Step 6's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAQuestion/step6.gif"/>
+        </div>
+      </div>
+      <!-- Step 7 -->
+      <div class="helpStepFlex">
+        <!-- Step 7's help text -->
+        <div class="helpTextDiv">
+          <p>For <b>True or False</b> questions, you will need to provide the correct response.</p>
+          <p>Provide the correct response using the True or False radio buttons.</p>
+        </div>
+        <!-- Step 7's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAQuestion/step7.gif"/>
+        </div>
+      </div>
+      <!-- Step 8 -->
+      <div class="helpStepFlex">
+        <!-- Step 8's help text -->
+        <div class="helpTextDiv">
+          <p>For <b>Short Answer</b> questions, you will need to provide all acceptable responses.</p>
+          <p>If student responses will be case sensitive, select the 'Are acceptable answers case sensitive' checkbox.</p>
+          <p>Within the 'Acceptable Answers' section, enter any acceptable answers the student can provide.</p>
+        </div>
+        <!-- Step 8's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAQuestion/step8.gif"/>
+        </div>
+      </div>
+      <!-- Step 9 -->
+      <div class="helpStepFlex">
+        <!-- Step 9's help text -->
+        <div class="helpTextDiv">
+          <p>For <b>Upload</b> questions, you will need to provide a correct answer file.</p>
+          <p>Upload the answer to the question using the 'Upload Correct Answer' button.</p>
+        </div>
+        <!-- Step 9's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAQuestion/step9.gif"/>
+        </div>
+      </div>
+      <!-- Step 10 -->
+      <div class="helpStepFlex">
+        <!-- Step 10's help text -->
+        <div class="helpTextDiv">
+          <p>Once you have finished creating your question, select the 'Save Question' button to save your question.</p>
+        </div>
+        <!-- Step 10's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAQuestion/step10.gif"/>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+
+
+
+  <!-- The Creating a New Assessment expansion panel -->
+  <mat-expansion-panel *ngIf="this.loginService.isAdmin">
+    <!-- The panel header -->
+    <mat-expansion-panel-header>
+      <mat-panel-title>Creating a New Assessment</mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- The panel content body, displaying each step in a column layout. -->
+    <div class="helpFlex">
+      <!-- Step 1 -->
+      <div class="helpStepFlex">
+        <!-- Step 1's help text -->
+        <div class="helpTextDiv">
+          <p>From the Home Page, click the 'Create New Assessment' button. This will open the Create New Assessment page.</p>
+          <p>You can also select the 'Create New Assessment' option from the navigation menu at the top-right of the page.</p>
+        </div>
+        <!-- Step 1's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAnAssessment/step1.gif"/>
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div class="helpStepFlex">
+        <!-- Step 2's help text -->
+        <div class="helpTextDiv">
+          <p>On the Create New Assessment Page, enter the name of the assessment you would like to create.
+             The name will be displayed to students as they begin their assessment (e.g. "Starting BITS Assessment").</p>
+          <p>Provide a description of the assessment using the 'Assessment Description' text input.</p>
+        </div>
+        <!-- Step 2's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAnAssessment/step2.gif"/>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div class="helpStepFlex">
+        <!-- Step 3's help text -->
+        <div class="helpTextDiv">
+          <p>Select the 'Assessment Configuration' tab to expand the contents.</p>
+          <p>If you would like the question order to be randomized, select the 'Randomize order of questions?' checkbox.</p>
+          <p>If you would like for the assessment to be timed, select the 'Is this a timed assessment?' checkbox.
+             This will display a Time Limit input, where you can provide the time limit in minutes.
+             Once the time limit is reached, the test will automatically end.</p>
+          <p>If you would like the assessment to end if the student provides multiple incorrect responses consecutively,
+             provide the incorrect response limit in the 'Number of consecutive incorrect answers' input.
+             Providing a limit of zero will not track consecutive incorrect answers.</p>
+          <p>To set the minimum passing grade for the assessment, use the slider to adjust the passing grade percentage.</p>
+        </div>
+        <!-- Step 3's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAnAssessment/step3.gif"/>
+        </div>
+      </div>
+      <!-- Step 4 -->
+      <div class="helpStepFlex">
+        <!-- Step 4's help text -->
+        <div class="helpTextDiv">
+          <p>Select the 'Add Questions to Assessment' tab to expand the contents.</p>
+          <p>Select the category of question using the 'Question Category' dropdown.
+             This will display a list of each question that falls under that category.</p>
+          <p>You can click and drag to move questions from the 'Available Questions' list to the 'Assessment Questions' list.</p>
+          <p>The question order can be adjusted by dragging questions within the 'Assessment Questions' list.
+             The question at the top of the list will be the first question provided to students.</p>
+          <p>If you do not want a set order for the questions, you can randomize the order using the 'Randomize order of questions?' checkbox
+             found within the 'Assessment Configuration' tab.</p>
+        </div>
+        <!-- Step 4's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAnAssessment/step4.gif"/>
+        </div>
+      </div>
+      <!-- Step 5 -->
+      <div class="helpStepFlex">
+        <!-- Step 5's help text -->
+        <div class="helpTextDiv">
+          <p>When you are finished creating your assessment, use the save buttons found at the bottom of the page.</p>
+          <p>Selecting 'Save Assessment' will save the assessment and add it to the list of assessments that can be taken by students.</p>
+          <p>Selecting 'Finish Later' will save the assessment for later editing. Unfinished assessments are not available for students to take.</p>
+        </div>
+        <!-- Step 5's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/createAnAssessment/step5.gif"/>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+
+ <!-- The Creating a New Login expansion panel -->
+ <mat-expansion-panel *ngIf="this.loginService.isAdmin">
+  <!-- The panel header -->
+  <mat-expansion-panel-header>
+    <mat-panel-title>Creating a New Login</mat-panel-title>
+  </mat-expansion-panel-header>
+  <!-- The panel content body, displaying each step in a column layout. -->
+  <div class="helpFlex">
+    <!-- Step 1 -->
+    <div class="helpStepFlex">
+      <!-- Step 1's help text -->
+      <div class="helpTextDiv">
+        <p>From the Home Page, click the 'Create New User' button. This will open the Create New User page.</p>
+        <p>You can also select the 'Create New User' option from the navigation menu at the top-right of the page.</p>
+      </div>
+      <!-- Step 1's help image -->
+      <div class="helpImageDiv">
+        <img src="assets/helpImages/createUser/step1.PNG"/>
+      </div>
+    </div>
+    <!-- Step 2 -->
+    <div class="helpStepFlex">
+      <!-- Step 2's help text -->
+      <div class="helpTextDiv">
+        <p>On the Create New User Page, enter the username and you would like to create.
+           The username must be an email address.</p>
+        <p>The password must be at least 8 letters, numbers, or characters.</p>
+      </div>
+      <!-- Step 2's help image -->
+      <div class="helpImageDiv">
+        <img src="assets/helpImages/createUser/step2.PNG"/>
+      </div>
+    </div>
+    <!-- Step 3 -->
+    <div class="helpStepFlex">
+      <!-- Step 3's help text -->
+      <div class="helpTextDiv">
+        <p>Select the checkbox if the new user will have admin authorization.</p>
+        <p>Otherwise leave it unchecked to create an advisor,
+          who will be restricted to generating assessments and viewing student results</p>
+
+      </div>
+      <!-- Step 3's help image -->
+      <div class="helpImageDiv">
+        <img src="assets/helpImages/createUser/step3.PNG"/>
+      </div>
+    </div>
+    <!-- Step 4 -->
+    <div class="helpStepFlex">
+      <!-- Step 4's help text -->
+      <div class="helpTextDiv">
+        <p>Select the 'Add New User' button to finish creating the new user.</p>
+
+      </div>
+      <!-- Step 4's help image -->
+      <div class="helpImageDiv">
+        <img src="assets/helpImages/createUser/step4.PNG"/>
+      </div>
+    </div>
+
+  </div>
+</mat-expansion-panel>
+
+
+  <!-- The Technical Documentation expansion panel-->
+  <mat-expansion-panel *ngIf="this.loginService.isAdmin">
+    <!-- The panel header -->
+    <mat-expansion-panel-header>
+      <mat-panel-title>View Technical Documentation</mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- The panel content body. -->
+    <div class="helpFlex">
+      <h3>Please download the documentation using the button below:</h3>
+      <a class="downloadButton" mat-raised-button href="assets/Technical Documentation.docx">
+        Technical Documentation &nbsp;<mat-icon>cloud_download</mat-icon>
+      </a>
+    </div>
+  </mat-expansion-panel>
+
+
+
+  <!-- The Styling Documentation expansion panel-->
+  <mat-expansion-panel *ngIf="this.loginService.isAdmin">
+    <!-- The panel header -->
+    <mat-expansion-panel-header>
+      <mat-panel-title>View Styling Documentation</mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- The panel content body. -->
+    <div class="helpFlex">
+      <h3>Please download the documentation using the button below:</h3>
+      <a class="downloadButton" mat-raised-button href="assets/Styling Documentation.docx">
+        Styling Documentation &nbsp;<mat-icon>cloud_download</mat-icon>
+      </a>
+    </div>
+  </mat-expansion-panel>
+
+
+
+  <!-- The application class diagram expansion panel-->
+  <mat-expansion-panel *ngIf="this.loginService.isAdmin">
+    <!-- The panel header -->
+    <mat-expansion-panel-header>
+      <mat-panel-title>View Class Diagram</mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- The panel content body. -->
+    <div class="helpFlex">
+      <img class="classDiagram" src="assets/skillsAssessmentClassDiagram.png">
+      <a class="downloadButton diagramDownload" mat-raised-button href="assets/QuestionClassDiagram.class.zip">
+        Class Diagram &nbsp;<mat-icon>cloud_download</mat-icon>
+      </a>
+    </div>
+  </mat-expansion-panel>
+
+
+
+
+
+  <h3 *ngIf="this.loginService.isAdmin">Advisor-related help</h3>
+  <!-- The Generating an Assessment expansion panel -->
+  <mat-expansion-panel>
+    <!-- The panel header -->
+    <mat-expansion-panel-header>
+      <mat-panel-title>Generating an Assessment</mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- The panel content body, displaying each step in a column layout. -->
+    <div class="helpFlex">
+      <!-- Step 1 -->
+      <div class="helpStepFlex">
+        <!-- Step 1's help text -->
+        <div class="helpTextDiv">
+          <p>From the Home Page, click the 'Generate Assessment' button. This will open the Generate Assessment page.</p>
+          <p>You can also select the 'Generate Assessment' option from the navigation menu at the top-right of the page.</p>
+        </div>
+        <!-- Step 1's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/generateAssessment/step1.gif"/>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="helpStepFlex">
+        <!-- Step 2's help text -->
+        <div class="helpTextDiv">
+          <p>Using the dropdown menu, select the assessment you wish to generate a URL for.</p>
+          <p>After you've selected an assessment, click the 'Generate Assessment URL' button.</p>
+        </div>
+        <!-- Step 2's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/generateAssessment/step2.gif"/>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="helpStepFlex">
+        <!-- Step 3's help text -->
+        <div class="helpTextDiv">
+          <p>The URL for the assessment will be copied to your computer. You can provide this URL to your student.
+             Place this URL by pressing both the 'Ctrl' and 'V' keys on your keyboard.</p>
+          <p>You can also click the 'Start Assessment' button to open the assessment.</p>
+        </div>
+        <!-- Step 3's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/generateAssessment/step3.gif"/>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+
+
+
+  <!-- The Search for Student Results expansion panel -->
+  <mat-expansion-panel>
+    <!-- The panel header -->
+    <mat-expansion-panel-header>
+      <mat-panel-title>Searching for a Student's Assessment Results</mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- The panel content body, displaying each step in a column layout. -->
+    <div class="helpFlex">
+      <!-- Step 1 -->
+      <div class="helpStepFlex">
+        <!-- Step 1's help text -->
+        <div class="helpTextDiv">
+          <p>From the Home Page, click the 'View Student Results' button. This will open the Student Results page.</p>
+          <p>You can also select the 'View Student Results' option from the navigation menu at the top-right of the page.</p>
+        </div>
+        <!-- Step 1's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/viewStudentResults/step1.gif"/>
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div class="helpStepFlex">
+        <!-- Step 2's help text -->
+        <div class="helpTextDiv">
+          <p>Enter your search criteria within the Search Criteria section. You must provide one or more items to search.</p>
+          <p>To search for students based on your criteria, click the 'Get Results' button at the bottom-right of the section.
+             This will display the results of your search.
+          </p>
+        </div>
+        <!-- Step 2's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/viewStudentResults/step2.gif"/>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div class="helpStepFlex">
+        <!-- Step 3's help text -->
+        <div class="helpTextDiv">
+          <p>Results are based on the criteria you provided. Results will match each piece of criteria you provided.</p>
+          <p>Under the Result Details column, click the icon to open the student's test results.</p>
+        </div>
+        <!-- Step 3's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/viewStudentResults/step3.gif"/>
+        </div>
+      </div>
+      <!-- Step 4 -->
+      <div class="helpStepFlex">
+        <!-- Step 4's help text -->
+        <div class="helpTextDiv">
+          <p>The student's test results are displayed here. Basic information is displayed at the top of the page.</p>
+        </div>
+        <!-- Step 4's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/viewStudentResults/step4.gif"/>
+        </div>
+      </div>
+      <!-- Step 5 -->
+      <div class="helpStepFlex">
+        <!-- Step 5's help text -->
+        <div class="helpTextDiv">
+          <p>Details on each question can be found below. You can see if the student's answer was correct or incorrect.</p>
+          <p>You can also view the question's point value, the question text, the student's submitted answer(s), and the correct answer(s).</p>
+        </div>
+        <!-- Step 5's help image -->
+        <div class="helpImageDiv">
+          <img src="assets/helpImages/viewStudentResults/step5.gif"/>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-card>
+<br>

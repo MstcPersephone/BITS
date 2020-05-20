@@ -38,10 +38,6 @@ export class CreateUploadComponent implements OnInit, OnDestroy {
     // Calls validation on parent form controls when submit button is clicked
     this.questionService.handleCreateQuestionFormValidation(uploadQuestion);
 
-    // console.log('Points are valid', this.questionService.pointsIsValid);
-    // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
-    // console.log('True False From is valid', this.createTrueFalseForm.valid);
-
     // Calls validation on the current form when submit button is clicked
     if (!this.createUploadForm.valid) {
       // Runs all validation on the createTrueFalse form controls

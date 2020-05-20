@@ -8,7 +8,6 @@ import { AssessmentEngineService } from 'src/app/services/assessment-engine.serv
 import { HelperService } from 'src/app/services/helper.service';
 import { Question } from 'src/app/models/question.interface';
 
-
 @Component({
   selector: 'app-view-question',
   templateUrl: './view-question.component.html',

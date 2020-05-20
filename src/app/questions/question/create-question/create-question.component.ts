@@ -5,8 +5,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
 import { Subscription } from 'rxjs';
 
-
-
 @Component({
   selector: 'app-create-question',
   templateUrl: './create-question.component.html',

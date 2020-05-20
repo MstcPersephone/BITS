@@ -8,9 +8,6 @@ import { AttachmentService } from 'src/app/services/attachment.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { TakenAssessment } from 'src/app/models/taken-assessment.model';
 
-
-
-
 @Component({
   selector: 'app-view-student',
   templateUrl: './view-student.component.html',
@@ -21,7 +18,6 @@ export class ViewStudentComponent implements OnInit, OnDestroy {
   private takenAssessmentSubscription: Subscription;
   dateTaken: any;
   searchParameters: '';
-
 
   constructor(
     public assessmentEngineService: AssessmentEngineService,

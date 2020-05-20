@@ -6,6 +6,9 @@ import { AssessmentEngineService } from '../../services/assessment-engine.servic
 import { TakenAssessment } from 'src/app/models/taken-assessment.model';
 import { HelperService } from 'src/app/services/helper.service';
 import { LoginEngineService } from 'src/app/services/login.service';
+import { Assessment } from 'src/app/models/assessment.model';
+import { AssessmentConfig } from 'src/app/models/assessment-config.model';
+import { Question } from 'src/app/models/question.interface';
 
 
 @Component({
@@ -44,6 +47,7 @@ export class AssessmentEngineComponent implements OnInit {
       });
     this.assessmentEngineService.getTakenAssessmentById(this.route.snapshot.params.takenAssessmentId);
     this.helperService.isActiveAssessment = true;
+    // Logout the user to restrict access while student takes assessment
     this.loginService.logout();
   }
 

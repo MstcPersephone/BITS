@@ -1,7 +1,7 @@
 // Import mongoose
 const mongoose = require('mongoose');
 
-// Create Category Schema (blueprint)
+// Create Category Archive Schema (blueprint)
 const categoryArchiveSchema = mongoose.Schema({
   name: {
     type: String,

@@ -35,7 +35,7 @@ export class EditShortAnswerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // console.log(this.question);
+    // Sets the form values for display
     this.editShortAnswerForm.get('questionText').setValue(this.question.questionText);
     this.editShortAnswerForm.get('hasAttachments').setValue(this.attachmentService.hasAttachments);
     this.editShortAnswerForm.get('isCaseSensitive').setValue(this.attachmentService.hasAttachments);
@@ -108,12 +108,6 @@ export class EditShortAnswerComponent implements OnInit, OnDestroy {
       (m as HTMLButtonElement).click();
     });
     // }
-
-    // console.log('Points are valid', this.questionService.pointsIsValid);
-    // console.log('Categoriess are valid', this.questionService.categoriesIsValid);
-    // console.log('Sort Answer form is valid', this.editShortAnswerForm.valid);
-    // console.log('Exact Match form is valid', this.questionService.exactMatchIsValid);
-    // console.log('Edit Exact Match has an invalid input', this.questionService.editExactMatchInvalid);
 
     // Calls validation on the current form when submit button is clicked
     if (!this.editShortAnswerForm.valid) {

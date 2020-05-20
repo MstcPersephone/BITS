@@ -95,11 +95,6 @@ export class CreateCheckboxComponent implements OnInit, OnDestroy {
       });
     }
 
-    // console.log('Points are valid', this.questionService.pointsIsValid);
-    // console.log('Categories are valid', this.questionService.categoriesIsValid);
-    // console.log('Checkbox form is valid', this.createCheckboxForm.valid);
-    // console.log('Option form is valid', this.questionService.optionIsValid);
-
     // Calls validation on the current form when submit button is clicked
     if (!this.createCheckboxForm.valid) {
       // Runs all validation on the createShortAnswerForm form controls

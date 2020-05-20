@@ -1,6 +1,7 @@
 const engine = require('./engine');
 const Constants = require('../providers/constants');
 
+// Function to check an upload answer
 const checkUploadAnswer = function (question) {
 
   let isMatch = true;
@@ -26,6 +27,7 @@ const checkUploadAnswer = function (question) {
   return isMatch;
 }
 
+// Function to check the submitted answer against the correct answer
 function runCheck(correctAnswer, submittedAnswer) {
 
   // Arrays to hold extracted files (or single files if not zip)

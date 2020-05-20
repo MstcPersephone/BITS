@@ -38,7 +38,6 @@ export class AssessmentListComponent implements OnInit, AfterViewInit, OnDestroy
   // Reset service property values so they can be used by a new component
   // Unsubscribes component from the current observable event listeners.
   ngOnDestroy() {
-    // this.assessmentsSubscription.unsubscribe();
     this.assessmentService.resetService();
   }
 }

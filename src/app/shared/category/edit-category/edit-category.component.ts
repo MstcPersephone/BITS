@@ -43,10 +43,12 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(formData) {
+    // if form is valid, update category...
     if (this.editCategoryForm.valid) {
       this.category.name = formData.name;
       this.questionService.updateCategoryById(this.category);
     } else {
+      // else mark invalid fields
       (Object as any).values(this.editCategoryForm.controls).forEach(control => {
         control.markAsTouched();
       });
