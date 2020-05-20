@@ -54,7 +54,7 @@ export class ListStudentComponent implements OnInit, OnDestroy {
       this.assessmentEngineService.searchParameters = this.helperService.convertSearchParametersToArray(params.searchParameters);
     }
 
-    if (this.assessmentEngineService.searchParameters !== []) {
+    if (this.assessmentEngineService.searchParameters !== undefined && this.assessmentEngineService.searchParameters.length > 0) {
       this.assessmentEngineService.getFilteredTakenAssessment(this.assessmentEngineService.searchParameters);
       this.takenAssessmentsSubscription = this.assessmentEngineService.getTakenAssessmentsUpdateListener()
         .subscribe((takenAssessmentArray: any) => {
