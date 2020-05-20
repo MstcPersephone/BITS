@@ -35,3 +35,7 @@ td div mat-icon{
   padding-right: 60px;
 }
 
+::ng-deep td.mat-cell, ::ng-deep th.mat-header-cell {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+}

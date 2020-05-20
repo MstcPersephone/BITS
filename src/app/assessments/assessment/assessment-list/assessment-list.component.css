@@ -10,3 +10,6 @@ mat-card{
   color: #fff;
 }
 
+::ng-deep td.mat-cell, ::ng-deep th.mat-header-cell {
+  padding: 25px !important;
+}

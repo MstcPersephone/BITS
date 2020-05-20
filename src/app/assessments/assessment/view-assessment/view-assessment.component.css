@@ -32,3 +32,7 @@
 mat-grid-list{
   padding-bottom: 130px !important;
 }
+
+::ng-deep td.mat-cell, ::ng-deep th.mat-header-cell {
+  padding: 25px !important;
+}
