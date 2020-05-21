@@ -1,0 +1,7 @@
+Admin User
+username: admin@mstc.edu
+password: MastersOfTheUniverse
+
+Email Login (the "from" email when sending results)
+username: mstc.assessment.engine@gmail.com
+password: wf2-)7MmXJ>_)&AK
