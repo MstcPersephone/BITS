@@ -1040,50 +1040,6 @@ function updateTakenAssessmentStudents(updatedStudent) {
       });
 }
 
-// sends email of completed results
-function sendEmailOfResults(takenAssessment) {
-  console.log('SENDING EMAIL');
-  const transporter = nodemailer.createTransport({
-    host: 'outlook.office365.com',
-    secure: true,
-    auth: {
-      user: '16686110@mstc.edu',
-      pass: 'Br@ndnew144634!'
-    }
-  });
-
-  // Creates the subject text string based on the student.
-  // "[Student First Name] [Student Last Name]'s Results"
-  const subjectText = takenAssessment.student.firstName + ' ' + takenAssessment.student.lastName + '\'s' + takenAssessment.assessment.name + ' Results';
-
-  // Sets up the mail options, including the sender, recipient, the subject text, and the email text content.
-  const mailOptions = {
-    from: '16686110@mstc.edu',
-    to: getEmailAddress(takenAssessment.student.campusLocation),
-    subject: subjectText,
-    text: 'Score: ' + takenAssessment.score + '\n' + 'Passed: ' + takenAssessment.studentPassed ? 'True' : 'False'
-  }
-
-  // Sends the email to the recipient.
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent successfully: ' + info.response);
-    }
-  })
-}
-
-// Gets the appropriate email address via backend/providers/constants.js
-function getEmailAddress(campusLocation) {
-  switch (campusLocation) {
-    case 'Wisconsin Rapids':
-      return Constants.EmailTestResults.WisconsinRapids;
-    case 'Stevens Point':
-      return Constants.EmailTestResults.StevensPoint;
-  }
-}
-
 // use the user routes for login functions
 app.use("/api/user", userRoutes);
 
